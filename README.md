@@ -34,8 +34,7 @@ The default laravel auth is left 99% untouched, here's couple inevitably require
 - `updated_at`, `created_at` and `logged_at` are stored in Epoch format
 - Registration is only available when environment is
 
-> APP_ENV=local
-<br/>
+> APP_ENV=local <br/>
 > APP_DEBUG=true
 
 ### Orders
