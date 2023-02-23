@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\Orders\OrderApplicationController;
+use App\Http\Controllers\Orders\OrderController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,20 +17,14 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::redirect('/', RouteServiceProvider::HOME);
 
 Route::middleware('auth')->group(function () {
+    Route::apiResources([
+        'orders' => OrderController::class,
+        'orders-applications' => OrderApplicationController::class,
+    ]);
+    // Default laravel routes, feel free to remove if required
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

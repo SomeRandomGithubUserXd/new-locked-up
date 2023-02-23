@@ -1,42 +1,90 @@
 <script setup>
-import { ref } from 'vue';
+import {ref} from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import {Link, usePage} from '@inertiajs/vue3';
+import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
+import {ChevronDownIcon} from '@heroicons/vue/24/solid'
 
 const showingNavigationDropdown = ref(false);
+
+const routes = [
+    {
+        name: 'Заказы',
+        href: route('orders.index'),
+        isCurrent: !!route().current('orders.*'),
+        subRoutes: [
+            {
+                name: 'Таблица заказов',
+                href: route('orders.index'),
+                isCurrent: !!route().current('orders.index')
+            },
+            {
+                name: 'Заявки',
+                href: route('orders-applications.index'),
+                isCurrent: !!route().current('orders-applications.*')
+            }
+        ]
+    }
+]
 </script>
 
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
             <nav class="bg-white border-b border-gray-100">
-                <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex">
-                            <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('orders.index')">
                                     <ApplicationLogo
                                         class="block w-auto fill-current text-gray-800"
                                     />
                                 </Link>
                             </div>
 
-                            <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                <NavLink v-for="route in routes" :href="route.subRoutes.length ? '': route.href"
+                                         :active="route.isCurrent">
+                                    <Menu v-if="route.subRoutes.length" as="div"
+                                          class="relative inline-block text-left">
+                                        <div>
+                                            <MenuButton
+                                                class="inline-flex justify-center w-full px-4 py-2 bg-white text-sm font-medium text-gray-700">
+                                                {{ route.name }}
+                                                <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" aria-hidden="true"/>
+                                            </MenuButton>
+                                        </div>
+
+                                        <transition enter-active-class="transition ease-out duration-100"
+                                                    enter-from-class="transform opacity-0 scale-95"
+                                                    enter-to-class="transform opacity-100 scale-100"
+                                                    leave-active-class="transition ease-in duration-75"
+                                                    leave-from-class="transform opacity-100 scale-100"
+                                                    leave-to-class="transform opacity-0 scale-95">
+                                            <MenuItems
+                                                class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <div>
+                                                    <MenuItem v-for="subRoute in route.subRoutes" class="py-3">
+                                                        <Link :href="subRoute.href"
+                                                              :class="[subRoute.isCurrent ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
+                                                            {{ subRoute.name }}
+                                                        </Link>
+                                                    </MenuItem>
+                                                </div>
+                                            </MenuItems>
+                                        </transition>
+                                    </Menu>
+                                    <span v-else>{{ route.name }}</span>
                                 </NavLink>
                             </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
-                            <!-- Settings Dropdown -->
                             <div class="ml-3 relative">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
@@ -64,16 +112,15 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                        <DropdownLink :href="route('profile.edit')">Профиль</DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
+                                            Выйти
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
                             </div>
                         </div>
 
-                        <!-- Hamburger -->
                         <div class="-mr-2 flex items-center sm:hidden">
                             <button
                                 @click="showingNavigationDropdown = !showingNavigationDropdown"
@@ -106,14 +153,13 @@ const showingNavigationDropdown = ref(false);
                     </div>
                 </div>
 
-                <!-- Responsive Navigation Menu -->
                 <div
                     :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
                     class="sm:hidden"
                 >
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                        <ResponsiveNavLink v-for="route in routes" :href="route.href" :active="route.isCurrent">
+                            {{ route.name }}
                         </ResponsiveNavLink>
                     </div>
 
@@ -127,9 +173,9 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('profile.edit')">Профиль</ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
+                                Выйти
                             </ResponsiveNavLink>
                         </div>
                     </div>
@@ -139,13 +185,13 @@ const showingNavigationDropdown = ref(false);
             <!-- Page Heading -->
             <header class="bg-white shadow" v-if="$slots.header">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <slot name="header" />
+                    <slot name="header"/>
                 </div>
             </header>
 
             <!-- Page Content -->
             <main>
-                <slot />
+                <slot/>
             </main>
         </div>
     </div>

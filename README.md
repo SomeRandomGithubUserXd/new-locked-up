@@ -18,10 +18,12 @@ Recommended setup for <a href="#">Laravel v10.1.3</a>
 
 When making changes to project, please, keep in mind stuff below:
 
-- If you want your model to have timestamps, add `createdAt` and `updatedAt` functions to it and make it
+- If you want your model to have timestamps, add `createdAt` and `updatedAt` functions to it and make them
   return `getTimeMutator` from `App\Traits\InteractsWithTimestamps` (view example in `User` model). Project's old
-  structure require timestamps to be stored as Epoch, but this func will convert if for you as a default `Carbon`
+  structure require timestamps to be stored as Epoch. Btw these funcs will convert dates output for you as a `Carbon`
   instance
+- If you wish your route to display at header menu, add it to `routes` const at `AuthenticatedLayout.vue` following
+  the example
 
 ### Authentication
 
