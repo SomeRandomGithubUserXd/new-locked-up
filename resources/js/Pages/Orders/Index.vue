@@ -1,13 +1,21 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head} from '@inertiajs/vue3';
+<<<<<<< HEAD
 import Dropzone from "@/Components/Dropzone.vue";
 import {ref} from "vue";
+=======
+>>>>>>> f9e4ebdd354ad889b14a832388ae688f90dd36c4
 
 const props = defineProps({
     orders: Array
 })
 
+<<<<<<< HEAD
+=======
+console.log(props.orders)
+
+>>>>>>> f9e4ebdd354ad889b14a832388ae688f90dd36c4
 const people = [
     { name: 'Jane Cooper', title: 'Regional Paradigm Technician', role: 'Admin', email: 'jane.cooper@example.com' },
     // More people...
@@ -16,7 +24,11 @@ const people = [
 
 <template>
     <Head title="Dashboard"/>
+<<<<<<< HEAD
     <Dropzone></Dropzone>
+=======
+
+>>>>>>> f9e4ebdd354ad889b14a832388ae688f90dd36c4
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Заказы</h2>
