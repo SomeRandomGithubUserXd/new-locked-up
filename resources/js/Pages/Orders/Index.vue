@@ -1,17 +1,19 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head} from '@inertiajs/vue3';
+import Pagination from "@/Components/Common/Pagination.vue";
 
 const props = defineProps({
-    orders: Array
+    orders: Object,
+    order_statuses: Object
 })
 
 console.log(props.orders)
 
-const people = [
-    { name: 'Jane Cooper', title: 'Regional Paradigm Technician', role: 'Admin', email: 'jane.cooper@example.com' },
-    // More people...
-]
+const getOrderStatus = (status) => {
+    status = props.order_statuses[status]
+    return `<span style="color: ${status.color}">${status.name}</span>`
+}
 </script>
 
 <template>
@@ -29,33 +31,88 @@ const people = [
                         <h1 class="text-2xl">Заказы</h1>
                         <div class="flex flex-col mt-5">
                             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8 max-w-full">
+                                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg overflow-scroll">
                                         <table class="min-w-full divide-y divide-gray-200">
                                             <thead class="bg-gray-50">
                                             <tr>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
                                                 <th scope="col" class="relative px-6 py-3">
-                                                    <span class="sr-only">Edit</span>
+                                                    <span class="sr-only">Check</span>
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Заказ
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Квест
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Время игры
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Заказчик
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Стоимость
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Осталось оплатить
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Источник
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Комментарий
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Действия
                                                 </th>
                                             </tr>
                                             </thead>
                                             <tbody class="bg-white divide-y divide-gray-200">
-                                            <tr v-for="person in people" :key="person.email">
+                                            <tr v-for="order in orders.data" :key="order.id">
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                    {{ person.name }}
+                                                    chbx
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ person.title }}
+                                                    №{{ order.id }}
+                                                    <br/>
+                                                    <span v-html="getOrderStatus(order.status)"></span>
+                                                    <br/>
+                                                    {{ order.created_at }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ person.email }}
+                                                    {{ order.quest }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ person.role }}
+                                                    {{ order.date }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {{ order.customer_name }} <br>
+                                                    {{ order.customer_email }} <br>
+                                                    {{ order.customer_phone }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {{ order.price_total }} руб.
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {{ order.price_total - order.fact_payment }} руб.
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {{ order.sources?.name }}
+                                                </td>
+                                                <td
+                                                    style="max-width: 250px"
+                                                    class="px-6 py-4 text-sm text-gray-500">
+                                                    {{ order?.comment }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
@@ -64,10 +121,12 @@ const people = [
                                             </tbody>
                                         </table>
                                     </div>
+                                    <pagination
+                                        :current-page="orders.meta.current_page"
+                                        :max-page="orders.meta.last_page"/>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

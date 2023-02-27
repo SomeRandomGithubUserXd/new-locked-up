@@ -41,6 +41,10 @@ The default laravel auth is left 99% untouched, here's couple inevitably require
 
 ### Orders
 
-todo
+Relations:
+- `belongsTo(Quest::class)`
+- `belongsTo(Orders\OrderSource::class)`
 
+Some tips:
+- You can find order status list at `App/Models/Orders/Order::$statuses`
 
