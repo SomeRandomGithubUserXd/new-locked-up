@@ -6,8 +6,8 @@ const props = defineProps({
 })
 
 // Pre-loaded data
-// const files = ref(props.files);
-const files = ref([{name: 'File1.jpg', id: 0}, {name: "File2.png", id: 1}]);
+const files = ref(props.files);
+// const files = ref([{name: 'File1.jpg', id: 0}, {name: "File2.png", id: 1}]);
 
 // for class toggle
 const active = ref(false);
