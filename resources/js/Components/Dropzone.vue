@@ -2,31 +2,27 @@
 import {defineProps, ref} from "vue";
 
 const props = defineProps({
-    files: Array
+    files: Object
 })
-
-// Pre-loaded data
-const files = ref(props.files);
-
-// Uncomment to test locally and comment 9-th string
-// const files = ref([{name: 'File1.jpg', id: 0}, {name: "File2.png", id: 1}]);
 
 // for class toggle
 const active = ref(false);
 
 function remove (index) {
-    files.value.splice(index, 1);
+    props.files.splice(index, 1);
 }
 
+// on drop adding file
 const drop = (e) => {
     Object.keys(e.dataTransfer.files).forEach(function(key) {
-        files.value.push({name: e.dataTransfer.files[key].name});
+        props.files.push({id: props.files[props.files.length - 1].id + 1, name: e.dataTransfer.files[key].name});
     })
 };
 
-const selectedFile = () => {
-    Object.keys(document.querySelector(".input1").files).forEach(function(key) {
-        files.value.push({name: document.querySelector(".input1").files[key].name});
+// on select adding file
+const selectedFile = (e) => {
+    Object.keys(e.target.files).forEach(function(key) {
+        props.files.push({id: props.files[props.files.length - 1].id + 1, name: e.target.files[key].name});
     })
 };
 
@@ -53,8 +49,11 @@ const toggleActive = () => {
                 <input type="file" id="dropzoneFile" class="hidden input1" multiple/>
             </div>
         </div>
-        <div v-for="(file, index) in files" :key="file" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2">
-            <span>Файл: {{ file.name }}</span>
+        <div v-for="(file, index) in files"
+             :key="file.id"
+             @input="(event)=> $emit('update:files', event.target.value)"
+             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2">
+            <span>Файл: {{ file.name + file.id}}</span>
             <button
                 class="ml-2"
                 type="button"
