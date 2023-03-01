@@ -2,16 +2,20 @@
 
 namespace App\Models\Orders;
 
-use App\Models\Orders\OrderSource;
+use App\Models\Certificate;
 use App\Models\Quest;
-use App\Traits\InteractsWithTimestamps;
+use App\Models\Schedules\Schedule;
+use App\Models\Schedules\ScheduleItem;
+use App\Traits\HasTimestamps;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Order extends Model
 {
-    use InteractsWithTimestamps;
+    use HasTimestamps;
 
     public static array $statuses = [
         0 => [
@@ -44,8 +48,11 @@ class Order extends Model
         ],
     ];
 
+    public static array $packageOptions = ['Комфорт', 'Стандарт', 'Эконом'];
+
     // TODO: Must be refactored in the future
-    protected $fillable = ['quest_id',
+    protected $fillable = [
+        'quest_id',
         'customer_name',
         'customer_email',
         'customer_phone',
@@ -66,7 +73,7 @@ class Order extends Model
         'fact_payment',
         'prepayed',
         'tech_prod_id',
-        'prepayed_type',
+        'pre_payed_type',
         'fact_payment_type',
         'price_total',
         'checkout_type_id',
@@ -74,8 +81,17 @@ class Order extends Model
         'package',
         'countPlayers',
         'lounge_id',
-        'lounge_schedule_id'
+        'lounge_schedule_id',
+        'certificate_data_id'
     ];
+
+    public function status(): Attribute
+    {
+        return Attribute::make(
+            get: static fn($value) => $value,
+            set: static fn(int $value) => $value ?? 0,
+        );
+    }
 
     public function date(): Attribute
     {
@@ -87,8 +103,23 @@ class Order extends Model
         return $this->belongsTo(Quest::class);
     }
 
+    public function scheduleItems(): HasManyThrough
+    {
+        return $this->hasManyThrough(ScheduleItem::class, Schedule::class);
+    }
+
     public function sources(): BelongsTo
     {
         return $this->belongsTo(OrderSource::class, 'source', 'id');
+    }
+
+    public function certificate(): BelongsTo
+    {
+        return $this->belongsTo(Certificate::class, 'certificate_data_id', 'id');
+    }
+
+    public function orderOptions(): BelongsToMany
+    {
+        return $this->belongsToMany(OrderOption::class, 'orders_order_option')->using(OrderQuestOption::class);
     }
 }

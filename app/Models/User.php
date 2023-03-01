@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserStatusEnum;
+use App\Traits\HasTimestamps;
 use App\Traits\InteractsWithTimestamps;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -14,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, InteractsWithTimestamps;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithTimestamps, HasTimestamps;
 
     // Since table in the old DB is called that ridiculous way
     protected $table = 'user';
@@ -34,16 +35,6 @@ class User extends Authenticatable
     protected $casts = [
         'status' => UserStatusEnum::class,
     ];
-
-    public function createdAt(): Attribute
-    {
-        return $this->getTimeMutator();
-    }
-
-    public function updatedAt(): Attribute
-    {
-        return $this->getTimeMutator();
-    }
 
     public function loggedAt(): Attribute
     {

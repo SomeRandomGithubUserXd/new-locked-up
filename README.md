@@ -18,12 +18,13 @@ Recommended setup for <a href="#">Laravel v10.1.3</a>
 
 When making changes to project, please, keep in mind stuff below:
 
-- If you want your model to have timestamps, add `createdAt` and `updatedAt` functions to it and make them
-  return `getTimeMutator` from `App\Traits\InteractsWithTimestamps` (view example in `User` model). Project's old
+- If you want your model to have timestamps, use trait `App\Traits\HasTimestamps` in your model (view example in `User` model). Project's old
   structure require timestamps to be stored as Epoch. Btw these funcs will convert dates output for you as a `Carbon`
   instance
 - If you wish your route to display at header menu, add it to `routes` const at `AuthenticatedLayout.vue` following
   the example
+- For a table for an entity you should use `@/Components/Common/DataTable.vue`. Find example at any entity's index
+  component
 
 ### Authentication
 
@@ -42,9 +43,11 @@ The default laravel auth is left 99% untouched, here's couple inevitably require
 ### Orders
 
 Relations:
-- `belongsTo(Quest::class)`
-- `belongsTo(Orders\OrderSource::class)`
+
+- `belongsTo(Quest::class)` - `Order` is directly related to `Quest`
+- `belongsTo(Orders\OrderSource::class)` - `Order` has a `source` it came from
 
 Some tips:
-- You can find order status list at `App/Models/Orders/Order::$statuses`
+
+- *!needsToBeSpecified* refactor to enum You can find order status list at `App/Models/Orders/Order::$statuses`
 
