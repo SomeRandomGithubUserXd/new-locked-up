@@ -37,7 +37,7 @@ class OrderRequest extends FormRequest
         // TODO: Refactor when DB will be restructured
         $data = $this->validated();
         $data['date'] .= ' ' . $data['time'];
-        $data['promo'] = $this->promo_code['promocode'];
+        $data['promo'] = $this->promo_code['promocode'] ?? null;
         $data['certificate_data_id'] = $data['certificate_id'] ?? null;
         $data['prepayed'] = $data['pre_payed'] ?? null;
         $data['package'] = $data['option'] ?? null;
