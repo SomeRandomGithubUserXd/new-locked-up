@@ -6,6 +6,13 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class FilterRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'with_options_only' => $this->with_options_only === 'true' || $this->with_options_only === true
+        ]);
+    }
+
     public function rules(): array
     {
         return [
@@ -17,6 +24,7 @@ class FilterRequest extends FormRequest
             'status' => ['nullable', 'int'],
             'promo_code_id' => ['nullable', 'exists:sales,id'],
             'order_by' => ['nullable', 'string', 'regex:/^([a-z]+_[a-z]+)*$/'],
+            'with_options_only' => ['nullable', 'bool'],
         ];
     }
 

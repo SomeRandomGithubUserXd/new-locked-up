@@ -17,6 +17,8 @@ enum OrderStatusEnum: int
 
     case done = 6;
 
+    case in_progress = 7;
+
 
     public function getName(): string
     {
@@ -28,6 +30,7 @@ enum OrderStatusEnum: int
             self::canceled => 'Отменен',
             self::deleted => 'Удален',
             self::done => 'Проведен',
+            self::in_progress => 'В работе',
         };
     }
 
@@ -38,6 +41,7 @@ enum OrderStatusEnum: int
             self::to_call_1, self::rescheduled => 'rgb(220,220,95)',
             self::to_call_2, self::done => 'green',
             self::canceled, self::deleted => 'orange',
+            self::in_progress => 'lightblue',
         };
     }
 

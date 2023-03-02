@@ -31,6 +31,7 @@ class OrderRequest extends FormRequest
             'price_total' => ['required', 'int'],
             'fact_payment_type' => ['nullable', 'int'],
             'pre_payed_type' => ['nullable', 'int'],
+            'status' => ['required', 'int'],
         ];
     }
 
@@ -45,7 +46,6 @@ class OrderRequest extends FormRequest
         $data['package'] = $data['option'] ?? null;
         $data['payed_online'] = $data['online_payment'] ?? null;
         $data['countPlayers'] = $data['players_count'] ?? null;
-        $data['status'] = 0;
         $data['prepayed_type'] = $data['pre_payed_type'];
         unset($data['promo_code_id'], $data['players_count'], $data['pre_payed'], $data['certificate_id'], $data['pre_payed_type']);
         return $data;

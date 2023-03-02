@@ -53,6 +53,7 @@ class OrderResource extends JsonResource
             'pre_payed' => $order->prepayed ?? 0,
             'online_payment' => $order->payed_online ?? 0,
             'payed_aggregator' => $order->payed_aggregator ?? 0,
+            'status' => $order->status ?? 0,
             'price_total' => $order->price_total,
             'option' => $order->package ?? Order::$packageOptions[0],
             'sources' => $order->sources,

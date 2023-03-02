@@ -24,6 +24,7 @@ const order = useForm({
     payed_aggregator: 0,
     fact_payment_type: '',
     pre_payed_type: '',
+    status: 0,
 });
 
 const props = defineProps(orderProps)

@@ -284,6 +284,22 @@ const orderPriceToPay = computed({
             </div>
             <div class="grid grid-cols-6 gap-6 mt-5">
                 <div class="col-span-6 sm:col-span-12">
+                    <label for="status" class="block text-sm font-medium text-gray-700"> Статус </label>
+                    <div class="mt-1">
+                        <select
+                            v-model="modelValue.status"
+                            required
+                            id="status"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option v-for="(status, key) in props.orderStatuses" :value="key">
+                                {{ status.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-6 gap-6 mt-5">
+                <div class="col-span-6 sm:col-span-12">
                     <label for="options" class="block text-sm font-medium text-gray-700"> Дополнительные услуги </label>
                     <a class="text-indigo-600 text-sm" href="#" @click.prevent="modelValue.options = []">Очистить</a>
                     <div class="mt-1">

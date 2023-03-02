@@ -9,6 +9,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import {getCurrentUrlParam} from "@/Traits/Tools";
 import exportFromJSON from "export-from-json";
+import Checkbox from "@/Components/Checkbox.vue";
 
 const props = defineProps({
     orders: Object,
@@ -110,16 +111,22 @@ const defaultFilter = {
     status: null,
     promo_code_id: null,
     order_by: null,
+    with_options_only: false,
 }
 const filter = useForm(defaultFilter)
 
 onMounted(() => {
     for (const key in defaultFilter) {
-        filter[key] = getCurrentUrlParam(key)
+        if (key === 'with_options_only') {
+            filter[key] = getCurrentUrlParam(key) === 'true'
+        } else {
+            filter[key] = getCurrentUrlParam(key)
+        }
     }
 })
 
 const search = () => {
+    console.log(filter.with_options_only)
     filter.get(route('orders.index'), {
         onError: (err) => console.log(err)
     })
@@ -156,8 +163,13 @@ const toExcel = () => {
                     <div class="p-6">
                         <form class="space-y-6 mb-5" @submit.prevent="search">
                             <h2 class="font-semibold text-2xl">Фильтр</h2>
+                            <label class="flex items-center mb-2">
+                                <Checkbox name="with_options_only" v-model:checked="filter.with_options_only"/>
+                                <span class="ml-2 text-sm text-gray-600">Только с доп. услугами</span>
+                            </label>
                             <div class="grid grid-cols-6 gap-6">
                                 <div class="col-span-6 sm:col-span-3">
+
                                     <InputLabel for="date_from" value="Дата (от)"/>
                                     <TextInput
                                         id="date_from"

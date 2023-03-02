@@ -23,6 +23,7 @@ class OrderController extends Controller
     public function index(FilterRequest $request)
     {
         $query = Order::query()
+            ->with('orderOptions')
             ->when($request->date_from, static function (Builder $query) use ($request) {
                 $query->where('date', '>=', strtotime($request->get('date_from')));
             })
@@ -46,8 +47,11 @@ class OrderController extends Controller
             })
             ->when($request->order_by, static function (Builder $query) use ($request) {
                 $params = explode('_', $request->get('order_by'));
-                if($params[0] === 'time') $params[0] = 'date';
+                if ($params[0] === 'time') $params[0] = 'date';
                 $query->orderBy($params[0], $params[1]);
+            })
+            ->when($request->with_options_only, static function (Builder $query) {
+                $query->whereHas('orderOptions');
             })
             ->paginate(15);
         return inertia('Orders/Index', [
