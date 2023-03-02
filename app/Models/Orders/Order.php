@@ -2,6 +2,7 @@
 
 namespace App\Models\Orders;
 
+use App\Enums\OrderStatusEnum;
 use App\Models\Certificate;
 use App\Models\Quest;
 use App\Models\Schedules\Schedule;
@@ -16,37 +17,6 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 class Order extends Model
 {
     use HasTimestamps;
-
-    public static array $statuses = [
-        0 => [
-            "name" => "не отработан",
-            "color" => "red",
-        ],
-        1 => [
-            "name" => "прозвон 1",
-            "color" => "rgb(220,220,95)",
-        ],
-        2 => [
-            "name" => "прозвон 2",
-            "color" => "green",
-        ],
-        3 => [
-            "name" => "перенос",
-            "color" => "rgb(220,220,95)",
-        ],
-        4 => [
-            "name" => "отменен",
-            "color" => "orange",
-        ],
-        5 => [
-            "name" => "удален",
-            "color" => "orange",
-        ],
-        6 => [
-            "name" => "проведен",
-            "color" => "green",
-        ],
-    ];
 
     public static array $packageOptions = ['Комфорт', 'Стандарт', 'Эконом'];
 
@@ -73,7 +43,7 @@ class Order extends Model
         'fact_payment',
         'prepayed',
         'tech_prod_id',
-        'pre_payed_type',
+        'prepayed_type',
         'fact_payment_type',
         'price_total',
         'checkout_type_id',
@@ -85,10 +55,13 @@ class Order extends Model
         'certificate_data_id'
     ];
 
+    protected $casts = [
+        'status' => OrderStatusEnum::class
+    ];
+
     public function status(): Attribute
     {
         return Attribute::make(
-            get: static fn($value) => $value,
             set: static fn(int $value) => $value ?? 0,
         );
     }

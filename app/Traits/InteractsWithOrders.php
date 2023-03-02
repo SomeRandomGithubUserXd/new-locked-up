@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Enums\OrderStatusEnum;
 use App\Models\Certificate;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderOption;
@@ -29,7 +30,7 @@ trait InteractsWithOrders
     public function getOrderMisc(): array
     {
         return [
-            'orderStatuses' => Order::$statuses,
+            'orderStatuses' => OrderStatusEnum::getArray(),
             'questList' => Quest::query()
                 ->where('name_ru', '!=', '')
                 ->select(['id', 'name_ru'])

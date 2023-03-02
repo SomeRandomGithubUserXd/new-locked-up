@@ -30,6 +30,13 @@ export const getOrderPriceToPay = (orderTotal, order) => {
         Number(order?.payed_aggregator || 0)
 }
 
+export const getAlreadyPayed = (order) => {
+    return Number(order?.fact_payment || 0) +
+        Number(order?.pre_payed || 0) +
+        Number(order?.online_payment || 0) +
+        Number(order?.payed_aggregator || 0)
+}
+
 export const orderProps = {
     orderStatuses: Array,
     questList: Array,

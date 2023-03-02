@@ -25,6 +25,9 @@ class OrderResource extends JsonResource
             'status' => $this->status,
             'comment' => $this->comment,
             'fact_payment' => $this->fact_payment,
+            'pre_payed' => $this->prepayed,
+            'online_payment' => $this->payed_online,
+            'payed_aggregator' => $this->payed_aggregator,
             'price_total' => $this->price_total,
             'sources' => $this->sources
         ];
@@ -35,7 +38,7 @@ class OrderResource extends JsonResource
         return [
             'id' => $order->id,
             'quest_id' => $order->quest_id,
-            'players_count' => $order->countPlayers,
+            'players_count' => $order->countPlayers ?? $order->quest->min_players,
             'customer_name' => $order->customer_name,
             'customer_email' => $order->customer_email,
             'customer_phone' => $order->customer_phone,
@@ -51,8 +54,10 @@ class OrderResource extends JsonResource
             'online_payment' => $order->payed_online ?? 0,
             'payed_aggregator' => $order->payed_aggregator ?? 0,
             'price_total' => $order->price_total,
-            'option' => $order->package,
+            'option' => $order->package ?? Order::$packageOptions[0],
             'sources' => $order->sources,
+            'fact_payment_type' => $order->fact_payment_type ?? '',
+            'pre_payed_type' => $order->prepayed_type ?? '',
             'options' => $order->orderOptions->makeHidden('pivot')
         ];
     }

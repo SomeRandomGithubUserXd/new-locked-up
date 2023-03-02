@@ -5,6 +5,8 @@ import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import {useForm} from "@inertiajs/vue3";
 import {getOptionsSum, getOrderPriceToPay, getOrderTotal, getPlayersSum, orderProps} from "@/Traits/OrderTrait";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 const emit = defineEmits(['submit'])
 
@@ -96,7 +98,7 @@ const orderPriceToPay = computed({
 </script>
 
 <template>
-    <form class="space-y-6" @submit.prevent="emit('submit', orderPriceToPay)">
+    <form class="space-y-6" @submit.prevent="emit('submit', orderTotal)">
         <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6" :class="questMeta.min_players ? 'sm:col-span-3' : 'sm:col-span-12'">
                 <label for="quest" class="block text-sm font-medium text-gray-700"> Квест </label>
@@ -285,14 +287,23 @@ const orderPriceToPay = computed({
                     <label for="options" class="block text-sm font-medium text-gray-700"> Дополнительные услуги </label>
                     <a class="text-indigo-600 text-sm" href="#" @click.prevent="modelValue.options = []">Очистить</a>
                     <div class="mt-1">
-                        <select id="options" multiple class="flex items-start w-full" v-model="modelValue.options">
-                            <option :selected="true" v-for="option in props.questOptions" :value="option">
+                        <v-select v-model="modelValue.options" multiple="" label="name_ru"
+                                  :options="props.questOptions">
+                            <template v-slot:option="option">
                                 <span style="color: green" class="text-green-600">{{
                                         option.price
                                     }}</span>
                                 {{ option.name_ru }}
-                            </option>
-                        </select>
+                            </template>
+                        </v-select>
+                        <!--                        <select id="options" multiple class="flex items-start w-full" v-model="modelValue.options">-->
+                        <!--                            <option :selected="true" v-for="option in props.questOptions" :value="option">-->
+                        <!--                                <span style="color: green" class="text-green-600">{{-->
+                        <!--                                        option.price-->
+                        <!--                                    }}</span>-->
+                        <!--                                {{ option.name_ru }}-->
+                        <!--                            </option>-->
+                        <!--                        </select>-->
                     </div>
                 </div>
             </div>
@@ -309,6 +320,22 @@ const orderPriceToPay = computed({
                         />
                         <InputError class="mt-2" :message="modelValue.errors.fact_payment"/>
                     </div>
+                    <div class="mt-1">
+                        <select
+                            :required="!!Number(modelValue.fact_payment)"
+                            v-model="modelValue.fact_payment_type"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" selected disabled>
+                                Тип оплаты
+                            </option>
+                            <option value="0">
+                                Наличные
+                            </option>
+                            <option value="1">
+                                Безналичные
+                            </option>
+                        </select>
+                    </div>
                 </div>
                 <div class="col-span-6 sm:col-span-2">
                     <div class="mt-1">
@@ -321,6 +348,23 @@ const orderPriceToPay = computed({
                             required
                         />
                         <InputError class="mt-2" :message="modelValue.errors.pre_payed"/>
+                    </div>
+
+                    <div class="mt-1">
+                        <select
+                            :required="!!Number(modelValue.pre_payed)"
+                            v-model="modelValue.pre_payed_type"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" selected disabled>
+                                Тип оплаты
+                            </option>
+                            <option value="0">
+                                Наличные
+                            </option>
+                            <option value="1">
+                                Безналичные
+                            </option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-span-6 sm:col-span-1">

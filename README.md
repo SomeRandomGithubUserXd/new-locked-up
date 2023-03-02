@@ -49,5 +49,5 @@ Relations:
 
 Some tips:
 
-- *!needsToBeSpecified* refactor to enum You can find order status list at `App/Models/Orders/Order::$statuses`
+- You can find order status list at `App/Enums/OrderStatusEnum::getArray()` and use the `status` property as an enum
 

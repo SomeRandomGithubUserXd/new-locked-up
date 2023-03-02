@@ -20,6 +20,8 @@
     "dependencies": {
         "@headlessui/vue": "^1.7.10",
         "@heroicons/vue": "^2.0.16",
-        "collect.js": "^4.34.3"
+        "collect.js": "^4.34.3",
+        "export-from-json": "^1.7.2",
+        "vue-select": "^4.0.0-beta.6"
     }
 }

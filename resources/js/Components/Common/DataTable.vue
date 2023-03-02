@@ -48,7 +48,7 @@ const deleteMany = () =>
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8 max-w-full">
                 <div
                     class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg overflow-scroll">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200 font-size-all">
                         <thead class="bg-gray-50">
                         <tr>
                             <th scope="col" class="relative px-6 py-3">
@@ -100,3 +100,9 @@ const deleteMany = () =>
     </div>
 
 </template>
+
+<style scoped>
+.font-size-all * {
+    font-size: 11px;
+}
+</style>
