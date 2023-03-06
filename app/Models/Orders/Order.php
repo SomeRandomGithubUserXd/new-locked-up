@@ -52,7 +52,8 @@ class Order extends Model
         'countPlayers',
         'lounge_id',
         'lounge_schedule_id',
-        'certificate_data_id'
+        'certificate_data_id',
+        'additional_players'
     ];
 
     protected $casts = [

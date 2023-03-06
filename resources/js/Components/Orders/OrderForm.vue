@@ -7,6 +7,7 @@ import {useForm} from "@inertiajs/vue3";
 import {getOptionsSum, getOrderPriceToPay, getOrderTotal, getPlayersSum, orderProps} from "@/Traits/OrderTrait";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+import {collect} from "collect.js";
 
 const emit = defineEmits(['submit'])
 
@@ -33,7 +34,9 @@ const questMeta = ref({
 })
 
 onMounted(() => {
-    if (props.isEditable) loadQuestMeta()
+    if (props.modelValue.date) {
+        loadQuestMeta()
+    }
 })
 
 watch(() => props.modelValue.quest_id, async value => {
@@ -50,13 +53,14 @@ const loadQuestMeta = async (refreshModel = false) => {
     }
     const date = props.modelValue.date
     questMeta.value.schedule = []
-    if (!props.isEditable) {
-        props.modelValue.time = null
-    }
     const data = (await (axios.get(route('quests.get-quest-meta', props.modelValue.quest_id), {
         params: {date: date}
     }))).data
     questMeta.value = data
+    if(props.modelValue.time.constructor === String)
+    {
+        props.modelValue.time = collect(data.schedule).where('time', '==', props.modelValue.time).first()
+    }
     if (refreshModel) props.modelValue.players_count = data.min_players
 }
 
@@ -71,7 +75,12 @@ const optionSum = computed({
 
 const playersSum = computed({
     get() {
-        return getPlayersSum(props.modelValue.players_count, questMeta.value.min_players, questMeta.value.price_per_participant)
+        return getPlayersSum(
+            Number(props.modelValue.players_count) + Number(props.modelValue.additional_players),
+            questMeta.value.min_players,
+            questMeta.value.max_players,
+            questMeta.value.price_per_participant
+        )
     },
     set() {
 
@@ -100,7 +109,7 @@ const orderPriceToPay = computed({
 <template>
     <form class="space-y-6" @submit.prevent="emit('submit', orderTotal)">
         <div class="grid grid-cols-6 gap-6">
-            <div class="col-span-6" :class="questMeta.min_players ? 'sm:col-span-3' : 'sm:col-span-12'">
+            <div class="col-span-6" :class="questMeta.min_players ? 'sm:col-span-2' : 'sm:col-span-12'">
                 <label for="quest" class="block text-sm font-medium text-gray-700"> Квест </label>
                 <div class="mt-1">
                     <select
@@ -118,7 +127,7 @@ const orderPriceToPay = computed({
                     </select>
                 </div>
             </div>
-            <div class="col-span-6 sm:col-span-3" v-if="questMeta.min_players || questMeta.max_players">
+            <div class="col-span-6 sm:col-span-2" v-if="questMeta.min_players || questMeta.max_players">
                 <label for="players_count" class="block text-sm font-medium text-gray-700"> Количество игроков </label>
                 <div class="mt-1">
                     <select
@@ -130,6 +139,28 @@ const orderPriceToPay = computed({
                             <option
                                 :value="count"
                                 v-if="count >= questMeta.min_players">
+                                {{ count }}
+                            </option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+            <div class="col-span-6 sm:col-span-2" v-if="questMeta.min_players || questMeta.max_players">
+                <label for="players_count" class="block text-sm font-medium text-gray-700"> Дополнительные
+                    игроки </label>
+                <div class="mt-1">
+                    <select
+                        v-model="modelValue.additional_players"
+                        required
+                        :disabled="questMeta.max_players > modelValue.players_count"
+                        id="players_count"
+                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option :value="0">
+                            0
+                        </option>
+                        <template v-for="count in 5">
+                            <option
+                                :value="count">
                                 {{ count }}
                             </option>
                         </template>
@@ -161,8 +192,9 @@ const orderPriceToPay = computed({
                         <option value="">
                             Нет
                         </option>
-                        <option v-for="option in questMeta.schedule" :value="option">
-                            {{ option }}
+                        <option v-for="option in questMeta.schedule"
+                                :value="option">
+                            {{ option.time }}
                         </option>
                     </select>
                 </div>
@@ -312,14 +344,6 @@ const orderPriceToPay = computed({
                                 {{ option.name_ru }}
                             </template>
                         </v-select>
-                        <!--                        <select id="options" multiple class="flex items-start w-full" v-model="modelValue.options">-->
-                        <!--                            <option :selected="true" v-for="option in props.questOptions" :value="option">-->
-                        <!--                                <span style="color: green" class="text-green-600">{{-->
-                        <!--                                        option.price-->
-                        <!--                                    }}</span>-->
-                        <!--                                {{ option.name_ru }}-->
-                        <!--                            </option>-->
-                        <!--                        </select>-->
                     </div>
                 </div>
             </div>

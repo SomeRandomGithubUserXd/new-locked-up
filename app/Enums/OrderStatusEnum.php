@@ -48,6 +48,7 @@ enum OrderStatusEnum: int
     public function toArray(): array
     {
         return [
+            'key' => $this->value,
             'name' => $this->getName(),
             'color' => $this->getColor()
         ];

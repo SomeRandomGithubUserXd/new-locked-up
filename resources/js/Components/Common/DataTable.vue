@@ -51,7 +51,7 @@ const deleteMany = () =>
                     <table class="min-w-full divide-y divide-gray-200 font-size-all">
                         <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="relative px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 <span class="sr-only">Выбрать</span>
                                 <input @change="triggerAllItemsSelection" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                             </th>
@@ -70,7 +70,7 @@ const deleteMany = () =>
                         <tbody class="bg-white divide-y divide-gray-200">
                         <tr v-for="item in props.itemsResource.data">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                <div class="ml-3 flex items-center h-5">
+                                <div class="flex items-center h-5">
                                     <input :value="item.id" v-model="selectedItems" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                                 </div>
                             </td>
@@ -92,7 +92,6 @@ const deleteMany = () =>
                 </div>
                 <pagination
                     v-if="props.tableProps.pagination.isRequired"
-                    :on-page-change="props.tableProps.pagination?.onPageChange"
                     :current-page="props.itemsResource.meta.current_page"
                     :max-page="props.itemsResource.meta.last_page"/>
             </div>

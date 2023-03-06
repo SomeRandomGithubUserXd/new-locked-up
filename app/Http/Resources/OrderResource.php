@@ -59,7 +59,8 @@ class OrderResource extends JsonResource
             'sources' => $order->sources,
             'fact_payment_type' => $order->fact_payment_type ?? '',
             'pre_payed_type' => $order->prepayed_type ?? '',
-            'options' => $order->orderOptions->makeHidden('pivot')
+            'options' => $order->orderOptions->makeHidden('pivot'),
+            'additional_players' => $order->additional_players
         ];
     }
 }

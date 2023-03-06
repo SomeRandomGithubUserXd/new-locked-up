@@ -20,6 +20,6 @@ class Schedule extends Model
 
     public function scheduleItems(): HasMany
     {
-        return $this->hasMany(ScheduleItem::class, 'shedule_id');
+        return $this->hasMany(ScheduleItem::class, 'shedule_id')->orderBy('time');
     }
 }

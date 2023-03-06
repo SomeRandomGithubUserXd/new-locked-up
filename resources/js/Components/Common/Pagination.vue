@@ -1,11 +1,19 @@
 <script setup>
 import {ArrowLeftIcon, ArrowRightIcon} from '@heroicons/vue/24/solid'
+import {router} from "@inertiajs/vue3";
 
 const props = defineProps({
     currentPage: Number,
     maxPage: Number,
-    onPageChange: Function
 })
+
+const onPageChange = (page) => {
+    router.reload({
+        data: {
+            page
+        }
+    })
+}
 </script>
 
 <template>

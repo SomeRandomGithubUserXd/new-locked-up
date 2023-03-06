@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Orders\OrderApplicationController;
+use App\Http\Controllers\AppealController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\Orders\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Quests\QuestController;
@@ -19,24 +21,34 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::redirect('/', RouteServiceProvider::HOME);
-
 Route::middleware('auth')->group(function () {
     Route::resources([
         'orders' => OrderController::class,
-        'orders-applications' => OrderApplicationController::class,
+        'appeals' => AppealController::class,
+        'certificates' => CertificateController::class,
+        'bookings' => BookingController::class,
     ]);
     Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
         Route::post('delete_many', [OrderController::class, 'destroyMany'])->name('destroy-many');
+    });
+    Route::group(['prefix' => 'appeals', 'as' => 'appeals.'], function () {
+        Route::post('delete_many', [AppealController::class, 'destroyMany'])->name('destroy-many');
     });
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], function () {
         Route::group(['prefix' => '{quest}'], function () {
             Route::get('/get_quest_meta', [QuestController::class, 'getQuestMeta'])->name('get-quest-meta');
         });
     });
+    Route::group(['prefix' => 'bookings', 'as' => 'bookings.'], function () {
+        Route::group(['prefix' => '{scheduleId}'], function () {
+            Route::patch('/make', [BookingController::class, 'make'])->name('make');
+            Route::patch('/undo', [BookingController::class, 'undo'])->name('undo');
+        });
+    });
+
     // Default laravel routes, feel free to remove if required
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
 require __DIR__ . '/auth.php';

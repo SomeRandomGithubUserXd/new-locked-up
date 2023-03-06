@@ -8,10 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            if(!\Schema::hasColumn('orders', 'package'))
-            {
-                $table->string('package')->nullable();
-            }
+            $table->smallInteger('additional_players')->default(0);
         });
     }
 

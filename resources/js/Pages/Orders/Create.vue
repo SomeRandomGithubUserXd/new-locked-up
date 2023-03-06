@@ -3,11 +3,12 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import OrderForm from "@/Components/Orders/OrderForm.vue";
 import {Head, router, useForm} from "@inertiajs/vue3";
 import {orderProps} from "@/Traits/OrderTrait";
+import {getCurrentUrlParam} from "@/Traits/Tools";
 
 const order = useForm({
-    quest_id: null,
-    date: null,
-    time: null,
+    quest_id: getCurrentUrlParam('quest_id'),
+    date: getCurrentUrlParam('date'),
+    time: getCurrentUrlParam('time'),
     customer_name: null,
     customer_email: null,
     customer_phone: null,
@@ -25,6 +26,7 @@ const order = useForm({
     fact_payment_type: '',
     pre_payed_type: '',
     status: 0,
+    additional_players: 0,
 });
 
 const props = defineProps(orderProps)

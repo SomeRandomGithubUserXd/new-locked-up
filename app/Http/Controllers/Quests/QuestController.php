@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Quests\GetQuestScheduleRequest;
 use App\Models\Orders\Order;
 use App\Models\Quest;
+use App\Models\Schedules\ScheduleItem;
 use App\Traits\InteractsWithOrders;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -17,13 +18,11 @@ class QuestController extends Controller
     public function getQuestMeta(Quest $quest, GetQuestScheduleRequest $request): JsonResponse
     {
         $type = $this->getScheduleType(Carbon::parse($request->get('date')));
-//        ->where(['type' => $type])
         if ($request->get('date')) {
-            $schedule = $quest
-                ->scheduleItems()
-                ->where('time', '!=', '')
-                ->pluck('time')
-                ->unique();
+            $schedule = ScheduleItem::where(['shedule_id' => $quest->schedule_id])
+                ->where(['type' => $type])
+                ->orderBy('time')
+                ->get();
         }
         return response()->json([
             'schedule' => $schedule ?? null,

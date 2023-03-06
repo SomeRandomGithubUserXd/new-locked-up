@@ -1,3 +1,16 @@
-export const getCurrentUrlParam = (param) => {
-    return (new URLSearchParams(location.search)).get(param) || null
+export const getCurrentUrlParam = (param, all = false, type) => {
+    let data
+    if (all) {
+        let local = []
+        for (let item of (new URLSearchParams(location.search)).getAll(param) || []) {
+            if(type) {
+                item = type(item)
+            }
+            local.push(item)
+        }
+        data = local
+    } else {
+        data = (new URLSearchParams(location.search)).get(param) || null
+    }
+    return data
 }

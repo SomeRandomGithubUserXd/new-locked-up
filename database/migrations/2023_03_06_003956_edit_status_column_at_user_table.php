@@ -7,17 +7,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            if(!\Schema::hasColumn('orders', 'package'))
-            {
-                $table->string('package')->nullable();
-            }
+        Schema::table('user', function (Blueprint $table) {
+            $table->smallInteger('status')->nullable()->default(2)->change();
         });
     }
 
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

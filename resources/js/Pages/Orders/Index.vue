@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head, router, Link, useForm} from '@inertiajs/vue3';
 import DataTable from "@/Components/Common/DataTable.vue";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {getAlreadyPayed, getOrderPriceToPay, orderProps} from "@/Traits/OrderTrait";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
@@ -10,19 +10,13 @@ import InputError from "@/Components/InputError.vue";
 import {getCurrentUrlParam} from "@/Traits/Tools";
 import exportFromJSON from "export-from-json";
 import Checkbox from "@/Components/Checkbox.vue";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 const props = defineProps({
     orders: Object,
     ...orderProps
 })
-
-const pageChange = (page) => {
-    router.reload({
-        data: {
-            page
-        }
-    })
-}
 
 const getOrderStatus = (status) => {
     status = props.orderStatuses[status]
@@ -98,44 +92,54 @@ const tableProps = ref({
     ],
     pagination: {
         isRequired: true,
-        onPageChange: pageChange,
     }
 })
 
 const defaultFilter = {
     date_from: null,
     date_to: null,
-    quest_id: null,
+    quest_ids: [],
     order_id: null,
-    source_id: null,
-    status: null,
-    promo_code_id: null,
+    source_ids: [],
+    statuses: [],
+    promo_code_ids: [],
     order_by: null,
     with_options_only: false,
 }
+
 const filter = useForm(defaultFilter)
 
 onMounted(() => {
     for (const key in defaultFilter) {
-        if (key === 'with_options_only') {
-            filter[key] = getCurrentUrlParam(key) === 'true'
-        } else {
-            filter[key] = getCurrentUrlParam(key)
+        switch (key) {
+            case 'quest_ids':
+                filter[key] = getCurrentUrlParam('quest_ids[]', true, Number)
+                break;
+            case 'source_ids':
+                filter[key] = getCurrentUrlParam('source_ids[]', true, Number)
+                break;
+            case 'promo_code_ids':
+                filter[key] = getCurrentUrlParam('promo_code_ids[]', true, Number)
+                break;
+            case 'statuses':
+                filter[key] = getCurrentUrlParam('statuses[]', true, Number)
+                break;
+            case 'with_options_only':
+                filter[key] = getCurrentUrlParam(key) === 'true'
+                break;
+            default:
+                filter[key] = getCurrentUrlParam(key)
+                break;
         }
     }
 })
 
 const search = () => {
-    console.log(filter.with_options_only)
-    filter.get(route('orders.index'), {
-        onError: (err) => console.log(err)
-    })
+    filter.get(route('orders.index'))
 }
 
 const reset = () => {
-    filter.reset().get(route('orders.index'), {
-        onError: (err) => console.log(err)
-    })
+    filter.reset().get(route('orders.index'))
 }
 
 const toExcel = () => {
@@ -163,35 +167,6 @@ const toExcel = () => {
                     <div class="p-6">
                         <form class="space-y-6 mb-5" @submit.prevent="search">
                             <h2 class="font-semibold text-2xl">Фильтр</h2>
-                            <label class="flex items-center mb-2">
-                                <Checkbox name="with_options_only" v-model:checked="filter.with_options_only"/>
-                                <span class="ml-2 text-sm text-gray-600">Только с доп. услугами</span>
-                            </label>
-                            <div class="grid grid-cols-6 gap-6">
-                                <div class="col-span-6 sm:col-span-3">
-
-                                    <InputLabel for="date_from" value="Дата (от)"/>
-                                    <TextInput
-                                        id="date_from"
-                                        type="date"
-                                        class="mt-1 block w-full"
-                                        v-model="filter.date_from"
-
-                                    />
-                                    <InputError class="mt-2" :message="filter.errors.date_from"/>
-                                </div>
-                                <div class="col-span-6 sm:col-span-3">
-                                    <InputLabel for="date" value="Дата (до)"/>
-                                    <TextInput
-                                        id="date_to"
-                                        type="date"
-                                        class="mt-1 block w-full"
-                                        v-model="filter.date_to"
-
-                                    />
-                                    <InputError class="mt-2" :message="filter.errors.date_to"/>
-                                </div>
-                            </div>
                             <div class="grid grid-cols-6 gap-6">
                                 <div class="col-span-6 sm:col-span-1">
                                     <InputLabel for="order_id" value="Номер заказа"/>
@@ -203,78 +178,6 @@ const toExcel = () => {
 
                                     />
                                     <InputError class="mt-2" :message="filter.errors.order_id"/>
-                                </div>
-                                <div class="col-span-6 sm:col-span-1">
-                                    <label for="quest_id" class="block text-sm font-medium text-gray-700">
-                                        Квесты </label>
-                                    <div class="mt-1">
-                                        <select
-                                            id="quest_id"
-                                            v-model="filter.quest_id"
-
-                                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                            <option value="">
-                                                Нет
-                                            </option>
-                                            <option v-for="quest in props.questList" :value="quest.id">
-                                                {{ quest.name_ru }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-span-6 sm:col-span-1">
-                                    <label for="source_id" class="block text-sm font-medium text-gray-700">
-                                        Источник </label>
-                                    <div class="mt-1">
-                                        <select
-                                            id="source_id"
-                                            v-model="filter.source_id"
-
-                                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                            <option value="">
-                                                Нет
-                                            </option>
-                                            <option v-for="source in props.sourceList" :value="source.id">
-                                                {{ source.name }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-span-6 sm:col-span-1">
-                                    <label for="status" class="block text-sm font-medium text-gray-700">
-                                        Статус </label>
-                                    <div class="mt-1">
-                                        <select
-                                            id="quest"
-                                            v-model="filter.status"
-
-                                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                            <option value="">
-                                                Нет
-                                            </option>
-                                            <option v-for="(status, key) in props.orderStatuses" :value="key">
-                                                {{ status.name }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-span-6 sm:col-span-1">
-                                    <label for="quest" class="block text-sm font-medium text-gray-700">
-                                        Акция </label>
-                                    <div class="mt-1">
-                                        <select
-                                            id="quest"
-                                            v-model="filter.promo_code_id"
-
-                                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                            <option value="">
-                                                Нет
-                                            </option>
-                                            <option v-for="promoCode in props.promoCodeList" :value="promoCode.id">
-                                                {{ promoCode.promocode }}
-                                            </option>
-                                        </select>
-                                    </div>
                                 </div>
                                 <div class="col-span-6 sm:col-span-1">
                                     <label for="quest" class="block text-sm font-medium text-gray-700">
@@ -301,6 +204,79 @@ const toExcel = () => {
                                                 По дате игры &#8595;
                                             </option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-span-6 sm:col-span-2 flex items-end">
+                                    <label class="flex items-center">
+                                        <Checkbox name="with_options_only" v-model:checked="filter.with_options_only"/>
+                                        <span class="ml-2 text-sm text-gray-600">Только с доп. услугами</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-6 gap-6">
+                                <div class="col-span-6 sm:col-span-3">
+
+                                    <InputLabel for="date_from" value="Дата (от)"/>
+                                    <TextInput
+                                        id="date_from"
+                                        type="date"
+                                        class="mt-1 block w-full"
+                                        v-model="filter.date_from"
+
+                                    />
+                                    <InputError class="mt-2" :message="filter.errors.date_from"/>
+                                </div>
+                                <div class="col-span-6 sm:col-span-3">
+                                    <InputLabel for="date" value="Дата (до)"/>
+                                    <TextInput
+                                        id="date_to"
+                                        type="date"
+                                        class="mt-1 block w-full"
+                                        v-model="filter.date_to"
+
+                                    />
+                                    <InputError class="mt-2" :message="filter.errors.date_to"/>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-6 gap-6">
+                                <div class="col-span-6 sm:col-span-2">
+                                    <label for="quest_ids" class="block text-sm font-medium text-gray-700">
+                                        Квесты </label>
+                                    <div class="mt-1">
+                                        <v-select class="scrollable-select" v-model="filter.quest_ids" multiple=""
+                                                  label="name_ru"
+                                                  :reduce="option => option.id"
+                                                  :options="props.questList"/>
+                                    </div>
+                                </div>
+                                <div class="col-span-6 sm:col-span-2">
+                                    <label for="source_ids" class="block text-sm font-medium text-gray-700">
+                                        Источники </label>
+                                    <div class="mt-1">
+                                        <v-select class="scrollable-select" v-model="filter.source_ids" multiple=""
+                                                  label="name"
+                                                  :reduce="option => option.id"
+                                                  :options="props.sourceList"/>
+                                    </div>
+                                </div>
+                                <div class="col-span-6 sm:col-span-1">
+                                    <label for="quest" class="block text-sm font-medium text-gray-700">
+                                        Акции </label>
+                                    <div class="mt-1">
+                                        <v-select class="scrollable-select" v-model="filter.promo_code_ids" multiple=""
+                                                  label="promocode"
+                                                  :reduce="option => option.id"
+                                                  :options="props.promoCodeList"/>
+                                    </div>
+                                </div>
+                                <div class="col-span-6 sm:col-span-1">
+                                    <label for="status" class="block text-sm font-medium text-gray-700">
+                                        Статусы </label>
+                                    <div class="mt-1">
+                                        <v-select class="scrollable-select" v-model="filter.statuses" multiple=""
+                                                  label="name"
+                                                  :reduce="option => option.key"
+                                                  :options="props.orderStatuses"/>
                                     </div>
                                 </div>
                             </div>
@@ -335,3 +311,21 @@ const toExcel = () => {
         </div>
     </AuthenticatedLayout>
 </template>
+
+<style lang="scss">
+.scrollable-select {
+
+    .vs__dropdown-toggle {
+        height: 50px !important;
+    }
+
+    .vs__selected-options {
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+
+        .vs__selected {
+            white-space: nowrap;
+        }
+    }
+}
+</style>

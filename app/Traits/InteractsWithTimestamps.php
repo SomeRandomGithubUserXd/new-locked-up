@@ -13,9 +13,9 @@ trait InteractsWithTimestamps
         return Attribute::make(
             get: static function (string $value) {
                 try {
-                    return Carbon::parse($value);
+                    return Carbon::parse($value)->setTimezone(config('app.timezone'));
                 } catch (InvalidFormatException) {
-                    return Carbon::parse((int)$value);
+                    return Carbon::parse((int)$value)->setTimezone(config('app.timezone'));
                 }
             },
             set: static fn(string $value) => strtotime($value),

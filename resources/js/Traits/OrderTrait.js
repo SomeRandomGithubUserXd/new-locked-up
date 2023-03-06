@@ -4,10 +4,14 @@ export const getOptionsSum = (options = []) => {
     return collect(options).sum('price')
 }
 
-export const getPlayersSum = (playersCount, minPlayers, pricePerParticipant) => {
+export const getPlayersSum = (playersCount, minPlayers, maxPlayers, pricePerParticipant) => {
+    playersCount = Number(playersCount)
+    minPlayers = Number(minPlayers)
+    maxPlayers = Number(maxPlayers)
+    pricePerParticipant = Number(pricePerParticipant)
     let additionalCost
-    if (playersCount && playersCount > minPlayers) {
-        additionalCost = (playersCount - minPlayers) * pricePerParticipant
+    if (playersCount && playersCount > maxPlayers) {
+        additionalCost = (playersCount - maxPlayers) * pricePerParticipant
     } else {
         additionalCost = 0
     }

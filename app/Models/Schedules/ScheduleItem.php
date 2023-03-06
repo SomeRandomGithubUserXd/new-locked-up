@@ -2,6 +2,7 @@
 
 namespace App\Models\Schedules;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -12,8 +13,18 @@ class ScheduleItem extends Model
 
     protected $fillable = ['time', 'price', 'shedule_id', 'active', 'type'];
 
-    public function shedule(): BelongsTo
+    public $timestamps = false;
+
+    public function schedule(): BelongsTo
     {
         return $this->belongsTo(Schedule::class, 'shedule_id');
+    }
+
+    public function active(): Attribute
+    {
+        // Cast to bool
+        return Attribute::make(
+            get: static fn (bool $value) => $value
+        );
     }
 }

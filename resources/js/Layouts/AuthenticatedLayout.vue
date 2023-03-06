@@ -11,21 +11,40 @@ import {ChevronDownIcon} from '@heroicons/vue/24/solid'
 
 const showingNavigationDropdown = ref(false);
 
+const areOrdersCurrent = () => {
+    const routes = ['orders', 'appeals', 'bookings']
+    for (const entity of routes)
+    {
+        if(route().current(entity + '.*')) return true
+    }
+    return false;
+}
+
 const routes = [
     {
         name: 'Заказы',
         href: route('orders.index'),
-        isCurrent: !!route().current('orders.*'),
+        isCurrent: areOrdersCurrent(),
         subRoutes: [
             {
                 name: 'Таблица заказов',
                 href: route('orders.index'),
-                isCurrent: !!route().current('orders.index')
+                isCurrent: !!route().current('orders.*')
             },
             {
                 name: 'Заявки',
-                href: route('orders-applications.index'),
-                isCurrent: !!route().current('orders-applications.*')
+                href: route('appeals.index'),
+                isCurrent: !!route().current('appeals.*')
+            },
+            {
+                name: 'Сертификаты',
+                href: route('certificates.index'),
+                isCurrent: !!route().current('certificates.*')
+            },
+            {
+                name: 'Бронирование',
+                href: route('bookings.index'),
+                isCurrent: !!route().current('bookings.*')
             }
         ]
     }

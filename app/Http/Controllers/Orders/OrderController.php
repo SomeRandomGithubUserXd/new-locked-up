@@ -9,10 +9,9 @@ use App\Http\Requests\Orders\FilterRequest;
 use App\Http\Requests\Orders\OrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Orders\Order;
-use App\Models\Orders\OrderOption;
-use App\Models\Quest;
 use App\Models\Sale;
 use App\Traits\InteractsWithOrders;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 
@@ -33,17 +32,21 @@ class OrderController extends Controller
             ->when($request->order_id, static function (Builder $query) use ($request) {
                 $query->where(['id' => $request->get('order_id')]);
             })
-            ->when($request->quest_id, static function (Builder $query) use ($request) {
-                $query->where(['quest_id' => $request->get('quest_id')]);
+            ->when($request->quest_ids, static function (Builder $query) use ($request) {
+                $query->whereIn('quest_id', $request->get('quest_ids'));
             })
-            ->when($request->source_id, static function (Builder $query) use ($request) {
-                $query->where(['source' => $request->get('source_id')]);
+            ->when($request->source_ids, static function (Builder $query) use ($request) {
+                $query->whereIn('source', $request->get('source_ids'));
             })
-            ->when($request->status, static function (Builder $query) use ($request) {
-                $query->where(['status' => $request->get('status')]);
+            ->when($request->promo_code_ids, static function (Builder $query) use ($request) {
+                $promoCodes = Sale::query()
+                    ->whereIn('id', $request->get('promo_code_ids'))
+                    ->where(['is_deleted' => 0])
+                    ?->pluck('promocode');
+                $query->whereIn('promo', $promoCodes);
             })
-            ->when($request->promo_code_id, static function (Builder $query) use ($request) {
-                $query->where(['promo' => Sale::firstWhere(['id' => $request->get('promo_code_id'), 'is_deleted' => 0])?->promocode]);
+            ->when($request->statuses, static function (Builder $query) use ($request) {
+                $query->whereIn('status', $request->get('statuses'));
             })
             ->when($request->order_by, static function (Builder $query) use ($request) {
                 $params = explode('_', $request->get('order_by'));
@@ -67,7 +70,7 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        return inertia('Orders/Update', [
+        return inertia('Orders/Show', [
             'order' => OrderResource::singleItem($order),
             ...$this->getOrderMisc()
         ]);
@@ -76,7 +79,10 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         $order = Order::create($request->getUnRefactoredValidatedData());
-        // TODO: mb pluck them on the front
+        \DB::table('booked_date_schedule_item')->insert([
+            'date' => $request->get('date') ?: Carbon::now()->format('Y-m-d'),
+            'schedule_item_id' => $request->schedule_item_id
+        ]);
         $order->orderOptions()->sync(collect($request->get('options'))->pluck('id'));
         return redirect()->route('orders.index');
     }

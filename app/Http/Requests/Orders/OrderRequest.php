@@ -8,6 +8,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class OrderRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'time' => $this->time['time'],
+            'schedule_item_id' => $this->time['id'],
+        ]);
+    }
+
     public function rules(): array
     {
         return [
@@ -32,6 +40,8 @@ class OrderRequest extends FormRequest
             'fact_payment_type' => ['nullable', 'int'],
             'pre_payed_type' => ['nullable', 'int'],
             'status' => ['required', 'int'],
+            'additional_players' => ['nullable', 'int'],
+            'schedule_item_id' => ['nullable', 'int', 'exists:shedule_item,id'],
         ];
     }
 
