@@ -179,7 +179,7 @@ const toExcel = () => {
                         <div class="grid grid-cols-6 gap-6 my-5">
                             <div class="col-span-6 sm:col-span-2">
                                 <label for="quest_ids" class="block text-sm font-medium text-gray-700">
-                                    Фильтры
+                                    Фильтр
                                 </label>
                                 <div class="mt-1">
                                     <select

@@ -1,8 +1,12 @@
 <?php
 
 namespace App\Enums;
-enum OrderStatusEnum: int
+use App\Traits\IsSerializableEnum;
+
+enum OrderStatusEnum: int implements ISerializableEnum
 {
+    use IsSerializableEnum;
+
     case not_viewed = 0;
 
     case to_call_1 = 1;
@@ -45,6 +49,16 @@ enum OrderStatusEnum: int
         };
     }
 
+    public static function getArray(): array
+    {
+        $enums = [];
+        foreach (self::array() as $enum) {
+            $self = (new \ReflectionEnum(self::class))->getCase($enum);
+            $enums[] = $self->getValue()->toArray();
+        }
+        return $enums;
+    }
+
     public function toArray(): array
     {
         return [
@@ -52,31 +66,5 @@ enum OrderStatusEnum: int
             'name' => $this->getName(),
             'color' => $this->getColor()
         ];
-    }
-
-    protected static function names(): array
-    {
-        return array_column(self::cases(), 'name');
-    }
-
-    protected static function values(): array
-    {
-        return array_column(self::cases(), 'value');
-    }
-
-    protected static function array(): array
-    {
-        return array_combine(self::values(), self::names());
-    }
-
-    public static function getArray(): array
-    {
-        $enums = [];
-        foreach (self::array() as $enum)
-        {
-            $self = (new \ReflectionEnum(self::class))->getCase($enum);
-            $enums[] = $self->getValue()->toArray();
-        }
-        return $enums;
     }
 }

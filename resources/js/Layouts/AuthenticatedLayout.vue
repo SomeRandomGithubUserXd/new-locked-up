@@ -12,7 +12,7 @@ import {ChevronDownIcon} from '@heroicons/vue/24/solid'
 const showingNavigationDropdown = ref(false);
 
 const areOrdersCurrent = () => {
-    const routes = ['orders', 'appeals', 'bookings', 'order-filters']
+    const routes = ['orders', 'appeals', 'certificates', 'bookings', 'order-filters']
     for (const entity of routes)
     {
         if(route().current(entity + '.*')) return true
@@ -75,7 +75,7 @@ const routes = [
                                 <NavLink v-for="route in routes" :href="route.subRoutes.length ? '': route.href"
                                          :active="route.isCurrent">
                                     <Menu v-if="route.subRoutes.length" as="div"
-                                          class="relative inline-block text-left">
+                                          class="relative inline-block text-left z-40">
                                         <div>
                                             <MenuButton
                                                 class="inline-flex justify-center w-full px-4 py-2 bg-white text-sm font-medium text-gray-700">

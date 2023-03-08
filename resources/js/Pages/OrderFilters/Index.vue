@@ -33,9 +33,8 @@ const tableProps = ref({
     actions: [
         {
             name: 'Редактировать',
-            trigger: (filter) => {
-                router.get(route('order-filters.show', filter))
-            }
+            trigger: (filter) => router.get(route('order-filters.show', filter))
+
         }
     ],
     pagination: {
@@ -56,7 +55,8 @@ const tableProps = ref({
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <data-table :create-link="route('order-filters.create')" :table-props="tableProps" :items-resource="filters"/>
+                        <data-table :create-link="route('order-filters.create')" :table-props="tableProps"
+                                    :items-resource="filters"/>
                     </div>
                 </div>
             </div>

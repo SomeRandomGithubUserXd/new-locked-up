@@ -3,6 +3,7 @@ import {useForm} from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {orderProps} from "@/Traits/OrderTrait";
 import OrderFilter from "@/Components/Orders/OrderFilter.vue";
+import {Head} from "@inertiajs/vue3";
 
 const props = defineProps(orderProps)
 const filter = useForm({
@@ -24,9 +25,11 @@ const storeFilter = () => {
 </script>
 
 <template>
+    <Head title="Добавить фильтр"/>
+
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Создать заказ</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Добавить фильтр</h2>
         </template>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

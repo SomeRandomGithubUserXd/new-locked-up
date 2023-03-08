@@ -2,6 +2,7 @@
 
 namespace App\Models\Certificates;
 
+use App\Enums\CertificateStatusEnum;
 use App\Models\Certificate;
 use App\Traits\HasTimestamps;
 use App\Traits\InteractsWithTimestamps;
@@ -12,7 +13,30 @@ class PersonCertificate extends Model
 {
     use HasTimestamps, InteractsWithTimestamps;
 
+    protected $guarded = ['id'];
+
+    protected $fillable = [
+        'customer_name',
+        'customer_phone',
+        'customer_email',
+        'number',
+        'address',
+        'price',
+        'delivery_price',
+        'payed_card',
+        'payed_cash',
+        'payed_online',
+        'expired',
+        'payment_link',
+        'status',
+        'comment',
+    ];
+
     protected $table = 'certificates';
+
+    protected $casts = [
+        'status' => CertificateStatusEnum::class
+    ];
 
     public function certificate()
     {

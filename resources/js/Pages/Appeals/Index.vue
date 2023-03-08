@@ -1,4 +1,4 @@
-<script setup>
+\<script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {onMounted, ref} from "vue";
 import {getAlreadyPayed, getOrderPriceToPay} from "@/Traits/OrderTrait";
@@ -86,7 +86,7 @@ const deleteMany = (ids) => {
 </script>
 
 <template>
-    <Head title="Таблица заказов"/>
+    <Head title="Таблица заявок"/>
 
     <AuthenticatedLayout>
         <template #header>

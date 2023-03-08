@@ -50,7 +50,7 @@ const tableProps = ref({
     actions: [
         {
             name: 'Редактировать',
-            trigger: () => {}
+            trigger: (certificate) => router.get(route('certificates.show', certificate))
         }
     ],
     pagination: {
@@ -123,7 +123,7 @@ onMounted(() => {
                                 </div>
                             </div>
                         </form>
-                        <data-table :table-props="tableProps" :items-resource="certificates"/>
+                        <data-table :create-link="route('certificates.create')" :table-props="tableProps" :items-resource="certificates"/>
                     </div>
                 </div>
             </div>
