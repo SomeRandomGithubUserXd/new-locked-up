@@ -44,11 +44,11 @@ const createOrder = (price_total) => {
 </script>
 
 <template>
-    <Head title="Создать заказ"/>
+    <Head title="Создать фильтр"/>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Создать заказ</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Создать фильтр</h2>
         </template>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

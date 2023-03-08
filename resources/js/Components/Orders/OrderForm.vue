@@ -57,7 +57,7 @@ const loadQuestMeta = async (refreshModel = false) => {
         params: {date: date}
     }))).data
     questMeta.value = data
-    if(props.modelValue.time.constructor === String)
+    if(props.modelValue?.time?.constructor === String)
     {
         props.modelValue.time = collect(data.schedule).where('time', '==', props.modelValue.time).first()
     }

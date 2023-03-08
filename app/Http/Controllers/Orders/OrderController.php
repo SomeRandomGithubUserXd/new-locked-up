@@ -9,6 +9,7 @@ use App\Http\Requests\Orders\FilterRequest;
 use App\Http\Requests\Orders\OrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Orders\Order;
+use App\Models\Orders\OrderFilter;
 use App\Models\Sale;
 use App\Traits\InteractsWithOrders;
 use Carbon\Carbon;
@@ -59,6 +60,7 @@ class OrderController extends Controller
             ->paginate(15);
         return inertia('Orders/Index', [
             'orders' => OrderResource::collection($query),
+            'filters' => OrderFilter::get()->makeHidden(['created_at', 'updated_at']),
             ...$this->getOrderMisc()
         ]);
     }

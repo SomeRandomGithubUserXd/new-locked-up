@@ -12,7 +12,7 @@ import {ChevronDownIcon} from '@heroicons/vue/24/solid'
 const showingNavigationDropdown = ref(false);
 
 const areOrdersCurrent = () => {
-    const routes = ['orders', 'appeals', 'bookings']
+    const routes = ['orders', 'appeals', 'bookings', 'order-filters']
     for (const entity of routes)
     {
         if(route().current(entity + '.*')) return true
@@ -45,6 +45,11 @@ const routes = [
                 name: 'Бронирование',
                 href: route('bookings.index'),
                 isCurrent: !!route().current('bookings.*')
+            },
+            {
+                name: 'Фильтры',
+                href: route('order-filters.index'),
+                isCurrent: !!route().current('order-filters.*')
             }
         ]
     }

@@ -4,8 +4,10 @@ use App\Http\Controllers\AppealController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\Orders\OrderController;
+use App\Http\Controllers\Orders\OrderFilterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Quests\QuestController;
+use App\Models\Orders\OrderFilter;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +29,7 @@ Route::middleware('auth')->group(function () {
         'appeals' => AppealController::class,
         'certificates' => CertificateController::class,
         'bookings' => BookingController::class,
+        'order-filters' => OrderFilterController::class,
     ]);
     Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
         Route::post('delete_many', [OrderController::class, 'destroyMany'])->name('destroy-many');

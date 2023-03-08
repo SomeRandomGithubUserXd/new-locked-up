@@ -10,7 +10,7 @@ export const getCurrentUrlParam = (param, all = false, type) => {
         }
         data = local
     } else {
-        data = (new URLSearchParams(location.search)).get(param) || null
+        data = (new URLSearchParams(location.search)).get(param)
     }
-    return data
+    return data || null
 }

@@ -20,7 +20,7 @@ When making changes to project, please, keep in mind stuff below:
 
 - If you want your model to have timestamps, use trait `App\Traits\HasTimestamps` in your model (view example in `User` model). Project's old
   structure require timestamps to be stored as Epoch. Btw these funcs will convert dates output for you as a `Carbon`
-  instance
+  instance. And yeah, new models should use standard mysql timestamps, do not use this trait in fresh created models
 - If you wish your route to display at header menu, add it to `routes` const at `AuthenticatedLayout.vue` following
   the example
 - For a table for an entity you should use `@/Components/Common/DataTable.vue`. Find example at any entity's index
@@ -41,12 +41,6 @@ The default laravel auth is left 99% untouched, here's couple inevitably require
 > APP_DEBUG=true
 
 ### Orders
-
-Relations:
-
-- `belongsTo(Quest::class)` - `Order` is directly related to `Quest`
-- `belongsTo(Orders\OrderSource::class)` - `Order` has a `source` it came from
-
 Some tips:
 
 - You can find order status list at `App/Enums/OrderStatusEnum::getArray()` and use the `status` property as an enum
