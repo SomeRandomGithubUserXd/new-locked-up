@@ -26,7 +26,16 @@ When making changes to project, please, keep in mind stuff below:
 - For a table for an entity you should use `@/Components/Common/DataTable.vue`. Find example at any entity's index
   component
 
-### Authentication
+### Enums
+All the fields in DB that contain a standalone number are actually cast as Enums, almost all of them are serializable.
+Those enums can be serialized as an array. You can get a list of values by calling `getArray()` method on it. To create one yourself:
+- Implement `App\Enums\ISerializableEnum` interface to enum
+- Use the `App\Traits\IsSerializableEnum` on it
+- Implement `toArray()` method
+- Cast required field as the created Enum in your model
+Now you can define any value from a row as an Enum, which gives you an ability to describe value more specifically
+
+### Authentication and common statements
 
 The default laravel auth is left 99% untouched, here's couple inevitably required changes since we're using old DB:
 
@@ -39,9 +48,3 @@ The default laravel auth is left 99% untouched, here's couple inevitably require
 
 > APP_ENV=local <br/>
 > APP_DEBUG=true
-
-### Orders
-Some tips:
-
-- You can find order status list at `App/Enums/OrderStatusEnum::getArray()` and use the `status` property as an enum
-

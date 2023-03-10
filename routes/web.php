@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', RouteServiceProvider::HOME);
 Route::middleware('auth')->group(function () {
+    // Orders category
     Route::resources([
         'orders' => OrderController::class,
         'appeals' => AppealController::class,
@@ -37,6 +38,13 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'appeals', 'as' => 'appeals.'], function () {
         Route::post('delete_many', [AppealController::class, 'destroyMany'])->name('destroy-many');
     });
+
+    // Catalog category
+    Route::resources([
+        'orders' => OrderController::class,
+    ]);
+
+    // Quest additional routes
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], function () {
         Route::group(['prefix' => '{quest}'], function () {
             Route::get('/get_quest_meta', [QuestController::class, 'getQuestMeta'])->name('get-quest-meta');
