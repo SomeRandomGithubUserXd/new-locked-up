@@ -75,6 +75,14 @@ const reset = () => {
 onMounted(() => {
     filter.certificate_id = getCurrentUrlParam('certificate_id')
 })
+
+const deleteMany = (ids) => {
+    if (confirm('Вы уверены?')) {
+        router.post(route('certificates.destroy-many'), {
+            ids
+        })
+    }
+}
 </script>
 
 <template>
@@ -123,7 +131,7 @@ onMounted(() => {
                                 </div>
                             </div>
                         </form>
-                        <data-table :create-link="route('certificates.create')" :table-props="tableProps" :items-resource="certificates"/>
+                        <data-table @delete-many="deleteMany" :create-link="route('certificates.create')" :table-props="tableProps" :items-resource="certificates"/>
                     </div>
                 </div>
             </div>

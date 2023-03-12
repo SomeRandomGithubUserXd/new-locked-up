@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Orders;
 
 use App\Enums\OrderStatusEnum;
+use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\Orders\FilterRequest;
@@ -16,7 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 
-class OrderController extends Controller
+class OrderController extends AbstractControllerWithMultipleDeletion
 {
     use InteractsWithOrders;
 

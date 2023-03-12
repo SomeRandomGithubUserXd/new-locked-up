@@ -21,7 +21,7 @@ class OrderRequest extends FormRequest
         return [
             'quest_id' => ['required', 'int', 'exists:quests,id'],
             'date' => ['required', 'date'],
-            'time' => ['nullable', 'string'],
+            'time' => ['required', 'string'],
             'customer_name' => ['required', 'string'],
             'customer_email' => ['required', 'email'],
             'customer_phone' => ['required', 'string'],

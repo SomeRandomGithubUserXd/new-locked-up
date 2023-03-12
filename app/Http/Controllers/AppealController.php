@@ -8,8 +8,9 @@ use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Resources\AppealResource;
 use App\Models\Appeal;
 use App\Models\Orders\Order;
+use Illuminate\Http\RedirectResponse;
 
-class AppealController extends Controller
+class AppealController extends AbstractControllerWithMultipleDeletion
 {
     public function index(FilterRequest $request)
     {
@@ -38,7 +39,7 @@ class AppealController extends Controller
         return redirect()->route('appeals.index');
     }
 
-    public function destroyMany(ActionWithManyRequest $request)
+    public function destroyMany(ActionWithManyRequest $request): RedirectResponse
     {
         Appeal::whereIn('id', $request->get('ids'))->delete();
         return redirect()->back();

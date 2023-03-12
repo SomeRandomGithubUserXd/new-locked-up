@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Orders;
 
+use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\Orders\FilterEntityRequest;
 use App\Http\Resources\OrderFilterResource;
+use App\Models\Certificate;
 use App\Models\Orders\OrderFilter;
 use App\Traits\InteractsWithOrders;
+use Illuminate\Http\RedirectResponse;
 
-class OrderFilterController extends Controller
+class OrderFilterController extends AbstractControllerWithMultipleDeletion
 {
     use InteractsWithOrders;
 
@@ -42,5 +46,11 @@ class OrderFilterController extends Controller
     {
         OrderFilter::create($request->validated());
         return redirect()->route('order-filters.index');
+    }
+
+    public function destroyMany(ActionWithManyRequest $request): RedirectResponse
+    {
+        OrderFilter::whereIn('id', $request->get('ids'))->delete();
+        return redirect()->back();
     }
 }

@@ -20,7 +20,7 @@ const triggerAllItemsSelection = (val) =>
 {
     if(val.target.checked)
     {
-        selectedItems.value = collect(props.itemsResource.data).pluck('id').all()
+        selectedItems.value = collect(props.itemsResource?.data).pluck('id').all()
     } else {
         selectedItems.value = []
     }
@@ -56,33 +56,33 @@ const deleteMany = () =>
                                 <input @change="triggerAllItemsSelection" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                             </th>
                             <th scope="col"
-                                v-for="record in props.tableProps.records"
+                                v-for="record in props.tableProps?.records"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 {{ record.name }}
                             </th>
                             <th scope="col"
-                                v-if="props.tableProps.actions.length"
+                                v-if="props.tableProps?.actions?.length"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Действия
                             </th>
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="item in props.itemsResource.data">
+                        <tr v-for="item in props.itemsResource?.data">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 <div class="flex items-center h-5">
                                     <input :value="item.id" v-model="selectedItems" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                                 </div>
                             </td>
-                            <td v-for="record in props.tableProps.records"
+                            <td v-for="record in props.tableProps?.records"
                                 :style="record?.rowStyle"
                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <span v-html="record.getValue(item)"/>
                             </td>
                             <td
-                                v-if="props.tableProps.actions.length"
+                                v-if="props.tableProps.actions?.length"
                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <a @click="action.trigger(item)" class="text-indigo-600" v-for="action in props.tableProps.actions" href="#">
+                                <a @click="action.trigger(item)" class="text-indigo-600" v-for="action in props.tableProps?.actions" href="#">
                                     {{ action.name }}
                                 </a>
                             </td>
@@ -91,9 +91,9 @@ const deleteMany = () =>
                     </table>
                 </div>
                 <pagination
-                    v-if="props.tableProps.pagination.isRequired"
-                    :current-page="props.itemsResource.meta.current_page"
-                    :max-page="props.itemsResource.meta.last_page"/>
+                    v-if="props.tableProps?.pagination?.isRequired"
+                    :current-page="props.itemsResource?.meta?.current_page"
+                    :max-page="props.itemsResource?.meta?.last_page"/>
             </div>
         </div>
     </div>

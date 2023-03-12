@@ -10,6 +10,10 @@ class Quest extends Model
 {
     protected $guarded = ['id'];
 
+    protected $fillable = [
+
+    ];
+
     public function schedule(): BelongsTo
     {
         return $this->belongsTo(Schedule::class, 'schedule_id');

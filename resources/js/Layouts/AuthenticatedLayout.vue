@@ -11,20 +11,24 @@ import {ChevronDownIcon} from '@heroicons/vue/24/solid'
 
 const showingNavigationDropdown = ref(false);
 
-const areOrdersCurrent = () => {
-    const routes = ['orders', 'appeals', 'certificates', 'bookings', 'order-filters']
-    for (const entity of routes)
-    {
-        if(route().current(entity + '.*')) return true
+const isBlockCurrent = (routes) => {
+    for (const entity of routes) {
+        if (route().current(entity + '.*')) return true
     }
     return false;
 }
-
+7
 const routes = [
     {
         name: 'Заказы',
         href: route('orders.index'),
-        isCurrent: areOrdersCurrent(),
+        isCurrent: isBlockCurrent([
+            'orders',
+            'appeals',
+            'certificates',
+            'bookings',
+            'order-filters'
+        ]),
         subRoutes: [
             {
                 name: 'Таблица заказов',
@@ -52,6 +56,14 @@ const routes = [
                 isCurrent: !!route().current('order-filters.*')
             }
         ]
+    },
+    {
+        name: 'Каталог квестов',
+        href: route('quests.index'),
+        isCurrent: isBlockCurrent([
+            'quests',
+        ]),
+        subRoutes: []
     }
 ]
 </script>

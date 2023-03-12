@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use App\Enums\CertificateStatusEnum;
 use App\Http\Requests\Certificates\FilterRequest;
 use App\Http\Requests\Certificates\PersonCertificateRequest;
+use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Resources\CertificateResource;
 use App\Http\Resources\PersonCertificateResource;
+use App\Models\Appeal;
 use App\Models\Certificate;
 use App\Models\Certificates\PersonCertificate;
 use App\Traits\HasTimestamps;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Http\RedirectResponse;
 use ReflectionException;
 
-class CertificateController extends Controller
+class CertificateController extends AbstractControllerWithMultipleDeletion
 {
     use HasTimestamps;
 
@@ -66,5 +69,11 @@ class CertificateController extends Controller
     {
         $certificate->update($request->getUnRefactoredValidatedData());
         return redirect()->route('certificates.index');
+    }
+
+    public function destroyMany(ActionWithManyRequest $request): RedirectResponse
+    {
+        PersonCertificate::whereIn('id', $request->get('ids'))->delete();
+        return redirect()->back();
     }
 }

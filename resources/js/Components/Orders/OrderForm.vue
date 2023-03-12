@@ -186,17 +186,16 @@ const orderPriceToPay = computed({
                     <label for="time" class="block text-sm font-medium text-gray-700"> Время </label>
                     <select
                         id="time"
+                        required
                         :disabled="!props.modelValue.date"
                         v-model="modelValue.time"
                         class="appearance-none mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option value="">
-                            Нет
-                        </option>
                         <option v-for="option in questMeta.schedule"
                                 :value="option">
                             {{ option.time }}
                         </option>
                     </select>
+                    <InputError class="mt-2" :message="modelValue.errors.time"/>
                 </div>
             </div>
             <div class="grid grid-cols-6 gap-6 mt-5">

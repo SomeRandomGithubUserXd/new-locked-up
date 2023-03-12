@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Quests;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Quests\GetQuestScheduleRequest;
+use App\Http\Resources\Quests\QuestResource;
 use App\Models\Orders\Order;
 use App\Models\Quest;
 use App\Models\Schedules\ScheduleItem;
@@ -14,6 +15,14 @@ use Illuminate\Http\JsonResponse;
 class QuestController extends Controller
 {
     use InteractsWithOrders;
+
+    public function index()
+    {
+        return inertia('Quests/Index', [
+            'quests' => QuestResource::collection(Quest::orderBy('ord')->paginate(15)),
+        ]);
+    }
+
 
     public function getQuestMeta(Quest $quest, GetQuestScheduleRequest $request): JsonResponse
     {
