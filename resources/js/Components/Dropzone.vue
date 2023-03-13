@@ -1,30 +1,30 @@
 <script setup>
-import {defineProps, ref} from "vue";
+import {defineProps, ref, defineEmits} from "vue";
 
-const props = defineProps({
-    files: Object
-})
+const props = defineProps(['modelValue'])
 
-// for class toggle
-const active = ref(false);
+const emit = defineEmits(['update:modelValue']);
+
 
 function remove (index) {
-    props.files.splice(index, 1);
+    emit('update:modelValue', props.modelValue.splice(index, 1))
 }
 
 // on drop adding file
 const drop = (e) => {
     Object.keys(e.dataTransfer.files).forEach(function(key) {
-        props.files.push({id: props.files[props.files.length - 1].id + 1, name: e.dataTransfer.files[key].name});
+        emit('update:modelValue', props.modelValue.push(e.dataTransfer.files[key]))
     })
-};
+}
 
 // on select adding file
 const selectedFile = (e) => {
     Object.keys(e.target.files).forEach(function(key) {
-        props.files.push({id: props.files[props.files.length - 1].id + 1, name: e.target.files[key].name});
+        emit('update:modelValue', props.modelValue.push(e.target.files[key]))
     })
 };
+// for class toggle
+const active = ref(false);
 
 const toggleActive = () => {
     active.value = !active.value;
@@ -49,11 +49,10 @@ const toggleActive = () => {
                 <input type="file" id="dropzoneFile" class="hidden input1" multiple/>
             </div>
         </div>
-        <div v-for="(file, index) in files"
-             :key="file.id"
-             @input="(event)=> $emit('update:files', event.target.value)"
+        <div v-for="(file, index) in modelValue"
+             :key="file.name"
              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2">
-            <span>Файл: {{ file.name + file.id}}</span>
+            <span>Файл: {{ file.name }}</span>
             <button
                 class="ml-2"
                 type="button"
