@@ -4,7 +4,7 @@ namespace App\Models\Orders;
 
 use App\Enums\OrderStatusEnum;
 use App\Models\Certificate;
-use App\Models\Quest;
+use App\Models\Quests\Quest;
 use App\Models\Schedules\Schedule;
 use App\Models\Schedules\ScheduleItem;
 use App\Traits\HasTimestamps;

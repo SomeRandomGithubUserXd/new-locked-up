@@ -2,8 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\Quest;
-use Carbon\Carbon;
+use App\Models\Quests\Quest;
 
 class QuestObserver
 {

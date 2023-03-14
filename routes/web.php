@@ -8,7 +8,7 @@ use App\Http\Controllers\Orders\OrderFilterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Quests\QuestController;
 use App\Providers\RouteServiceProvider;
-use App\Services\RouteResourceService;
+use App\Services\RouteConstructor;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,30 +25,30 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', RouteServiceProvider::HOME);
 Route::middleware('auth')->group(function () {
     // Orders category
+
     Route::resource('bookings', BookingController::class);
-    $orderResources = [
-        new OrderController('orders'),
-        new AppealController('appeals'),
-        new CertificateController('certificates'),
-        new OrderFilterController('order-filters'),
-    ];
-    RouteResourceService::resourceWithMultipleDeletion(...$orderResources);
-
-    // Catalog category
-    Route::resources([
-        'quests' => QuestController::class,
-    ]);
-
-    // Quest additional routes
-    Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {
-        Route::group(['prefix' => '{quest}'], static function () {
-            Route::get('/get_quest_meta', [QuestController::class, 'getQuestMeta'])->name('get-quest-meta');
-        });
-    });
+    // Booking additional routes
     Route::group(['prefix' => 'bookings', 'as' => 'bookings.'], static function () {
         Route::group(['prefix' => '{scheduleId}'], static function () {
             Route::patch('/make', [BookingController::class, 'make'])->name('make');
             Route::patch('/undo', [BookingController::class, 'undo'])->name('undo');
+        });
+    });
+    RouteConstructor::resourcesWithMultipleDeletion(
+        new OrderController('orders'),
+        new AppealController('appeals'),
+        new CertificateController('certificates'),
+        new OrderFilterController('order-filters'),
+    );
+
+    // Catalog category
+    RouteConstructor::resourcesWithMultipleDeletion(
+        new QuestController('quests'),
+    );
+    // Quest additional routes
+    Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {
+        Route::group(['prefix' => '{quest}'], static function () {
+            Route::get('/get_quest_meta', [QuestController::class, 'getQuestMeta'])->name('get-quest-meta');
         });
     });
 

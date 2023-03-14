@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.tox-notifications-container, .tox-statusbar__branding
+{
+    display: none !important;
+}

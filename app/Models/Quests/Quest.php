@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Quests;
 
 use App\Models\Schedules\Schedule;
 use Illuminate\Database\Eloquent\Model;

@@ -6,9 +6,9 @@ use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use Route;
 use Str;
 
-class RouteResourceService
+class RouteConstructor
 {
-    public static function resourceWithMultipleDeletion(AbstractControllerWithMultipleDeletion ...$entities): void
+    public static function resourcesWithMultipleDeletion(AbstractControllerWithMultipleDeletion ...$entities): void
     {
         Route::resources(array_merge(...array_map(static function ($obj) {
             return $obj->toArray();

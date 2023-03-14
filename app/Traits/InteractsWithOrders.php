@@ -7,7 +7,7 @@ use App\Models\Certificate;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderOption;
 use App\Models\Orders\OrderSource;
-use App\Models\Quest;
+use App\Models\Quests\Quest;
 use App\Models\Sale;
 use App\Models\Schedules\Schedule;
 use Carbon\Carbon;

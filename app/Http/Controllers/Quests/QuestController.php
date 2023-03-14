@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Quests;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
+use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\Quests\GetQuestScheduleRequest;
 use App\Http\Resources\Quests\QuestResource;
-use App\Models\Orders\Order;
-use App\Models\Quest;
+use App\Models\Quests\Quest;
+use App\Models\Quests\QuestBlock;
 use App\Models\Schedules\ScheduleItem;
 use App\Traits\InteractsWithOrders;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
-class QuestController extends Controller
+class QuestController extends AbstractControllerWithMultipleDeletion
 {
     use InteractsWithOrders;
 
@@ -23,6 +25,13 @@ class QuestController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return inertia('Quests/Create', [
+            'questList' => Quest::where('name_ru', '!=', '')->get(),
+            'questBlocks' => QuestBlock::get()
+        ]);
+    }
 
     public function getQuestMeta(Quest $quest, GetQuestScheduleRequest $request): JsonResponse
     {
@@ -40,5 +49,10 @@ class QuestController extends Controller
             'price' => $quest->price_command,
             'price_per_participant' => $quest->price_single,
         ]);
+    }
+
+    public function destroyMany(ActionWithManyRequest $request): RedirectResponse
+    {
+        return redirect()->back();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Quest;
+use App\Models\Quests\Quest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;

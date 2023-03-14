@@ -2,12 +2,11 @@
 
 namespace App\Providers;
 
-use App\Models\Quest;
+use App\Models\Quests\Quest;
 use App\Observers\QuestObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {

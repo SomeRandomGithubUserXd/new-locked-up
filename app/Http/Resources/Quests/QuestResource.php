@@ -5,7 +5,7 @@ namespace App\Http\Resources\Quests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Quest */
+/** @mixin \App\Models\Quests\Quest */
 class QuestResource extends JsonResource
 {
     public function toArray(Request $request): array
