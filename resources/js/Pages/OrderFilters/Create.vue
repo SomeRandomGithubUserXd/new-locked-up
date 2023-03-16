@@ -45,6 +45,7 @@ const storeFilter = () => {
                             :order-statuses="props.orderStatuses"
                             :quest-options="props.questOptions"
                             :is-production="false"
+                            :is-limited="true"
                             v-model="filter"/>
                     </div>
                 </div>

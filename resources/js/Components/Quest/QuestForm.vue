@@ -53,9 +53,9 @@ const emit = defineEmits(['submit'])
 
 const addAdvantage = () => {
     props.modelValue.advantages.push({
-        image_src: '',
+        imageSrc: '',
         header: '',
-        short_description: '',
+        shortDescription: '',
     })
 }
 

@@ -2,6 +2,7 @@
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
+import FileInput from "@/Components/Common/FileInput.vue";
 
 const props = defineProps({
     modelValue: {
@@ -22,6 +23,9 @@ const emit = defineEmits(['remove'])
     <div>
         <form class="flex flex-col shadow p-3 bg-gray-100 rounded" @submit.prevent>
             <div>
+                <file-input v-model="modelValue.imageSrc"/>
+            </div>
+            <div class="mt-3">
                 <InputLabel for="header" value="Заголовок"/>
                 <TextInput
                     id="header"

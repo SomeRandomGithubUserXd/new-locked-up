@@ -23,6 +23,11 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    isLimited: {
+        required: false,
+        type: Boolean,
+        default: false,
+    },
     ...orderProps
 })
 
@@ -44,7 +49,7 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                 />
                 <InputError class="mt-2" :message="modelValue.errors.name"/>
             </div>
-            <div class="col-span-6 sm:col-span-1">
+            <div v-if="!isLimited" class="col-span-6 sm:col-span-1">
                 <InputLabel for="order_id" value="Номер заказа"/>
                 <TextInput
                     :disabled="props.disabled"
@@ -56,7 +61,7 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                 />
                 <InputError class="mt-2" :message="modelValue.errors.order_id"/>
             </div>
-            <div class="col-span-6 sm:col-span-1">
+            <div v-if="!isLimited" class="col-span-6 sm:col-span-1">
                 <label for="quest" class="block text-sm font-medium text-gray-700">
                     Сортировка </label>
                 <div class="mt-1">
@@ -83,14 +88,15 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                     </select>
                 </div>
             </div>
-            <div class="col-span-6 sm:col-span-2 flex items-end">
+            <div v-if="!isLimited" class="col-span-6 sm:col-span-2 flex items-end">
                 <label class="flex items-center">
-                    <Checkbox :disabled="props.disabled" name="with_options_only" v-model:checked="modelValue.with_options_only"/>
+                    <Checkbox :disabled="props.disabled" name="with_options_only"
+                              v-model:checked="modelValue.with_options_only"/>
                     <span class="ml-2 text-sm text-gray-600">Только с доп. услугами</span>
                 </label>
             </div>
         </div>
-        <div class="grid grid-cols-6 gap-6">
+        <div v-if="!isLimited" class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
 
                 <InputLabel for="date_from" value="Дата (от)"/>
@@ -122,37 +128,41 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                 <label for="quest_ids" class="block text-sm font-medium text-gray-700">
                     Квесты </label>
                 <div class="mt-1">
-                    <v-select :disabled="props.disabled" class="scrollable-select" v-model="modelValue.quest_ids" multiple=""
+                    <v-select :disabled="props.disabled" class="scrollable-select" v-model="modelValue.quest_ids"
+                              multiple=""
                               label="name_ru"
                               :reduce="option => option.id"
                               :options="props.questList"/>
                 </div>
             </div>
-            <div class="col-span-6 sm:col-span-2">
+            <div v-if="!isLimited" class="col-span-6 sm:col-span-2">
                 <label for="source_ids" class="block text-sm font-medium text-gray-700">
                     Источники </label>
                 <div class="mt-1">
-                    <v-select :disabled="props.disabled" class="scrollable-select" v-model="modelValue.source_ids" multiple=""
+                    <v-select :disabled="props.disabled" class="scrollable-select" v-model="modelValue.source_ids"
+                              multiple=""
                               label="name"
                               :reduce="option => option.id"
                               :options="props.sourceList"/>
                 </div>
             </div>
-            <div class="col-span-6 sm:col-span-1">
+            <div v-if="!isLimited" class="col-span-6 sm:col-span-1">
                 <label for="quest" class="block text-sm font-medium text-gray-700">
                     Акции </label>
                 <div class="mt-1">
-                    <v-select :disabled="props.disabled" class="scrollable-select" v-model="modelValue.promo_code_ids" multiple=""
+                    <v-select :disabled="props.disabled" class="scrollable-select" v-model="modelValue.promo_code_ids"
+                              multiple=""
                               label="promocode"
                               :reduce="option => option.id"
                               :options="props.promoCodeList"/>
                 </div>
             </div>
-            <div class="col-span-6 sm:col-span-1">
+            <div v-if="!isLimited" class="col-span-6 sm:col-span-1">
                 <label for="status" class="block text-sm font-medium text-gray-700">
                     Статусы </label>
                 <div class="mt-1">
-                    <v-select :disabled="props.disabled" class="scrollable-select" v-model="modelValue.statuses" multiple=""
+                    <v-select :disabled="props.disabled" class="scrollable-select" v-model="modelValue.statuses"
+                              multiple=""
                               label="name"
                               :reduce="option => option.key"
                               :options="props.orderStatuses"/>
