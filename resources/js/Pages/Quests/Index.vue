@@ -8,8 +8,6 @@ const props = defineProps({
     quests: Object
 })
 
-console.log(props.quests)
-
 const tableProps = ref({
     records: [
         {

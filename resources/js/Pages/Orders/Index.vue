@@ -212,21 +212,3 @@ const toExcel = () => {
         </div>
     </AuthenticatedLayout>
 </template>
-
-<style lang="scss">
-.scrollable-select {
-
-    .vs__dropdown-toggle {
-        height: 50px !important;
-    }
-
-    .vs__selected-options {
-        flex-wrap: nowrap !important;
-        overflow-x: auto;
-
-        .vs__selected {
-            white-space: nowrap;
-        }
-    }
-}
-</style>

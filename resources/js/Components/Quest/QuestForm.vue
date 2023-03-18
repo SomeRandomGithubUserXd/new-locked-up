@@ -11,6 +11,7 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import Checkbox from "@/Components/Checkbox.vue";
 import QuestAdvantageForm from "@/Components/Quest/QuestAdvantageForm.vue";
+import QuestOptionForm from "@/Components/Quest/QuestOptionForm.vue";
 
 const props = defineProps({
     modelValue: {
@@ -19,13 +20,21 @@ const props = defineProps({
     },
     questList: Array,
     questBlocks: Array,
+    newsList: Array,
+    themes: Array
 })
 
 const blocks = reactive({
+    main: true,
     namingAndImages: false,
     quests: false,
     priceAndPlayers: false,
     about: false,
+    advantages: false,
+    options: false,
+    sales: false,
+    youMayLikeSection: false,
+    scheduleTextBlocks: false,
 })
 
 const locale = ref('ru')
@@ -49,6 +58,10 @@ const localePointers = {
     },
 }
 
+const getAttribute = (name) => {
+    return localePointers[name][locale]
+}
+
 const emit = defineEmits(['submit'])
 
 const addAdvantage = () => {
@@ -59,14 +72,49 @@ const addAdvantage = () => {
     })
 }
 
+const addOption = () => {
+    props.modelValue.options.push({
+        imageSrc: '',
+        header: '',
+        subheading: '',
+    })
+}
+
 const removeAdvantage = (item) => {
     props.modelValue.advantages.splice(props.modelValue.advantages.indexOf(item), 1)
+}
+
+const removeOption = (item) => {
+    props.modelValue.options.splice(props.modelValue.options.indexOf(item), 1)
 }
 </script>
 
 <template>
     <form @submit.prevent="emit('submit')">
-        <expandable-block v-model="blocks.namingAndImages">
+        <expandable-block v-model="blocks.main">
+            <template #header>
+                <h2 class="text-lg font-semibold">Основное</h2>
+            </template>
+            <template #content>
+                <!--касса, ord, цвет, пакеты, доп услуги, доп почты-->
+                <div class="grid grid-cols-6 gap-6 w-full">
+                    <div class="col-span-6 sm:col-span-2">
+                        <label for="theme" class="block text-sm font-medium text-gray-700">Тема</label>
+                        <div class="mt-1">
+                            <select
+                                id="theme"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                v-model="modelValue.theme">
+                                <option :value="theme.key" v-for="theme in props.themes">
+                                    {{ theme.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </expandable-block>
+        <expandable-block v-model="blocks.namingAndImages" class="mt-3">
             <template #header>
                 <switch-lang-group class="mr-3" v-model="locale" @click.stop/>
                 <h2 class="text-lg font-semibold">Описание и изображения</h2>
@@ -79,11 +127,11 @@ const removeAdvantage = (item) => {
                             id="name"
                             type="text"
                             class="mt-1 block w-full"
-                            v-model="modelValue[localePointers['name'][locale]]"
+                            v-model="modelValue[getAttribute('name')]"
 
                             autofocus
                         />
-                        <InputError class="mt-2" :message="modelValue.errors[localePointers['name'][locale]]"/>
+                        <InputError class="mt-2" :message="modelValue.errors[getAttribute('name')]"/>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <InputLabel for="h1" :value="`Заголовок H1 (${locale})`"/>
@@ -91,22 +139,22 @@ const removeAdvantage = (item) => {
                             id="h1"
                             type="text"
                             class="mt-1 block w-full"
-                            v-model="modelValue[localePointers['h1'][locale]]"
+                            v-model="modelValue[getAttribute('h1')]"
 
                         />
-                        <InputError class="mt-2" :message="modelValue.errors[localePointers['h1'][locale]]"/>
+                        <InputError class="mt-2" :message="modelValue.errors[getAttribute('h1')]"/>
                     </div>
                     <div class="col-span-6 sm:col-span-6">
                         <InputLabel for="short_description" :value="`Краткое описание (${locale})`"/>
                         <div class="mt-1">
                             <textarea
                                 id="short_description"
-                                v-model="modelValue[localePointers['short_description'][locale]]"
+                                v-model="modelValue[getAttribute('short_description')]"
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </textarea>
                         </div>
                         <InputError class="mt-2"
-                                    :message="modelValue.errors[localePointers['short_description'][locale]]"/>
+                                    :message="modelValue.errors[getAttribute('short_description')]"/>
                     </div>
                     <div class="col-span-6 sm:col-span-6">
                         <InputLabel for="full_description" :value="`Полное описание (${locale})`"/>
@@ -114,12 +162,12 @@ const removeAdvantage = (item) => {
                             <Editor
                                 id="full_description"
                                 lang="ru"
-                                v-model="modelValue[localePointers['full_description'][locale]]"
+                                v-model="modelValue[getAttribute('full_description')]"
                                 api-key="no-api-key"
                             />
                         </div>
                         <InputError class="mt-2"
-                                    :message="modelValue.errors[localePointers['full_description'][locale]]"/>
+                                    :message="modelValue.errors[getAttribute('full_description')]"/>
                     </div>
                 </div>
             </template>
@@ -390,6 +438,168 @@ const removeAdvantage = (item) => {
                 </div>
             </template>
         </expandable-block>
+        <expandable-block class="mt-3" v-model="blocks.options">
+            <template #header>
+                <h2 class="text-lg font-semibold">Блок опций</h2>
+            </template>
+            <template #content>
+                <div class="grid grid-cols-6 gap-6 w-full">
+                    <div class="col-span-6 sm:col-span-1">
+                        <InputLabel for="options_block_header" value="Заголовок"/>
+                        <TextInput
+                            id="options_block_header"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="modelValue.options_block_header"
+                        />
+                        <InputError class="mt-2" :message="modelValue.errors.options_block_header"/>
+                    </div>
+                    <div class="col-span-6 sm:col-span-6">
+                        <InputLabel for="options_block_subheading" value="Подзаголовок"/>
+                        <textarea
+                            id="options_block_subheading"
+                            v-model="modelValue.options_block_subheading"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </textarea>
+                        <InputError class="mt-2" :message="modelValue.errors.options_block_subheading"/>
+                    </div>
+                    <div class="col-span-6 sm:col-span-6">
+                        <div class="flex flex-col w-full">
+                            <button @click="addOption" type="submit"
+                                    class="w-full flex justify-center mb-5 py-2 px-4 border border-transparent rounded-md shadow-xl text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+                                Добавить опцию
+                            </button>
+                            <div class="grid grid-cols-6 gap-6 w-full">
+                                <quest-option-form
+                                    @remove="removeOption"
+                                    class="col-span-6 sm:col-span-3"
+                                    v-model="modelValue.options[key]"
+                                    v-for="(option, key) in modelValue.options"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </expandable-block>
+        <expandable-block class="mt-3" v-model="blocks.sales">
+            <template #header>
+                <h2 class="text-lg font-semibold">Акции</h2>
+            </template>
+            <template #content>
+                <div class="grid grid-cols-6 gap-6 w-full">
+                    <div class="col-span-6 sm:col-span-1">
+                        <InputLabel for="sales_block_header" value="Заголовок"/>
+                        <TextInput
+                            id="sales_block_header"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="modelValue.sales_block_header"
+                        />
+                        <InputError class="mt-2" :message="modelValue.errors.sales_block_header"/>
+                    </div>
+                    <div class="col-span-6 sm:col-span-6">
+                        <InputLabel for="sales_block_subheading" value="Подзаголовок"/>
+                        <textarea
+                            id="options_block_subheading"
+                            v-model="modelValue.sales_block_subheading"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </textarea>
+                        <InputError class="mt-2" :message="modelValue.errors.sales_block_subheading"/>
+                    </div>
+                    <div class="col-span-6 sm:col-span-6">
+                        <InputLabel for="sales" value="Список акций"/>
+                        <a class="text-indigo-600 text-sm" href="#" @click.prevent="modelValue.applied_sales = []">Очистить</a>
+                        <div class="mt-1">
+                            <v-select class="scrollable-select" v-model="modelValue.applied_sales"
+                                      multiple=""
+                                      label="title_ru"
+                                      :reduce="option => option.id"
+                                      :options="props.newsList"/>
+                        </div>
+                        <InputError class="mt-2" :message="modelValue.errors.applied_sales"/>
+                    </div>
+                </div>
+            </template>
+        </expandable-block>
+        <expandable-block class="mt-3" v-model="blocks.youMayLikeSection">
+            <template #header>
+                <h2 class="text-lg font-semibold">"Вам может понравиться"</h2>
+            </template>
+            <template #content>
+                <div class="grid grid-cols-6 gap-6 w-full">
+                    <div class="col-span-6 sm:col-span-1">
+                        <InputLabel for="you_may_like_it_section_header" value="Заголовок"/>
+                        <TextInput
+                            id="you_may_like_it_section_header"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="modelValue.you_may_like_it_section_header"
+                        />
+                        <InputError class="mt-2" :message="modelValue.errors.you_may_like_it_section_header"/>
+                    </div>
+                    <div class="col-span-6 sm:col-span-6">
+                        <InputLabel for="you_may_like_it_section_subheading" value="Подзаголовок"/>
+                        <textarea
+                            id="you_may_like_it_section_subheading"
+                            v-model="modelValue.you_may_like_it_section_subheading"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </textarea>
+                        <InputError class="mt-2" :message="modelValue.errors.you_may_like_it_section_subheading"/>
+                    </div>
+                    <div class="col-span-6 sm:col-span-6">
+                        <InputLabel for="you_may_like_it_section_quests" value="Отображаемые квесты"/>
+                        <a class="text-indigo-600 text-sm" href="#"
+                           @click.prevent="modelValue.you_may_like_it_section_quests = []">Очистить</a>
+                        <div class="mt-1">
+                            <v-select class="scrollable-select" v-model="modelValue.you_may_like_it_section_quests"
+                                      multiple
+                                      id="you_may_like_it_section_quests"
+                                      label="name_ru"
+                                      :reduce="option => option.id"
+                                      :options="props.questList"/>
+                        </div>
+                        <InputError class="mt-2" :message="modelValue.errors.you_may_like_it_section_quests"/>
+                    </div>
+                </div>
+            </template>
+        </expandable-block>
+        <expandable-block class="mt-3" v-model="blocks.scheduleTextBlocks">
+            <template #header>
+                <h2 class="text-lg font-semibold">Текстовые блоки возле расписания</h2>
+            </template>
+            <template #content>
+                <div class="grid grid-cols-6 gap-6 w-full">
+                    <div class="col-span-6 sm:col-span-1">
+                        <InputLabel for="schedule_blocks_section_header" value="Заголовок блока возле расписания"/>
+                        <TextInput
+                            id="schedule_blocks_section_header"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="modelValue.schedule_blocks_section_header"
+                        />
+                        <InputError class="mt-2" :message="modelValue.errors.schedule_blocks_section_header"/>
+                    </div>
+                    <div class="col-span-6 sm:col-span-6">
+                        <InputLabel for="schedule_blocks_section_text" value="Текст блока над расписанием"/>
+                        <textarea
+                            id="schedule_text_blocks_section_text"
+                            v-model="modelValue.schedule_blocks_section_text"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </textarea>
+                        <InputError class="mt-2" :message="modelValue.errors.schedule_blocks_section_text"/>
+                    </div>
+                    <div class="col-span-6 sm:col-span-6">
+                        <InputLabel for="schedule_section_blocks_bottom_text" value="Текст блока над расписанием"/>
+                        <textarea
+                            id="schedule_section_blocks_bottom_text"
+                            v-model="modelValue.schedule_section_blocks_bottom_text"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </textarea>
+                        <InputError class="mt-2" :message="modelValue.errors.schedule_section_blocks_bottom_text"/>
+                    </div>
+                </div>
+            </template>
+        </expandable-block>
         <div class="shadow-2xl bg-white rounded-xl sticky bottom-1 z-40 mt-5 p-3">
             <button type="submit"
                     class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-xl text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -398,5 +608,3 @@ const removeAdvantage = (item) => {
         </div>
     </form>
 </template>
-
-<!--тема, касса, ord, цвет-->

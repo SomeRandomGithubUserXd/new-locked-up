@@ -1,7 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.tox-notifications-container, .tox-statusbar__branding
-{
+.tox-notifications-container, .tox-statusbar__branding {
     display: none !important;
 }
+
+.scrollable-select .vs__dropdown-toggle {
+    height: 50px !important;
+}
+
+.scrollable-select .vs__selected-options {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+}
+
+.scrollable-select .vs__selected-options .vs__selected {
+    white-space: nowrap;
+}
+

@@ -3,18 +3,23 @@ import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import FileInput from "@/Components/Common/FileInput.vue";
+import {watch} from "vue";
 
 const props = defineProps({
     modelValue: {
         required: true,
         type: Object,
         default: {
-            imageSrc: String,
+            imageSrc: [String, File],
             header: String,
             shortDescription: String
         }
     }
 })
+
+watch(() => props.modelValue, value => {
+    console.log(value)
+}, {deep: true})
 
 const emit = defineEmits(['remove'])
 </script>

@@ -35,6 +35,9 @@ Those enums can be serialized as an array. You can get a list of values by calli
 - Cast required field as the created Enum in your model
 Now you can define any value from a row as an Enum, which gives you an ability to describe value more specifically
 
+### Themes
+ы
+
 ### Authentication and common statements
 
 The default laravel auth is left 99% untouched, here's couple inevitably required changes since we're using old DB:

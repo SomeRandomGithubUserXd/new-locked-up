@@ -5,18 +5,22 @@ namespace App\Http\Controllers\Quests;
 use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\Quests\GetQuestScheduleRequest;
+use App\Http\Resources\Quests\NewsListResource;
 use App\Http\Resources\Quests\QuestResource;
+use App\Models\News\News;
+use App\Models\News\NewsQuests;
 use App\Models\Quests\Quest;
 use App\Models\Quests\QuestBlock;
 use App\Models\Schedules\ScheduleItem;
 use App\Traits\InteractsWithOrders;
+use App\Traits\InteractsWithQuests;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 
 class QuestController extends AbstractControllerWithMultipleDeletion
 {
-    use InteractsWithOrders;
+    use InteractsWithQuests;
 
     public function index()
     {
@@ -27,9 +31,14 @@ class QuestController extends AbstractControllerWithMultipleDeletion
 
     public function create()
     {
-        return inertia('Quests/Create', [
-            'questList' => Quest::where('name_ru', '!=', '')->get(),
-            'questBlocks' => QuestBlock::get()
+        return inertia('Quests/Create', $this->getQuestMisc());
+    }
+
+    public function show(Quest $quest)
+    {
+        return inertia('Quests/Show', [
+            'quest' => $quest,
+            ...$this->getQuestMisc()
         ]);
     }
 

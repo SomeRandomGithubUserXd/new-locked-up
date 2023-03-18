@@ -7,6 +7,7 @@ use App\Http\Controllers\Orders\OrderController;
 use App\Http\Controllers\Orders\OrderFilterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Quests\QuestController;
+use App\Http\Controllers\UserController;
 use App\Providers\RouteServiceProvider;
 use App\Services\RouteConstructor;
 use Illuminate\Support\Facades\Route;
@@ -51,7 +52,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/get_quest_meta', [QuestController::class, 'getQuestMeta'])->name('get-quest-meta');
         });
     });
-
     // Default laravel routes, feel free to remove if required
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

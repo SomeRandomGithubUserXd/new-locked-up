@@ -3,11 +3,9 @@ import {Head, useForm} from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import QuestForm from "@/Components/Quest/QuestForm.vue";
 import {watch} from "vue";
+import {questProps} from "@/Traits/QuestTrait";
 
-const props = defineProps({
-    questList: Array,
-    questBlocks: Array,
-})
+const props = defineProps(questProps)
 
 const quest = useForm({
     name_ru: '',
@@ -37,7 +35,17 @@ const quest = useForm({
     locates_near_subway_station: '',
     genre: '',
     rating: 10,
-    advantages: []
+    advantages: [],
+    options: [],
+    options_block_header: '',
+    options_block_subheading: '',
+    applied_sales: [],
+    you_may_like_it_section_header: '',
+    you_may_like_it_section_subheading: '',
+    you_may_like_it_section_quests: [],
+    schedule_blocks_section_header: '',
+    schedule_blocks_section_text: '',
+    schedule_section_blocks_bottom_text: '',
 })
 </script>
 
@@ -54,6 +62,8 @@ const quest = useForm({
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <quest-form v-model="quest"
+                                    :themes="props.projectMeta.themes"
+                                    :news-list="props.newsList.data"
                                     :quest-list="props.questList"
                                     :quest-blocks="props.questBlocks"/>
                     </div>
