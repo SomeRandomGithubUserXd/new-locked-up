@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Enums\OrderStatusEnum;
 use App\Http\Resources\Quests\NewsListResource;
 use App\Models\Certificate;
+use App\Models\Checkout;
 use App\Models\News\News;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderOption;
@@ -23,7 +24,8 @@ trait InteractsWithQuests
         return [
             'questList' => Quest::where('name_ru', '!=', '')->get(),
             'questBlocks' => QuestBlock::get(),
-            'newsList' => NewsListResource::collection(News::get())
+            'newsList' => NewsListResource::collection(News::get()),
+            'checkouts' => Checkout::get(),
         ];
     }
 }

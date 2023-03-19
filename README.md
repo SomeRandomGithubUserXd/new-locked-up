@@ -18,7 +18,8 @@ Recommended setup for <a href="#">Laravel v10.1.3</a>
 
 When making changes to project, please, keep in mind stuff below:
 
-- If you want your model to have timestamps, use trait `App\Traits\HasTimestamps` in your model (view example in `User` model). Project's old
+- If you want your model to have timestamps, use trait `App\Traits\HasTimestamps` in your model (view example in `User`
+  model). Project's old
   structure require timestamps to be stored as Epoch. Btw these funcs will convert dates output for you as a `Carbon`
   instance. And yeah, new models should use standard mysql timestamps, do not use this trait in fresh created models
 - If you wish your route to display at header menu, add it to `routes` const at `AuthenticatedLayout.vue` following
@@ -27,16 +28,21 @@ When making changes to project, please, keep in mind stuff below:
   component
 
 ### Enums
+
 All the fields in DB that contain a standalone number are actually cast as Enums, almost all of them are serializable.
-Those enums can be serialized as an array. You can get a list of values by calling `getArray()` method on it. To create one yourself:
+Those enums can be serialized as an array. You can get a list of values by calling `getArray()` method on it. To create
+one yourself:
+
 - Implement `App\Enums\ISerializableEnum` interface to enum
 - Use the `App\Traits\IsSerializableEnum` on it
 - Implement `toArray()` method
 - Cast required field as the created Enum in your model
-Now you can define any value from a row as an Enum, which gives you an ability to describe value more specifically
+  Now you can define any value from a row as an Enum, which gives you an ability to describe value more specifically
 
 ### Themes
-ы
+
+Themes stored as serializable enum in `App\Enums\ProjectThemeEnum.php`. They are currently just used as a placeholder,
+but in convenient way so you can implement the theme mechanics when needed
 
 ### Authentication and common statements
 

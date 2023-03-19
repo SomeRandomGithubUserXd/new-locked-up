@@ -21,7 +21,8 @@ const props = defineProps({
     questList: Array,
     questBlocks: Array,
     newsList: Array,
-    themes: Array
+    themes: Array,
+    checkouts: Array,
 })
 
 const blocks = reactive({
@@ -96,17 +97,50 @@ const removeOption = (item) => {
                 <h2 class="text-lg font-semibold">Основное</h2>
             </template>
             <template #content>
-                <!--касса, ord, цвет, пакеты, доп услуги, доп почты-->
+                <!--доп услуги, доп почты-->
                 <div class="grid grid-cols-6 gap-6 w-full">
-                    <div class="col-span-6 sm:col-span-2">
+                    <div class="col-span-6 sm:col-span-1">
+                        <label for="ord" class="block text-sm font-medium text-gray-700">Порядковый номер</label>
+                        <TextInput
+                            id="ord"
+                            type="number"
+                            class="mt-1 block w-full"
+                            v-model="modelValue.ord"
+                        />
+                    </div>
+                    <div class="col-span-6 sm:col-span-1">
+                        <label for="color" class="block text-sm font-medium text-gray-700">Цвет</label>
+                        <TextInput
+                            id="color"
+                            type="color"
+                            class="mt-1 block w-full"
+                            v-model="modelValue.color"
+                        />
+                    </div>
+                    <div class="col-span-6 sm:col-span-1">
                         <label for="theme" class="block text-sm font-medium text-gray-700">Тема</label>
                         <div class="mt-1">
                             <select
                                 id="theme"
+                                required
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                 v-model="modelValue.theme">
                                 <option :value="theme.key" v-for="theme in props.themes">
                                     {{ theme.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-span-6 sm:col-span-1">
+                        <label for="checkout_id" class="block text-sm font-medium text-gray-700">Касса</label>
+                        <div class="mt-1">
+                            <select
+                                id="checkout_id"
+                                required
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                v-model="modelValue.checkout_id">
+                                <option :value="option.id" v-for="option in props.checkouts">
+                                    {{ option.name }}
                                 </option>
                             </select>
                         </div>

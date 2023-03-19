@@ -8,6 +8,8 @@ import {questProps} from "@/Traits/QuestTrait";
 const props = defineProps(questProps)
 
 const quest = useForm({
+    ord: 0,
+    color: '#ffffff',
     name_ru: '',
     name_en: '',
     h1_ru: '',
@@ -46,6 +48,7 @@ const quest = useForm({
     schedule_blocks_section_header: '',
     schedule_blocks_section_text: '',
     schedule_section_blocks_bottom_text: '',
+    checkout_id: null,
 })
 </script>
 
@@ -62,6 +65,7 @@ const quest = useForm({
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <quest-form v-model="quest"
+                                    :checkouts="props.checkouts"
                                     :themes="props.projectMeta.themes"
                                     :news-list="props.newsList.data"
                                     :quest-list="props.questList"

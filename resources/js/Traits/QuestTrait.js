@@ -3,4 +3,5 @@ export const questProps = {
     questBlocks: Array,
     newsList: Object,
     projectMeta: Object,
+    checkouts: Object,
 }
