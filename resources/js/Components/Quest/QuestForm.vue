@@ -1,6 +1,6 @@
 <script setup>
 import {computed, onMounted, reactive, ref, watch} from "vue";
-import {useForm} from "@inertiajs/vue3";
+import {router, useForm} from "@inertiajs/vue3";
 import ExpandableBlock from "@/Components/Common/ExpandableBlock.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
@@ -12,6 +12,7 @@ import "vue-select/dist/vue-select.css";
 import Checkbox from "@/Components/Checkbox.vue";
 import QuestAdvantageForm from "@/Components/Quest/QuestAdvantageForm.vue";
 import QuestOptionForm from "@/Components/Quest/QuestOptionForm.vue";
+import DataTable from "@/Components/Common/DataTable.vue";
 
 const props = defineProps({
     modelValue: {
@@ -90,13 +91,48 @@ const removeOption = (item) => {
     props.modelValue.options.splice(props.modelValue.options.indexOf(item), 1)
 }
 
-const tabs = ['Основное', 'Расписание']
+const tabs = ['Основное', 'Расписание', 'Фильтры', 'Фотографии', 'CEO', 'Сниппеты']
 
 const currentTab = ref(tabs[0])
 
+const scheduleItems = ref([])
+
+const scheduleItemTableProps = computed({
+    get: () => {
+        return {
+            records: [
+                {
+                    name: 'Время',
+                    getValue: (item) => {
+                        return item.time || 'Нет'
+                    },
+                },
+                {
+                    name: 'Стоимость',
+                    getValue: (item) => {
+                        return item.price || 'Нет'
+                    },
+                },
+                {
+                    name: 'Тип',
+                    getValue: (item) => {
+                        return item.type || 'Нет'
+                    },
+                },
+            ],
+            pagination: {
+                isRequired: false,
+            }
+        }
+    },
+    set: () => {
+    },
+})
+
 watch(() => props.modelValue.schedule_id, async (val) => {
-    const resp = await axios.get(route('schedule-items.index', val))
-    console.log(resp.data)
+    axios.get(route('schedule-items.index', val)).then((resp) => {
+        scheduleItems.value = resp.data
+    })
 })
 </script>
 
@@ -105,7 +141,6 @@ watch(() => props.modelValue.schedule_id, async (val) => {
         <div class="mb-5">
             <div class="sm:hidden">
                 <label for="tabs" class="sr-only">Select a tab</label>
-                <!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->
                 <select id="tabs" name="tabs"
                         v-model="currentTab"
                         class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
@@ -674,7 +709,6 @@ watch(() => props.modelValue.schedule_id, async (val) => {
         </div>
         <div v-if="currentTab === 'Расписание'">
             <div class="grid grid-cols-6 gap-6 w-full">
-
                 <div class="col-span-6 sm:col-span-6">
                     <InputLabel for="source" value="Расписание"/>
                     <select
@@ -690,6 +724,89 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                         </option>
                     </select>
                     <InputError class="mt-2" :message="modelValue.errors.schedule_id"/>
+                </div>
+                <div class="col-span-6 sm:col-span-6">
+                    <data-table
+                        :allow-deletion="false"
+                        :needs-selection="false"
+                        :table-props="scheduleItemTableProps"
+                        :raw-data="scheduleItems"/>
+                </div>
+            </div>
+        </div>
+        <div v-if="currentTab === 'CEO'">
+            <div class="grid grid-cols-6 gap-6 w-full">
+                <div class="col-span-6 sm:col-span-3">
+                    <label for="meta_title" class="block text-sm font-medium text-gray-700">Title</label>
+                    <TextInput
+                        id="meta_title"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="modelValue.meta_title"
+                    />
+                </div>
+                <div class="col-span-6 sm:col-span-3">
+                    <label for="meta_description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <TextInput
+                        id="meta_description"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="modelValue.meta_description"
+                    />
+                </div>
+                <div class="col-span-6 sm:col-span-6">
+                    <label for="meta_keywords" class="block text-sm font-medium text-gray-700">Ключевые слова</label>
+                    <TextInput
+                        id="meta_keywords"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="modelValue.meta_keywords"
+                    />
+                </div>
+                <div class="col-span-6 sm:col-span-6">
+                    <label for="meta_url" class="block text-sm font-medium text-gray-700">URL</label>
+                    <TextInput
+                        id="meta_url"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="modelValue.meta_url"
+                    />
+                </div>
+                <div class="col-span-6 sm:col-span-2">
+                    <label for="og_title" class="block text-sm font-medium text-gray-700">OG Title</label>
+                    <TextInput
+                        id="og_title"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="modelValue.og_title"
+                    />
+                </div>
+                <div class="col-span-6 sm:col-span-2">
+                    <label for="og_description" class="block text-sm font-medium text-gray-700">OG Description</label>
+                    <TextInput
+                        id="og_description"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="modelValue.og_description"
+                    />
+                </div>
+                <div class="col-span-6 sm:col-span-2">
+                    <label for="og_type" class="block text-sm font-medium text-gray-700">OG Тип</label>
+                    <TextInput
+                        id="og_type"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="modelValue.og_type"
+                    />
+                </div>
+                <div class="col-span-6 sm:col-span-6">
+                    <label for="og_url" class="block text-sm font-medium text-gray-700">OG URL</label>
+                    <TextInput
+                        id="og_url"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="modelValue.og_url"
+                    />
                 </div>
             </div>
         </div>

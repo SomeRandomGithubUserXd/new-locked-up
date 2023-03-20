@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::group(['prefix' => 'schedule-items', 'as' => 'schedule-items.'], static function () {
-        Route::group(['prefix' => '{quest}'], static function () {
+        Route::group(['prefix' => '{schedule}'], static function () {
             Route::get('/', [ScheduleItemController::class, 'index'])->name('index');
         });
     });
