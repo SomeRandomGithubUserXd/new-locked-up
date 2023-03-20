@@ -62,7 +62,7 @@ const localePointers = {
 }
 
 const getAttribute = (name) => {
-    return localePointers[name][locale]
+    return localePointers[name][locale.value]
 }
 
 const emit = defineEmits(['submit'])
@@ -530,7 +530,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                 </template>
                 <template #content>
                     <div class="flex flex-col w-full">
-                        <button @click="addAdvantage" type="submit"
+                        <button @click="addAdvantage" type="button"
                                 class="w-full flex justify-center mb-5 py-2 px-4 border border-transparent rounded-md shadow-xl text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                             Добавить преимущество
                         </button>
@@ -571,7 +571,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <div class="flex flex-col w-full">
-                                <button @click="addOption" type="submit"
+                                <button @click="addOption" type="button"
                                         class="w-full flex justify-center mb-5 py-2 px-4 border border-transparent rounded-md shadow-xl text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                                     Добавить опцию
                                 </button>

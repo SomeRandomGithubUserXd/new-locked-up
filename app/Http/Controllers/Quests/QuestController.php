@@ -9,6 +9,7 @@ use App\Http\Resources\Quests\NewsListResource;
 use App\Http\Resources\Quests\QuestResource;
 use App\Models\News\News;
 use App\Models\News\NewsQuests;
+use App\Models\Orders\Order;
 use App\Models\Quests\Quest;
 use App\Models\Quests\QuestBlock;
 use App\Models\Schedules\ScheduleItem;
@@ -37,7 +38,7 @@ class QuestController extends AbstractControllerWithMultipleDeletion
     public function show(Quest $quest)
     {
         return inertia('Quests/Show', [
-            'quest' => $quest,
+            'quest' => QuestResource::singleItem($quest),
             ...$this->getQuestMisc()
         ]);
     }

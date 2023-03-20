@@ -10,6 +10,8 @@ const props = defineProps(questProps)
 const quest = useForm({
     ord: 0,
     color: '#ffffff',
+    checkout_id: null,
+    theme: 0,
     name_ru: '',
     name_en: '',
     h1_ru: '',
@@ -48,7 +50,6 @@ const quest = useForm({
     schedule_blocks_section_header: '',
     schedule_blocks_section_text: '',
     schedule_section_blocks_bottom_text: '',
-    checkout_id: null,
     schedule_id: null,
 })
 </script>

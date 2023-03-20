@@ -10,6 +10,8 @@ const props = defineProps({
     ...questProps
 })
 
+console.log(props.quest)
+
 const quest = useForm(props.quest)
 </script>
 
