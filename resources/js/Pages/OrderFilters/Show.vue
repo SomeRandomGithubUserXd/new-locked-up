@@ -37,6 +37,7 @@ const updateFilter = () => {
                             :certificate-list="props.certificateList"
                             :order-statuses="props.orderStatuses"
                             :quest-options="props.questOptions"
+                            :is-limited="true"
                             :is-production="false"
                             v-model="filterToEdit"/>
                     </div>

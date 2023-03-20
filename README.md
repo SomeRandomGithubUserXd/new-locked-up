@@ -57,3 +57,9 @@ The default laravel auth is left 99% untouched, here's couple inevitably require
 
 > APP_ENV=local <br/>
 > APP_DEBUG=true
+
+### Obviously bad code
+
+To refactor:
+
+- schedule items - schedule - quest relationship

@@ -15,7 +15,7 @@ class RouteConstructor
         }, $entities)));
         foreach ($entities as $controller) {
             $name = $controller->name;
-            Route::group(['prefix' => Str::snake($name), 'as' => Str::camel($name) . '.'], static function () use ($controller) {
+            Route::group(['prefix' => Str::snake($name), 'as' => Str::kebab($name) . '.'], static function () use ($controller) {
                 Route::post('delete_many', [$controller::class, 'destroyMany'])->name('destroy-many');
             });
         }

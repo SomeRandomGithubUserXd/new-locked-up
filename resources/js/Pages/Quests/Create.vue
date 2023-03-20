@@ -49,6 +49,7 @@ const quest = useForm({
     schedule_blocks_section_text: '',
     schedule_section_blocks_bottom_text: '',
     checkout_id: null,
+    schedule_id: null,
 })
 </script>
 
@@ -65,6 +66,7 @@ const quest = useForm({
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <quest-form v-model="quest"
+                                    :schedules="props.schedules"
                                     :checkouts="props.checkouts"
                                     :themes="props.projectMeta.themes"
                                     :news-list="props.newsList.data"

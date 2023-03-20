@@ -4,4 +4,5 @@ export const questProps = {
     newsList: Object,
     projectMeta: Object,
     checkouts: Object,
+    schedules: Object,
 }

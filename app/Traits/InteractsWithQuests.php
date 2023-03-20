@@ -26,6 +26,7 @@ trait InteractsWithQuests
             'questBlocks' => QuestBlock::get(),
             'newsList' => NewsListResource::collection(News::get()),
             'checkouts' => Checkout::get(),
+            'schedules' => Schedule::get(),
         ];
     }
 }

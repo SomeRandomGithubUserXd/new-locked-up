@@ -7,6 +7,7 @@ use App\Http\Controllers\Orders\OrderController;
 use App\Http\Controllers\Orders\OrderFilterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Quests\QuestController;
+use App\Http\Controllers\ScheduleItemController;
 use App\Http\Controllers\UserController;
 use App\Providers\RouteServiceProvider;
 use App\Services\RouteConstructor;
@@ -50,6 +51,12 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {
         Route::group(['prefix' => '{quest}'], static function () {
             Route::get('/get_quest_meta', [QuestController::class, 'getQuestMeta'])->name('get-quest-meta');
+        });
+    });
+
+    Route::group(['prefix' => 'schedule-items', 'as' => 'schedule-items.'], static function () {
+        Route::group(['prefix' => '{quest}'], static function () {
+            Route::get('/', [ScheduleItemController::class, 'index'])->name('index');
         });
     });
     // Default laravel routes, feel free to remove if required
