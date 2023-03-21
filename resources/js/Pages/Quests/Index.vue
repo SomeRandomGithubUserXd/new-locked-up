@@ -41,14 +41,6 @@ const tableProps = ref({
         isRequired: true,
     }
 })
-
-const deleteMany = (ids) => {
-    if (confirm('Вы уверены?')) {
-        router.post(route('quests.destroy-many'), {
-            ids
-        })
-    }
-}
 </script>
 
 <template>
@@ -63,7 +55,7 @@ const deleteMany = (ids) => {
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <data-table @delete-many="deleteMany" :create-link="route('quests.create')" :table-props="tableProps" :items-resource="quests"/>
+                        <data-table :delete-many-route="route('quests.destroy-many')" :create-link="route('quests.create')" :table-props="tableProps" :items-resource="quests"/>
                     </div>
                 </div>
             </div>

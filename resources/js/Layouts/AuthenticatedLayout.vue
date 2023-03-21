@@ -61,9 +61,20 @@ const routes = [
         name: 'Каталог квестов',
         href: route('quests.index'),
         isCurrent: isBlockCurrent([
-            'quests',
+            'quests', 'locations'
         ]),
-        subRoutes: []
+        subRoutes: [
+            {
+                name: 'Таблица квестов',
+                href: route('quests.index'),
+                isCurrent: !!route().current('quests.*')
+            },
+            {
+                name: 'Локации',
+                href: route('locations.index'),
+                isCurrent: !!route().current('locations.*')
+            }
+        ]
     }
 ]
 </script>

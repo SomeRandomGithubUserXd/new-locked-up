@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppealController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\Orders\OrderController;
 use App\Http\Controllers\Orders\OrderFilterController;
 use App\Http\Controllers\ProfileController;
@@ -46,6 +47,7 @@ Route::middleware('auth')->group(function () {
     // Catalog category
     RouteConstructor::resourcesWithMultipleDeletion(
         new QuestController('quests'),
+        new LocationController('locations'),
     );
     // Quest additional routes
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {

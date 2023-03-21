@@ -28,14 +28,6 @@ const edit = (order) => {
     router.get(route('orders.show', order))
 }
 
-const deleteMany = (ids) => {
-    if (confirm('Вы уверены?')) {
-        router.post(route('orders.destroy-many'), {
-            ids
-        })
-    }
-}
-
 const tableProps = ref({
     records: [
         {
@@ -204,7 +196,7 @@ const toExcel = () => {
                             :order-statuses="props.orderStatuses"
                             :quest-options="props.questOptions"
                             v-model="filter" @submit="search" @to-excel="toExcel" @reset="reset"/>
-                        <data-table :create-link="route('orders.create')" @delete-many="deleteMany"
+                        <data-table :create-link="route('orders.create')" :delete-many-route="route('orders.destroy-many')"
                                     :table-props="tableProps" :items-resource="orders"/>
                     </div>
                 </div>

@@ -10,10 +10,10 @@ const props = defineProps({
     ...orderProps
 })
 
-const filterToEdit = useForm(props.filter)
+const filterToUpdate = useForm(props.filter)
 
 const updateFilter = () => {
-    filterToEdit.patch(route('order-filters.update', props.filter.id))
+    filterToUpdate.patch(route('order-filters.update', props.filter.id))
 }
 </script>
 
@@ -39,7 +39,7 @@ const updateFilter = () => {
                             :quest-options="props.questOptions"
                             :is-limited="true"
                             :is-production="false"
-                            v-model="filterToEdit"/>
+                            v-model="filterToUpdate"/>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import Pagination from "@/Components/Common/Pagination.vue";
 import {computed, ref, watch} from "vue";
 import {collect} from "collect.js";
 import {TrashIcon} from "@heroicons/vue/24/solid";
-import {Link} from "@inertiajs/vue3";
+import {Link, router} from "@inertiajs/vue3";
 import {PencilIcon} from "@heroicons/vue/24/solid";
 import {data} from "autoprefixer";
 
@@ -20,15 +20,29 @@ const props = defineProps({
         default: true,
         type: Boolean
     },
-    allowDeletion: {
+    deleteManyRoute: {
         required: false,
-        default: true,
-        type: Boolean
+        default: '',
+        type: String
     },
     createLink: String
 })
 
-const emit = defineEmits(['deleteMany'])
+const triggerAllItemsSelectionCheckbox = ref(null)
+
+const deleteMany = () => {
+    if (props.deleteManyRoute) {
+        if (confirm('Вы уверены?')) {
+            router.post(props.deleteManyRoute, {
+                ids: selectedItems.value
+            }, {
+                onSuccess: params => {
+                    triggerAllItemsSelectionCheckbox.value.checked = false
+                }
+            })
+        }
+    }
+}
 
 const selectedItems = ref([])
 
@@ -40,22 +54,20 @@ const triggerAllItemsSelection = (val) => {
     }
 }
 
-const deleteMany = () => {
-    emit('deleteMany', selectedItems.value)
-}
-
 const hasAnyItems = computed({
     get: () => {
         return props.itemsResource?.meta?.total || props.rawData.length
     },
-    set: () => {}
+    set: () => {
+    }
 })
 </script>
 
 <template>
     <div class="flex flex-col">
         <div class="flex justify-between pb-3">
-            <button @click="deleteMany" type="button" v-if="hasAnyItems && allowDeletion" :disabled="!selectedItems.length"
+            <button @click="deleteMany" type="button" v-if="hasAnyItems && deleteManyRoute"
+                    :disabled="!selectedItems.length"
                     class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
                 <TrashIcon class="h-5 w-5 text-gray-400 mr-2" aria-hidden="true"/>
                 <span>Удалить</span>
@@ -78,7 +90,7 @@ const hasAnyItems = computed({
                                 v-if="needsSelection"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 <span class="sr-only">Выбрать</span>
-                                <input @change="triggerAllItemsSelection" type="checkbox"
+                                <input ref="triggerAllItemsSelectionCheckbox" @change="triggerAllItemsSelection" type="checkbox"
                                        class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"/>
                             </th>
                             <th scope="col"

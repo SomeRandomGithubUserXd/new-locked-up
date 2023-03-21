@@ -75,14 +75,6 @@ const search = () => {
 const reset = () => {
     filter.reset().get(route('appeals.index'))
 }
-
-const deleteMany = (ids) => {
-    if (confirm('Вы уверены?')) {
-        router.post(route('appeals.destroy-many'), {
-            ids
-        })
-    }
-}
 </script>
 
 <template>
@@ -131,7 +123,7 @@ const deleteMany = (ids) => {
                                 </div>
                             </div>
                         </form>
-                        <data-table @delete-many="deleteMany" :table-props="tableProps" :items-resource="appeals"/>
+                        <data-table :delete-many-route="route('appeals.destroy-many')" :table-props="tableProps" :items-resource="appeals"/>
                     </div>
                 </div>
             </div>

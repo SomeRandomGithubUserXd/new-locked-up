@@ -1,5 +1,6 @@
 <script setup>
 import {computed, onMounted, reactive, ref, watch} from "vue";
+import {getAttribute as getAttributeInstance} from "@/Traits/LocaleTrait";
 import {router, useForm} from "@inertiajs/vue3";
 import ExpandableBlock from "@/Components/Common/ExpandableBlock.vue";
 import InputLabel from "@/Components/InputLabel.vue";
@@ -42,27 +43,8 @@ const blocks = reactive({
 
 const locale = ref('ru')
 
-const localePointers = {
-    name: {
-        ru: 'name_ru',
-        en: 'name_en',
-    },
-    h1: {
-        ru: 'h1_ru',
-        en: 'h1_en',
-    },
-    short_description: {
-        ru: 'short_description_ru',
-        en: 'short_description_en',
-    },
-    full_description: {
-        ru: 'full_description_ru',
-        en: 'full_description_en',
-    },
-}
-
 const getAttribute = (name) => {
-    return localePointers[name][locale.value]
+    getAttributeInstance(name, locale.value)
 }
 
 const emit = defineEmits(['submit'])
@@ -311,9 +293,9 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                         </div>
                         <div class="grid grid-cols-6 gap-6 col-span-6 sm:col-span-4">
                             <div class="col-span-6 sm:col-span-2">
-                                <label for="needs_to_be_shown_at_home" class="flex items-center">
-                                    <Checkbox id="needs_to_be_shown_at_home"
-                                              v-model:checked="modelValue.needs_to_be_shown_at_home"/>
+                                <label for="show_at_home" class="flex items-center">
+                                    <Checkbox id="show_at_home"
+                                              v-model:checked="modelValue.show_at_home"/>
                                     <span class="ml-2 text-sm text-gray-600">Выводить на главной</span>
                                 </label>
                                 <label for="is_popular" class="flex items-center mt-2">
@@ -326,15 +308,15 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 </label>
                             </div>
                             <div class="col-span-6 sm:col-span-2">
-                                <label for="needs_to_be_shown_at_kids_celebration" class="flex items-center mt-2">
-                                    <Checkbox id="needs_to_be_shown_at_kids_celebration"
-                                              v-model:checked="modelValue.needs_to_be_shown_at_kids_celebration"/>
+                                <label for="show_at_kids_celebration" class="flex items-center mt-2">
+                                    <Checkbox id="show_at_kids_celebration"
+                                              v-model:checked="modelValue.show_at_kids_celebration"/>
                                     <span
                                         class="ml-2 text-sm text-gray-600">Выводить на странице Детские праздники</span>
                                 </label>
-                                <label for="needs_to_be_shown_at_kids_corporate_parties" class="flex items-center mt-2">
-                                    <Checkbox id="needs_to_be_shown_at_kids_corporate_parties"
-                                              v-model:checked="modelValue.needs_to_be_shown_at_kids_corporate_parties"/>
+                                <label for="show_at_corporate_parties" class="flex items-center mt-2">
+                                    <Checkbox id="show_at_corporate_parties"
+                                              v-model:checked="modelValue.show_at_corporate_parties"/>
                                     <span class="ml-2 text-sm text-gray-600">Выводить на странице Корпоративы</span>
                                 </label>
                                 <label for="enabled" class="flex items-center mt-2">

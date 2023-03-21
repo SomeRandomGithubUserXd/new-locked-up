@@ -41,14 +41,6 @@ const tableProps = ref({
         isRequired: true,
     }
 })
-
-const deleteMany = (ids) => {
-    if (confirm('Вы уверены?')) {
-        router.post(route('order-filters.destroy-many'), {
-            ids
-        })
-    }
-}
 </script>
 
 <template>
@@ -63,7 +55,7 @@ const deleteMany = (ids) => {
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <data-table @delete-many="deleteMany" :create-link="route('order-filters.create')" :table-props="tableProps"
+                        <data-table :delete-many-route="route('order-filters.destroy-many')" :create-link="route('order-filters.create')" :table-props="tableProps"
                                     :items-resource="filters"/>
                     </div>
                 </div>
