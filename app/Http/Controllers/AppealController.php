@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AppealRequest;
+use App\Http\Requests\Appeals\AppealRequest;
 use App\Http\Requests\Appeals\FilterRequest;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Resources\AppealResource;
 use App\Models\Appeal;
-use App\Models\Orders\Order;
 use Illuminate\Http\RedirectResponse;
 
 class AppealController extends AbstractControllerWithMultipleDeletion

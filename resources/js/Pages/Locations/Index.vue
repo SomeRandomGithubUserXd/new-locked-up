@@ -3,7 +3,6 @@ import {Head, router} from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {ref} from "vue";
 import DataTable from "@/Components/Common/DataTable.vue";
-
 const props = defineProps({
     locations: Object
 })
@@ -50,7 +49,7 @@ const tableProps = ref({
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <data-table :delete-many-route="route('locations.destroy-many')" :table-props="tableProps" :items-resource="locations"/>
+                        <data-table :create-link="route('locations.create')" :delete-many-route="route('locations.destroy-many')" :table-props="tableProps" :items-resource="locations"/>
                     </div>
                 </div>
             </div>

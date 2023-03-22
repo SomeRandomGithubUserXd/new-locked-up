@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Locations\LocationRequest;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Resources\LocationResource;
 use App\Models\Location;
@@ -17,11 +18,28 @@ class LocationController extends AbstractControllerWithMultipleDeletion
         ]);
     }
 
+    public function create()
+    {
+        return inertia('Locations/Create');
+    }
+
+    public function store(LocationRequest $request)
+    {
+        Location::create($request->getUnRefactoredValidatedData());
+        return redirect()->route('locations.index');
+    }
+
     public function show(Location $location)
     {
         return inertia('Locations/Show', [
             'location' => LocationResource::singleItem($location)
         ]);
+    }
+
+    public function update(Location $location, LocationRequest $request)
+    {
+        $location->update($request->getUnRefactoredValidatedData());
+        return redirect()->back();
     }
 
     public function destroyMany(ActionWithManyRequest $request): RedirectResponse

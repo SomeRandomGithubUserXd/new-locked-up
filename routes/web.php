@@ -9,6 +9,7 @@ use App\Http\Controllers\Orders\OrderFilterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Quests\QuestController;
 use App\Http\Controllers\ScheduleItemController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use App\Providers\RouteServiceProvider;
 use App\Services\RouteConstructor;
@@ -28,7 +29,6 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', RouteServiceProvider::HOME);
 Route::middleware('auth')->group(function () {
     // Orders category
-
     Route::resource('bookings', BookingController::class);
     // Booking additional routes
     Route::group(['prefix' => 'bookings', 'as' => 'bookings.'], static function () {
@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     RouteConstructor::resourcesWithMultipleDeletion(
         new QuestController('quests'),
         new LocationController('locations'),
+        new ServiceController('services'),
     );
     // Quest additional routes
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {

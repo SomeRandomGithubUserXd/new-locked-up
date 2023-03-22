@@ -21,7 +21,7 @@ const emit = defineEmits(['submit'])
 const locale = ref('ru')
 
 const getAttribute = (name) => {
-    getAttributeInstance(name, locale.value)
+    return getAttributeInstance(name, locale.value)
 }
 </script>
 
@@ -105,6 +105,12 @@ const getAttribute = (name) => {
                     <span class="ml-2 text-sm text-gray-600">Показывать на странице "корпоративы"</span>
                 </label>
             </div>
+        </div>
+        <div class="mt-5">
+            <button type="submit"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Сохранить
+            </button>
         </div>
     </form>
 </template>

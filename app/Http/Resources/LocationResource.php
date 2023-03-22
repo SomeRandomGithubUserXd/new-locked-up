@@ -35,8 +35,8 @@ class LocationResource extends JsonResource
             'name_en' => $location->name_en,
             'address_ru' => $location->address_ru,
             'address_en' => $location->address_en,
-            'show_on_child' => $location->show_on_child,
-            'show_on_corporate' => $location->show_on_corporate,
+            'show_at_kids_page' => (bool) $location->show_on_child,
+            'show_at_corporate_parties_page' => (bool) $location->show_on_corporate,
         ];
     }
 }
