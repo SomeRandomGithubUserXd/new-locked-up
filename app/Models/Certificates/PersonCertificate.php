@@ -2,7 +2,7 @@
 
 namespace App\Models\Certificates;
 
-use App\Enums\CertificateStatusEnum;
+use App\Enums\Certificates\CertificateStatusEnum;
 use App\Models\Certificate;
 use App\Traits\HasTimestamps;
 use App\Traits\InteractsWithTimestamps;

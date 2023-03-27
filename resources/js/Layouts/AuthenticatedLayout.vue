@@ -67,7 +67,9 @@ const routes = [
             'schedules',
             'quest-topics',
             'child-quest-topics',
-            'certificate-instances'
+            'certificate-instances',
+            'sales',
+            'reviews',
         ]),
         subRoutes: [
             {
@@ -104,6 +106,16 @@ const routes = [
                 name: 'Оригинальные сертификаты',
                 href: route('certificate-instances.index'),
                 isCurrent: !!route().current('certificate-instances.*')
+            },
+            {
+                name: 'Акции',
+                href: route('sales.index'),
+                isCurrent: !!route().current('sales.*')
+            },
+            {
+                name: 'Отзывы',
+                href: route('reviews.index'),
+                isCurrent: !!route().current('reviews.*')
             }
         ]
     }

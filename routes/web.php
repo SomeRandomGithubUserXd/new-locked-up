@@ -11,6 +11,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Quests\ChildQuestTopicController;
 use App\Http\Controllers\Quests\QuestController;
 use App\Http\Controllers\Quests\QuestTopicController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\Schedules\ScheduleController;
 use App\Http\Controllers\Schedules\ScheduleItemController;
 use App\Http\Controllers\ServiceController;
@@ -55,7 +57,9 @@ Route::middleware('auth')->group(function () {
         new ScheduleController('schedules'),
         new QuestTopicController('quest-topics'),
         new ChildQuestTopicController('child-quest-topics'),
-        new CertificateInstanceController('certificate-instances')
+        new CertificateInstanceController('certificate-instances'),
+        new SaleController('sales'),
+        new ReviewController('reviews')
     );
     // Quest additional routes
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {

@@ -4,7 +4,7 @@ namespace App\Http\Resources\Orders;
 
 use App\Models\Certificate;
 use App\Models\Orders\Order;
-use App\Models\Sale;
+use App\Models\Sales\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

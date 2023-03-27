@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests\Orders;
 
-use App\Models\Sale;
-use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OrderRequest extends FormRequest

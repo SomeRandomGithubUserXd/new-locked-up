@@ -9,8 +9,7 @@ use App\Models\Orders\Order;
 use App\Models\Orders\OrderOption;
 use App\Models\Orders\OrderSource;
 use App\Models\Quests\Quest;
-use App\Models\Sale;
-use App\Models\Schedules\Schedule;
+use App\Models\Sales\Sale;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 

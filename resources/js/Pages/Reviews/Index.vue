@@ -3,56 +3,59 @@ import {Head, router} from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {ref} from "vue";
 import DataTable from "@/Components/Common/DataTable.vue";
+
 const props = defineProps({
-    locations: Object
+    reviews: Object
 })
 
 const tableProps = ref({
     records: [
         {
             name: 'Название',
-            getValue: (location) => location.name_ru
+            getValue: (review) => review.name
         },
         {
-            name: 'Телефон',
-            getValue: (location) => location.phone
+            name: 'Квест',
+            getValue: (review) => review.quest
         },
         {
-            name: 'Адрес',
-            getValue: (location) => location.address_ru
+            name: 'Рейтинг',
+            getValue: (review) => review.rate
         },
         {
-            name: 'E-Mail',
-            getValue: (location) => location.email
+            name: 'Одобрено',
+            getValue: (review) => review.approved
         },
     ],
-    pagination: {
-        isRequired: true,
-    },
     actions: [
         {
             name: 'Редактировать',
-            trigger(location) {
-                router.get(route('locations.show', location))
+            trigger(review) {
+                router.get(route('reviews.show', review.id))
             }
         }
-    ]
+    ],
+    pagination: {
+        isRequired: true,
+    }
 })
 </script>
 
 <template>
-    <Head title="Таблица локаций"/>
+    <Head title="Таблица отзывов"/>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Таблица локаций</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Таблица отзывов</h2>
         </template>
 
         <div class="py-12">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <data-table :create-link="route('locations.create')" :delete-many-route="route('locations.destroy-many')" :table-props="tableProps" :items-resource="locations"/>
+                        <data-table :create-link="route('reviews.create')"
+                                    :delete-many-route="route('reviews.destroy-many')" :table-props="tableProps"
+                                    :items-resource="props.reviews"/>
                     </div>
                 </div>
             </div>

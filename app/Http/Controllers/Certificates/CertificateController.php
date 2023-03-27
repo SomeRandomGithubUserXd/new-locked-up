@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Certificates;
 
-use App\Enums\CertificateStatusEnum;
+use App\Enums\Certificates\CertificateStatusEnum;
 use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Certificates\FilterRequest;
 use App\Http\Requests\Certificates\PersonCertificateRequest;

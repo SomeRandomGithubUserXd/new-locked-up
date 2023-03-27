@@ -9,7 +9,7 @@ use App\Http\Requests\Orders\OrderRequest;
 use App\Http\Resources\Orders\OrderResource;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderFilter;
-use App\Models\Sale;
+use App\Models\Sales\Sale;
 use App\Traits\InteractsWithOrders;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

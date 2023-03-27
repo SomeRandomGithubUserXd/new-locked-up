@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Certificates;
 
-use App\Enums\CertificateInstanceEnum;
+use App\Enums\Certificates\CertificateInstanceStatusEnum;
 use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Certificates\CertificateInstanceRequest;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Resources\Certificates\CertificateInstanceResource;
@@ -24,14 +23,14 @@ class CertificateInstanceController extends AbstractControllerWithMultipleDeleti
     {
         return inertia('CertificateInstances/Show', [
             'certificate' => CertificateInstanceResource::singleItem($certificateInstance),
-            'certificateStatuses' => CertificateInstanceEnum::getArray()
+            'certificateStatuses' => CertificateInstanceStatusEnum::getArray()
         ]);
     }
 
     public function create()
     {
         return inertia('CertificateInstances/Create', [
-            'certificateStatuses' => CertificateInstanceEnum::getArray()
+            'certificateStatuses' => CertificateInstanceStatusEnum::getArray()
         ]);
     }
 

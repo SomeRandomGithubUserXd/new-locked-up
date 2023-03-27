@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Certificates;
 
+use App\Enums\ISerializableEnum;
 use App\Traits\IsSerializableEnum;
 
 enum CertificateStatusEnum: int implements ISerializableEnum

@@ -63,3 +63,4 @@ The default laravel auth is left 99% untouched, here's couple inevitably require
 To refactor:
 
 - schedule items - schedule - quest relationship
+- Database naming issues (any form request that contain `getUnRefactoredValidatedData` method)
