@@ -21,7 +21,7 @@ use Illuminate\Http\RedirectResponse;
 
 class QuestController extends AbstractControllerWithMultipleDeletion
 {
-    use InteractsWithQuests;
+    use InteractsWithQuests, InteractsWithOrders;
 
     public function index()
     {
@@ -45,7 +45,7 @@ class QuestController extends AbstractControllerWithMultipleDeletion
 
     public function getQuestMeta(Quest $quest, GetQuestScheduleRequest $request): JsonResponse
     {
-        $type = $this->getScheduleType(Carbon::parse($request->get('date')));
+        $type = $this->getScheduleType(Carbon::parse($request->get('date')))->value;
         if ($request->get('date')) {
             $schedule = ScheduleItem::where(['shedule_id' => $quest->schedule_id])
                 ->where(['type' => $type])

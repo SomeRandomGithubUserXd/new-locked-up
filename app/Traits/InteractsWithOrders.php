@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Enums\OrderStatusEnum;
+use App\Enums\ScheduleTypeEnum;
 use App\Models\Certificate;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderOption;
@@ -15,14 +16,14 @@ use Carbon\CarbonInterface;
 
 trait InteractsWithOrders
 {
-    public function getScheduleType(Carbon $date): string
+    public function getScheduleType(Carbon $date): ScheduleTypeEnum
     {
-        $type = Schedule::$weekdaysScheduleType;
+        $type = ScheduleTypeEnum::weekdays;
         if ($date->dayOfWeek === CarbonInterface::FRIDAY) {
-            $type = Schedule::$fridayScheduleType;
+            $type = ScheduleTypeEnum::friday;
         }
         if ($date->isWeekend()) {
-            $type = Schedule::$weekendScheduleType;
+            $type = ScheduleTypeEnum::weekend;
         }
         return $type;
     }

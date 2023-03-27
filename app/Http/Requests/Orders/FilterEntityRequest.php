@@ -25,6 +25,7 @@ class FilterEntityRequest extends FilterRequest
         if ($id = $this->route()->parameter('order_filter')?->id) {
             $rule->whereNot('id', $id);
         }
+        return $rule;
     }
 
     public function authorize(): bool

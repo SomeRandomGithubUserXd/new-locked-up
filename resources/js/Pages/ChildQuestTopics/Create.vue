@@ -2,15 +2,18 @@
 import {Head, useForm} from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import LocationForm from "@/Components/Locations/LocationForm.vue";
+import QuestOptionForm from "@/Components/Quest/QuestOptionForm.vue";
+import QuestTopicForm from "@/Components/QuestTopics/QuestTopicForm.vue";
+import ChildQuestTopicForm from "@/Components/QuestTopics/ChildQuestTopicForm.vue";
 
-const props = defineProps({
-    location: Object
+const questTopic = useForm({
+    'active': true,
+    'name_ru': '',
+    'name_en': '',
 })
 
-const locationToUpdate = useForm(props.location)
-
-const update = () => {
-    locationToUpdate.patch(route('locations.update', props.location), {
+const store = () => {
+    questTopic.post(route('child-quest-topics.store'), {
         onError: (errs) => {
             console.log(errs)
         }
@@ -19,18 +22,18 @@ const update = () => {
 </script>
 
 <template>
-    <Head title="Редактировать локацию"/>
+    <Head title="Создать детскую рубрику"/>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Редактировать локацию</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Создать детскую рубрику</h2>
         </template>
 
         <div class="py-12">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <location-form @submit="update" v-model="locationToUpdate"/>
+                        <child-quest-topic-form @submit="store" v-model="questTopic"/>
                     </div>
                 </div>
             </div>

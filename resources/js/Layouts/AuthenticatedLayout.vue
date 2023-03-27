@@ -27,7 +27,7 @@ const routes = [
             'appeals',
             'certificates',
             'bookings',
-            'order-filters'
+            'order-filters',
         ]),
         subRoutes: [
             {
@@ -61,7 +61,13 @@ const routes = [
         name: 'Каталог квестов',
         href: route('quests.index'),
         isCurrent: isBlockCurrent([
-            'quests', 'locations', 'services'
+            'quests',
+            'locations',
+            'services',
+            'schedules',
+            'quest-topics',
+            'child-quest-topics',
+            'certificate-instances'
         ]),
         subRoutes: [
             {
@@ -78,6 +84,26 @@ const routes = [
                 name: 'Дополнительные услуги',
                 href: route('services.index'),
                 isCurrent: !!route().current('services.*')
+            },
+            {
+                name: 'Расписания',
+                href: route('schedules.index'),
+                isCurrent: !!route().current('schedules.*')
+            },
+            {
+                name: 'Рубрики',
+                href: route('quest-topics.index'),
+                isCurrent: !!route().current('quest-topics.*')
+            },
+            {
+                name: 'Детские рубрики',
+                href: route('child-quest-topics.index'),
+                isCurrent: !!route().current('child-quest-topics.*')
+            },
+            {
+                name: 'Оригинальные сертификаты',
+                href: route('certificate-instances.index'),
+                isCurrent: !!route().current('certificate-instances.*')
             }
         ]
     }

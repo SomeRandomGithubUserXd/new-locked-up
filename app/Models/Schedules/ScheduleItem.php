@@ -2,6 +2,7 @@
 
 namespace App\Models\Schedules;
 
+use App\Enums\ScheduleTypeEnum;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,10 @@ class ScheduleItem extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'type' => ScheduleTypeEnum::class
+    ];
+
     public function schedule(): BelongsTo
     {
         return $this->belongsTo(Schedule::class, 'shedule_id');
@@ -24,7 +29,7 @@ class ScheduleItem extends Model
     {
         // Cast to bool
         return Attribute::make(
-            get: static fn (bool $value) => $value
+            get: static fn(bool $value) => $value
         );
     }
 }

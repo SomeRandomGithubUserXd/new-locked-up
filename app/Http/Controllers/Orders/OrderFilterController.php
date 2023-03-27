@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Orders;
 
 use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\Orders\FilterEntityRequest;
-use App\Http\Resources\OrderFilterResource;
-use App\Models\Certificate;
+use App\Http\Resources\Orders\OrderFilterResource;
 use App\Models\Orders\OrderFilter;
 use App\Traits\InteractsWithOrders;
 use Illuminate\Http\RedirectResponse;

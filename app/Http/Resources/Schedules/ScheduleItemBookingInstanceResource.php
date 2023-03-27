@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Schedules;
 
+use App\Http\Resources\BookingQuestResource;
 use App\Models\Schedules\ScheduleItem;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin ScheduleItem */
 class ScheduleItemBookingInstanceResource extends BookingQuestResource

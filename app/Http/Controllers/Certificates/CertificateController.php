@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Certificates;
 
 use App\Enums\CertificateStatusEnum;
+use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Certificates\FilterRequest;
 use App\Http\Requests\Certificates\PersonCertificateRequest;
 use App\Http\Requests\Orders\ActionWithManyRequest;
-use App\Http\Resources\CertificateResource;
-use App\Http\Resources\PersonCertificateResource;
-use App\Models\Appeal;
+use App\Http\Resources\Certificates\CertificateResource;
+use App\Http\Resources\Certificates\PersonCertificateResource;
 use App\Models\Certificate;
 use App\Models\Certificates\PersonCertificate;
 use App\Traits\HasTimestamps;

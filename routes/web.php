@@ -2,18 +2,21 @@
 
 use App\Http\Controllers\AppealController;
 use App\Http\Controllers\BookingController;
-use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\Certificates\CertificateController;
+use App\Http\Controllers\Certificates\CertificateInstanceController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\Orders\OrderController;
 use App\Http\Controllers\Orders\OrderFilterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Quests\ChildQuestTopicController;
 use App\Http\Controllers\Quests\QuestController;
-use App\Http\Controllers\ScheduleItemController;
+use App\Http\Controllers\Quests\QuestTopicController;
+use App\Http\Controllers\Schedules\ScheduleController;
+use App\Http\Controllers\Schedules\ScheduleItemController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use App\Providers\RouteServiceProvider;
 use App\Services\RouteConstructor;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +52,10 @@ Route::middleware('auth')->group(function () {
         new QuestController('quests'),
         new LocationController('locations'),
         new ServiceController('services'),
+        new ScheduleController('schedules'),
+        new QuestTopicController('quest-topics'),
+        new ChildQuestTopicController('child-quest-topics'),
+        new CertificateInstanceController('certificate-instances')
     );
     // Quest additional routes
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {
@@ -58,8 +65,12 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::group(['prefix' => 'schedule-items', 'as' => 'schedule-items.'], static function () {
+        Route::group(['prefix' => '{id}'], static function () {
+            Route::delete('/destroy', [ScheduleItemController::class, 'destroy'])->name('destroy');
+        });
         Route::group(['prefix' => '{schedule}'], static function () {
             Route::get('/', [ScheduleItemController::class, 'index'])->name('index');
+            Route::post('/', [ScheduleItemController::class, 'store'])->name('store');
         });
     });
     // Default laravel routes, feel free to remove if required

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Certificates;
 
 use App\Models\Certificates\PersonCertificate;
 use Illuminate\Http\Request;

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Orders;
 
-use App\Enums\OrderStatusEnum;
 use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\Orders\FilterRequest;
 use App\Http\Requests\Orders\OrderRequest;
-use App\Http\Resources\OrderResource;
+use App\Http\Resources\Orders\OrderResource;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderFilter;
 use App\Models\Sale;

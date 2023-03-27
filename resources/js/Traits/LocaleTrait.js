@@ -19,6 +19,30 @@ export const localePointers = {
         ru: 'address_ru',
         en: 'address_en',
     },
+    title: {
+        ru: 'title_ru',
+        en: 'title_en',
+    },
+    description: {
+        ru: 'description_ru',
+        en: 'description_en',
+    },
+    og_title: {
+        ru: 'og_title_ru',
+        en: 'og_title_en',
+    },
+    og_description: {
+        ru: 'og_description_ru',
+        en: 'og_description_en',
+    },
+    keywords: {
+        ru: 'keywords_ru',
+        en: 'keywords_en',
+    },
+    seo: {
+        ru: 'seo_ru',
+        en: 'seo_en',
+    },
 }
 
 export const getAttribute = (name, locale) => {

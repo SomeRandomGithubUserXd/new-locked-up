@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CertificateInstanceEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class Certificate extends Model
@@ -12,6 +13,10 @@ class Certificate extends Model
         "number",
         "price",
         "status",
+    ];
+
+    protected $casts = [
+        'status' => CertificateInstanceEnum::class
     ];
 
     public $timestamps = false;

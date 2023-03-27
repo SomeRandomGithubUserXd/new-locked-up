@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Orders;
 
 use App\Models\Certificate;
 use App\Models\Orders\Order;

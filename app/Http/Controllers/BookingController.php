@@ -18,7 +18,7 @@ class BookingController extends Controller
     public function index(FilterRequest $request)
     {
         $typeCondition = function (HasMany|Builder $query) use ($request) {
-            return $query->where(['type' => $this->getScheduleType(new Carbon($request->date))]);
+            return $query->where(['type' => $this->getScheduleType(new Carbon($request->date))->value]);
         };
         $quests = Quest::query()
             ->where('name_ru', '!=', '')

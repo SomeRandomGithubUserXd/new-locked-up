@@ -14,6 +14,7 @@ import Checkbox from "@/Components/Checkbox.vue";
 import QuestAdvantageForm from "@/Components/Quest/QuestAdvantageForm.vue";
 import QuestOptionForm from "@/Components/Quest/QuestOptionForm.vue";
 import DataTable from "@/Components/Common/DataTable.vue";
+import Tabs from "@/Components/Common/Tabs.vue";
 
 const props = defineProps({
     modelValue: {
@@ -72,10 +73,34 @@ const removeAdvantage = (item) => {
 const removeOption = (item) => {
     props.modelValue.options.splice(props.modelValue.options.indexOf(item), 1)
 }
+const tabsArray = [
+    {
+        name: 'Основное',
+        value: 'main'
+    },
+    {
+        name: 'Расписание',
+        value: 'schedule'
+    },
+    {
+        name: 'Фильтры',
+        value: 'filters'
+    },
+    {
+        name: 'Фотографии',
+        value: 'photos'
+    },
+    {
+        name: 'CEO',
+        value: 'CEO'
+    },
+    {
+        name: 'Сниппеты',
+        value: 'snippets'
+    },
+]
 
-const tabs = ['Основное', 'Расписание', 'Фильтры', 'Фотографии', 'CEO', 'Сниппеты']
-
-const currentTab = ref(tabs[0])
+const currentTab = ref(tabsArray[0])
 
 const scheduleItems = ref([])
 
@@ -120,30 +145,8 @@ watch(() => props.modelValue.schedule_id, async (val) => {
 
 <template>
     <form @submit.prevent="emit('submit')">
-        <div class="mb-5">
-            <div class="sm:hidden">
-                <label for="tabs" class="sr-only">Select a tab</label>
-                <select id="tabs" name="tabs"
-                        v-model="currentTab"
-                        class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                    <option v-for="(tab, key) in tabs" :key="key" :selected="currentTab === tab">{{ tab }}</option>
-                </select>
-            </div>
-            <div class="hidden sm:block">
-                <div class="border-b border-gray-200">
-                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                        <a v-for="(tab, key) in tabs" :key="key"
-                           href="#"
-                           @click="currentTab = tab"
-                           :class="[currentTab === tab ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300', 'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm']"
-                           :aria-current="tab.current ? 'page' : undefined">
-                            {{ tab }}
-                        </a>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        <div v-if="currentTab === 'Основное'">
+        <tabs class="mb-5" :tabs="tabsArray" v-model="currentTab"/>
+        <div v-if="currentTab.value === 'main'">
             <expandable-block v-model="blocks.main">
                 <template #header>
                     <h2 class="text-lg font-semibold">Основное</h2>
@@ -689,7 +692,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                 </template>
             </expandable-block>
         </div>
-        <div v-if="currentTab === 'Расписание'">
+        <div v-if="currentTab.value === 'schedule'">
             <div class="grid grid-cols-6 gap-6 w-full">
                 <div class="col-span-6 sm:col-span-6">
                     <InputLabel for="source" value="Расписание"/>
@@ -716,7 +719,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                 </div>
             </div>
         </div>
-        <div v-if="currentTab === 'CEO'">
+        <div v-if="currentTab.value === 'CEO'">
             <div class="grid grid-cols-6 gap-6 w-full">
                 <div class="col-span-6 sm:col-span-3">
                     <label for="meta_title" class="block text-sm font-medium text-gray-700">Title</label>
