@@ -10,7 +10,7 @@ class RouteConstructor
 {
     public static function resourcesWithMultipleDeletion(AbstractControllerWithMultipleDeletion ...$entities): void
     {
-        Route::resources(array_merge(...array_map(static function ($obj) {
+        Route::resources(array_merge(...array_map(static function (AbstractControllerWithMultipleDeletion $obj) {
             return $obj->toArray();
         }, $entities)));
         foreach ($entities as $controller) {

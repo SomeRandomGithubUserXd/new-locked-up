@@ -5,8 +5,11 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Certificates\CertificateController;
 use App\Http\Controllers\Certificates\CertificateInstanceController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\ModalsController;
+use App\Http\Controllers\News\NewsController;
 use App\Http\Controllers\Orders\OrderController;
 use App\Http\Controllers\Orders\OrderFilterController;
+use App\Http\Controllers\Orders\OrderSourceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Quests\ChildQuestTopicController;
 use App\Http\Controllers\Quests\QuestController;
@@ -16,6 +19,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\Schedules\ScheduleController;
 use App\Http\Controllers\Schedules\ScheduleItemController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use App\Providers\RouteServiceProvider;
 use App\Services\RouteConstructor;
@@ -59,15 +63,36 @@ Route::middleware('auth')->group(function () {
         new ChildQuestTopicController('child-quest-topics'),
         new CertificateInstanceController('certificate-instances'),
         new SaleController('sales'),
-        new ReviewController('reviews')
+        new ReviewController('reviews'),
+        new OrderSourceController('order-sources')
     );
+
+    // Users
+    RouteConstructor::resourcesWithMultipleDeletion(
+        new UserController('users')
+    );
+
+    // News
+    RouteConstructor::resourcesWithMultipleDeletion(
+        new NewsController('news')
+    );
+
+    // Modals
+    Route::group(['prefix' => '/modals', 'as' => 'modals.'], function (){
+       Route::get('/main', [ModalsController::class, 'main'])->name('main');
+    });
+
+    // Settings
+    Route::group(['prefix' => '/settings', 'as' => 'settings.'], function (){
+       Route::get('/', [SettingsController::class, 'index'])->name('index');
+    });
+
     // Quest additional routes
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {
         Route::group(['prefix' => '{quest}'], static function () {
             Route::get('/get_quest_meta', [QuestController::class, 'getQuestMeta'])->name('get-quest-meta');
         });
     });
-
     Route::group(['prefix' => 'schedule-items', 'as' => 'schedule-items.'], static function () {
         Route::group(['prefix' => '{id}'], static function () {
             Route::delete('/destroy', [ScheduleItemController::class, 'destroy'])->name('destroy');

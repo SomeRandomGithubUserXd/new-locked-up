@@ -11,13 +11,13 @@ class NewsQuests extends Pivot
 
     public $timestamps = false;
 
-//    public function order(): BelongsTo
-//    {
-//        return $this->belongsTo(Order::class);
-//    }
-//
-//    public function orderOption(): BelongsTo
-//    {
-//        return $this->belongsTo(OrderOption::class, 'order_option_id');
-//    }
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function orderOption(): BelongsTo
+    {
+        return $this->belongsTo(OrderOption::class, 'order_option_id');
+    }
 }
