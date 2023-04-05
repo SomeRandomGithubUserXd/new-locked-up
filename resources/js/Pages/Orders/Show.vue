@@ -45,6 +45,7 @@ const updateOrder = (price_total) => {
                             :certificate-list="props.certificateList"
                             :order-statuses="props.orderStatuses"
                             :quest-options="props.questOptions"
+                            :lounge-list="props.loungeList"
                             @submit="updateOrder"
                         />
                     </div>

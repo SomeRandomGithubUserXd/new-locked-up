@@ -60,7 +60,10 @@ class OrderResource extends JsonResource
             'fact_payment_type' => $order->fact_payment_type ?? '',
             'pre_payed_type' => $order->prepayed_type ?? '',
             'options' => $order->orderOptions->makeHidden('pivot'),
-            'additional_players' => $order->additional_players
+            'additional_players' => $order->additional_players,
+            'lounge_schedule_item_id' => $order->lounge_schedule_item_id,
+            'lounge_schedule_id' => $order->loungeScheduleItem?->loungeSchedule?->id,
+            'lounge_id' => $order->lounge_id
         ];
     }
 }

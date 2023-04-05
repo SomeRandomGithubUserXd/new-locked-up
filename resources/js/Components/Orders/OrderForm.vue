@@ -57,8 +57,7 @@ const loadQuestMeta = async (refreshModel = false) => {
         params: {date: date}
     }))).data
     questMeta.value = data
-    if(props.modelValue?.time?.constructor === String)
-    {
+    if (props.modelValue?.time?.constructor === String) {
         props.modelValue.time = collect(data.schedule).where('time', '==', props.modelValue.time).first()
     }
     if (refreshModel) props.modelValue.players_count = data.min_players
@@ -99,6 +98,16 @@ const orderTotal = computed({
 const orderPriceToPay = computed({
     get() {
         return getOrderPriceToPay(orderTotal.value, props.modelValue)
+    },
+    set() {
+
+    }
+})
+
+const selectedLoungeScheduleItems = computed({
+    get() {
+        if (!props.modelValue.lounge_id) return []
+        return collect(props.loungeList).where('id', '==', props.modelValue.lounge_id).first()['lounge_schedule']['lounge_schedule_items']
     },
     set() {
 
@@ -430,6 +439,39 @@ const orderPriceToPay = computed({
                             required
                         />
                         <InputError class="mt-2" :message="modelValue.errors.payed_aggregator"/>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-6">
+                    <label for="lounge" class="block text-sm font-medium text-gray-700"> Лаунж </label>
+                    <div class="mt-1">
+                        <select
+                            id="lounge"
+                            v-model="props.modelValue.lounge_id"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option :value="null">
+                                Нет
+                            </option>
+                            <option v-for="lounge in props.loungeList" :value="lounge.id">
+                                {{ lounge.name_ru }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-6">
+                    <label for="lounge" class="block text-sm font-medium text-gray-700"> Расписание лаунжа </label>
+                    <div class="mt-1">
+                        <select
+                            id="lounge"
+                            :disabled="!props.modelValue.lounge_id"
+                            v-model="props.modelValue.lounge_schedule_item_id"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option :value="null">
+                                Нет
+                            </option>
+                            <option v-for="item in selectedLoungeScheduleItems" :value="item.id">
+                                {{ item.time }}
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>

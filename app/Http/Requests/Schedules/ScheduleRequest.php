@@ -10,7 +10,7 @@ class ScheduleRequest extends FormRequest
     {
         return [
             'name' => ['nullable', 'string'],
-            'schedule_items' => ['nullable']
+            'schedule_items' => ['nullable'],
         ];
     }
 

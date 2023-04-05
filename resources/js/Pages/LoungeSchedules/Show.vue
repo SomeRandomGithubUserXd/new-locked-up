@@ -26,11 +26,11 @@ const handleUpdate = (val) => {
 }
 
 const update = () => {
-    scheduleToUpdate.value.patch(route('schedules.update', props.schedule.id))
+    scheduleToUpdate.value.patch(route('lounge-schedules.update', props.schedule.id))
 }
 
 const addItem = (type) => {
-    router.post(route('schedule-items.store', props.schedule.id), {
+    router.post(route('lounge-schedule-items.store', props.schedule.id), {
         type
     })
 }
@@ -52,7 +52,7 @@ const addItem = (type) => {
                             @add-item="addItem"
                             @submit="update"
                             :model-value="scheduleToUpdate"
-                            destroy-route="schedule-items.destroy"
+                            destroy-route="lounge-schedule-items.destroy"
                             @update:model-value="handleUpdate"/>
                     </div>
                 </div>

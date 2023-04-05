@@ -5,21 +5,25 @@ import {ref} from "vue";
 import DataTable from "@/Components/Common/DataTable.vue";
 
 const props = defineProps({
-    questTopics: Object
+    lounges: Object
 })
 
 const tableProps = ref({
     records: [
         {
             name: 'Название',
-            getValue: (topic) => topic.name
+            getValue: (lounge) => lounge.name_ru
+        },
+        {
+            name: 'Активен',
+            getValue: (lounge) => lounge.is_active
         },
     ],
     actions: [
         {
             name: 'Редактировать',
-            trigger(topic) {
-                router.get(route('quest-topics.show', topic))
+            trigger(lounge) {
+                router.get(route('lounges.show', lounge))
             }
         }
     ],
@@ -30,20 +34,20 @@ const tableProps = ref({
 </script>
 
 <template>
-    <Head title="Таблица рубрик"/>
+    <Head title="Таблица лаунжей"/>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Таблица рубрик</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Таблица лаунжей</h2>
         </template>
 
         <div class="py-12">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <data-table :create-link="route('quest-topics.create')"
-                                    :delete-many-route="route('quest-topics.destroy-many')" :table-props="tableProps"
-                                    :items-resource="props.questTopics"/>
+                        <data-table :create-link="route('lounges.create')"
+                                    :delete-many-route="route('lounges.destroy-many')" :table-props="tableProps"
+                                    :items-resource="props.lounges"/>
                     </div>
                 </div>
             </div>

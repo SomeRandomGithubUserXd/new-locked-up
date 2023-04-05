@@ -71,6 +71,8 @@ const routes = [
             'sales',
             'reviews',
             'order-sources',
+            'lounges',
+            'lounge-schedules',
         ]),
         subRoutes: [
             {
@@ -117,6 +119,16 @@ const routes = [
                 name: 'Источники',
                 href: route('order-sources.index'),
                 isCurrent: !!route().current('order-sources.*')
+            },
+            {
+                name: 'Лаунжи',
+                href: route('lounges.index'),
+                isCurrent: !!route().current('lounges.*')
+            },
+            {
+                name: 'Расписания лаунжей',
+                href: route('lounge-schedules.index'),
+                isCurrent: !!route().current('lounge-schedules.*')
             }
         ]
     },

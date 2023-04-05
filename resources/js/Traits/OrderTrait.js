@@ -49,4 +49,5 @@ export const orderProps = {
     promoCodeList: Array,
     certificateList: Array,
     questOptions: Array,
+    loungeList: Array,
 }

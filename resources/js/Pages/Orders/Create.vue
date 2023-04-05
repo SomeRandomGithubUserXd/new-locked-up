@@ -27,6 +27,8 @@ const order = useForm({
     pre_payed_type: '',
     status: 0,
     additional_players: 0,
+    lounge_id: null,
+    lounge_schedule_item_id: null,
 });
 
 const props = defineProps(orderProps)
@@ -63,6 +65,7 @@ const createOrder = (price_total) => {
                             :certificate-list="props.certificateList"
                             :order-statuses="props.orderStatuses"
                             :quest-options="props.questOptions"
+                            :lounge-list="props.loungeList"
                             @submit="createOrder"
                         />
                     </div>

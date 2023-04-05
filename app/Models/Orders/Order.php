@@ -4,6 +4,9 @@ namespace App\Models\Orders;
 
 use App\Enums\OrderStatusEnum;
 use App\Models\Certificate;
+use App\Models\Lounges\Lounge;
+use App\Models\Lounges\LoungeSchedule;
+use App\Models\Lounges\LoungeScheduleItem;
 use App\Models\Quests\Quest;
 use App\Models\Schedules\Schedule;
 use App\Models\Schedules\ScheduleItem;
@@ -12,7 +15,9 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Order extends Model
 {
@@ -53,7 +58,8 @@ class Order extends Model
         'lounge_id',
         'lounge_schedule_id',
         'certificate_data_id',
-        'additional_players'
+        'additional_players',
+        'lounge_schedule_item_id'
     ];
 
     protected $casts = [
@@ -95,5 +101,10 @@ class Order extends Model
     public function orderOptions(): BelongsToMany
     {
         return $this->belongsToMany(OrderOption::class, 'orders_order_option')->using(OrderQuestOption::class);
+    }
+
+    public function loungeScheduleItem(): BelongsTo
+    {
+        return $this->belongsTo(LoungeScheduleItem::class, 'lounge_schedule_item_id');
     }
 }

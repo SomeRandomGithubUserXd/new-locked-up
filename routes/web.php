@@ -5,6 +5,9 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Certificates\CertificateController;
 use App\Http\Controllers\Certificates\CertificateInstanceController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\Lounges\LoungeController;
+use App\Http\Controllers\Lounges\LoungeScheduleController;
+use App\Http\Controllers\Lounges\LoungeScheduleItemController;
 use App\Http\Controllers\ModalsController;
 use App\Http\Controllers\News\NewsController;
 use App\Http\Controllers\Orders\OrderController;
@@ -64,7 +67,9 @@ Route::middleware('auth')->group(function () {
         new CertificateInstanceController('certificate-instances'),
         new SaleController('sales'),
         new ReviewController('reviews'),
-        new OrderSourceController('order-sources')
+        new OrderSourceController('order-sources'),
+        new LoungeController('lounges'),
+        new LoungeScheduleController('lounge-schedules'),
     );
 
     // Users
@@ -100,6 +105,15 @@ Route::middleware('auth')->group(function () {
         Route::group(['prefix' => '{schedule}'], static function () {
             Route::get('/', [ScheduleItemController::class, 'index'])->name('index');
             Route::post('/', [ScheduleItemController::class, 'store'])->name('store');
+        });
+    });
+    Route::group(['prefix' => 'lounge-schedule-items', 'as' => 'lounge-schedule-items.'], static function () {
+        Route::group(['prefix' => '{id}'], static function () {
+            Route::delete('/destroy', [LoungeScheduleItemController::class, 'destroy'])->name('destroy');
+        });
+        Route::group(['prefix' => '{loungeSchedule}'], static function () {
+            Route::get('/', [LoungeScheduleItemController::class, 'index'])->name('index');
+            Route::post('/', [LoungeScheduleItemController::class, 'store'])->name('store');
         });
     });
     // Default laravel routes, feel free to remove if required

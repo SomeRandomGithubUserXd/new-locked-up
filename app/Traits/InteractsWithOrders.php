@@ -4,7 +4,9 @@ namespace App\Traits;
 
 use App\Enums\OrderStatusEnum;
 use App\Enums\ScheduleTypeEnum;
+use App\Http\Resources\Lounges\LoungeResource;
 use App\Models\Certificate;
+use App\Models\Lounges\Lounge;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderOption;
 use App\Models\Orders\OrderSource;
@@ -40,7 +42,8 @@ trait InteractsWithOrders
             'sourceList' => OrderSource::where(['isDeleted' => 0])->orderBy('name')->get(),
             'promoCodeList' => Sale::where(['is_deleted' => 0])->orderBy('promocode')->get(),
             'certificateList' => Certificate::where('status', '=', 1)->orderBy('number')->get(),
-            'questOptions' => OrderOption::orderBy('name_ru')->get()->unique()
+            'questOptions' => OrderOption::orderBy('name_ru')->get()->unique(),
+            'loungeList' => Lounge::with('loungeSchedule.loungeScheduleItems')->get()
         ];
     }
 }

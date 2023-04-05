@@ -40,6 +40,8 @@ class OrderRequest extends FormRequest
             'status' => ['required', 'int'],
             'additional_players' => ['nullable', 'int'],
             'schedule_item_id' => ['nullable', 'int', 'exists:shedule_item,id'],
+            'lounge_id' => ['nullable', 'int', 'exists:lounges,id'],
+            'lounge_schedule_item_id' => ['nullable', 'int', 'exists:lounge_schedule_items,id'],
         ];
     }
 

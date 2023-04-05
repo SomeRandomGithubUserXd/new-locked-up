@@ -13,7 +13,8 @@ const props = defineProps({
     modelValue: {
         required: true,
         default: useForm({})
-    }
+    },
+    destroyRoute: String
 })
 
 const emit = defineEmits(['submit', 'update:modelValue', 'addItem'])
@@ -41,7 +42,7 @@ const tableProps = {
         {
             name: 'Удалить',
             action(item) {
-                router.delete(route('schedule-items.destroy', item.id))
+                router.delete(route(props.destroyRoute, item.id))
             }
         }
     ]

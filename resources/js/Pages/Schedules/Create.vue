@@ -23,7 +23,9 @@ const schedule = useForm({
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <schedule-form v-model="schedule"/>
+                        <schedule-form
+                            destroy-route="schedule-items.destroy"
+                            v-model="schedule"/>
                     </div>
                 </div>
             </div>
