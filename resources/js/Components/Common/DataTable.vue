@@ -116,7 +116,7 @@ const hasAnyItems = computed({
                                 </div>
                             </td>
                             <td v-for="record in props.tableProps?.records"
-                                :style="record?.rowStyle"
+                                :style="record?.getRowStyle ? record?.getRowStyle(item) : ''"
                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <span v-html="record.getValue(item)"/>
                             </td>

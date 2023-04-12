@@ -73,6 +73,15 @@ class Order extends Model
         );
     }
 
+    public function priceToPay(): Attribute
+    {
+        return Attribute::make(
+            set: static function (int $val) {
+                return 500;
+            },
+        );
+    }
+
     public function date(): Attribute
     {
         return $this->getTimeMutator();

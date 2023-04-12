@@ -10,18 +10,21 @@ import OrderFilter from "@/Components/Orders/OrderFilter.vue";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import {collect} from "collect.js";
+import ExpandableBlock from "@/Components/Common/ExpandableBlock.vue";
 
 const usingFilter = ref(null);
 
 const props = defineProps({
     orders: Object,
     filters: Array,
+    ordersMeta: Object,
     ...orderProps
 })
 
+console.log(props.ordersMeta)
+
 const getOrderStatus = (status) => {
-    status = props.orderStatuses[status]
-    return `<span style="color: ${status.color}">${status.name}</span>`
+    return props.orderStatuses[status]
 }
 
 const edit = (order) => {
@@ -32,8 +35,11 @@ const tableProps = ref({
     records: [
         {
             name: 'Заказ',
+            getRowStyle: (item) => {
+                return 'white-space: normal !important;' + `background-color:${getOrderStatus(item.status).color}`
+            },
             getValue: (order) => {
-                return `№${order.id} <br/> ${getOrderStatus(order.status)} <br/> ${order.created_at}`
+                return `№${order.id} <br/> ${getOrderStatus(order.status).name} <br/> ${order.created_at}`
             },
         },
         {
@@ -73,7 +79,9 @@ const tableProps = ref({
         },
         {
             name: 'Комментарий',
-            rowStyle: 'white-space: normal !important',
+            getRowStyle: (item) => {
+                return 'white-space: normal !important'
+            },
             getValue: (order) => order?.comment
         },
     ],
@@ -153,6 +161,8 @@ const toExcel = () => {
     const exportType = exportFromJSON.types.xls
     exportFromJSON({data, fileName, exportType})
 }
+
+const showSums = ref(true)
 </script>
 
 <template>
@@ -167,6 +177,69 @@ const toExcel = () => {
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
+                        <expandable-block v-model="showSums" class="my-5">
+                            <template #header>
+                                <h2 class="text-lg font-semibold">Итоги</h2>
+                            </template>
+                            <template #content>
+                                <table class="th-order-management-container__results-table">
+
+                                    <tbody><tr>
+                                        <th colspan="2">Всего игр: <span>{{ props.ordersMeta.count }}</span>, на сумму  <span>{{ props.ordersMeta.sum }}</span></th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Игры:</td>
+                                        <td>{{ props.ordersMeta.games_sum }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Допуслуги:</td>
+                                        <td>{{ props.ordersMeta.services_sum }}</td>
+                                    </tr>
+
+                                    <tr class="th-divider-top">
+                                        <th colspan="2">Из них:</th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Факт:</td>
+                                        <td>{{ props.ordersMeta.payed_instantly }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Предоплата:</td>
+                                        <td>{{ props.ordersMeta.pre_payed }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Онлайн:</td>
+                                        <td>{{ props.ordersMeta.payed_online }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Агрегаторы:</td>
+                                        <td>{{ props.ordersMeta.payed_via_aggregator }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Сертификаты:</td>
+                                        <td>{{ props.ordersMeta.certificates_sum }}</td>
+                                    </tr>
+
+                                    <tr class="th-divider-top">
+                                        <th colspan="2">К оплате:</th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Остаток к оплате:</td>
+                                        <td>{{ props.ordersMeta.left_to_pay }}</td>
+                                    </tr>
+
+                                    </tbody></table>
+                            </template>
+                        </expandable-block>
+                        <hr class="mb-5"/>
                         <h2 class="font-semibold text-2xl">Фильтр</h2>
                         <div class="grid grid-cols-6 gap-6 my-5">
                             <div class="col-span-6 sm:col-span-2">

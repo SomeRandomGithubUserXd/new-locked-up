@@ -6,6 +6,7 @@ use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\Orders\FilterRequest;
 use App\Http\Requests\Orders\OrderRequest;
+use App\Http\Resources\Orders\OrderMetaResource;
 use App\Http\Resources\Orders\OrderResource;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderFilter;
@@ -60,6 +61,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
         return inertia('Orders/Index', [
             'orders' => OrderResource::collection($query),
             'filters' => OrderFilter::get()->makeHidden(['created_at', 'updated_at']),
+            'ordersMeta' => OrderMetaResource::getAsArray(),
             ...$this->getOrderMisc()
         ]);
     }
