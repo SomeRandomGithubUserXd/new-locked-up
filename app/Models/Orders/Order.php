@@ -116,4 +116,9 @@ class Order extends Model
     {
         return $this->belongsTo(LoungeScheduleItem::class, 'lounge_schedule_item_id');
     }
+
+    public function orderChangeLogItems(): HasMany
+    {
+        return $this->hasMany(OrderChangeLogItem::class, 'order_id');
+    }
 }

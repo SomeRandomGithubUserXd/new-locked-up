@@ -105,10 +105,10 @@ class OrderController extends AbstractControllerWithMultipleDeletion
         return redirect()->back();
     }
 
-    public function viewLogs()
+    public function viewLogs(Order $order)
     {
         return inertia('Orders/ViewLogs', [
-            'logs' => LogsResource::collection(OrderChangeLogItem::paginate(20))
+            'logs' => LogsResource::collection($order->orderChangeLogItems()->paginate(20))
         ]);
     }
 }
