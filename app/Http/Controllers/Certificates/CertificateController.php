@@ -76,4 +76,9 @@ class CertificateController extends AbstractControllerWithMultipleDeletion
         PersonCertificate::whereIn('id', $request->get('ids'))->delete();
         return redirect()->back();
     }
+
+    public function getCertificates()
+    {
+        return response()->json(['data' => Certificate::all()]);
+    }
 }

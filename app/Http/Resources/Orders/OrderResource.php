@@ -29,7 +29,8 @@ class OrderResource extends JsonResource
             'online_payment' => $this->payed_online,
             'payed_aggregator' => $this->payed_aggregator,
             'price_total' => $this->price_total,
-            'sources' => $this->sources
+            'sources' => $this->sources,
+            'certificate_data_id' => $this->certificate_data_id,
         ];
     }
 

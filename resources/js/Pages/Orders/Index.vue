@@ -11,6 +11,8 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import {collect} from "collect.js";
 import ExpandableBlock from "@/Components/Common/ExpandableBlock.vue";
+import {TrashIcon} from "@heroicons/vue/24/solid";
+import CertificateSelect from "@/Components/Orders/CertificateSelect.vue";
 
 const usingFilter = ref(null);
 
@@ -20,8 +22,6 @@ const props = defineProps({
     ordersMeta: Object,
     ...orderProps
 })
-
-console.log(props.ordersMeta)
 
 const getOrderStatus = (status) => {
     return props.orderStatuses[status]
@@ -43,19 +43,23 @@ const tableProps = ref({
             },
         },
         {
+            name: 'Заказчик',
+            getValue: (order) => {
+                if (!order.customer_name || !order.customer_email || !order.customer_phone) return ''
+                return `${order.customer_name} <br/> ${order.customer_email} <br/> ${order.customer_phone}`
+            }
+        },
+        {
+            name: 'Номер сертификата',
+            getValue: () => CertificateSelect
+        },
+        {
             name: 'Квест',
             getValue: (order) => order.quest
         },
         {
             name: 'Время игры',
             getValue: (order) => order.date
-        },
-        {
-            name: 'Заказчик',
-            getValue: (order) => {
-                if (!order.customer_name || !order.customer_email || !order.customer_phone) return ''
-                return `${order.customer_name} <br/> ${order.customer_email} <br/> ${order.customer_phone}`
-            }
         },
         {
             name: 'Стоимость',

@@ -1,11 +1,15 @@
 <script setup>
-import {Head, router} from "@inertiajs/vue3";
+import {Head, router, useForm} from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import DataTable from "@/Components/Common/DataTable.vue";
+import SaleFilter from "@/Components/Sales/SaleFilter.vue";
+import {salesProps} from "@/Traits/SalesTrait";
+import {getCurrentUrlParam} from "@/Traits/Tools";
 
 const props = defineProps({
-    sales: Object
+    sales: Object,
+    ...salesProps
 })
 
 const tableProps = ref({
@@ -51,6 +55,42 @@ const tableProps = ref({
         isRequired: true,
     }
 })
+
+const defaultFilter = {
+    promo_code: null,
+    value: null,
+    start_date: null,
+    best_before: null,
+    type: null,
+    quest_ids: null,
+    weekdays_only: null,
+}
+
+const filter = useForm(defaultFilter)
+
+onMounted(() => {
+    for (const key in defaultFilter) {
+        switch (key) {
+            case 'quest_ids':
+                filter[key] = getCurrentUrlParam('quest_ids[]', true, Number)
+                break;
+            case 'weekdays_only':
+                filter[key] = getCurrentUrlParam(key) === 'true'
+                break;
+            default:
+                filter[key] = getCurrentUrlParam(key)
+                break;
+        }
+    }
+})
+
+const search = () => {
+    filter.get(route('sales.index'))
+}
+
+const reset = () => {
+    filter.reset().get(route('sales.index'))
+}
 </script>
 
 <template>
@@ -65,6 +105,12 @@ const tableProps = ref({
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
+                        <sale-filter
+                            :certificate-types="certificateTypes"
+                            :quest-list="props.questList"
+                            @submit="search"
+                            @reset="reset"
+                            v-model="filter"/>
                         <data-table :create-link="route('sales.create')"
                                     :delete-many-route="route('sales.destroy-many')" :table-props="tableProps"
                                     :items-resource="props.sales"/>

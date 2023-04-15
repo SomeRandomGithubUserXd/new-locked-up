@@ -118,7 +118,8 @@ const hasAnyItems = computed({
                             <td v-for="record in props.tableProps?.records"
                                 :style="record?.getRowStyle ? record?.getRowStyle(item) : ''"
                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <span v-html="record.getValue(item)"/>
+                                <component v-if="typeof record.getValue(item) === 'object'" :item="item" :is="record.getValue(item)"/>
+                                <span v-else v-html="record.getValue(item)"/>
                             </td>
                             <td
                                 v-if="props.tableProps.actions?.length"
