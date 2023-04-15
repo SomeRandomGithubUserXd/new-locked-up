@@ -11,7 +11,7 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import {collect} from "collect.js";
 import ExpandableBlock from "@/Components/Common/ExpandableBlock.vue";
-import {TrashIcon} from "@heroicons/vue/24/solid";
+import {TrashIcon, PencilIcon, ClockIcon} from "@heroicons/vue/24/solid";
 import CertificateSelect from "@/Components/Orders/CertificateSelect.vue";
 
 const usingFilter = ref(null);
@@ -29,6 +29,10 @@ const getOrderStatus = (status) => {
 
 const edit = (order) => {
     router.get(route('orders.show', order))
+}
+
+const viewLog = (order) => {
+    router.get(route('orders.view-logs', order))
 }
 
 const tableProps = ref({
@@ -92,8 +96,14 @@ const tableProps = ref({
     actions: [
         {
             name: 'Редактировать',
+            icon: PencilIcon,
             trigger: edit
-        }
+        },
+        {
+            name: 'Посмотреть лог',
+            icon: ClockIcon,
+            trigger: viewLog
+        },
     ],
     pagination: {
         isRequired: true,
@@ -141,8 +151,7 @@ onMounted(() => {
 })
 
 const search = () => {
-    if(usingFilter.value)
-    {
+    if (usingFilter.value) {
         router.get(route('orders.index', {
             filter_id: usingFilter.value,
             ...collect(props.filters).where('id', '==', usingFilter.value).first()
@@ -187,60 +196,51 @@ const showSums = ref(true)
                             </template>
                             <template #content>
                                 <table class="th-order-management-container__results-table">
-
-                                    <tbody><tr>
-                                        <th colspan="2">Всего игр: <span>{{ props.ordersMeta.count }}</span>, на сумму  <span>{{ props.ordersMeta.sum }}</span></th>
+                                    <tbody>
+                                    <tr>
+                                        <th colspan="2">Всего игр: <span>{{ props.ordersMeta.count }}</span>, на сумму
+                                            <span>{{ props.ordersMeta.sum }}</span></th>
                                     </tr>
-
                                     <tr>
                                         <td>Игры:</td>
                                         <td>{{ props.ordersMeta.games_sum }}</td>
                                     </tr>
-
                                     <tr>
                                         <td>Допуслуги:</td>
                                         <td>{{ props.ordersMeta.services_sum }}</td>
                                     </tr>
-
                                     <tr class="th-divider-top">
                                         <th colspan="2">Из них:</th>
                                     </tr>
-
                                     <tr>
                                         <td>Факт:</td>
                                         <td>{{ props.ordersMeta.payed_instantly }}</td>
                                     </tr>
-
                                     <tr>
                                         <td>Предоплата:</td>
                                         <td>{{ props.ordersMeta.pre_payed }}</td>
                                     </tr>
-
                                     <tr>
                                         <td>Онлайн:</td>
                                         <td>{{ props.ordersMeta.payed_online }}</td>
                                     </tr>
-
                                     <tr>
                                         <td>Агрегаторы:</td>
                                         <td>{{ props.ordersMeta.payed_via_aggregator }}</td>
                                     </tr>
-
                                     <tr>
                                         <td>Сертификаты:</td>
                                         <td>{{ props.ordersMeta.certificates_sum }}</td>
                                     </tr>
-
                                     <tr class="th-divider-top">
                                         <th colspan="2">К оплате:</th>
                                     </tr>
-
                                     <tr>
                                         <td>Остаток к оплате:</td>
                                         <td>{{ props.ordersMeta.left_to_pay }}</td>
                                     </tr>
-
-                                    </tbody></table>
+                                    </tbody>
+                                </table>
                             </template>
                         </expandable-block>
                         <hr class="mb-5"/>
@@ -273,7 +273,8 @@ const showSums = ref(true)
                             :order-statuses="props.orderStatuses"
                             :quest-options="props.questOptions"
                             v-model="filter" @submit="search" @to-excel="toExcel" @reset="reset"/>
-                        <data-table :create-link="route('orders.create')" :delete-many-route="route('orders.destroy-many')"
+                        <data-table :create-link="route('orders.create')"
+                                    :delete-many-route="route('orders.destroy-many')"
                                     :table-props="tableProps" :items-resource="orders"/>
                     </div>
                 </div>

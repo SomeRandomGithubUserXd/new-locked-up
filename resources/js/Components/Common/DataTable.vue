@@ -90,7 +90,8 @@ const hasAnyItems = computed({
                                 v-if="needsSelection"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 <span class="sr-only">Выбрать</span>
-                                <input ref="triggerAllItemsSelectionCheckbox" @change="triggerAllItemsSelection" type="checkbox"
+                                <input ref="triggerAllItemsSelectionCheckbox" @change="triggerAllItemsSelection"
+                                       type="checkbox"
                                        class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"/>
                             </th>
                             <th scope="col"
@@ -118,16 +119,18 @@ const hasAnyItems = computed({
                             <td v-for="record in props.tableProps?.records"
                                 :style="record?.getRowStyle ? record?.getRowStyle(item) : ''"
                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <component v-if="typeof record.getValue(item) === 'object'" :item="item" :is="record.getValue(item)"/>
+                                <component v-if="typeof record.getValue(item) === 'object'" :item="item"
+                                           :is="record.getValue(item)"/>
                                 <span v-else v-html="record.getValue(item)"/>
                             </td>
                             <td
                                 v-if="props.tableProps.actions?.length"
-                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <a @click="action.trigger(item)" class="text-indigo-600"
-                                   v-for="action in props.tableProps?.actions" href="#">
-                                    {{ action.name }}
-                                </a>
+                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex">
+                                <span @click="action.trigger(item)" class="text-indigo-600 cursor-pointer"
+                                   v-for="action in props.tableProps?.actions">
+                                    <component class="w-5 h-5 mr-3" v-if="action.icon" :is="action.icon"/>
+                                    <span v-else>{{ action.name }}</span>
+                                </span>
                             </td>
                         </tr>
                         </tbody>

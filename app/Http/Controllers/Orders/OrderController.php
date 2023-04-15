@@ -6,9 +6,11 @@ use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\Orders\FilterRequest;
 use App\Http\Requests\Orders\OrderRequest;
+use App\Http\Resources\Orders\LogsResource;
 use App\Http\Resources\Orders\OrderMetaResource;
 use App\Http\Resources\Orders\OrderResource;
 use App\Models\Orders\Order;
+use App\Models\Orders\OrderChangeLogItem;
 use App\Models\Orders\OrderFilter;
 use App\Models\Sales\Sale;
 use App\Traits\InteractsWithOrders;
@@ -101,5 +103,12 @@ class OrderController extends AbstractControllerWithMultipleDeletion
     {
         Order::whereIn('id', $request->get('ids'))->delete();
         return redirect()->back();
+    }
+
+    public function viewLogs()
+    {
+        return inertia('Orders/ViewLogs', [
+            'logs' => LogsResource::collection(OrderChangeLogItem::paginate(20))
+        ]);
     }
 }

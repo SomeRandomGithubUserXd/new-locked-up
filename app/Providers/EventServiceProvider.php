@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Orders\Order;
 use App\Models\Quests\Quest;
+use App\Observers\OrderObserver;
 use App\Observers\QuestObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -26,7 +28,8 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Quest::observe(QuestObserver::class);
+        Order::observe(OrderObserver::class);
+//        Quest::observe(QuestObserver::class);
     }
 
     /**

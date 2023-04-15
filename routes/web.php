@@ -93,6 +93,11 @@ Route::middleware('auth')->group(function () {
     });
 
     // Quest additional routes
+    Route::group(['prefix' => 'orders', 'as' => 'orders.'], static function () {
+        Route::group(['prefix' => '{order}'], static function () {
+            Route::get('/view_logs', [OrderController::class, 'viewLogs'])->name('view-logs');
+        });
+    });
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {
         Route::group(['prefix' => '{quest}'], static function () {
             Route::get('/get_quest_meta', [QuestController::class, 'getQuestMeta'])->name('get-quest-meta');

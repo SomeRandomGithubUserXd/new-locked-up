@@ -42,7 +42,7 @@ one yourself:
 ### Themes
 
 Themes stored as serializable enum in `App\Enums\ProjectThemeEnum.php`. They are currently just used as a placeholder,
-but in convenient way so you can implement the theme mechanics when needed
+but in convenient way, so you can implement the theme mechanics when needed
 
 ### Authentication and common statements
 
@@ -63,4 +63,4 @@ The default laravel auth is left 99% untouched, here's couple inevitably require
 To refactor:
 
 - schedule items - schedule - quest relationship
-- Database naming issues (any form request that contain `getUnRefactoredValidatedData` method)
+- Database naming issues (any form request that contains `getUnRefactoredValidatedData` method)
