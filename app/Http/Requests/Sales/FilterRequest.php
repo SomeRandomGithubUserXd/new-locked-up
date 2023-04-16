@@ -10,7 +10,8 @@ class FilterRequest extends SaleRequest
     {
         return [
             ...parent::rules(),
-            'promo_code' => ['nullable', 'string']
+            'promo_code' => ['nullable', 'string'],
+            'search_string' => ['nullable', 'string']
         ];
     }
 }

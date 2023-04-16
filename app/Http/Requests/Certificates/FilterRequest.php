@@ -9,7 +9,8 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'certificate_id' => ['nullable', 'int', 'exists:certificates_data,id']
+            'search_string' => ['nullable', 'string'],
+            'certificate_id' => ['nullable', 'int', 'exists:certificates_data,id'],
         ];
     }
 

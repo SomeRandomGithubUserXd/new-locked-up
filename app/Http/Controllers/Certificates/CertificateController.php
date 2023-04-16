@@ -12,6 +12,7 @@ use App\Http\Resources\Certificates\PersonCertificateResource;
 use App\Models\Certificate;
 use App\Models\Certificates\PersonCertificate;
 use App\Traits\HasTimestamps;
+use App\Traits\QueryTools;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\RedirectResponse;
@@ -19,7 +20,7 @@ use ReflectionException;
 
 class CertificateController extends AbstractControllerWithMultipleDeletion
 {
-    use HasTimestamps;
+    use HasTimestamps, QueryTools;
 
     public function index(FilterRequest $request)
     {
@@ -27,6 +28,16 @@ class CertificateController extends AbstractControllerWithMultipleDeletion
             return $query->where(['id' => $request->get('certificate_id')]);
         };
         $certificates = PersonCertificate::query()
+            ->when($request->get('search_string'), function (Builder $query) use ($request) {
+                return $this
+                    ->getWhereLikeManyQuery(
+                        $query,
+                        ['customer_name', 'customer_phone', 'customer_email'],
+                        $request->get('search_string')
+                    )->orWhereHas('certificate', function (Builder $query) use ($request) {
+                        return $query->where('number', 'like', '%' . $request->get('search_string') . '%');
+                    });
+            })
             ->when($request->get('certificate_id'), function (Builder $query) use ($certificateInstanceCondition) {
                 return $query
                     ->whereHas('certificate', $certificateInstanceCondition)

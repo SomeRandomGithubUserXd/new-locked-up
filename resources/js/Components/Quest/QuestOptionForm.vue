@@ -10,7 +10,7 @@ const props = defineProps({
         required: true,
         type: Object,
         default: {
-            imageSrc: [String, File],
+            // imageSrc: [String, File],
             header: String,
             shortDescription: String
         }
@@ -28,7 +28,7 @@ const emit = defineEmits(['remove'])
     <div>
         <form class="flex flex-col shadow p-3 bg-gray-100 rounded" @submit.prevent>
             <div>
-                <file-input v-model="modelValue.imageSrc" label="Иконка"/>
+<!--                <file-input v-model="modelValue.imageSrc" label="Иконка"/>-->
             </div>
             <div class="mt-3">
                 <InputLabel for="header" value="Заголовок"/>
@@ -41,15 +41,6 @@ const emit = defineEmits(['remove'])
                     autofocus
                 />
             </div>
-            <InputLabel for="subheading" value="Подзаголовок"/>
-            <TextInput
-                id="subheading"
-                type="text"
-                class="mt-1 block w-full"
-                v-model="modelValue.subheading"
-                required
-                autofocus
-            />
             <div>
                 <button type="button"
                         @click.prevent="emit('remove', modelValue)"

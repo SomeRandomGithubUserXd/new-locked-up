@@ -18,13 +18,13 @@ const quest = useForm({
     h1_en: '',
     short_description_ru: '',
     short_description_en: '',
-    related_quests: [],
+    related_quest_ids: [],
     block_id: null,
     show_at_home: false,
     is_popular: false,
     is_for_children: false,
     show_at_kids_celebration: false,
-    show_at_kids_corporate_parties: false,
+    show_at_corporate_parties: false,
     enabled: true,
     price_per_additional_player: 0,
     team_price: 0,
@@ -36,7 +36,7 @@ const quest = useForm({
     max_players: null,
     min_players_free: 1,
     max_players_free: null,
-    locates_near_subway_station: '',
+    located_near_subway_station: '',
     genre: '',
     rating: 10,
     advantages: [],
@@ -46,12 +46,23 @@ const quest = useForm({
     applied_sales: [],
     you_may_like_it_section_header: '',
     you_may_like_it_section_subheading: '',
-    you_may_like_it_section_quests: [],
+    you_may_like_it_section_quest_ids: [],
     schedule_blocks_section_header: '',
     schedule_blocks_section_text: '',
     schedule_section_blocks_bottom_text: '',
     schedule_id: null,
+    location_id: null,
+    difficulty: null,
+    quest_topic_ids: [],
 })
+
+const store = () => {
+    quest.post(route('quests.store'), {
+        onError: (err) => {
+            console.log(err)
+        }
+    })
+}
 </script>
 
 <template>
@@ -67,9 +78,13 @@ const quest = useForm({
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <quest-form v-model="quest"
+                                    @submit="store"
+                                    :quest-topics="props.questTopics"
+                                    :difficulty-levels="props.difficultyLevels"
+                                    :locations="props.locations"
                                     :schedules="props.schedules"
                                     :checkouts="props.checkouts"
-                                    :themes="props.projectMeta.themes"
+                                    :project-meta="props.projectMeta"
                                     :news-list="props.newsList.data"
                                     :quest-list="props.questList"
                                     :quest-blocks="props.questBlocks"/>

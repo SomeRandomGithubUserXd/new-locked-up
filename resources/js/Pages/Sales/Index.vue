@@ -57,6 +57,7 @@ const tableProps = ref({
 })
 
 const defaultFilter = {
+    search_string: null,
     promo_code: null,
     value: null,
     start_date: null,

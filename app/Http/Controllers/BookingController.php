@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Bookings\BookingRequest;
 use App\Http\Requests\Bookings\FilterRequest;
 use App\Http\Resources\BookingQuestResource;
+use App\Models\Location;
 use App\Models\Quests\Quest;
 use App\Traits\InteractsWithOrders;
 use Carbon\Carbon;
@@ -22,12 +23,16 @@ class BookingController extends Controller
         };
         $quests = Quest::query()
             ->where('name_ru', '!=', '')
+            ->when($request->get('location_id'), function (Builder $query) use ($request) {
+                return $query->where(['location_id' => $request->get('location_id')]);
+            })
             ->orderBy('name_ru')
             ->whereHas('schedule.scheduleItems', $typeCondition)
             ->with('schedule.scheduleItems', $typeCondition)
             ->paginate(10);
         return inertia('Bookings/Index', [
-            'quests' => BookingQuestResource::collection($quests, new Carbon($request->get('date')))
+            'quests' => BookingQuestResource::collection($quests, new Carbon($request->get('date'))),
+            'locations' => Location::get()
         ]);
     }
 

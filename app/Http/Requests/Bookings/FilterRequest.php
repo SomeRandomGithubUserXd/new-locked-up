@@ -9,7 +9,8 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => ['nullable', 'date']
+            'date' => ['nullable', 'date'],
+            'location_id' => ['nullable', 'exists:locations,id'],
         ];
     }
 

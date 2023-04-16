@@ -10,6 +10,7 @@ use App\Http\Resources\Sale\SaleResource;
 use App\Models\Quests\Quest;
 use App\Models\Sales\Sale;
 use App\Traits\InteractsWithSales;
+use App\Traits\QueryTools;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\RedirectResponse;
@@ -17,7 +18,7 @@ use ReflectionException;
 
 class SaleController extends AbstractControllerWithMultipleDeletion
 {
-    use InteractsWithSales;
+    use InteractsWithSales, QueryTools;
 
     /**
      * @throws ReflectionException
@@ -25,6 +26,14 @@ class SaleController extends AbstractControllerWithMultipleDeletion
     public function index(FilterRequest $request)
     {
         $sales = Sale::query()
+            ->when($request->get('search_string'), function (Builder $query) use ($request) {
+                return $this
+                    ->getWhereLikeManyQuery(
+                        $query,
+                        ['promocode', 'value', 'start_date', 'best_before'],
+                        $request->get('search_string')
+                    );
+            })
             ->when($request->get('promo_code'), function (Builder $query) use ($request) {
                 $query->where('promocode', 'like', '%' . $request->get('promo_code') . '%');
             })

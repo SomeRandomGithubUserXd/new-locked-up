@@ -15,18 +15,14 @@ import QuestAdvantageForm from "@/Components/Quest/QuestAdvantageForm.vue";
 import QuestOptionForm from "@/Components/Quest/QuestOptionForm.vue";
 import DataTable from "@/Components/Common/DataTable.vue";
 import Tabs from "@/Components/Common/Tabs.vue";
+import {questProps} from "@/Traits/QuestTrait";
 
 const props = defineProps({
     modelValue: {
         required: true,
         default: useForm({})
     },
-    questList: Array,
-    questBlocks: Array,
-    newsList: Array,
-    themes: Array,
-    checkouts: Array,
-    schedules: Array,
+    ...questProps
 })
 
 const blocks = reactive({
@@ -45,22 +41,24 @@ const blocks = reactive({
 const locale = ref('ru')
 
 const getAttribute = (name) => {
-    getAttributeInstance(name, locale.value)
+    return getAttributeInstance(name, locale.value)
 }
 
 const emit = defineEmits(['submit'])
 
 const addAdvantage = () => {
     props.modelValue.advantages.push({
-        imageSrc: '',
+        // imageSrc: '',
         header: '',
         shortDescription: '',
     })
 }
 
+console.log(props.modelValue.advantages)
+
 const addOption = () => {
     props.modelValue.options.push({
-        imageSrc: '',
+        // imageSrc: '',
         header: '',
         subheading: '',
     })
@@ -85,6 +83,10 @@ const tabsArray = [
     {
         name: 'Фильтры',
         value: 'filters'
+    },
+    {
+        name: 'Отзывы',
+        value: 'reviews'
     },
     {
         name: 'Фотографии',
@@ -136,10 +138,20 @@ const scheduleItemTableProps = computed({
     },
 })
 
-watch(() => props.modelValue.schedule_id, async (val) => {
+onMounted(() => {
+    if (props.modelValue.schedule_id) {
+        loadScheduleItems(props.modelValue.schedule_id)
+    }
+})
+
+const loadScheduleItems = (val) => {
     axios.get(route('schedule-items.index', val)).then((resp) => {
         scheduleItems.value = resp.data
     })
+}
+
+watch(() => props.modelValue.schedule_id, async (val) => {
+    loadScheduleItems(val)
 })
 </script>
 
@@ -177,10 +189,9 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                             <div class="mt-1">
                                 <select
                                     id="theme"
-                                    required
                                     class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     v-model="modelValue.theme">
-                                    <option :value="theme.key" v-for="theme in props.themes">
+                                    <option :value="theme.key" v-for="theme in props.projectMeta.themes">
                                         {{ theme.name }}
                                     </option>
                                 </select>
@@ -191,7 +202,6 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                             <div class="mt-1">
                                 <select
                                     id="checkout_id"
-                                    required
                                     class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     v-model="modelValue.checkout_id">
                                     <option :value="option.id" v-for="option in props.checkouts">
@@ -270,9 +280,12 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                         <div class="col-span-6 sm:col-span-6">
                             <label for="options" class="block text-sm font-medium text-gray-700"> Связанные
                                 квесты </label>
-                            <a class="text-indigo-600 text-sm" href="#" @click.prevent="modelValue.related_quests = []">Очистить</a>
+                            <a class="text-indigo-600 text-sm" href="#"
+                               @click.prevent="modelValue.related_quest_ids = []">Очистить</a>
                             <div class="mt-1">
-                                <v-select v-model="modelValue.related_quests" multiple="" label="name_ru"
+                                <v-select v-model="modelValue.related_quest_ids" multiple=""
+                                          :reduce="option => option.id"
+                                          label="name_ru"
                                           :options="props.questList">
                                     <template v-slot:option="option">
                                         {{ option.name_ru }}
@@ -463,15 +476,15 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                 <template #content>
                     <div class="grid grid-cols-6 gap-6 w-full">
                         <div class="col-span-6 sm:col-span-1">
-                            <InputLabel for="locates_near_subway_station" value="Метро"/>
+                            <InputLabel for="located_near_subway_station" value="Метро"/>
                             <TextInput
-                                id="locates_near_subway_station"
+                                id="located_near_subway_station"
                                 type="text"
                                 class="mt-1 block w-full"
-                                v-model="modelValue.locates_near_subway_station"
+                                v-model="modelValue.located_near_subway_station"
 
                             />
-                            <InputError class="mt-2" :message="modelValue.errors.locates_near_subway_station"/>
+                            <InputError class="mt-2" :message="modelValue.errors.located_near_subway_station"/>
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <InputLabel for="genre" value="Жанр"/>
@@ -488,7 +501,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                             <InputLabel for="rating" value="Рейтинг"/>
                             <TextInput
                                 id="rating"
-                                type="text"
+                                type="number"
                                 class="mt-1 block w-full"
                                 v-model="modelValue.rating"
 
@@ -638,18 +651,19 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                             <InputError class="mt-2" :message="modelValue.errors.you_may_like_it_section_subheading"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <InputLabel for="you_may_like_it_section_quests" value="Отображаемые квесты"/>
+                            <InputLabel for="you_may_like_it_section_quest_ids" value="Отображаемые квесты"/>
                             <a class="text-indigo-600 text-sm" href="#"
-                               @click.prevent="modelValue.you_may_like_it_section_quests = []">Очистить</a>
+                               @click.prevent="modelValue.you_may_like_it_section_quest_ids = []">Очистить</a>
                             <div class="mt-1">
-                                <v-select class="scrollable-select" v-model="modelValue.you_may_like_it_section_quests"
+                                <v-select class="scrollable-select"
+                                          v-model="modelValue.you_may_like_it_section_quest_ids"
                                           multiple
-                                          id="you_may_like_it_section_quests"
+                                          id="you_may_like_it_section_quest_ids"
                                           label="name_ru"
                                           :reduce="option => option.id"
                                           :options="props.questList"/>
                             </div>
-                            <InputError class="mt-2" :message="modelValue.errors.you_may_like_it_section_quests"/>
+                            <InputError class="mt-2" :message="modelValue.errors.you_may_like_it_section_quest_ids"/>
                         </div>
                     </div>
                 </template>
@@ -680,7 +694,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                             <InputError class="mt-2" :message="modelValue.errors.schedule_blocks_section_text"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <InputLabel for="schedule_section_blocks_bottom_text" value="Текст блока над расписанием"/>
+                            <InputLabel for="schedule_section_blocks_bottom_text" value="Текст блока под расписанием"/>
                             <textarea
                                 id="schedule_section_blocks_bottom_text"
                                 v-model="modelValue.schedule_section_blocks_bottom_text"
@@ -699,7 +713,6 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                     <select
                         id="quest"
                         v-model="modelValue.schedule_id"
-                        required
                         class="appearance-none block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option value="">
                             Нет
@@ -716,6 +729,51 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                         :needs-selection="false"
                         :table-props="scheduleItemTableProps"
                         :raw-data="scheduleItems"/>
+                </div>
+            </div>
+        </div>
+        <div v-if="currentTab.value === 'filters'">
+            <div class="grid grid-cols-6 gap-6 w-full">
+                <div class="col-span-6 sm:col-span-3">
+                    <InputLabel for="location_id" value="Локация"/>
+                    <select
+                        id="location_id"
+                        v-model="modelValue.location_id"
+                        class="appearance-none block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="">
+                            Нет
+                        </option>
+                        <option v-for="location in props.locations" :value="location.id">
+                            {{ location.name_ru }}
+                        </option>
+                    </select>
+                    <InputError class="mt-2" :message="modelValue.errors.location_id"/>
+                </div>
+                <div class="col-span-6 sm:col-span-3">
+                    <InputLabel for="difficulty" value="Сложность"/>
+                    <select
+                        id="difficulty"
+                        v-model="modelValue.difficulty"
+                        class="appearance-none block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="">
+                            Нет
+                        </option>
+                        <option v-for="difficulty in props.difficultyLevels" :value="difficulty.key">
+                            {{ difficulty.name }}
+                        </option>
+                    </select>
+                    <InputError class="mt-2" :message="modelValue.errors.difficulty"/>
+                </div>
+                <div class="col-span-6 sm:col-span-6">
+                    <InputLabel for="quest_topic_ids" value="Рубрики"/>
+                    <div class="mt-1">
+                        <v-select class="scrollable-select" v-model="modelValue.quest_topic_ids"
+                                  multiple=""
+                                  label="name_ru"
+                                  :reduce="option => option.id"
+                                  :options="props.questTopics"/>
+                        <InputError class="mt-2" :message="modelValue.errors.quest_topic_ids"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -795,9 +853,10 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                 </div>
             </div>
         </div>
-        <div class="shadow-2xl bg-white rounded-xl sticky bottom-1 z-40 mt-5 p-3">
+        <div class="shadow-2xl rounded-xl sticky bottom-1 z-40 my-5">
             <button type="submit"
-                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-xl text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    v-if="currentTab.value !== 'reviews'"
+                    class="w-full p-5 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-xl text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Сохранить
             </button>
         </div>

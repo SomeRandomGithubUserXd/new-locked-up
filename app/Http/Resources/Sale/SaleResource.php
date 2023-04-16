@@ -16,8 +16,8 @@ class SaleResource extends JsonResource
             'promo_code' => $this->promocode,
             'value' => $this->value,
             'type' => $this->type->getName(),
-            'best_before' => $this->best_before,
-            'start_date' => $this->start_date,
+            'best_before' => $this->best_before?->format('Y-m-d H:i:s'),
+            'start_date' => $this->start_date?->format('Y-m-d H:i:s'),
             'weekdays_only' => $this->weekday_only ? 'Да' : 'Нет',
             'quest_list' => $this->quests->implode('name_ru', ', <br/>')
         ];

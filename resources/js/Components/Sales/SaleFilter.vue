@@ -30,6 +30,17 @@ const emit = defineEmits(['submit', 'reset'])
             </label>
         </div>
         <div class="grid grid-cols-6 gap-6">
+            <div class="col-span-6 sm:col-span-6">
+                <InputLabel for="search_string" value="Поиск"/>
+                <TextInput
+                    id="search_string"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="modelValue.search_string"
+                    autofocus
+                />
+                <InputError class="mt-2" :message="modelValue.errors.search_string"/>
+            </div>
             <div class="col-span-6 sm:col-span-2">
                 <InputLabel for="promo_code" value="Промокод"/>
                 <TextInput

@@ -3,6 +3,9 @@ export const questProps = {
     questBlocks: Array,
     newsList: Object,
     projectMeta: Object,
-    checkouts: Object,
-    schedules: Object,
+    checkouts: Array,
+    schedules: Array,
+    locations: Array,
+    difficultyLevels: Array,
+    questTopics: Array,
 }

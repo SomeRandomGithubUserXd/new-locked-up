@@ -38,7 +38,7 @@ class PersonCertificate extends Model
         'status' => CertificateStatusEnum::class
     ];
 
-    public function certificate()
+    public function certificate(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Certificate::class, 'number', 'id');
     }

@@ -59,7 +59,8 @@ const tableProps = ref({
 })
 
 const defaultFilter = {
-    certificate_id: null
+    certificate_id: null,
+    search_string: null,
 }
 
 const filter = useForm(defaultFilter)
@@ -73,6 +74,7 @@ const reset = () => {
 }
 
 onMounted(() => {
+    filter.search_string = getCurrentUrlParam('search_string')
     filter.certificate_id = getCurrentUrlParam('certificate_id')
 })
 </script>
@@ -93,11 +95,21 @@ onMounted(() => {
                             <h2 class="font-semibold text-2xl">Фильтр</h2>
                             <div class="grid grid-cols-6 gap-6">
                                 <div class="col-span-6 sm:col-span-6">
-                                    <InputLabel for="source" value="Номер сертификата"/>
+                                    <InputLabel for="search_string" value="Поиск"/>
+                                    <TextInput
+                                        id="search_string"
+                                        type="text"
+                                        class="mt-1 block w-full"
+                                        v-model="filter.search_string"
+                                        autofocus
+                                    />
+                                    <InputError class="mt-2" :message="filter.errors.search_string"/>
+                                </div>
+                                <div class="col-span-6 sm:col-span-6">
+                                    <InputLabel for="number" value="Номер сертификата"/>
                                     <select
-                                        id="quest"
+                                        id="number"
                                         v-model="filter.certificate_id"
-                                        required
                                         class="appearance-none block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                         <option value="">
                                             Нет

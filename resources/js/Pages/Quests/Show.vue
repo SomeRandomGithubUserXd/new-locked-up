@@ -9,10 +9,11 @@ const props = defineProps({
     quest: Object,
     ...questProps
 })
-
-console.log(props.quest)
-
-const quest = useForm(props.quest)
+const questToUpdate = useForm(props.quest)
+console.log(props.quest.related_quest_ids)
+const submit = () => {
+    questToUpdate.patch(route('quests.update', props.quest.id))
+}
 </script>
 
 <template>
@@ -27,11 +28,18 @@ const quest = useForm(props.quest)
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <quest-form v-model="quest"
-                                    :themes="props.projectMeta.themes"
+                        <quest-form v-model="questToUpdate"
+                                    :quest-topics="props.questTopics"
+                                    :difficulty-levels="props.difficultyLevels"
+                                    :locations="props.locations"
+                                    :schedules="props.schedules"
+                                    :checkouts="props.checkouts"
+                                    :project-meta="props.projectMeta"
                                     :news-list="props.newsList.data"
                                     :quest-list="props.questList"
-                                    :quest-blocks="props.questBlocks"/>
+                                    :quest-blocks="props.questBlocks"
+                                    @submit="submit"
+                        />
                     </div>
                 </div>
             </div>

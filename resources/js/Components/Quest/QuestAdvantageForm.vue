@@ -10,7 +10,7 @@ const props = defineProps({
         required: true,
         type: Object,
         default: {
-            imageSrc: [String, File],
+            // imageSrc: [String, File],
             header: String,
             shortDescription: String
         }
@@ -18,17 +18,18 @@ const props = defineProps({
 })
 
 watch(() => props.modelValue, value => {
-    console.log(value)
+
 }, {deep: true})
 
 const emit = defineEmits(['remove'])
+console.log(props)
 </script>
 
 <template>
     <div>
         <form class="flex flex-col shadow p-3 bg-gray-100 rounded" @submit.prevent>
             <div>
-                <file-input v-model="modelValue.imageSrc"/>
+<!--                <file-input v-model="modelValue.imageSrc"/>-->
             </div>
             <div class="mt-3">
                 <InputLabel for="header" value="Заголовок"/>

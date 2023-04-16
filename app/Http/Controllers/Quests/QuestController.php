@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Quests;
 
+use App\Enums\QuestDifficultyLevelEnum;
 use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\Quests\GetQuestScheduleRequest;
+use App\Http\Requests\Quests\QuestRequest;
 use App\Http\Resources\Quests\NewsListResource;
 use App\Http\Resources\Quests\QuestResource;
 use App\Models\News\News;
@@ -26,7 +28,7 @@ class QuestController extends AbstractControllerWithMultipleDeletion
     public function index()
     {
         return inertia('Quests/Index', [
-            'quests' => QuestResource::collection(Quest::orderBy('ord')->paginate(15)),
+            'quests' => QuestResource::collection(Quest::paginate(15)),
         ]);
     }
 
@@ -41,6 +43,58 @@ class QuestController extends AbstractControllerWithMultipleDeletion
             'quest' => QuestResource::singleItem($quest),
             ...$this->getQuestMisc()
         ]);
+    }
+
+    public function store(QuestRequest $request)
+    {
+        $rawData = $request->getUnRefactoredValidatedData();
+        unset(
+            $rawData['related_quest_ids'],
+            $rawData['advantages'],
+            $rawData['options'],
+            $rawData['applied_sales'],
+            $rawData['you_may_like_it_section_quest_ids'],
+            $rawData['quest_topic_ids'],
+        );
+        $quest = Quest::create($rawData);
+        $this->refreshRelations($quest, $request);
+        return redirect()->route('quests.index');
+    }
+
+    public function update(QuestRequest $request, Quest $quest)
+    {
+        $rawData = $request->getUnRefactoredValidatedData();
+        unset(
+            $rawData['related_quest_ids'],
+            $rawData['advantages'],
+            $rawData['options'],
+            $rawData['applied_sales'],
+            $rawData['you_may_like_it_section_quest_ids'],
+            $rawData['quest_topic_ids'],
+        );
+        $quest->update($rawData);
+        $this->refreshRelations($quest, $request);
+        return redirect()->route('quests.index');
+    }
+
+    protected function refreshRelations(Quest $quest, QuestRequest $request)
+    {
+        $quest->relatedQuests()->sync($request->get('related_quest_ids'));
+        $quest->questAdvantages()->delete();
+        foreach ($request->get('advantages') as $item) {
+            $quest->questAdvantages()->firstOrCreate([
+                'name_ru' => $item['header'],
+                'description_ru' => $item['shortDescription']
+            ]);
+        }
+        $quest->questOptions()->delete();
+        foreach ($request->get('options') as $item) {
+            $quest->questOptions()->firstOrCreate([
+                'name_ru' => $item['header'],
+            ]);
+        }
+        $quest->news()->sync($request->get('applied_sales'));
+        $quest->questTopics()->sync($request->get('quest_topic_ids'));
     }
 
     public function getQuestMeta(Quest $quest, GetQuestScheduleRequest $request): JsonResponse

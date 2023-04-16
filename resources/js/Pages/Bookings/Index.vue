@@ -10,11 +10,13 @@ import {getCurrentUrlParam} from "@/Traits/Tools";
 import Pagination from "@/Components/Common/Pagination.vue";
 
 const props = defineProps({
-    quests: Object
+    quests: Object,
+    locations: Array
 })
 
 const defaultFilter = {
-    date: null
+    date: null,
+    location_id: null
 }
 
 const filter = useForm(defaultFilter)
@@ -22,6 +24,7 @@ const filter = useForm(defaultFilter)
 onMounted(() => {
     const date = getCurrentUrlParam('date') || new Date().toJSON().slice(0, 10)
     filter.date = date
+    filter.location_id = getCurrentUrlParam('location_id')
     router.reload({data: {date}})
 })
 
@@ -62,7 +65,7 @@ const writeOrder = (time, quest_id) => {
                     <div class="p-6">
                         <form @submit.prevent="submit">
                             <h2 class="font-semibold text-2xl">Фильтр</h2>
-                            <div>
+                            <div class="mt-3">
                                 <InputLabel for="date" value="Дата"/>
                                 <TextInput
                                     id="date"
@@ -73,6 +76,20 @@ const writeOrder = (time, quest_id) => {
                                     autofocus
                                 />
                                 <InputError class="mt-2" :message="filter.errors.date"/>
+                            </div>
+                            <div class="mt-3">
+                                <InputLabel for="location_id" value="Локация"/>
+                                <select
+                                    id="location_id"
+                                    v-model="filter.location_id"
+                                    class="appearance-none block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="">
+                                        Нет
+                                    </option>
+                                    <option v-for="location in props.locations" :value="location.id">
+                                        {{ location.name_ru }}
+                                    </option>
+                                </select>
                             </div>
                             <div class="mt-5">
                                 <button type="submit"
