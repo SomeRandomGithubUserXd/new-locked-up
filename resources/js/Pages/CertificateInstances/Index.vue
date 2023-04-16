@@ -3,9 +3,12 @@ import {Head, router} from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {ref} from "vue";
 import DataTable from "@/Components/Common/DataTable.vue";
+import CertificateSelect from "@/Components/Orders/CertificateSelect.vue";
+import CertificateInstanceStatusSelect from "@/Components/Certificates/CertificateInstanceStatusSelect.vue";
 
 const props = defineProps({
-    certificateInstances: Object
+    certificateInstances: Object,
+    certificateStatuses: Array,
 })
 
 const tableProps = ref({
@@ -20,7 +23,13 @@ const tableProps = ref({
         },
         {
             name: 'Статус',
-            getValue: (certificate) => `<span style="color:${certificate.status.color}">${certificate.status.name}</span>`
+            getValue: (item) => ({
+                component: CertificateInstanceStatusSelect,
+                meta: {
+                    certificateStatuses: props.certificateStatuses,
+                    item
+                }
+            })
         },
     ],
     actions: [
@@ -50,7 +59,8 @@ const tableProps = ref({
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <data-table :create-link="route('certificate-instances.create')"
-                                    :delete-many-route="route('certificate-instances.destroy-many')" :table-props="tableProps"
+                                    :delete-many-route="route('certificate-instances.destroy-many')"
+                                    :table-props="tableProps"
                                     :items-resource="props.certificateInstances"/>
                     </div>
                 </div>

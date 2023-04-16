@@ -75,7 +75,7 @@ const optionSum = computed({
 const playersSum = computed({
     get() {
         return getPlayersSum(
-            Number(props.modelValue.players_count) + Number(props.modelValue.additional_players),
+            Number(questMeta.value.max_players) + Number(props.modelValue.additional_players),
             questMeta.value.min_players,
             questMeta.value.max_players,
             questMeta.value.price_per_participant
@@ -136,32 +136,30 @@ const selectedLoungeScheduleItems = computed({
                     </select>
                 </div>
             </div>
-            <div class="col-span-6 sm:col-span-2" v-if="questMeta.min_players || questMeta.max_players">
-                <label for="players_count" class="block text-sm font-medium text-gray-700"> Количество игроков </label>
-                <div class="mt-1">
-                    <select
-                        v-model="modelValue.players_count"
-                        required
-                        id="players_count"
-                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <template v-for="count in questMeta.max_players">
-                            <option
-                                :value="count"
-                                v-if="count >= questMeta.min_players">
-                                {{ count }}
-                            </option>
-                        </template>
-                    </select>
-                </div>
-            </div>
-            <div class="col-span-6 sm:col-span-2" v-if="questMeta.min_players || questMeta.max_players">
+<!--            <div class="col-span-6 sm:col-span-2" v-if="questMeta.min_players || questMeta.max_players">-->
+<!--                <label for="players_count" class="block text-sm font-medium text-gray-700"> Количество игроков </label>-->
+<!--                <div class="mt-1">-->
+<!--                    <select-->
+<!--                        v-model="modelValue.players_count"-->
+<!--                        required-->
+<!--                        id="players_count"-->
+<!--                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
+<!--                        <template v-for="count in questMeta.max_players">-->
+<!--                            <option-->
+<!--                                :value="count"-->
+<!--                                v-if="count >= questMeta.min_players">-->
+<!--                                {{ count }}-->
+<!--                            </option>-->
+<!--                        </template>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="col-span-6 sm:col-span-4" v-if="questMeta.min_players || questMeta.max_players">
                 <label for="players_count" class="block text-sm font-medium text-gray-700"> Дополнительные
                     игроки </label>
                 <div class="mt-1">
                     <select
                         v-model="modelValue.additional_players"
-                        required
-                        :disabled="questMeta.max_players > modelValue.players_count"
                         id="players_count"
                         class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option :value="0">

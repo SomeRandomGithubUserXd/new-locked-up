@@ -14,18 +14,27 @@ use App\Models\Orders\OrderChangeLogItem;
 use App\Models\Orders\OrderFilter;
 use App\Models\Sales\Sale;
 use App\Traits\InteractsWithOrders;
+use App\Traits\QueryTools;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 
 class OrderController extends AbstractControllerWithMultipleDeletion
 {
-    use InteractsWithOrders;
+    use InteractsWithOrders, QueryTools;
 
     public function index(FilterRequest $request)
     {
         $query = Order::query()
             ->with('orderOptions')
+            ->when($request->search_string, function (Builder $query) use ($request) {
+                return $this
+                    ->getWhereLikeManyQuery(
+                        $query,
+                        ['id', 'customer_name', 'customer_phone', 'customer_email'],
+                        $request->get('search_string')
+                    );
+            })
             ->when($request->date_from, static function (Builder $query) use ($request) {
                 $query->where('date', '>=', strtotime($request->get('date_from')));
             })

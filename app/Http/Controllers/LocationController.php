@@ -39,7 +39,7 @@ class LocationController extends AbstractControllerWithMultipleDeletion
     public function update(Location $location, LocationRequest $request)
     {
         $location->update($request->getUnRefactoredValidatedData());
-        return redirect()->back();
+        return redirect()->route('locations.index');
     }
 
     public function destroyMany(ActionWithManyRequest $request): RedirectResponse

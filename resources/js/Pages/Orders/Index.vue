@@ -13,6 +13,9 @@ import {collect} from "collect.js";
 import ExpandableBlock from "@/Components/Common/ExpandableBlock.vue";
 import {TrashIcon, PencilIcon, ClockIcon} from "@heroicons/vue/24/solid";
 import CertificateSelect from "@/Components/Orders/CertificateSelect.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import TextInput from "@/Components/TextInput.vue";
+import InputError from "@/Components/InputError.vue";
 
 const usingFilter = ref(null);
 
@@ -55,7 +58,13 @@ const tableProps = ref({
         },
         {
             name: 'Номер сертификата',
-            getValue: () => CertificateSelect
+            getValue: (item) => ({
+                component: CertificateSelect,
+                meta: {
+                    certificateList: props.certificateList,
+                    item
+                }
+            })
         },
         {
             name: 'Квест',
@@ -111,6 +120,7 @@ const tableProps = ref({
 })
 
 const defaultFilter = {
+    search_string: null,
     date_from: null,
     date_to: null,
     quest_ids: [],
@@ -263,6 +273,18 @@ const showSums = ref(true)
                             </div>
                         </div>
                         <hr class="mb-5"/>
+                        <div class="col-span-6 sm:col-span-1">
+                            <input-label for="search_string" value="Поиск"/>
+                            <text-input
+                                id="search_string"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="filter.search_string"
+
+                            />
+                            <input-error class="mt-2" :message="filter.errors.search_string"/>
+                        </div>
+                        <hr class="my-5"/>
                         <order-filter
                             :disabled="!!usingFilter"
                             :quest-list="props.questList"

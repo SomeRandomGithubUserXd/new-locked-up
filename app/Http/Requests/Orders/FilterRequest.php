@@ -16,6 +16,7 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'search_string' => ['nullable', 'string'],
             'date_from' => ['nullable', 'date'],
             'date_to' => ['nullable', 'date'],
             'quest_ids' => ['nullable', 'array'],
