@@ -13,6 +13,7 @@ use App\Models\Orders\Order;
 use App\Models\Orders\OrderChangeLogItem;
 use App\Models\Orders\OrderFilter;
 use App\Models\Sales\Sale;
+use App\Models\Schedules\ScheduleItem;
 use App\Traits\InteractsWithOrders;
 use App\Traits\QueryTools;
 use Carbon\Carbon;
@@ -95,7 +96,8 @@ class OrderController extends AbstractControllerWithMultipleDeletion
         $order = Order::create($request->getUnRefactoredValidatedData());
         \DB::table('booked_date_schedule_item')->insert([
             'date' => $request->get('date') ?: Carbon::now()->format('Y-m-d'),
-            'schedule_item_id' => $request->schedule_item_id
+            'schedule_item_id' => $request->schedule_item_id,
+            'order_id' => $order->id,
         ]);
         $order->orderOptions()->sync(collect($request->get('options'))->pluck('id'));
         return redirect()->route('orders.index');
@@ -104,6 +106,13 @@ class OrderController extends AbstractControllerWithMultipleDeletion
     public function update(Order $order, OrderRequest $request)
     {
         $order->update($request->getUnRefactoredValidatedData());
+        \DB::table('booked_date_schedule_item')->where([
+            'date' => $order->date->format('Y-m-d'),
+            'order_id' => $order->id,
+        ])->update([
+            'schedule_item_id' => $request->schedule_item_id,
+            'date' => $request->get('date') ?: Carbon::now()->format('Y-m-d')
+        ]);
         $order->orderOptions()->sync(collect($request->get('options'))->pluck('id'));
         return redirect()->route('orders.index');
     }

@@ -1,4 +1,4 @@
-<script setup>
+]<script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import OrderForm from "@/Components/Orders/OrderForm.vue";
 import {Head, router, useForm} from "@inertiajs/vue3";
