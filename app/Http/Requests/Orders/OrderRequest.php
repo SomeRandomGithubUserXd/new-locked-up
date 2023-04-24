@@ -21,7 +21,7 @@ class OrderRequest extends FormRequest
             'date' => ['required', 'date'],
             'time' => ['required', 'string'],
             'customer_name' => ['required', 'string'],
-            'customer_email' => ['required', 'email'],
+            'customer_email' => ['nullable', 'email'],
             'customer_phone' => ['required', 'string'],
             'source' => ['required', 'exists:order_sources,id'],
             'option' => ['required', 'string'],

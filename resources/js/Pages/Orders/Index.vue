@@ -60,7 +60,7 @@ const tableProps = ref({
             },
         },
         {
-            name: 'Номер <br/> сертификата',
+            name: 'Промокод <br/> сертификат',
             getValue: (item) => ({
                 component: CertificateSelect,
                 meta: {
@@ -206,7 +206,51 @@ const showSums = ref(true)
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <expandable-block v-model="showSums" class="my-5">
+                        <h2 class="font-semibold text-2xl">Фильтр</h2>
+                        <div class="grid grid-cols-6 gap-6 my-5">
+                            <div class="col-span-6 sm:col-span-2">
+                                <label for="quest_ids" class="block text-sm font-medium text-gray-700">
+                                    Фильтр
+                                </label>
+                                <div class="mt-1">
+                                    <select
+                                        id="quest"
+                                        v-model="usingFilter"
+                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <option :value="filter.id" v-for="filter in props.filters">
+                                            {{ filter.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-5"/>
+                        <div class="col-span-6 sm:col-span-1">
+                            <input-label for="search_string" value="Поиск"/>
+                            <text-input
+                                id="search_string"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="filter.search_string"
+
+                            />
+                            <input-error class="mt-2" :message="filter.errors.search_string"/>
+                        </div>
+                        <hr class="my-5"/>
+                        <order-filter
+                            :disabled="!!usingFilter"
+                            :quest-list="props.questList"
+                            :option-list="props.optionList"
+                            :source-list="props.sourceList"
+                            :promo-code-list="props.promoCodeList"
+                            :certificate-list="props.certificateList"
+                            :order-statuses="props.orderStatuses"
+                            :quest-options="props.questOptions"
+                            v-model="filter" @submit="search" @to-excel="toExcel" @reset="reset"/>
+                        <data-table :create-link="route('orders.create')"
+                                    :delete-many-route="route('orders.destroy-many')"
+                                    :table-props="tableProps" :items-resource="orders"/>
+                        <expandable-block v-model="showSums" class="mt-5">
                             <template #header>
                                 <h2 class="text-lg font-semibold">Итоги</h2>
                             </template>
@@ -259,51 +303,6 @@ const showSums = ref(true)
                                 </table>
                             </template>
                         </expandable-block>
-                        <hr class="mb-5"/>
-                        <h2 class="font-semibold text-2xl">Фильтр</h2>
-                        <div class="grid grid-cols-6 gap-6 my-5">
-                            <div class="col-span-6 sm:col-span-2">
-                                <label for="quest_ids" class="block text-sm font-medium text-gray-700">
-                                    Фильтр
-                                </label>
-                                <div class="mt-1">
-                                    <select
-                                        id="quest"
-                                        v-model="usingFilter"
-                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option :value="filter.id" v-for="filter in props.filters">
-                                            {{ filter.name }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="mb-5"/>
-                        <div class="col-span-6 sm:col-span-1">
-                            <input-label for="search_string" value="Поиск"/>
-                            <text-input
-                                id="search_string"
-                                type="text"
-                                class="mt-1 block w-full"
-                                v-model="filter.search_string"
-
-                            />
-                            <input-error class="mt-2" :message="filter.errors.search_string"/>
-                        </div>
-                        <hr class="my-5"/>
-                        <order-filter
-                            :disabled="!!usingFilter"
-                            :quest-list="props.questList"
-                            :option-list="props.optionList"
-                            :source-list="props.sourceList"
-                            :promo-code-list="props.promoCodeList"
-                            :certificate-list="props.certificateList"
-                            :order-statuses="props.orderStatuses"
-                            :quest-options="props.questOptions"
-                            v-model="filter" @submit="search" @to-excel="toExcel" @reset="reset"/>
-                        <data-table :create-link="route('orders.create')"
-                                    :delete-many-route="route('orders.destroy-many')"
-                                    :table-props="tableProps" :items-resource="orders"/>
                     </div>
                 </div>
             </div>

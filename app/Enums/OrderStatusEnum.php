@@ -27,7 +27,7 @@ enum OrderStatusEnum: int implements ISerializableEnum
     public function getName(): string
     {
         return match ($this) {
-            self::not_viewed => 'Не отработан',
+            self::not_viewed => 'Не обработан',
             self::to_call_1 => 'Прозвон 1',
             self::to_call_2 => 'Прозвон 2',
             self::rescheduled => 'Перенос',

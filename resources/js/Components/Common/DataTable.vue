@@ -152,6 +152,6 @@ const hasAnyItems = computed({
 
 <style scoped>
 .font-size-all * {
-    font-size: 11px;
+    font-size: 15px;
 }
 </style>
