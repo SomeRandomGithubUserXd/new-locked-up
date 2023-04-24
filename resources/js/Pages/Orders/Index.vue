@@ -43,7 +43,7 @@ const tableProps = ref({
         {
             name: 'Заказ',
             getRowStyle: (item) => {
-                return 'white-space: normal !important;' + `background-color:${getOrderStatus(item.status).color}`
+                return 'white-space: normal !important;' + `background-color:${getOrderStatus(item.status).color};color: black`
             },
             getValue: (order) => {
                 return `№${order.id} <br/> ${getOrderStatus(order.status).name} <br/> ${order.created_at}`
@@ -54,21 +54,27 @@ const tableProps = ref({
             getValue: (order) => {
                 if (!order.customer_name || !order.customer_email || !order.customer_phone) return ''
                 return `${order.customer_name} <br/> ${order.customer_email} <br/> ${order.customer_phone}`
-            }
+            },
+            getRowStyle: (item) => {
+                return 'max-width: 150px;text-overflow: ellipsis;overflow: hidden'
+            },
         },
         {
-            name: 'Номер сертификата',
+            name: 'Номер <br/> сертификата',
             getValue: (item) => ({
                 component: CertificateSelect,
                 meta: {
                     certificateList: props.certificateList,
                     item
                 }
-            })
+            }),
         },
         {
             name: 'Квест',
-            getValue: (order) => order.quest
+            getValue: (order) => order.quest,
+            getRowStyle: (item) => {
+                return 'max-width: 100px;white-space: normal !important;'
+            },
         },
         {
             name: 'Время игры',
@@ -85,7 +91,7 @@ const tableProps = ref({
             }
         },
         {
-            name: 'Осталось оплатить',
+            name: 'К оплате',
             getValue: (order) => {
                 return `${getOrderPriceToPay(order.price_total, order)} руб.`
             }
@@ -97,7 +103,7 @@ const tableProps = ref({
         {
             name: 'Комментарий',
             getRowStyle: (item) => {
-                return 'white-space: normal !important'
+                return 'white-space: normal !important;max-width: 150px;white-space: normal !important;'
             },
             getValue: (order) => order?.comment
         },

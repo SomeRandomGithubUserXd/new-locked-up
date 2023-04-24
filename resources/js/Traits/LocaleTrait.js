@@ -43,6 +43,58 @@ export const localePointers = {
         ru: 'seo_ru',
         en: 'seo_en',
     },
+    meta_title: {
+        ru: 'meta_title_ru',
+        en: 'meta_title_en',
+    },
+    meta_description: {
+        ru: 'meta_description_ru',
+        en: 'meta_description_en',
+    },
+    meta_keywords: {
+        ru: 'meta_keywords_ru',
+        en: 'meta_keywords_en',
+    },
+    announce: {
+        ru: 'announce_ru',
+        en: 'announce_en',
+    },
+    badge: {
+        ru: 'badge_ru',
+        en: 'badge_en',
+    },
+    text: {
+        ru: 'text_ru',
+        en: 'text_en',
+    },
+    conditions_header: {
+        ru: 'conditions_header_ru',
+        en: 'conditions_header_en',
+    },
+    conditions_text: {
+        ru: 'conditions_text_ru',
+        en: 'conditions_text_en',
+    },
+    book_button_text: {
+        ru: 'book_button_text_ru',
+        en: 'book_button_text_en',
+    },
+    book_button_link: {
+        ru: 'book_button_link_ru',
+        en: 'book_button_link_en',
+    },
+    instruction_text: {
+        ru: 'instruction_text_ru',
+        en: 'instruction_text_en',
+    },
+    seo_text: {
+        ru: 'seo_text_ru',
+        en: 'seo_text_en',
+    },
+    quests_title: {
+        ru: 'quests_title_ru',
+        en: 'quests_title_en',
+    },
 }
 
 export const getAttribute = (name, locale) => {

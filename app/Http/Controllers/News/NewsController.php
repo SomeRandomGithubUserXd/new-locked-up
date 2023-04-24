@@ -19,9 +19,9 @@ class NewsController extends AbstractControllerWithMultipleDeletion
 
     public function show(News $news)
     {
-//        return inertia('News/Show', [
-//            'news' => NewsResource::singleItem($news)
-//        ]);
+        return inertia('News/Show', [
+            'news' => NewsResource::singleItem($news)
+        ]);
     }
 
     public function destroyMany(ActionWithManyRequest $request): RedirectResponse
