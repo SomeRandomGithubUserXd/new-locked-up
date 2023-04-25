@@ -12,6 +12,7 @@ use App\Http\Controllers\ModalsController;
 use App\Http\Controllers\News\NewsController;
 use App\Http\Controllers\Orders\OrderController;
 use App\Http\Controllers\Orders\OrderFilterController;
+use App\Http\Controllers\Orders\OrderPaymentController;
 use App\Http\Controllers\Orders\OrderSourceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Quests\ChildQuestTopicController;
@@ -83,19 +84,25 @@ Route::middleware('auth')->group(function () {
     );
 
     // Modals
-    Route::group(['prefix' => '/modals', 'as' => 'modals.'], function (){
-       Route::get('/main', [ModalsController::class, 'main'])->name('main');
+    Route::group(['prefix' => '/modals', 'as' => 'modals.'], function () {
+        Route::get('/main', [ModalsController::class, 'main'])->name('main');
+        Route::patch('/update_advert_modal', [ModalsController::class, 'updateAdvertModal'])->name('update-advert-modal');
     });
 
     // Settings
-    Route::group(['prefix' => '/settings', 'as' => 'settings.'], function (){
-       Route::get('/', [SettingsController::class, 'index'])->name('index');
+    Route::group(['prefix' => '/settings', 'as' => 'settings.'], function () {
+        Route::get('/', [SettingsController::class, 'index'])->name('index');
     });
 
     // Quest additional routes
     Route::group(['prefix' => 'orders', 'as' => 'orders.'], static function () {
         Route::group(['prefix' => '{order}'], static function () {
-            Route::get('/view_logs', [OrderController::class, 'viewLogs'])->name('view-logs');
+            Route:: get('/view_logs', [OrderController::class, 'viewLogs'])->name('view-logs');
+            Route::group(['prefix' => 'payments', 'as' => 'payments.'], static function () {
+                Route::get('/', [OrderPaymentController::class, 'index'])->name('index');
+                Route::get('/create', [OrderPaymentController::class, 'create'])->name('create');
+                Route::post('/store', [OrderPaymentController::class, 'store'])->name('store');
+            });
         });
     });
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {

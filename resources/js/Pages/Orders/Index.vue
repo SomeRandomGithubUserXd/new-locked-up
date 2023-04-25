@@ -38,6 +38,10 @@ const viewLog = (order) => {
     router.get(route('orders.view-logs', order))
 }
 
+const payments = (order) => {
+    router.get(route('orders.payments.index', order))
+}
+
 const tableProps = ref({
     records: [
         {
@@ -109,6 +113,10 @@ const tableProps = ref({
         },
     ],
     actions: [
+        {
+            name: 'Оплата',
+            trigger: payments
+        },
         {
             name: 'Редактировать',
             icon: PencilIcon,

@@ -121,4 +121,9 @@ class Order extends Model
     {
         return $this->hasMany(OrderChangeLogItem::class, 'order_id');
     }
+
+    public function orderPayments(): HasMany
+    {
+        return $this->hasMany(OrderPayment::class, 'order_id');
+    }
 }

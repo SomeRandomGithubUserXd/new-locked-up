@@ -95,6 +95,18 @@ export const localePointers = {
         ru: 'quests_title_ru',
         en: 'quests_title_en',
     },
+    button_text: {
+        ru: 'button_text_ru',
+        en: 'button_text_en',
+    },
+    button_url: {
+        ru: 'button_url_ru',
+        en: 'button_url_en',
+    },
+    lead: {
+        ru: 'lead_ru',
+        en: 'lead_en',
+    },
 }
 
 export const getAttribute = (name, locale) => {
