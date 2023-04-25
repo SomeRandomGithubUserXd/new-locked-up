@@ -14,7 +14,7 @@ class ChangeEventItem
 
     protected string $givenValue;
 
-    public function __construct(ChangeEventEnum $type, string $fieldChanged = '', string $previousValue = '', string $givenValue = '')
+    public function __construct(ChangeEventEnum $type, string|null $fieldChanged = '', string|null $previousValue = '', string|null $givenValue = '')
     {
         $this->type = $type;
         $this->fieldChanged = $fieldChanged;

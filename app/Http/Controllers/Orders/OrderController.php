@@ -65,6 +65,8 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                 $params = explode('_', $request->get('order_by'));
                 if ($params[0] === 'time') $params[0] = 'date';
                 $query->orderBy($params[0], $params[1]);
+            }, static function (Builder $query) use ($request) {
+                $query->orderBy('date', 'desc');
             })
             ->when($request->with_options_only, static function (Builder $query) {
                 $query->whereHas('orderOptions');

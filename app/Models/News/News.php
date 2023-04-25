@@ -2,10 +2,13 @@
 
 namespace App\Models\News;
 
+use App\Traits\HasTimestamps;
 use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
 {
+    use HasTimestamps;
+
     // TODO: Refactor when DB will be restructured
     protected $fillable = [
         0 => 'id',

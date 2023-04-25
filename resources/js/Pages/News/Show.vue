@@ -15,7 +15,7 @@ const newsToUpdate = useForm(props.news)
 const update = () => {
     newsToUpdate.patch(route('news.update', props.news.id), {
         onError: (errs) => {
-            console.log(errs)
+            alert(Object.keys(errs).map(key => `${errs[key]} \n`))
         }
     })
 }

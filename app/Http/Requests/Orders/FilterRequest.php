@@ -9,7 +9,7 @@ class FilterRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'with_options_only' => define_as_bool($this->with_options_only)
+            'with_options_only' => define_as_bool($this->with_options_only),
         ]);
     }
 

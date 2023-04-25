@@ -8,6 +8,7 @@ import {getOptionsSum, getOrderPriceToPay, getOrderTotal, getPlayersSum, orderPr
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import {collect} from "collect.js";
+import { vMaska } from "maska"
 
 const emit = defineEmits(['submit'])
 
@@ -232,6 +233,8 @@ const selectedLoungeScheduleItems = computed({
                 <div class="col-span-6 sm:col-span-2">
                     <InputLabel for="customer_phone" value="Телефон клиента"/>
                     <TextInput
+                        v-maska
+                        data-maska="+7 (###) ### ##-##"
                         id="customer_phone"
                         type="text"
                         class="mt-1 block w-full"

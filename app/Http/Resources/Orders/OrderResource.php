@@ -20,7 +20,7 @@ class OrderResource extends JsonResource
             'customer_email' => $this->customer_email,
             'customer_phone' => $this->customer_phone,
             'created_at' => $this->created_at->format('d/m/Y'),
-            'date' => str_replace(' ', "<br/>", $this->date->format('d/m/Y H:i:s')),
+            'date' => str_replace(' ', "<br/>", $this->date?->format('d/m/Y H:i:s')),
             'source' => $this->source,
             'status' => $this->status,
             'comment' => $this->comment,
