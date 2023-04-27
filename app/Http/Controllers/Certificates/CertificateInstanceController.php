@@ -15,7 +15,7 @@ class CertificateInstanceController extends AbstractControllerWithMultipleDeleti
     public function index()
     {
         return inertia('CertificateInstances/Index', [
-            'certificateInstances' => CertificateInstanceResource::collection(Certificate::paginate(15)),
+            'certificateInstances' => CertificateInstanceResource::collection(Certificate::orderByDesc('id')->paginate(15)),
             'certificateStatuses' => CertificateInstanceStatusEnum::getArray()
         ]);
     }

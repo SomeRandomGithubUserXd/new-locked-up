@@ -44,7 +44,10 @@ const tableProps = ref({
         },
         {
             name: 'Комментарий',
-            getValue: (appeal) => appeal.comment
+            getValue: (appeal) => appeal.comment,
+            getRowStyle: (item) => {
+                return 'white-space: normal !important;max-width: 150px;white-space: normal !important;'
+            },
         }
     ],
     actions: [

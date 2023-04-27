@@ -8,7 +8,7 @@ import {getOptionsSum, getOrderPriceToPay, getOrderTotal, getPlayersSum, orderPr
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import {collect} from "collect.js";
-import { vMaska } from "maska"
+import {vMaska} from "maska"
 
 const emit = defineEmits(['submit'])
 
@@ -114,6 +114,13 @@ const selectedLoungeScheduleItems = computed({
 
     }
 })
+
+const promo_code_query = ref(props.modelValue.promo_code?.promocode || '')
+
+watch(promo_code_query, value => {
+    console.log(value)
+    props.modelValue.promo_code = collect(props.promoCodeList).where('promocode', '==', value).first()
+})
 </script>
 
 <template>
@@ -137,24 +144,24 @@ const selectedLoungeScheduleItems = computed({
                     </select>
                 </div>
             </div>
-<!--            <div class="col-span-6 sm:col-span-2" v-if="questMeta.min_players || questMeta.max_players">-->
-<!--                <label for="players_count" class="block text-sm font-medium text-gray-700"> Количество игроков </label>-->
-<!--                <div class="mt-1">-->
-<!--                    <select-->
-<!--                        v-model="modelValue.players_count"-->
-<!--                        required-->
-<!--                        id="players_count"-->
-<!--                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
-<!--                        <template v-for="count in questMeta.max_players">-->
-<!--                            <option-->
-<!--                                :value="count"-->
-<!--                                v-if="count >= questMeta.min_players">-->
-<!--                                {{ count }}-->
-<!--                            </option>-->
-<!--                        </template>-->
-<!--                    </select>-->
-<!--                </div>-->
-<!--            </div>-->
+            <!--            <div class="col-span-6 sm:col-span-2" v-if="questMeta.min_players || questMeta.max_players">-->
+            <!--                <label for="players_count" class="block text-sm font-medium text-gray-700"> Количество игроков </label>-->
+            <!--                <div class="mt-1">-->
+            <!--                    <select-->
+            <!--                        v-model="modelValue.players_count"-->
+            <!--                        required-->
+            <!--                        id="players_count"-->
+            <!--                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
+            <!--                        <template v-for="count in questMeta.max_players">-->
+            <!--                            <option-->
+            <!--                                :value="count"-->
+            <!--                                v-if="count >= questMeta.min_players">-->
+            <!--                                {{ count }}-->
+            <!--                            </option>-->
+            <!--                        </template>-->
+            <!--                    </select>-->
+            <!--                </div>-->
+            <!--            </div>-->
             <div class="col-span-6 sm:col-span-4" v-if="questMeta.min_players || questMeta.max_players">
                 <label for="players_count" class="block text-sm font-medium text-gray-700"> Дополнительные
                     игроки </label>
@@ -185,6 +192,7 @@ const selectedLoungeScheduleItems = computed({
                         type="date"
                         class="mt-1 block w-full"
                         v-model="modelValue.date"
+                        max='2024-12-30'
                         required
                     />
                     <InputError class="mt-2" :message="modelValue.errors.date"/>
@@ -277,20 +285,14 @@ const selectedLoungeScheduleItems = computed({
             </div>
             <div class="grid grid-cols-6 gap-6 mt-5">
                 <div class="col-span-6 sm:col-span-3">
-                    <label for="promo-code" class="block text-sm font-medium text-gray-700"> Промокод </label>
-                    <div class="mt-1">
-                        <select
-                            id="promo-code"
-                            v-model="modelValue.promo_code"
-                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option :value="null">
-                                Нет
-                            </option>
-                            <option v-for="promoCode in props.promoCodeList" :value="promoCode">
-                                {{ promoCode.promocode }}
-                            </option>
-                        </select>
-                    </div>
+                    <InputLabel for="promo_code" value="Промокод"/>
+                    <TextInput
+                        id="promo_code"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="promo_code_query"
+                    />
+                    <InputError class="mt-2" :message="modelValue.errors.promo_code"/>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">

@@ -40,7 +40,8 @@ class BookingController extends Controller
     {
         \DB::table('booked_date_schedule_item')->insert([
             'date' => $request->get('date'),
-            'schedule_item_id' => $scheduleId
+            'schedule_item_id' => $scheduleId,
+            'order_id' => 0
         ]);
         return redirect()->back();
     }
@@ -49,7 +50,8 @@ class BookingController extends Controller
     {
         \DB::table('booked_date_schedule_item')->where([
             'date' => $request->get('date'),
-            'schedule_item_id' => $scheduleId
+            'schedule_item_id' => $scheduleId,
+            'order_id' => 0
         ])->delete();
         return redirect()->back();
     }

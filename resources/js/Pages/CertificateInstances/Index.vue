@@ -15,7 +15,8 @@ const tableProps = ref({
     records: [
         {
             name: 'Номер',
-            getValue: (certificate) => certificate.number
+            getValue: (certificate) =>
+                `<span style="${certificate.status.key === 2 ? 'text-decoration: line-through' : ''}">` + certificate.number + '</span>'
         },
         {
             name: 'Номинал',
