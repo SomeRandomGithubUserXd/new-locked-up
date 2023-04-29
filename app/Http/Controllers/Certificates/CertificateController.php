@@ -16,6 +16,8 @@ use App\Traits\QueryTools;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use ReflectionException;
 
 class CertificateController extends AbstractControllerWithMultipleDeletion

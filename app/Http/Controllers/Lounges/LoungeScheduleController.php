@@ -29,6 +29,17 @@ class LoungeScheduleController extends AbstractControllerWithMultipleDeletion
         ]);
     }
 
+    public function create()
+    {
+        return inertia('LoungeSchedules/Create');
+    }
+
+    public function store(ScheduleRequest $request)
+    {
+        LoungeSchedule::create(['name' => $request->name]);
+        return redirect()->route('lounge-schedules.index');
+    }
+
     public function update(ScheduleRequest $request, LoungeSchedule $loungeSchedule)
     {
         $loungeSchedule->update(['name' => $request->get('name')]);

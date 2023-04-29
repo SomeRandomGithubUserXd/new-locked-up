@@ -73,6 +73,11 @@ Route::middleware('auth')->group(function () {
         new LoungeScheduleController('lounge-schedules'),
     );
 
+    // Certificate instances additional
+    Route::group(['prefix' => 'certificate-instances', 'as' => 'certificate-instances.'], function () {
+        Route::post('/upload', [CertificateInstanceController::class, 'upload'])->name('upload');
+    });
+
     // Users
     RouteConstructor::resourcesWithMultipleDeletion(
         new UserController('users')

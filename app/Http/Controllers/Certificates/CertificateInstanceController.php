@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Certificates;
 use App\Enums\Certificates\CertificateInstanceStatusEnum;
 use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Certificates\CertificateInstanceRequest;
+use App\Http\Requests\Certificates\CertificateUploadRequest;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Resources\Certificates\CertificateInstanceResource;
 use App\Models\Certificate;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class CertificateInstanceController extends AbstractControllerWithMultipleDeletion
 {
@@ -51,5 +54,30 @@ class CertificateInstanceController extends AbstractControllerWithMultipleDeleti
     {
         Certificate::whereIn('id', $request->get('ids'))->delete();
         return redirect()->route('certificate-instances.index');
+    }
+
+
+    public function upload(CertificateUploadRequest $request)
+    {
+        $path = \Storage::disk('temp')->put('', $request->file);
+        $storagePath = storage_path('app/temp' . '/' . $path);
+        $spreadsheet = IOFactory::load($storagePath);
+        $worksheet = $spreadsheet->getActiveSheet();
+        foreach ($worksheet->getRowIterator() as $row) {
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(true);
+            $cells = [];
+            foreach ($cellIterator as $cell) {
+                $cells[] = $cell->getValue();
+            }
+            if (is_numeric($cells[1])) {
+                Certificate::updateOrCreate(
+                    ['number' => $cells[0]],
+                    ['price' => $cells[1], 'status' => CertificateInstanceStatusEnum::active]
+                );
+            }
+        }
+        \Storage::disk('temp')->delete($path);
+        return redirect()->back();
     }
 }
