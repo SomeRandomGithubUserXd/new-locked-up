@@ -30,6 +30,7 @@ const submit = () => {
                     <div class="p-6">
                         <quest-form v-model="questToUpdate"
                                     :quest-topics="props.questTopics"
+                                    :quest-child-topics="props.questChildTopics"
                                     :difficulty-levels="props.difficultyLevels"
                                     :locations="props.locations"
                                     :schedules="props.schedules"
@@ -37,6 +38,7 @@ const submit = () => {
                                     :project-meta="props.projectMeta"
                                     :news-list="props.newsList.data"
                                     :quest-list="props.questList"
+                                    :load-list="props.loadList"
                                     :quest-blocks="props.questBlocks"
                                     @submit="submit"
                         />

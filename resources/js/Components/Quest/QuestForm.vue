@@ -54,8 +54,6 @@ const addAdvantage = () => {
     })
 }
 
-console.log(props.modelValue.advantages)
-
 const addOption = () => {
     props.modelValue.options.push({
         // imageSrc: '',
@@ -267,6 +265,34 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                             </div>
                             <InputError class="mt-2"
                                         :message="modelValue.errors[getAttribute('full_description')]"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-1">
+                            <input-label for="file" value="Баннер (1920х790px)"/>
+                            <input
+                                id="file"
+                                type="file"
+                            />
+                        </div>
+                        <div class="col-span-6 sm:col-span-1">
+                            <input-label for="file" value="Баннер моб. (480х480px)"/>
+                            <input
+                                id="file"
+                                type="file"
+                            />
+                        </div>
+                        <div class="col-span-6 sm:col-span-1">
+                            <input-label for="file" value="Превью баннера (520х445px)"/>
+                            <input
+                                id="file"
+                                type="file"
+                            />
+                        </div>
+                        <div class="col-span-6 sm:col-span-1">
+                            <input-label for="file" value="Превью расписания (165х130px)"/>
+                            <input
+                                id="file"
+                                type="file"
+                            />
                         </div>
                     </div>
                 </template>
@@ -585,6 +611,27 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                     </div>
                 </template>
             </expandable-block>
+            <expandable-block class="mt-3" v-model="blocks.loads">
+                <template #header>
+                    <h2 class="text-lg font-semibold">Пакеты</h2>
+                </template>
+                <template #content>
+                    <div class="grid grid-cols-6 gap-6 w-full">
+                        <div class="col-span-6 sm:col-span-6">
+                            <a class="text-indigo-600 text-sm" href="#"
+                               @click.prevent="modelValue.loads = []">Очистить</a>
+                            <div class="mt-1">
+                                <v-select class="scrollable-select" v-model="modelValue.loads"
+                                          multiple=""
+                                          label="title_fdp_ru"
+                                          :reduce="option => option.id"
+                                          :options="props.loadList"/>
+                            </div>
+                            <InputError class="mt-2" :message="modelValue.errors.loads"/>
+                        </div>
+                    </div>
+                </template>
+            </expandable-block>
             <expandable-block class="mt-3" v-model="blocks.sales">
                 <template #header>
                     <h2 class="text-lg font-semibold">Акции</h2>
@@ -734,7 +781,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
         </div>
         <div v-if="currentTab.value === 'filters'">
             <div class="grid grid-cols-6 gap-6 w-full">
-                <div class="col-span-6 sm:col-span-3">
+                <div class="col-span-6 sm:col-span-2">
                     <InputLabel for="location_id" value="Локация"/>
                     <select
                         id="location_id"
@@ -749,7 +796,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                     </select>
                     <InputError class="mt-2" :message="modelValue.errors.location_id"/>
                 </div>
-                <div class="col-span-6 sm:col-span-3">
+                <div class="col-span-6 sm:col-span-2">
                     <InputLabel for="difficulty" value="Сложность"/>
                     <select
                         id="difficulty"
@@ -764,6 +811,16 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                     </select>
                     <InputError class="mt-2" :message="modelValue.errors.difficulty"/>
                 </div>
+                <div class="col-span-6 sm:col-span-2">
+                    <InputLabel for="age_restriction" value="Ограничение по возрасту"/>
+                    <TextInput
+                        id="age_restriction"
+                        type="number"
+                        class="mt-1 block w-full"
+                        v-model="modelValue.age_restriction"
+                    />
+                    <InputError class="mt-2" :message="modelValue.errors.age_restriction"/>
+                </div>
                 <div class="col-span-6 sm:col-span-6">
                     <InputLabel for="quest_topic_ids" value="Рубрики"/>
                     <div class="mt-1">
@@ -773,6 +830,17 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                   :reduce="option => option.id"
                                   :options="props.questTopics"/>
                         <InputError class="mt-2" :message="modelValue.errors.quest_topic_ids"/>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-6">
+                    <InputLabel for="quest_child_topic_ids" value="Детские рубрики"/>
+                    <div class="mt-1">
+                        <v-select class="scrollable-select" v-model="modelValue.quest_child_topic_ids"
+                                  multiple=""
+                                  label="name_ru"
+                                  :reduce="option => option.id"
+                                  :options="props.questChildTopics"/>
+                        <InputError class="mt-2" :message="modelValue.errors.quest_child_topic_ids"/>
                     </div>
                 </div>
             </div>

@@ -62,6 +62,7 @@ class NewsRequest extends FormRequest
             'conditions_header_en' => ['required'],
             'book_button_text_ru' => ['required'],
             'book_button_text_en' => ['required'],
+            'quests_attached' => ['nullable', 'array'],
         ];
     }
 

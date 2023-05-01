@@ -7,7 +7,8 @@ import QuestTopicForm from "@/Components/QuestTopics/QuestTopicForm.vue";
 import NewsForm from "@/Components/News/NewsForm.vue";
 
 const props = defineProps({
-    news: Object
+    news: Object,
+    questList: Array
 })
 
 const newsToUpdate = useForm(props.news)
@@ -33,7 +34,7 @@ const update = () => {
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <news-form @submit="update" v-model="newsToUpdate"/>
+                        <news-form @submit="update" v-model="newsToUpdate" :quest-list="props.questList"/>
                     </div>
                 </div>
             </div>

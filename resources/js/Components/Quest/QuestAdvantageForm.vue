@@ -29,7 +29,11 @@ console.log(props)
     <div>
         <form class="flex flex-col shadow p-3 bg-gray-100 rounded" @submit.prevent>
             <div>
-<!--                <file-input v-model="modelValue.imageSrc"/>-->
+                <input-label for="file" value="Иконка"/>
+                <input
+                    id="file"
+                    type="file"
+                />
             </div>
             <div class="mt-3">
                 <InputLabel for="header" value="Заголовок"/>

@@ -8,6 +8,7 @@ import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import {getAttribute as getAttributeInstance} from "@/Traits/LocaleTrait";
 import Checkbox from "@/Components/Checkbox.vue";
+import FileInput from "@/Components/Common/FileInput.vue";
 
 const props = defineProps({
     advertModal: Object
@@ -66,7 +67,6 @@ const locale = ref('ru')
                                         type="text"
                                         class="mt-1 block w-full"
                                         v-model="advertModalToUpdate[getAttribute('text')]"
-                                        autofocus
                                     />
                                     <input-error
                                         class="mt-2"
@@ -79,7 +79,6 @@ const locale = ref('ru')
                                         type="text"
                                         class="mt-1 block w-full"
                                         v-model="advertModalToUpdate[getAttribute('button_text')]"
-                                        autofocus
                                     />
                                     <input-error
                                         class="mt-2"
@@ -92,7 +91,6 @@ const locale = ref('ru')
                                         type="text"
                                         class="mt-1 block w-full"
                                         v-model="advertModalToUpdate[getAttribute('button_url')]"
-                                        autofocus
                                     />
                                     <input-error
                                         class="mt-2"
@@ -105,11 +103,17 @@ const locale = ref('ru')
                                         type="number"
                                         class="mt-1 block w-full"
                                         v-model="advertModalToUpdate[getAttribute('lead')]"
-                                        autofocus
                                     />
                                     <input-error
                                         class="mt-2"
                                         :message="advertModalToUpdate.errors[getAttribute('lead')]"/>
+                                </div>
+                                <div class="col-span-6 sm:col-span-6">
+                                    <input-label for="file" value="Изображение"/>
+                                    <input
+                                        id="file"
+                                        type="file"
+                                    />
                                 </div>
                             </div>
                             <div class="mt-5">

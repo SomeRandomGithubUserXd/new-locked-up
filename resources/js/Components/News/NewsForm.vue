@@ -3,17 +3,18 @@ import {useForm} from "@inertiajs/vue3";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
-import vSelect from "vue-select";
-import "vue-select/dist/vue-select.css";
 import {ref} from "vue";
 import {getAttribute as getAttributeInstance} from "@/Traits/LocaleTrait";
 import SwitchLangGroup from "@/Components/Quest/SwitchLangGroup.vue";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 const props = defineProps({
     modelValue: {
         required: false,
         default: useForm({})
     },
+    questList: Array
 })
 
 const locale = ref('ru')
@@ -219,6 +220,31 @@ const getAttribute = (name) => {
                     autofocus
                 />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('quests_title')]"/>
+            </div>
+            <div class="col-span-6 sm:col-span-6">
+                <InputLabel for="quests" value="Квесты"/>
+                <div class="mt-1">
+                    <v-select class="scrollable-select" v-model="modelValue.quests_attached"
+                              multiple=""
+                              label="name_ru"
+                              :reduce="option => option.id"
+                              :options="props.questList"/>
+                    <InputError class="mt-2" :message="modelValue.errors.quests_attached"/>
+                </div>
+            </div>
+            <div class="col-span-6 sm:col-span-6">
+                <input-label for="file" value="OG Изображение"/>
+                <input
+                    id="file"
+                    type="file"
+                />
+            </div>
+            <div class="col-span-6 sm:col-span-6">
+                <input-label for="file" value="Изображение"/>
+                <input
+                    id="file"
+                    type="file"
+                />
             </div>
         </div>
         <div class="mt-5">

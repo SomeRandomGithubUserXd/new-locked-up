@@ -23,6 +23,12 @@ const tableProps = ref({
             },
         },
         {
+            name: 'Доступен',
+            getValue: (quest) => {
+                return quest.is_active
+            },
+        },
+        {
             name: 'Просмотров',
             getValue: (quest) => {
                 return quest.views || 0

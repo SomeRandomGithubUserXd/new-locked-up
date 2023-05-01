@@ -171,6 +171,26 @@ class Quest extends Model
         );
     }
 
+    public function questChildTopics(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            QuestChildTopic::class,
+            'quests_child_quest_topic',
+            'quests_id',
+            'child_quest_topic_id',
+        );
+    }
+
+    public function questLoad(): belongsToMany
+    {
+        return $this->belongsToMany(
+            QuestLoad::class,
+            'quests_activities_package',
+            'quests_id',
+            'activities_package_id',
+        );
+    }
+
     public function questAdvantages(): HasMany
     {
         return $this->hasMany(QuestAdvantage::class, 'quest_id');

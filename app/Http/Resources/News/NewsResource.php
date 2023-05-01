@@ -62,6 +62,7 @@ class NewsResource extends JsonResource
             'quest_ids' => [],
             'alias' => $news->alias,
             'is_published' => (bool) $news->published,
+            'quests_attached' => $news->quests,
         ];
     }
 }

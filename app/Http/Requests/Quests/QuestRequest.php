@@ -45,6 +45,7 @@ class QuestRequest extends FormRequest
             'mins_until_slot_is_closed' => ['nullable', 'integer'],
             'duration' => ['nullable', 'integer'],
             'age_limit' => ['nullable', 'integer'],
+            'age_restriction' => ['nullable', 'integer'],
             'min_players' => ['nullable', 'integer'],
             'max_players' => ['nullable', 'integer'],
             'min_players_free' => ['nullable', 'integer'],
@@ -67,6 +68,8 @@ class QuestRequest extends FormRequest
             'location_id' => ['nullable', 'integer'],
             'difficulty' => ['nullable', 'integer'],
             'quest_topic_ids' => ['nullable', 'array'],
+            'quest_child_topic_ids' => ['nullable', 'array'],
+            'loads' => ['nullable', 'array'],
         ];
     }
 

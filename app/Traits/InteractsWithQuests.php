@@ -9,6 +9,8 @@ use App\Models\Location;
 use App\Models\News\News;
 use App\Models\Quests\Quest;
 use App\Models\Quests\QuestBlock;
+use App\Models\Quests\QuestChildTopic;
+use App\Models\Quests\QuestLoad;
 use App\Models\Quests\QuestTopic;
 use App\Models\Schedules\Schedule;
 
@@ -24,7 +26,9 @@ trait InteractsWithQuests
             'schedules' => Schedule::get(),
             'locations' => Location::get(),
             'difficultyLevels' => QuestDifficultyLevelEnum::getArray(),
-            'questTopics' => QuestTopic::get()
+            'questTopics' => QuestTopic::get(),
+            'questChildTopics' => QuestChildTopic::get(),
+            'loadList' => QuestLoad::get(),
         ];
     }
 }

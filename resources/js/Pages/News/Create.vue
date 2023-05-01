@@ -6,6 +6,10 @@ import QuestOptionForm from "@/Components/Quest/QuestOptionForm.vue";
 import QuestTopicForm from "@/Components/QuestTopics/QuestTopicForm.vue";
 import NewsForm from "@/Components/News/NewsForm.vue";
 
+const props = defineProps({
+    questList: Array
+})
+
 const news = useForm({
     'id' : null,
     'meta_title_ru' : null,
@@ -46,6 +50,7 @@ const news = useForm({
     'quest_ids' : [],
     'alias' : null,
     'is_published' : true,
+    'quests_attached' : [],
 })
 
 const store = () => {
@@ -69,7 +74,7 @@ const store = () => {
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <news-form @submit="store" v-model="news"/>
+                        <news-form @submit="store" v-model="news" :quest-list="props.questList"/>
                     </div>
                 </div>
             </div>

@@ -2,8 +2,10 @@
 
 namespace App\Models\News;
 
+use App\Models\Quests\Quest;
 use App\Traits\HasTimestamps;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class News extends Model
 {
@@ -61,4 +63,14 @@ class News extends Model
         47 => 'book_button_text_ru',
         48 => 'book_button_text_en',
     ];
+
+    public function quests(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Quest::class,
+            'news_quests',
+            'news_id',
+            'quests_id',
+        );
+    }
 }

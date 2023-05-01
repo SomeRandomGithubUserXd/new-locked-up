@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers\Quests;
 
-use App\Enums\QuestDifficultyLevelEnum;
 use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\Quests\GetQuestScheduleRequest;
 use App\Http\Requests\Quests\QuestRequest;
-use App\Http\Resources\Quests\NewsListResource;
 use App\Http\Resources\Quests\QuestResource;
-use App\Models\News\News;
-use App\Models\News\NewsQuests;
-use App\Models\Orders\Order;
 use App\Models\Quests\Quest;
-use App\Models\Quests\QuestBlock;
 use App\Models\Schedules\ScheduleItem;
 use App\Traits\InteractsWithOrders;
 use App\Traits\InteractsWithQuests;
@@ -47,15 +41,7 @@ class QuestController extends AbstractControllerWithMultipleDeletion
 
     public function store(QuestRequest $request)
     {
-        $rawData = $request->getUnRefactoredValidatedData();
-        unset(
-            $rawData['related_quest_ids'],
-            $rawData['advantages'],
-            $rawData['options'],
-            $rawData['applied_sales'],
-            $rawData['you_may_like_it_section_quest_ids'],
-            $rawData['quest_topic_ids'],
-        );
+        $rawData = $this->getRelationsFreeData($request->getUnRefactoredValidatedData());
         $quest = Quest::create($rawData);
         $this->refreshRelations($quest, $request);
         return redirect()->route('quests.index');
@@ -63,7 +49,14 @@ class QuestController extends AbstractControllerWithMultipleDeletion
 
     public function update(QuestRequest $request, Quest $quest)
     {
-        $rawData = $request->getUnRefactoredValidatedData();
+        $rawData = $this->getRelationsFreeData($request->getUnRefactoredValidatedData());
+        $quest->update($rawData);
+        $this->refreshRelations($quest, $request);
+        return redirect()->route('quests.index');
+    }
+
+    protected function getRelationsFreeData(array $rawData)
+    {
         unset(
             $rawData['related_quest_ids'],
             $rawData['advantages'],
@@ -71,10 +64,9 @@ class QuestController extends AbstractControllerWithMultipleDeletion
             $rawData['applied_sales'],
             $rawData['you_may_like_it_section_quest_ids'],
             $rawData['quest_topic_ids'],
+            $rawData['loads'],
         );
-        $quest->update($rawData);
-        $this->refreshRelations($quest, $request);
-        return redirect()->route('quests.index');
+        return $rawData;
     }
 
     protected function refreshRelations(Quest $quest, QuestRequest $request)
@@ -93,8 +85,15 @@ class QuestController extends AbstractControllerWithMultipleDeletion
                 'name_ru' => $item['header'],
             ]);
         }
+        foreach ($request->get('options') as $item) {
+            $quest->questOptions()->firstOrCreate([
+                'name_ru' => $item['header'],
+            ]);
+        }
         $quest->news()->sync($request->get('applied_sales'));
+        $quest->questLoad()->sync($request->get('loads'));
         $quest->questTopics()->sync($request->get('quest_topic_ids'));
+        $quest->questChildTopics()->sync($request->get('quest_child_topic_ids'));
     }
 
     public function getQuestMeta(Quest $quest, GetQuestScheduleRequest $request): JsonResponse

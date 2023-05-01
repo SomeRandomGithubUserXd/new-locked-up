@@ -8,4 +8,6 @@ export const questProps = {
     locations: Array,
     difficultyLevels: Array,
     questTopics: Array,
+    questChildTopics: Array,
+    loadList: Array,
 }

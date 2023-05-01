@@ -74,7 +74,7 @@ const emit = defineEmits(['submit'])
                 <InputError class="mt-2" :message="modelValue.errors.role"/>
             </div>
             <div class="col-span-6 sm:col-span-6 flex flex-col">
-                <InputLabel for="locations" value="Лоакции"/>
+                <InputLabel for="locations" value="Локации"/>
                 <div class="mt-1">
                     <v-select class="scrollable-select" v-model="modelValue.location_ids"
                               multiple=""

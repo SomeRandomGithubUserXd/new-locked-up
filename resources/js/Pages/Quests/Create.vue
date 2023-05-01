@@ -32,6 +32,7 @@ const quest = useForm({
     mins_until_slot_is_closed: 1200,
     duration: 120,
     age_limit: 6,
+    age_restriction: null,
     min_players: 1,
     max_players: null,
     min_players_free: 1,
@@ -54,6 +55,8 @@ const quest = useForm({
     location_id: null,
     difficulty: null,
     quest_topic_ids: [],
+    quest_child_topic_ids: [],
+    loads: [],
 })
 
 const store = () => {
@@ -80,6 +83,7 @@ const store = () => {
                         <quest-form v-model="quest"
                                     @submit="store"
                                     :quest-topics="props.questTopics"
+                                    :quest-child-topics="props.questChildTopics"
                                     :difficulty-levels="props.difficultyLevels"
                                     :locations="props.locations"
                                     :schedules="props.schedules"
@@ -87,6 +91,7 @@ const store = () => {
                                     :project-meta="props.projectMeta"
                                     :news-list="props.newsList.data"
                                     :quest-list="props.questList"
+                                    :load-list="props.loadList"
                                     :quest-blocks="props.questBlocks"/>
                     </div>
                 </div>
