@@ -62,6 +62,7 @@ const routes = [
         href: route('quests.index'),
         isCurrent: isBlockCurrent([
             'quests',
+            'performance-quests',
             'locations',
             'services',
             'schedules',
@@ -79,6 +80,11 @@ const routes = [
                 name: 'Таблица квестов',
                 href: route('quests.index'),
                 isCurrent: !!route().current('quests.*')
+            },
+            {
+                name: 'Квесты-спектакли',
+                href: route('performance-quests.index'),
+                isCurrent: !!route().current('performance-quests.*')
             },
             {
                 name: 'Локации',

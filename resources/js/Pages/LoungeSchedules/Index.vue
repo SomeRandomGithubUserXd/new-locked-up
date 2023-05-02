@@ -8,8 +8,6 @@ const props = defineProps({
     loungeSchedules: Object
 })
 
-console.log(props.loungeSchedules)
-
 const tableProps = ref({
     records: [
         {

@@ -17,6 +17,7 @@ use App\Http\Controllers\Orders\OrderPaymentController;
 use App\Http\Controllers\Orders\OrderSourceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Quests\ChildQuestTopicController;
+use App\Http\Controllers\Quests\PerformanceQuestController;
 use App\Http\Controllers\Quests\QuestController;
 use App\Http\Controllers\Quests\QuestTopicController;
 use App\Http\Controllers\ReviewController;
@@ -61,6 +62,7 @@ Route::middleware('auth')->group(function () {
     // Catalog category
     RouteConstructor::resourcesWithMultipleDeletion(
         new QuestController('quests'),
+        new PerformanceQuestController('performance-quests'),
         new LocationController('locations'),
         new ServiceController('services'),
         new ScheduleController('schedules'),
