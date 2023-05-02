@@ -63,6 +63,7 @@ class CertificateInstanceController extends AbstractControllerWithMultipleDeleti
         $storagePath = storage_path('app/temp' . '/' . $path);
         $spreadsheet = IOFactory::load($storagePath);
         $worksheet = $spreadsheet->getActiveSheet();
+        $q = [];
         foreach ($worksheet->getRowIterator() as $row) {
             $cellIterator = $row->getCellIterator();
             $cellIterator->setIterateOnlyExistingCells(true);
@@ -71,9 +72,8 @@ class CertificateInstanceController extends AbstractControllerWithMultipleDeleti
                 $cells[] = $cell->getValue();
             }
             if (is_numeric($cells[1])) {
-                Certificate::updateOrCreate(
-                    ['number' => $cells[0]],
-                    ['price' => $cells[1], 'status' => CertificateInstanceStatusEnum::active]
+                Certificate::create(
+                    ['number' => $cells[0], 'price' => $cells[1], 'status' => CertificateInstanceStatusEnum::active]
                 );
             }
         }
