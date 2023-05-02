@@ -59,9 +59,9 @@ const handleFileUpload = (event) => {
 const fileInput = ref('')
 
 const uploadCertificates = () => {
-    uploadForm.post(route('certificate-instances.upload'))
-    // fileInput.value.value = null
-    // uploadForm.file = null
+    uploadForm.post(route('certificate-instances.upload'), {
+        onSuccess: () => location.reload()
+    })
 }
 </script>
 
