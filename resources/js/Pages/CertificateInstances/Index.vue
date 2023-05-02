@@ -60,8 +60,8 @@ const fileInput = ref('')
 
 const uploadCertificates = () => {
     uploadForm.post(route('certificate-instances.upload'))
-    fileInput.value.value = null
-    uploadForm.file = null
+    // fileInput.value.value = null
+    // uploadForm.file = null
 }
 </script>
 
