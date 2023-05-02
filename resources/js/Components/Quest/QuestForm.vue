@@ -845,7 +845,12 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                 </div>
                 <div class="col-span-6 sm:col-span-6">
                     <InputLabel for="sticker_id" value="Стикер"/>
-
+                    <select id="sticker_id" name="sticker_id"
+                            v-model="modelValue.sticker_id"
+                            class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <option value="">Нет</option>
+                        <option v-for="sticker in stickerList" :value="sticker.id">{{ sticker.name }}</option>
+                    </select>
                     <InputError class="mt-2" :message="modelValue.errors.sticker_id"/>
                 </div>
             </div>
