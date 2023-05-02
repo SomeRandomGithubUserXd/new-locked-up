@@ -855,6 +855,24 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                 </div>
             </div>
         </div>
+        <div v-if="currentTab.value === 'photos'">
+            <div class="grid grid-cols-6 gap-6 w-full">
+                <div class="col-span-6 sm:col-span-2">
+                    <InputLabel for="location_id" value="Галерея 1"/>
+                    <input
+                        type="file"
+                        multiple
+                    />
+                </div>
+                <div class="col-span-6 sm:col-span-2">
+                    <InputLabel for="location_id" value="Галерея 2"/>
+                    <input
+                        type="file"
+                        multiple
+                    />
+                </div>
+            </div>
+        </div>
         <div v-if="currentTab.value === 'CEO'">
             <div class="grid grid-cols-6 gap-6 w-full">
                 <div class="col-span-6 sm:col-span-3">
