@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Locations\LocationRequest;
 use App\Http\Requests\Orders\ActionWithManyRequest;
-use App\Http\Resources\LocationResource;
-use App\Models\Location;
+use App\Http\Resources\Locations\LocationResource;
+use App\Models\Locations\Location;
 use Illuminate\Http\RedirectResponse;
 
 class LocationController extends AbstractControllerWithMultipleDeletion

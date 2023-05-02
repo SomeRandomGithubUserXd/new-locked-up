@@ -5,7 +5,7 @@ namespace App\Traits;
 use App\Enums\QuestDifficultyLevelEnum;
 use App\Http\Resources\Quests\NewsListResource;
 use App\Models\Checkout;
-use App\Models\Location;
+use App\Models\Locations\Location;
 use App\Models\News\News;
 use App\Models\Quests\Quest;
 use App\Models\Quests\QuestBlock;

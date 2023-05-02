@@ -1,12 +1,13 @@
 <script setup>
-import {useForm} from "@inertiajs/vue3";
-import {ref} from "vue";
+import {router, useForm} from "@inertiajs/vue3";
+import {computed, ref} from "vue";
 import {getAttribute as getAttributeInstance} from "@/Traits/LocaleTrait";
 import SwitchLangGroup from "@/Components/Quest/SwitchLangGroup.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import Checkbox from "@/Components/Checkbox.vue";
+import DataTable from "@/Components/Common/DataTable.vue";
 
 const props = defineProps({
     modelValue: {
@@ -23,6 +24,45 @@ const locale = ref('ru')
 const getAttribute = (name) => {
     return getAttributeInstance(name, locale.value)
 }
+const loungeTableProps = computed({
+    get: () => {
+        return {
+            records: [
+                {
+                    name: '№',
+                    getValue: (item) => {
+                        return item.id
+                    },
+                },
+                {
+                    name: 'Название',
+                    getValue: (item) => {
+                        return item.name_ru
+                    },
+                },
+            ],
+            pagination: {
+                isRequired: false,
+            },
+            actions: [
+                {
+                    name: 'Редактировать',
+                    trigger(item) {
+
+                    }
+                },
+                {
+                    name: 'Удалить',
+                    trigger(item) {
+
+                    }
+                },
+            ],
+        }
+    },
+    set: () => {
+    },
+})
 </script>
 
 <template>
@@ -104,6 +144,14 @@ const getAttribute = (name) => {
                               v-model:checked="modelValue.show_at_corporate_parties_page"/>
                     <span class="ml-2 text-sm text-gray-600">Показывать на странице "корпоративы"</span>
                 </label>
+            </div>
+            <div class="col-span-6 sm:col-span-6">
+                <InputLabel for="phone" value="Лаунжи"/>
+                <data-table
+                    :allow-deletion="false"
+                    :needs-selection="false"
+                    :table-props="loungeTableProps"
+                    :raw-data="modelValue.lounges.data"/>
             </div>
         </div>
         <div class="mt-5">

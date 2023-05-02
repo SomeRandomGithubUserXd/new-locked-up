@@ -6,11 +6,10 @@ use App\Enums\UserRoleEnum;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\User\UserRequest;
 use App\Http\Resources\Users\UserResource;
-use App\Models\Location;
+use App\Models\Locations\Location;
 use App\Models\User\User;
 use Hash;
 use Illuminate\Http\RedirectResponse;
-use Inertia\Testing\Concerns\Has;
 
 class UserController extends AbstractControllerWithMultipleDeletion
 {

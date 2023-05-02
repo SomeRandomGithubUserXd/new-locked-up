@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Locations;
 
-use App\Models\Location;
+use App\Models\Locations\Location;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Location */
+/** @mixin \App\Models\Locations\Location */
 class LocationResource extends JsonResource
 {
     public function toArray(Request $request): array
@@ -37,6 +37,7 @@ class LocationResource extends JsonResource
             'address_en' => $location->address_en,
             'show_at_kids_page' => (bool) $location->show_on_child,
             'show_at_corporate_parties_page' => (bool) $location->show_on_corporate,
+            'lounges' => LocationLoungeResource::collection($location->locationLounges),
         ];
     }
 }

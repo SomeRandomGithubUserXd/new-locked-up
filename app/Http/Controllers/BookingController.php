@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Bookings\BookingRequest;
 use App\Http\Requests\Bookings\FilterRequest;
 use App\Http\Resources\BookingQuestResource;
-use App\Models\Location;
+use App\Models\Locations\Location;
 use App\Models\Quests\Quest;
 use App\Traits\InteractsWithOrders;
 use Carbon\Carbon;
