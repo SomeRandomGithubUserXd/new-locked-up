@@ -30,7 +30,7 @@ const update = () => {
         </template>
 
         <div class="py-12">
-            <div class="mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <order-source-form @submit="update" v-model="source"/>

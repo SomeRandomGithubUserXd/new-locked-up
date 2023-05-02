@@ -4,7 +4,8 @@ use App\Http\Controllers\AppealController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Certificates\CertificateController;
 use App\Http\Controllers\Certificates\CertificateInstanceController;
-use App\Http\Controllers\LocationController;
+use App\Http\Controllers\Locations\LocationController;
+use App\Http\Controllers\Locations\LocationLoungeController;
 use App\Http\Controllers\Lounges\LoungeController;
 use App\Http\Controllers\Lounges\LoungeScheduleController;
 use App\Http\Controllers\Lounges\LoungeScheduleItemController;
@@ -72,6 +73,8 @@ Route::middleware('auth')->group(function () {
         new LoungeController('lounges'),
         new LoungeScheduleController('lounge-schedules'),
     );
+    // Location lounge
+    Route::resource('locations.location_lounges', LocationLoungeController::class);
 
     // Certificate instances additional
     Route::group(['prefix' => 'certificate-instances', 'as' => 'certificate-instances.'], function () {

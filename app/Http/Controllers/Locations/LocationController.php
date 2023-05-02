@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Locations;
 
+use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Locations\LocationRequest;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Resources\Locations\LocationResource;

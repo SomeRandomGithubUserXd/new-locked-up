@@ -24,45 +24,6 @@ const locale = ref('ru')
 const getAttribute = (name) => {
     return getAttributeInstance(name, locale.value)
 }
-const loungeTableProps = computed({
-    get: () => {
-        return {
-            records: [
-                {
-                    name: '№',
-                    getValue: (item) => {
-                        return item.id
-                    },
-                },
-                {
-                    name: 'Название',
-                    getValue: (item) => {
-                        return item.name_ru
-                    },
-                },
-            ],
-            pagination: {
-                isRequired: false,
-            },
-            actions: [
-                {
-                    name: 'Редактировать',
-                    trigger(item) {
-
-                    }
-                },
-                {
-                    name: 'Удалить',
-                    trigger(item) {
-
-                    }
-                },
-            ],
-        }
-    },
-    set: () => {
-    },
-})
 </script>
 
 <template>
@@ -144,14 +105,6 @@ const loungeTableProps = computed({
                               v-model:checked="modelValue.show_at_corporate_parties_page"/>
                     <span class="ml-2 text-sm text-gray-600">Показывать на странице "корпоративы"</span>
                 </label>
-            </div>
-            <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="phone" value="Лаунжи"/>
-                <data-table
-                    :allow-deletion="false"
-                    :needs-selection="false"
-                    :table-props="loungeTableProps"
-                    :raw-data="modelValue.lounges.data"/>
             </div>
         </div>
         <div class="mt-5">
