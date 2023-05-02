@@ -42,7 +42,7 @@ class LoungeScheduleController extends AbstractControllerWithMultipleDeletion
 
     public function update(ScheduleRequest $request, LoungeSchedule $loungeSchedule)
     {
-        $loungeSchedule->update(['name' => $request->get('name')]);
+//        $loungeSchedule->update(['name' => $request->get('name')]);
 //        foreach ($request->get('schedule_items') as $item) {
 //            LoungeScheduleItem::find($item['id'])->update($item);
 //        }
