@@ -9,20 +9,14 @@ const props = defineProps({
 })
 
 watch(() => props.schedule, value => {
-    scheduleToUpdateInstance.value = value
+    scheduleToUpdate.value = useForm(value)
 })
 
-const scheduleToUpdateInstance = ref(props.schedule)
+const scheduleToUpdate = ref(useForm(props.schedule))
 
-const scheduleToUpdate = computed({
-    get: () => {
-        return useForm(scheduleToUpdateInstance.value)
-    }, set: () => {
-    }
-})
 
 const handleUpdate = (val) => {
-    scheduleToUpdateInstance.value = val
+    scheduleToUpdate.value = val
 }
 
 const update = () => {
