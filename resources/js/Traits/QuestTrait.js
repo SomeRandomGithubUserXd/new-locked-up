@@ -10,4 +10,5 @@ export const questProps = {
     questTopics: Array,
     questChildTopics: Array,
     loadList: Array,
+    stickerList: Array,
 }

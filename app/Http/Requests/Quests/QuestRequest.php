@@ -70,6 +70,7 @@ class QuestRequest extends FormRequest
             'quest_topic_ids' => ['nullable', 'array'],
             'quest_child_topic_ids' => ['nullable', 'array'],
             'loads' => ['nullable', 'array'],
+            'sticker_id' => ['nullable', 'int'],
         ];
     }
 
@@ -103,6 +104,7 @@ class QuestRequest extends FormRequest
             'alias' => 'meta_url',
             'og_title_ru' => 'og_title',
             'og_description_ru' => 'og_description',
+            'stiker_id' => 'sticker_id',
         ];
         $data = $this->validated();
         foreach ($edited as $key => $value) {

@@ -87,6 +87,7 @@ class QuestResource extends JsonResource
             'og_type' => $quest->og_type,
             'og_url' => $quest->og_url,
             'loads' => $quest->questLoad,
+            'sticker_id' => $quest->stiker_id,
         ];
     }
 }

@@ -843,6 +843,11 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                         <InputError class="mt-2" :message="modelValue.errors.quest_child_topic_ids"/>
                     </div>
                 </div>
+                <div class="col-span-6 sm:col-span-6">
+                    <InputLabel for="sticker_id" value="Стикер"/>
+
+                    <InputError class="mt-2" :message="modelValue.errors.sticker_id"/>
+                </div>
             </div>
         </div>
         <div v-if="currentTab.value === 'CEO'">

@@ -40,6 +40,7 @@ const submit = () => {
                                     :quest-list="props.questList"
                                     :load-list="props.loadList"
                                     :quest-blocks="props.questBlocks"
+                                    :sticker-list="props.stickerList"
                                     @submit="submit"
                         />
                     </div>

@@ -57,6 +57,7 @@ const quest = useForm({
     quest_topic_ids: [],
     quest_child_topic_ids: [],
     loads: [],
+    sticker_id: null,
 })
 
 const store = () => {
@@ -92,7 +93,9 @@ const store = () => {
                                     :news-list="props.newsList.data"
                                     :quest-list="props.questList"
                                     :load-list="props.loadList"
-                                    :quest-blocks="props.questBlocks"/>
+                                    :quest-blocks="props.questBlocks"
+                                    :sticker-list="props.stickerList"
+                        />
                     </div>
                 </div>
             </div>

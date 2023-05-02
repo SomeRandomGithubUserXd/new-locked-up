@@ -13,6 +13,7 @@ use App\Models\Quests\QuestChildTopic;
 use App\Models\Quests\QuestLoad;
 use App\Models\Quests\QuestTopic;
 use App\Models\Schedules\Schedule;
+use App\Models\Sticker;
 
 trait InteractsWithQuests
 {
@@ -20,15 +21,16 @@ trait InteractsWithQuests
     {
         return [
             'questList' => Quest::where('name_ru', '!=', '')->get(),
-            'questBlocks' => QuestBlock::get(),
-            'newsList' => NewsListResource::collection(News::get()),
-            'checkouts' => Checkout::get(),
-            'schedules' => Schedule::get(),
-            'locations' => Location::get(),
+            'questBlocks' => QuestBlock::all(),
+            'newsList' => NewsListResource::collection(News::all()),
+            'checkouts' => Checkout::all(),
+            'schedules' => Schedule::all(),
+            'locations' => Location::all(),
             'difficultyLevels' => QuestDifficultyLevelEnum::getArray(),
-            'questTopics' => QuestTopic::get(),
-            'questChildTopics' => QuestChildTopic::get(),
-            'loadList' => QuestLoad::get(),
+            'questTopics' => QuestTopic::all(),
+            'questChildTopics' => QuestChildTopic::all(),
+            'loadList' => QuestLoad::all(),
+            'stickerList' => Sticker::all(),
         ];
     }
 }
