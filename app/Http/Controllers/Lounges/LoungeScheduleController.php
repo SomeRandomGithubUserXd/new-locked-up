@@ -51,7 +51,7 @@ class LoungeScheduleController extends AbstractControllerWithMultipleDeletion
 
     public function destroyMany(ActionWithManyRequest $request): RedirectResponse
     {
-        LoungeSchedule::whereIn('id', $request->get('ids'));
+        LoungeSchedule::whereIn('id', $request->get('ids'))->delete();
         return redirect()->back();
     }
 }
