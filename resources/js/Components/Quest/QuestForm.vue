@@ -225,7 +225,6 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 type="text"
                                 class="mt-1 block w-full"
                                 v-model="modelValue[getAttribute('name')]"
-
                                 autofocus
                             />
                             <InputError class="mt-2" :message="modelValue.errors[getAttribute('name')]"/>
@@ -266,28 +265,28 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                             <InputError class="mt-2"
                                         :message="modelValue.errors[getAttribute('full_description')]"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-1">
+                        <div class="col-span-6 sm:col-span-2">
                             <input-label for="file" value="Баннер (1920х790px)"/>
                             <input
                                 id="file"
                                 type="file"
                             />
                         </div>
-                        <div class="col-span-6 sm:col-span-1">
+                        <div class="col-span-6 sm:col-span-2">
                             <input-label for="file" value="Баннер моб. (480х480px)"/>
                             <input
                                 id="file"
                                 type="file"
                             />
                         </div>
-                        <div class="col-span-6 sm:col-span-1">
+                        <div class="col-span-6 sm:col-span-2">
                             <input-label for="file" value="Превью баннера (520х445px)"/>
                             <input
                                 id="file"
                                 type="file"
                             />
                         </div>
-                        <div class="col-span-6 sm:col-span-1">
+                        <div class="col-span-6 sm:col-span-2">
                             <input-label for="file" value="Превью расписания (165х130px)"/>
                             <input
                                 id="file"
