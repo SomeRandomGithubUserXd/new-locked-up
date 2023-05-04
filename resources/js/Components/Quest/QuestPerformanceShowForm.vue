@@ -70,7 +70,7 @@ const getAttribute = (name) => {
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('program')]"/>
             </div>
             <div class="col-span-6 sm:col-span-6">
-                <input-label for="file" value="Изображения"/>
+                <input-label for="file" value="Изображение"/>
                 <input
                     id="file"
                     type="file"

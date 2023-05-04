@@ -17,11 +17,11 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Добавить квест"/>
+    <Head title="Редактировать квест"/>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Добавить квест</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Редактировать квест</h2>
         </template>
 
         <div class="py-12">
