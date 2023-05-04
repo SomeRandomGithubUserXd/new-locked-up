@@ -52,7 +52,7 @@ class QuestRequest extends FormRequest
             'max_players_free' => ['nullable', 'integer'],
             'located_near_subway_station' => ['nullable', 'string'],
             'genre' => ['nullable', 'string'],
-            'rating' => ['nullable', 'integer'],
+            'rating' => ['nullable'],
             'advantages' => ['nullable', 'array'],
             'options' => ['nullable', 'array'],
             'options_block_header' => ['nullable', 'string'],
@@ -71,6 +71,10 @@ class QuestRequest extends FormRequest
             'quest_child_topic_ids' => ['nullable', 'array'],
             'loads' => ['nullable', 'array'],
             'sticker_id' => ['nullable', 'int'],
+            'packages_description_ru' => ['nullable'],
+            'packages_description_en' => ['nullable'],
+            'packages_example_ru' => ['nullable'],
+            'packages_example_en' => ['nullable'],
         ];
     }
 

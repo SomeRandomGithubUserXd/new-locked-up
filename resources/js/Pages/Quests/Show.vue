@@ -12,7 +12,11 @@ const props = defineProps({
 const questToUpdate = useForm(props.quest)
 console.log(props.quest.related_quest_ids)
 const submit = () => {
-    questToUpdate.patch(route('quests.update', props.quest.id))
+    questToUpdate.patch(route('quests.update', props.quest.id), {
+        onError: (err) => {
+            console.log(err)
+        }
+    })
 }
 </script>
 

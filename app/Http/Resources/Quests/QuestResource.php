@@ -27,6 +27,10 @@ class QuestResource extends JsonResource
             $performanceArtAttributes = [
                 'quest_performance_shows' => $quest->questPerformanceShows,
                 'quest_performance_loads' => $quest->questPerformanceLoads,
+                'packages_description_ru' => $quest->packages_description_ru,
+                'packages_description_en' => $quest->page_description_en,
+                'packages_example_ru' => $quest->packages_example_ru,
+                'packages_example_en' => $quest->packages_example_en,
             ];
         }
         return [

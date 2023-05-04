@@ -115,6 +115,14 @@ export const localePointers = {
         ru: 'program_ru',
         en: 'program_en',
     },
+    packages_description: {
+        ru: 'packages_description_ru',
+        en: 'packages_description_en',
+    },
+    packages_example: {
+        ru: 'packages_example_ru',
+        en: 'packages_example_en',
+    },
 }
 
 export const getAttribute = (name, locale) => {
