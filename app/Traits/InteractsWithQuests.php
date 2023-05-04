@@ -20,14 +20,14 @@ trait InteractsWithQuests
     public function getQuestMisc(): array
     {
         return [
-            'questList' => Quest::where('name_ru', '!=', '')->get(),
+            'questList' => Quest::orderBy('name_ru')->where('name_ru', '!=', '')->get(),
             'questBlocks' => QuestBlock::all(),
-            'newsList' => NewsListResource::collection(News::all()),
-            'checkouts' => Checkout::all(),
-            'schedules' => Schedule::all(),
-            'locations' => Location::all(),
+            'newsList' => NewsListResource::collection(News::orderBy('title_ru')->get()),
+            'checkouts' => Checkout::orderBy('name')->get(),
+            'schedules' => Schedule::orderBy('name')->get(),
+            'locations' => Location::orderBy('name_ru')->get(),
             'difficultyLevels' => QuestDifficultyLevelEnum::getArray(),
-            'questTopics' => QuestTopic::all(),
+            'questTopics' => QuestTopic::orderBy('name_ru')->get(),
             'questChildTopics' => QuestChildTopic::all(),
             'loadList' => QuestLoad::all(),
             'stickerList' => Sticker::all(),

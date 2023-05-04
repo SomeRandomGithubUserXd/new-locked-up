@@ -22,6 +22,12 @@ class QuestResource extends JsonResource
 
     public static function singleItem(Quest $quest): array
     {
+        $performanceArtAttributes = [];
+        if($quest->performance) {
+            $performanceArtAttributes = [
+                'performance_shows' => $quest->questPerformanceShows
+            ];
+        }
         return [
             'id' => $quest->id,
             'ord' => $quest->ord ?? 0,
@@ -88,6 +94,7 @@ class QuestResource extends JsonResource
             'og_url' => $quest->og_url,
             'loads' => $quest->questLoad,
             'sticker_id' => $quest->stiker_id,
+            ...$performanceArtAttributes
         ];
     }
 }

@@ -200,4 +200,9 @@ class Quest extends Model
     {
         return $this->hasMany(QuestOption::class, 'quest_id');
     }
+
+    public function questPerformanceShows(): HasMany
+    {
+        return $this->hasMany(QuestPerformanceShow::class, 'quest_id');
+    }
 }

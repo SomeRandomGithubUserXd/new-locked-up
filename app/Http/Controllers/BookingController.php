@@ -32,7 +32,7 @@ class BookingController extends Controller
             ->paginate(10);
         return inertia('Bookings/Index', [
             'quests' => BookingQuestResource::collection($quests, new Carbon($request->get('date'))),
-            'locations' => Location::get()
+            'locations' => Location::orderBy('name_ru')->get()
         ]);
     }
 

@@ -48,7 +48,7 @@ class CertificateController extends AbstractControllerWithMultipleDeletion
             ->paginate(15);
         return inertia('Certificates/Index', [
             'certificates' => PersonCertificateResource::collection($certificates),
-            'certificateInstances' => Certificate::where('number', '!=', '')->get()
+            'certificateInstances' => Certificate::where('number', '!=', '')->orderBy('number')->get()
         ]);
     }
 

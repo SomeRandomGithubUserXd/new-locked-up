@@ -16,9 +16,11 @@ class AppealController extends AbstractControllerWithMultipleDeletion
         $appealQuery = Appeal::when($request->source, static function ($query) use ($request) {
             $query->where(['source_id' => array_search($request->get('source'), Appeal::$sources, true)]);
         })->orderByDesc('id');
+        $sources = Appeal::$sources;
+        sort($sources);
         return inertia('Appeals/Index', [
             'appeals' => AppealResource::collection($appealQuery->paginate(15)),
-            'sourceList' => Appeal::$sources
+            'sourceList' => $sources
         ]);
     }
 

@@ -36,6 +36,7 @@ const blocks = reactive({
     sales: false,
     youMayLikeSection: false,
     scheduleTextBlocks: false,
+    performanceShowMisc: false,
 })
 
 const locale = ref('ru')
@@ -747,6 +748,19 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </textarea>
                             <InputError class="mt-2" :message="modelValue.errors.schedule_section_blocks_bottom_text"/>
+                        </div>
+                    </div>
+                </template>
+            </expandable-block>
+            <expandable-block class="mt-3" v-if="modelValue.is_performance_art" v-model="blocks.performanceShowMisc">
+                <template #header>
+                    <h2 class="text-lg font-semibold">Прочее для квеста-спектакля</h2>
+                </template>
+                <template #content>
+                    <div class="grid grid-cols-6 gap-6 w-full">
+                        <div class="col-span-6 sm:col-span-1">
+                            <InputLabel for="schedule_blocks_section_header" value="Шоу"/>
+                            <InputError class="mt-2" :message="modelValue.errors.schedule_blocks_section_header"/>
                         </div>
                     </div>
                 </template>
