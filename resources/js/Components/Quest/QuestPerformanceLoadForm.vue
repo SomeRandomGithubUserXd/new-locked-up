@@ -55,7 +55,7 @@ const getAttribute = (name) => {
                 <InputLabel for="price_workday" :value="`Цена (будни)`"/>
                 <TextInput
                     id="price_workday"
-                    type="number"
+                    type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue.price_workday"
                 />
@@ -65,7 +65,7 @@ const getAttribute = (name) => {
                 <InputLabel for="price_weekend" :value="`Цена (выходные)`"/>
                 <TextInput
                     id="price_weekend"
-                    type="number"
+                    type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue.price_weekend"
                 />
