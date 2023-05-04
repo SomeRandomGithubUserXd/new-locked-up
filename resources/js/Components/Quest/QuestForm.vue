@@ -135,6 +135,40 @@ const performanceShowTableProps = ref({
     }
 })
 
+const performanceLoadsTableProps = ref({
+    records: [
+        {
+            name: 'Название',
+            getValue: (item) => {
+                return item.name_ru || 'Нет'
+            },
+        },
+    ],
+    actions: [
+        {
+            name: 'Редактировать',
+            trigger: (item) => {
+                router.get(route('quests.quest_performance_loads.show', {
+                    quest_performance_load: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        },
+        {
+            name: 'Удалить',
+            trigger: (item) => {
+                router.delete(route('quests.quest_performance_loads.destroy', {
+                    quest_performance_load: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        }
+    ],
+    pagination: {
+        isRequired: false,
+    }
+})
+
 const currentTab = ref(tabsArray[0])
 
 const scheduleItems = ref([])
@@ -793,13 +827,20 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                 <template #content>
                     <div class="grid grid-cols-6 gap-6 w-full">
                         <div class="col-span-6 sm:col-span-6">
-                            <InputLabel for="schedule_blocks_section_header" value="Шоу"/>
+                            <InputLabel value="Шоу"/>
                             <data-table :create-link="route('quests.quest_performance_shows.create', props.modelValue.id)"
                                         :table-props="performanceShowTableProps"
                                         :needs-selection="false"
                                         class="mt-3"
                                         :raw-data="modelValue.quest_performance_shows"/>
-                            <InputError class="mt-2" :message="modelValue.errors.schedule_blocks_section_header"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
+                            <InputLabel value="Пакеты"/>
+                            <data-table :create-link="route('quests.quest_performance_loads.create', props.modelValue.id)"
+                                        :table-props="performanceLoadsTableProps"
+                                        :needs-selection="false"
+                                        class="mt-3"
+                                        :raw-data="modelValue.quest_performance_loads"/>
                         </div>
                     </div>
                 </template>

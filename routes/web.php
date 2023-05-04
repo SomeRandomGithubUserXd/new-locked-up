@@ -19,6 +19,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Quests\ChildQuestTopicController;
 use App\Http\Controllers\Quests\PerformanceQuestController;
 use App\Http\Controllers\Quests\QuestController;
+use App\Http\Controllers\Quests\QuestPerformanceLoadController;
 use App\Http\Controllers\Quests\QuestPerformanceShowController;
 use App\Http\Controllers\Quests\QuestTopicController;
 use App\Http\Controllers\ReviewController;
@@ -80,6 +81,7 @@ Route::middleware('auth')->group(function () {
     // Catalog misc
     Route::resource('locations.location_lounges', LocationLoungeController::class);
     Route::resource('quests.quest_performance_shows', QuestPerformanceShowController::class);
+    Route::resource('quests.quest_performance_loads', QuestPerformanceLoadController::class);
 
     // Certificate instances additional
     Route::group(['prefix' => 'certificate-instances', 'as' => 'certificate-instances.'], function () {

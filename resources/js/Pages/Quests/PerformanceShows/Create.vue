@@ -23,7 +23,7 @@ const performanceShow = useForm({
     program_en: '',
 })
 
-const storeLounge = () => {
+const storeShow = () => {
     performanceShow.post(route('quests.quest_performance_shows.store', props.questId))
 }
 </script>
@@ -39,7 +39,7 @@ const storeLounge = () => {
             <div class="max-w-7xl max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <quest-performance-show-form @submit="storeLounge" v-model="performanceShow"/>
+                        <quest-performance-show-form @submit="storeShow" v-model="performanceShow"/>
                     </div>
                 </div>
             </div>

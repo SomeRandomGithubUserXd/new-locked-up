@@ -7,34 +7,40 @@ import {Head} from "@inertiajs/vue3";
 import LocationForm from "@/Components/Locations/LocationForm.vue";
 import LocationLoungeForm from "@/Components/Locations/LocationLoungeForm.vue";
 import QuestPerformanceShowForm from "@/Components/Quest/QuestPerformanceShowForm.vue";
+import QuestPerformanceLoadForm from "@/Components/Quest/QuestPerformanceLoadForm.vue";
 
 const props = defineProps({
-    questId: Number,
-    questPerformanceShow: Object
+    questId: Number
 })
 
-const performanceShowToEdit = useForm(props.questPerformanceShow)
+const performanceLoad = useForm({
+    name_ru: '',
+    name_en: '',
+    time: '',
+    price_workday: 0,
+    price_weekend: 0,
+    description_ru: '',
+    description_en: '',
+    class_name: '',
+})
 
-const saveShow = () => {
-    performanceShowToEdit.patch(route('quests.quest_performance_shows.update', {
-        quest_performance_show: props.questPerformanceShow.id,
-        quest: props.questId
-    }))
+const storeLoad = () => {
+    performanceLoad.post(route('quests.quest_performance_loads.store', props.questId))
 }
 </script>
 
 <template>
-    <Head title="Редактировать шоу"/>
+    <Head title="Добавить пакет к квесту"/>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Редактировать шоу</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Добавить пакет к квесту</h2>
         </template>
         <div class="py-12">
             <div class="max-w-7xl max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <quest-performance-show-form @submit="saveShow" v-model="performanceShowToEdit"/>
+                        <quest-performance-load-form @submit="storeLoad" v-model="performanceLoad"/>
                     </div>
                 </div>
             </div>
