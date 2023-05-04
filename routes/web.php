@@ -19,6 +19,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Quests\ChildQuestTopicController;
 use App\Http\Controllers\Quests\PerformanceQuestController;
 use App\Http\Controllers\Quests\QuestController;
+use App\Http\Controllers\Quests\QuestPerformanceShowController;
 use App\Http\Controllers\Quests\QuestTopicController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SaleController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\Schedules\ScheduleItemController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
+use App\Models\Quests\QuestPerformanceShow;
 use App\Providers\RouteServiceProvider;
 use App\Services\RouteConstructor;
 
@@ -75,8 +77,9 @@ Route::middleware('auth')->group(function () {
         new LoungeController('lounges'),
         new LoungeScheduleController('lounge-schedules'),
     );
-    // Location lounge
+    // Catalog misc
     Route::resource('locations.location_lounges', LocationLoungeController::class);
+    Route::resource('quests.quest_performance_shows', QuestPerformanceShowController::class);
 
     // Certificate instances additional
     Route::group(['prefix' => 'certificate-instances', 'as' => 'certificate-instances.'], function () {

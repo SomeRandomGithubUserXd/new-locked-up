@@ -107,6 +107,14 @@ export const localePointers = {
         ru: 'lead_ru',
         en: 'lead_en',
     },
+    time: {
+        ru: 'time_ru',
+        en: 'time_en',
+    },
+    program: {
+        ru: 'program_ru',
+        en: 'program_en',
+    },
 }
 
 export const getAttribute = (name, locale) => {

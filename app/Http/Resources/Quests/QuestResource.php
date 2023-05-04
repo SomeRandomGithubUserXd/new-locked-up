@@ -25,7 +25,7 @@ class QuestResource extends JsonResource
         $performanceArtAttributes = [];
         if($quest->performance) {
             $performanceArtAttributes = [
-                'performance_shows' => $quest->questPerformanceShows
+                'quest_performance_shows' => $quest->questPerformanceShows
             ];
         }
         return [

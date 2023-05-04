@@ -101,6 +101,40 @@ const tabsArray = [
     },
 ]
 
+const performanceShowTableProps = ref({
+    records: [
+        {
+            name: 'Название',
+            getValue: (item) => {
+                return item.name_ru || 'Нет'
+            },
+        },
+    ],
+    actions: [
+        {
+            name: 'Редактировать',
+            trigger: (item) => {
+                router.get(route('quests.quest_performance_shows.show', {
+                    quest_performance_show: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        },
+        {
+            name: 'Удалить',
+            trigger: (item) => {
+                router.delete(route('quests.quest_performance_shows.destroy', {
+                    quest_performance_show: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        }
+    ],
+    pagination: {
+        isRequired: false,
+    }
+})
+
 const currentTab = ref(tabsArray[0])
 
 const scheduleItems = ref([])
@@ -758,8 +792,13 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                 </template>
                 <template #content>
                     <div class="grid grid-cols-6 gap-6 w-full">
-                        <div class="col-span-6 sm:col-span-1">
+                        <div class="col-span-6 sm:col-span-6">
                             <InputLabel for="schedule_blocks_section_header" value="Шоу"/>
+                            <data-table :create-link="route('quests.quest_performance_shows.create', props.modelValue.id)"
+                                        :table-props="performanceShowTableProps"
+                                        :needs-selection="false"
+                                        class="mt-3"
+                                        :raw-data="modelValue.quest_performance_shows"/>
                             <InputError class="mt-2" :message="modelValue.errors.schedule_blocks_section_header"/>
                         </div>
                     </div>
