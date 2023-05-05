@@ -123,6 +123,10 @@ export const localePointers = {
         ru: 'packages_example_ru',
         en: 'packages_example_en',
     },
+    advantages: {
+        ru: 'advantages_ru',
+        en: 'advantages_en',
+    },
 }
 
 export const getAttribute = (name, locale) => {

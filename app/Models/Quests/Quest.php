@@ -215,4 +215,9 @@ class Quest extends Model
     {
         return $this->hasMany(QuestPerformanceExperiment::class, 'quest_id');
     }
+
+    public function questPerformanceLounges(): HasMany
+    {
+        return $this->hasMany(QuestPerformanceLounge::class, 'quest_id');
+    }
 }

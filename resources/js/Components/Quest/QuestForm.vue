@@ -203,6 +203,40 @@ const performanceExperimentsTableProps = ref({
     }
 })
 
+const performanceLoungesTableProps = ref({
+    records: [
+        {
+            name: 'Название',
+            getValue: (item) => {
+                return item.name_ru || 'Нет'
+            },
+        },
+    ],
+    actions: [
+        {
+            name: 'Редактировать',
+            trigger: (item) => {
+                router.get(route('quests.quest_performance_lounges.show', {
+                    quest_performance_lounge: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        },
+        {
+            name: 'Удалить',
+            trigger: (item) => {
+                router.delete(route('quests.quest_performance_lounges.destroy', {
+                    quest_performance_lounge: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        }
+    ],
+    pagination: {
+        isRequired: false,
+    }
+})
+
 const currentTab = ref(tabsArray[0])
 
 const scheduleItems = ref([])
@@ -910,6 +944,15 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                         :needs-selection="false"
                                         class="mt-3"
                                         :raw-data="modelValue.quest_performance_experiments"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
+                            <h2 class="font-medium text-xl">Блок лаунжей</h2>
+                            <InputLabel value="Лаунжи"/>
+                            <data-table :create-link="route('quests.quest_performance_lounges.create', props.modelValue.id)"
+                                        :table-props="performanceLoungesTableProps"
+                                        :needs-selection="false"
+                                        class="mt-3"
+                                        :raw-data="modelValue.quest_performance_lounges"/>
                         </div>
                     </div>
                 </template>

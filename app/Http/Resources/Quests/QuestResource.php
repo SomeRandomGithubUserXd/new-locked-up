@@ -32,6 +32,7 @@ class QuestResource extends JsonResource
                 'packages_example_ru' => $quest->packages_example_ru,
                 'packages_example_en' => $quest->packages_example_en,
                 'quest_performance_experiments' => $quest->questPerformanceExperiments,
+                'quest_performance_lounges' => $quest->questPerformanceLounges,
             ];
         }
         return [
