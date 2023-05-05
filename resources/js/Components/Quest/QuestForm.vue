@@ -169,6 +169,40 @@ const performanceLoadsTableProps = ref({
     }
 })
 
+const performanceExperimentsTableProps = ref({
+    records: [
+        {
+            name: 'Название',
+            getValue: (item) => {
+                return item.name_ru || 'Нет'
+            },
+        },
+    ],
+    actions: [
+        {
+            name: 'Редактировать',
+            trigger: (item) => {
+                router.get(route('quests.quest_performance_experiments.show', {
+                    quest_performance_experiment: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        },
+        {
+            name: 'Удалить',
+            trigger: (item) => {
+                router.delete(route('quests.quest_performance_experiments.destroy', {
+                    quest_performance_experiment: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        }
+    ],
+    pagination: {
+        isRequired: false,
+    }
+})
+
 const currentTab = ref(tabsArray[0])
 
 const scheduleItems = ref([])
@@ -867,6 +901,15 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                         :needs-selection="false"
                                         class="mt-3"
                                         :raw-data="modelValue.quest_performance_loads"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
+                            <h2 class="font-medium text-xl">Блок экспериментов</h2>
+                            <InputLabel value="Эксперименты"/>
+                            <data-table :create-link="route('quests.quest_performance_experiments.create', props.modelValue.id)"
+                                        :table-props="performanceExperimentsTableProps"
+                                        :needs-selection="false"
+                                        class="mt-3"
+                                        :raw-data="modelValue.quest_performance_experiments"/>
                         </div>
                     </div>
                 </template>

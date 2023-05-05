@@ -210,4 +210,9 @@ class Quest extends Model
     {
         return $this->hasMany(QuestPerformanceLoad::class, 'quest_id');
     }
+
+    public function questPerformanceExperiments(): HasMany
+    {
+        return $this->hasMany(QuestPerformanceExperiment::class, 'quest_id');
+    }
 }
