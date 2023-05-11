@@ -11,13 +11,29 @@ const props = defineProps({
     payments: Object,
     order: Object
 })
-
+console.log(props.payments)
 const tableProps = ref({
     records: [
         {
             name: '#',
             getValue: (item) => item.id
-        }
+        },
+        {
+            name: 'Статус',
+            getValue: (item) => item.status
+        },
+        {
+            name: 'Ссылка для оплаты',
+            getValue: (item) => item.link
+        },
+        {
+            name: 'Сумма',
+            getValue: (item) => item.sum
+        },
+        {
+            name: 'Возвращено',
+            getValue: (item) => item.returned
+        },
     ],
     pagination: {
         isRequired: true,
@@ -33,7 +49,7 @@ const tableProps = ref({
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Платежи по заказу</h2>
         </template>
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <data-table

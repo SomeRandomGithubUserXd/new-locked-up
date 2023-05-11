@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'sber_bank_acquiring' => [
+        'username' => env('SBER_BANK_ACQUIRING_USERNAME'),
+        'password' => env('SBER_BANK_ACQUIRING_PASSWORD'),
+    ],
+
 ];

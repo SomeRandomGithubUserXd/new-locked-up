@@ -124,6 +124,8 @@ Route::middleware('auth')->group(function () {
             });
         });
     });
+    Route::get('/order_payed', [OrderPaymentController::class, 'orderPayed'])->name('order-payed');
+
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {
         Route::group(['prefix' => '{quest}'], static function () {
             Route::get('/get_quest_meta', [QuestController::class, 'getQuestMeta'])->name('get-quest-meta');

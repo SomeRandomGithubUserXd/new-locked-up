@@ -6,10 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class OrderPaymentRequest extends FormRequest
 {
+
     public function rules(): array
     {
         return [
-            'sum' => ['required', 'integer'],
+            'sum' => ['required', 'numeric', 'min:0.1'],
         ];
     }
 

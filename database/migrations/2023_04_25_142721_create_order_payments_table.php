@@ -11,10 +11,12 @@ return new class extends Migration {
         Schema::create('order_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Order::class);
+            $table->text('id_from_provider');
+            $table->string('order_number')->unique();
             $table->tinyInteger('status')->default(0);
             $table->string('link')->unique();
-            $table->smallInteger('sum');
-            $table->smallInteger('returned')->default(0);
+            $table->integer('sum');
+            $table->integer('returned')->default(0);
             $table->timestamps();
         });
     }
