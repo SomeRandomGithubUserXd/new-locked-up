@@ -11,7 +11,7 @@ const props = defineProps({
     payments: Object,
     order: Object
 })
-console.log(props.payments)
+
 const tableProps = ref({
     records: [
         {
@@ -34,6 +34,20 @@ const tableProps = ref({
             name: 'Возвращено',
             getValue: (item) => item.returned
         },
+    ],
+    actions: [
+        {
+            name: 'Вернуть',
+            trigger(item) {
+                router.post(route('orders.payments.refund', {
+                    order: props.order.id,
+                    order_payment: item.id
+                }))
+            },
+            condition(item) {
+                return item.status === 'Оплачен'
+            }
+        }
     ],
     pagination: {
         isRequired: true,

@@ -4,6 +4,7 @@ namespace App\Services\Acquiring;
 
 use App\Enums\Acquiring\AcquiringCurrencyEnum;
 use App\Enums\Acquiring\AcquiringProviderEnum;
+use App\Enums\OrderPaymentStatusEnum;
 use App\Models\Orders\OrderPayment;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Http\Client\Response;
@@ -25,7 +26,7 @@ class SberBankAcquiringEntity extends AbstractAcquiringEntity
 
     public function storePayment(int $amount, AcquiringCurrencyEnum $currencyEnum): OrderPayment
     {
-        $orderNumber = $this->order->id.'-'.OrderPayment::where(['order_id' => $this->order->id])->count();
+        $orderNumber = $this->order->id . '-' . OrderPayment::where(['order_id' => $this->order->id])->count();
         $url = $this->buildQuery('register.do', [
             'amount' => $amount,
             'currency' => AcquiringProviderEnum::sberBank->getCurrency($currencyEnum),
@@ -40,5 +41,22 @@ class SberBankAcquiringEntity extends AbstractAcquiringEntity
             'link' => $response['formUrl'],
             'sum' => $amount
         ]);
+    }
+
+    public function refund(OrderPayment $orderPayment)
+    {
+        $url = $this->buildQuery('refund.do', [
+            'orderId' => $orderPayment->id_from_provider,
+            'amount' => $amount = $orderPayment->sum
+        ]);
+        $response = $this->formRequest($url)->json();
+        if ((int)$response['errorCode'] == 0) {
+            $orderPayment->update([
+                'status' => OrderPaymentStatusEnum::refunded,
+                'returned' => $amount
+            ]);
+            return true;
+        }
+        return false;
     }
 }

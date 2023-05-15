@@ -118,7 +118,8 @@ const hasAnyItems = computed({
                             <td v-for="record in props.tableProps?.records"
                                 :style="record?.getRowStyle ? record?.getRowStyle(item) : ''"
                                 class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <template v-if="typeof record.getValue(item) === 'object' && record.getValue(item)?.component">
+                                <template
+                                    v-if="typeof record.getValue(item) === 'object' && record.getValue(item)?.component">
                                     <component :meta="record.getValue(item).meta"
                                                :is="record.getValue(item).component"/>
                                 </template>
@@ -127,11 +128,12 @@ const hasAnyItems = computed({
                             <td
                                 v-if="props.tableProps.actions?.length"
                                 class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 flex d-flex flex-col">
-                                <span @click="action.trigger(item)" class="text-indigo-600 cursor-pointer mb-3"
-                                      v-for="action in props.tableProps?.actions">
+                                <template v-for="action in props.tableProps?.actions">
+                                <span v-if="typeof action?.condition === 'function' ? action?.condition(item) : true" @click="action.trigger(item)" class="text-indigo-600 cursor-pointer mb-3">
                                     <component class="w-5 h-5 mr-3" v-if="action.icon" :is="action.icon"/>
                                     <span v-else>{{ action.name }}</span>
                                 </span>
+                                </template>
                             </td>
                         </tr>
                         </tbody>

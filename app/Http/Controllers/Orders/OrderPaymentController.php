@@ -39,6 +39,16 @@ class OrderPaymentController extends Controller
         return redirect()->route('orders.payments.index', $order->id);
     }
 
+    public function refund(Order $order, OrderPayment $orderPayment)
+    {
+        if ($orderPayment->status !== OrderPaymentStatusEnum::payed) {
+            return redirect()->back();
+        }
+        $service = new AcquiringService($order, AcquiringProviderEnum::sberBank);
+        $service->getAcquiringEntity()->refund($orderPayment);
+        return redirect()->route('orders.payments.index', $order->id);
+    }
+
     public function orderPayed(Request $request)
     {
         OrderPayment::firstWhere(['id_from_provider' => $request->orderId])->update(['status' => OrderPaymentStatusEnum::payed]);

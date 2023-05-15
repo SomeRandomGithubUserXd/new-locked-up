@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/', [OrderPaymentController::class, 'index'])->name('index');
                 Route::get('/create', [OrderPaymentController::class, 'create'])->name('create');
                 Route::post('/store', [OrderPaymentController::class, 'store'])->name('store');
+                Route::post('/{order_payment}/refund', [OrderPaymentController::class, 'refund'])->name('refund');
             });
         });
     });
