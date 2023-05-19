@@ -24,7 +24,7 @@ class OrderRequest extends FormRequest
             'customer_email' => ['nullable', 'email'],
             'customer_phone' => ['required', 'string'],
             'source' => ['required', 'exists:order_sources,id'],
-            'option' => ['required', 'string'],
+            'option' => ['nullable', 'string'],
             'promo_code_id' => ['nullable', 'int', 'exists:sales,id'],
             'certificate_id' => ['nullable', 'int', 'exists:certificates_data,id'],
             'comment' => ['nullable', 'string'],

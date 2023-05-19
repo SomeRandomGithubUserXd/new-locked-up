@@ -18,7 +18,9 @@ use App\Traits\InteractsWithOrders;
 use App\Traits\QueryTools;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
+use ZipStream\Exception;
 
 class OrderController extends AbstractControllerWithMultipleDeletion
 {
@@ -96,11 +98,13 @@ class OrderController extends AbstractControllerWithMultipleDeletion
     public function store(OrderRequest $request)
     {
         $order = Order::create($request->getUnRefactoredValidatedData());
-        \DB::table('booked_date_schedule_item')->insert([
-            'date' => $request->get('date') ?: Carbon::now()->format('Y-m-d'),
-            'schedule_item_id' => $request->schedule_item_id,
-            'order_id' => $order->id,
-        ]);
+        try {
+            \DB::table('booked_date_schedule_item')->insert([
+                'date' => $request->get('date') ?: Carbon::now()->format('Y-m-d'),
+                'schedule_item_id' => $request->schedule_item_id,
+                'order_id' => $order->id,
+            ]);
+        } catch (QueryException) {}
         $order->orderOptions()->sync(collect($request->get('options'))->pluck('id'));
         return redirect()->route('orders.index');
     }
