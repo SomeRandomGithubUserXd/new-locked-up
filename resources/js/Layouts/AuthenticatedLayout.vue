@@ -127,6 +127,11 @@ const routes = [
                 isCurrent: !!route().current('order-sources.*')
             },
             {
+                name: 'Отзывы',
+                href: route('reviews.index'),
+                isCurrent: !!route().current('reviews.*')
+            },
+            {
                 name: 'Лаунжи',
                 href: route('lounges.index'),
                 isCurrent: !!route().current('lounges.*')
