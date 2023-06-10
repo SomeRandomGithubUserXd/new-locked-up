@@ -39,7 +39,6 @@ const emit = defineEmits(['submit'])
                     type="email"
                     class="mt-1 block w-full"
                     v-model="modelValue.customer_email"
-                    required
                 />
                 <InputError class="mt-2" :message="modelValue.errors.customer_email"/>
             </div>
