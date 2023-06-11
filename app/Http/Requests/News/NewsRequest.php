@@ -70,7 +70,7 @@ class NewsRequest extends FormRequest
     {
         // TODO: Refactor when DB will be restructured
         $edited = [
-            'is_published' => 'published',
+            'published' => 'is_published',
         ];
         $data = $this->validated();
         foreach ($edited as $key => $value) {

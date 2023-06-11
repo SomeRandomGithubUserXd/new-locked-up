@@ -33,6 +33,8 @@ class SaleResource extends JsonResource
             'start_date' => $sale->start_date?->format('Y-m-d'),
             'best_before' => $sale->best_before?->format('Y-m-d'),
             'weekdays_only' => (bool)$sale->weekday_only,
+            'for_aggregators' => (bool)$sale->for_aggregators,
+            'for_certificate' => (bool)$sale->for_certificate,
             'quest_ids' => $sale->quests->pluck('id')
         ];
     }

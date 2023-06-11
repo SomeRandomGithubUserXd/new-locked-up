@@ -11,6 +11,8 @@ use App\Traits\InteractsWithOrders;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\QueryException;
+use PHPUnit\Exception;
 
 class BookingController extends Controller
 {
@@ -38,11 +40,44 @@ class BookingController extends Controller
 
     public function make(BookingRequest $request, int $scheduleId)
     {
-        \DB::table('booked_date_schedule_item')->insert([
-            'date' => $request->get('date'),
-            'schedule_item_id' => $scheduleId,
-            'order_id' => 0
-        ]);
+        try {
+            \DB::table('booked_date_schedule_item')->insert([
+                'date' => $request->get('date'),
+                'schedule_item_id' => $scheduleId,
+                'order_id' => 0
+            ]);
+        } catch (QueryException) {
+        }
+        return redirect()->back();
+    }
+
+    public function makeMany(BookingRequest $request)
+    {
+        foreach ($request->ids as $id) {
+            try {
+                \DB::table('booked_date_schedule_item')->insert([
+                    'date' => $request->get('date'),
+                    'schedule_item_id' => $id,
+                    'order_id' => 0
+                ]);
+            } catch (QueryException) {
+            }
+        }
+        return redirect()->back();
+    }
+
+    public function undoMany(BookingRequest $request)
+    {
+        foreach ($request->ids as $id) {
+            try {
+                \DB::table('booked_date_schedule_item')->where([
+                    'date' => $request->get('date'),
+                    'schedule_item_id' => $id,
+                    'order_id' => 0
+                ])->delete();
+            } catch (QueryException) {
+            }
+        }
         return redirect()->back();
     }
 

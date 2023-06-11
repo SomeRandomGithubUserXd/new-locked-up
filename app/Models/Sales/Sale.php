@@ -24,6 +24,7 @@ class Sale extends Model
         'is_deleted',
         'for_certificate',
         'weekday_only',
+        'for_aggregators',
     ];
 
     public $timestamps = false;

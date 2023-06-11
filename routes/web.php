@@ -56,6 +56,8 @@ Route::middleware('auth')->group(function () {
             Route::patch('/make', [BookingController::class, 'make'])->name('make');
             Route::patch('/undo', [BookingController::class, 'undo'])->name('undo');
         });
+        Route::post('/make_many', [BookingController::class, 'makeMany'])->name('make_many');
+        Route::post('/undo_many', [BookingController::class, 'undoMany'])->name('undo_many');
     });
     RouteConstructor::resourcesWithMultipleDeletion(
         new OrderController('orders'),

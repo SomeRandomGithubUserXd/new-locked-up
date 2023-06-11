@@ -20,6 +20,8 @@ const sale = useForm({
     start_date: '',
     best_before: '',
     quest_ids: [],
+    for_certificate: false,
+    for_aggregators: false,
 })
 
 const store = () => {

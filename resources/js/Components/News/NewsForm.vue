@@ -8,6 +8,8 @@ import {getAttribute as getAttributeInstance} from "@/Traits/LocaleTrait";
 import SwitchLangGroup from "@/Components/Quest/SwitchLangGroup.vue";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+import Checkbox from "@/Components/Checkbox.vue";
+import Editor from '@tinymce/tinymce-vue'
 
 const props = defineProps({
     modelValue: {
@@ -28,6 +30,13 @@ const getAttribute = (name) => {
 <template>
     <form class="space-y-6" @submit.prevent="emit('submit')">
         <switch-lang-group class="mr-3" v-model="locale" @click.stop/>
+        <div class="flex flex-col gap-3">
+            <label for="is_published">
+                <checkbox id="is_published"
+                          v-model:checked="modelValue.is_published"/>
+                <span class="ml-2 text-sm text-gray-600">Опубликована</span>
+            </label>
+        </div>
         <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-2">
                 <input-label for="meta_title" :value="`Title страницы (${locale})`"/>
@@ -160,12 +169,12 @@ const getAttribute = (name) => {
             </div>
             <div class="col-span-6 sm:col-span-6">
                 <input-label for="conditions_text" :value="`Условия (${locale})`"/>
-                <textarea
+                <Editor
                     id="conditions_text"
-                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    type="text"
+                    lang="ru"
                     v-model="modelValue[getAttribute('conditions_text')]"
-                ></textarea>
+                    api-key="no-api-key"
+                />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('conditions_text')]"/>
             </div>
             <div class="col-span-6 sm:col-span-3">
@@ -192,12 +201,12 @@ const getAttribute = (name) => {
             </div>
             <div class="col-span-6 sm:col-span-6">
                 <input-label for="instruction_text" :value="`Инструкция (${locale})`"/>
-                <textarea
-                    id="instruction_text"
-                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    type="text"
+                <Editor
+                    id="full_description"
+                    lang="ru"
                     v-model="modelValue[getAttribute('instruction_text')]"
-                ></textarea>
+                    api-key="no-api-key"
+                />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('instruction_text')]"/>
             </div>
             <div class="col-span-6 sm:col-span-6">

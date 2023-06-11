@@ -8,6 +8,8 @@ import BookingItem from "@/Components/Bookings/BookingItem.vue";
 import {onMounted} from "vue";
 import {getCurrentUrlParam} from "@/Traits/Tools";
 import Pagination from "@/Components/Common/Pagination.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import {collect} from "collect.js";
 
 const props = defineProps({
     quests: Object,
@@ -35,11 +37,15 @@ const submit = () => {
 }
 
 const setBooking = (id) => {
-    filter.patch(route('bookings.make', id))
+    filter.patch(route('bookings.make', id), {
+        preserveScroll: true
+    })
 }
 
 const unsetBooking = (id) => {
-    filter.patch(route('bookings.undo', id))
+    filter.patch(route('bookings.undo', id), {
+        preserveScroll: true
+    })
 }
 
 const writeOrder = (time, quest_id) => {
@@ -47,6 +53,30 @@ const writeOrder = (time, quest_id) => {
         quest_id: quest_id,
         date: filter.date,
         time: time,
+    }, {
+        preserveScroll: true
+    })
+}
+
+const bookAllItems = (quest) => {
+    filter.transform((data) => {
+        return {
+            ...data,
+            ids: collect(quest.items).pluck('id').all()
+        }
+    }).post(route('bookings.make_many'), {
+        preserveScroll: true
+    })
+}
+
+const unbookAllItems = (quest) => {
+    filter.transform((data) => {
+        return {
+            ...data,
+            ids: collect(quest.items).pluck('id').all()
+        }
+    }).post(route('bookings.undo_many'), {
+        preserveScroll: true
     })
 }
 </script>
@@ -100,7 +130,16 @@ const writeOrder = (time, quest_id) => {
                         </form>
                         <div class="flex flex-col mt-3 overflow-scroll">
                             <div v-for="quest in props.quests.data" class="my-1">
-                                <h3 class="font-semibold text-lg"> {{ quest.name }} </h3>
+                                <div class="flex items-end my-5">
+                                    <h3 class="font-semibold text-lg">
+                                        {{ quest.name }}
+                                    </h3>
+                                    <button
+                                        @click="bookAllItems(quest)"
+                                        class="inline-flex ml-3 items-center justify-center p-2 text-sm rounded-md text-white bg-indigo-500 hover:bg-indigo-600 transition duration-150 ease-in-out">
+                                        Забронировать все
+                                    </button>
+                                </div>
                                 <div class="flex">
                                     <booking-item
                                         class="mr-3"

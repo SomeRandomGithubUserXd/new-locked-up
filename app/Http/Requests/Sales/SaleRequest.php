@@ -10,6 +10,8 @@ class SaleRequest extends FormRequest
     {
         $this->merge([
             'weekdays_only' => define_as_bool($this->weekdays_only),
+            'for_aggregators' => define_as_bool($this->for_aggregators),
+            'for_certificate' => define_as_bool($this->for_certificate),
         ]);
     }
 
@@ -23,6 +25,8 @@ class SaleRequest extends FormRequest
             'best_before' => ['nullable', 'date'],
             'start_date' => ['nullable', 'date'],
             'weekdays_only' => ['required', 'bool'],
+            'for_aggregators' => ['required', 'bool'],
+            'for_certificate' => ['required', 'bool'],
             'quest_ids' => ['nullable', 'array'],
         ];
     }

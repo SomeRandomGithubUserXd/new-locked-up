@@ -21,11 +21,21 @@ const emit = defineEmits(['submit'])
 
 <template>
     <form class="space-y-6" @submit.prevent="emit('submit')">
-        <div>
+        <div class="flex flex-col gap-3">
             <label for="weekdays_only">
                 <checkbox id="weekdays_only"
                           v-model:checked="modelValue.weekdays_only"/>
                 <span class="ml-2 text-sm text-gray-600">Только будние дни</span>
+            </label>
+            <label for="for_certificate">
+                <checkbox id="for_certificate"
+                          v-model:checked="modelValue.for_certificate"/>
+                <span class="ml-2 text-sm text-gray-600">Для сертификатов</span>
+            </label>
+            <label for="for_aggregators">
+                <checkbox id="for_aggregators"
+                          v-model:checked="modelValue.for_aggregators"/>
+                <span class="ml-2 text-sm text-gray-600">Для агрегаторов</span>
             </label>
         </div>
         <div class="grid grid-cols-6 gap-6">

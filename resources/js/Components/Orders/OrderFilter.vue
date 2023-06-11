@@ -49,18 +49,18 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                 />
                 <InputError class="mt-2" :message="modelValue.errors.name"/>
             </div>
-            <div v-if="!isLimited" class="col-span-6 sm:col-span-1">
-                <InputLabel for="order_id" value="Номер заказа"/>
-                <TextInput
-                    :disabled="props.disabled"
-                    id="order_id"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="modelValue.order_id"
+<!--            <div v-if="!isLimited" class="col-span-6 sm:col-span-1">-->
+<!--                <InputLabel for="order_id" value="Номер заказа"/>-->
+<!--                <TextInput-->
+<!--                    :disabled="props.disabled"-->
+<!--                    id="order_id"-->
+<!--                    type="text"-->
+<!--                    class="mt-1 block w-full"-->
+<!--                    v-model="modelValue.order_id"-->
 
-                />
-                <InputError class="mt-2" :message="modelValue.errors.order_id"/>
-            </div>
+<!--                />-->
+<!--                <InputError class="mt-2" :message="modelValue.errors.order_id"/>-->
+<!--            </div>-->
             <div v-if="!isLimited" class="col-span-6 sm:col-span-1">
                 <label for="quest" class="block text-sm font-medium text-gray-700">
                     Сортировка </label>
