@@ -28,6 +28,7 @@ const routes = [
             'certificates',
             'bookings',
             'order-filters',
+            'order-stats',
         ]),
         subRoutes: [
             {
@@ -54,7 +55,12 @@ const routes = [
                 name: 'Фильтры',
                 href: route('order-filters.index'),
                 isCurrent: !!route().current('order-filters.*')
-            }
+            },
+            {
+                name: 'Статистика',
+                href: route('orders-stats'),
+                isCurrent: !!route().current('orders-stats')
+            },
         ]
     },
     {

@@ -44,7 +44,7 @@ class OrderMetaResource extends JsonResource
         ];
     }
 
-    protected static function priceFormat(int $price): string
+    public static function priceFormat(int $price): string
     {
         return number_format($price, 2, '.', ' ') . ' руб.';
     }

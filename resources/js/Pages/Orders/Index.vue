@@ -102,7 +102,7 @@ const tableProps = ref({
         },
         {
             name: 'Источник',
-            getValue: (order) => order.sources?.name
+            getValue: (order) => order.source?.name
         },
         {
             name: 'Комментарий',
@@ -192,7 +192,7 @@ const reset = () => {
 const toExcel = () => {
     const data = props.orders.data.map(order => ({
         ...order,
-        sources: order?.sources?.name
+        sources: order?.source?.name
     }))
     const fileName = 'orders'
     const exportType = exportFromJSON.types.xls

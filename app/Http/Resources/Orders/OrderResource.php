@@ -29,7 +29,6 @@ class OrderResource extends JsonResource
             'online_payment' => $this->payed_online,
             'payed_aggregator' => $this->payed_aggregator,
             'price_total' => $this->price_total,
-            'sources' => $this->sources,
             'certificate_data_id' => $this->certificate_data_id,
         ];
     }
@@ -57,7 +56,6 @@ class OrderResource extends JsonResource
             'status' => $order->status ?? 0,
             'price_total' => $order->price_total,
             'option' => $order->package ?? Order::$packageOptions[0],
-            'sources' => $order->sources,
             'fact_payment_type' => $order->fact_payment_type ?? '',
             'pre_payed_type' => $order->prepayed_type ?? '',
             'options' => $order->orderOptions->makeHidden('pivot'),

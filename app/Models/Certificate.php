@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use App\Enums\Certificates\CertificateInstanceStatusEnum;
+use App\Models\Orders\Order;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Certificate extends Model
 {
@@ -20,4 +23,9 @@ class Certificate extends Model
     ];
 
     public $timestamps = false;
+
+    public function order(): HasOne
+    {
+        return $this->hasOne(Order::class, 'certificate_data_id');
+    }
 }

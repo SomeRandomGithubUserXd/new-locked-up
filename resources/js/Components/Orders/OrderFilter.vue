@@ -28,6 +28,11 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    needsExcel: {
+        required: false,
+        type: Boolean,
+        default: true,
+    },
     ...orderProps
 })
 
@@ -176,14 +181,14 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                     Искать
                 </button>
             </div>
-            <div class="col-span-6 sm:col-span-1">
+            <div v-if="props.needsExcel" class="col-span-6 sm:col-span-1">
                 <button type="button"
                         @click="emit('toExcel')"
                         class="flex w-full justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Выгрузить в Excel
                 </button>
             </div>
-            <div class="col-span-6 sm:col-span-1">
+            <div class="col-span-6" :class="props.needsExcel ? 'sm:col-span-1' : 'sm:col-span-2'">
                 <button type="button"
                         @click="emit('reset')"
                         class="flex w-full justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

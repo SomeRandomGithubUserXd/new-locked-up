@@ -45,7 +45,7 @@ const getAttribute = (name) => {
                     type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue[getAttribute('meta_title')]"
-                    autofocus
+
                 />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('meta_title')]"/>
             </div>
@@ -56,7 +56,7 @@ const getAttribute = (name) => {
                     type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue[getAttribute('meta_description')]"
-                    autofocus
+
                 />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('meta_description')]"/>
             </div>
@@ -67,7 +67,7 @@ const getAttribute = (name) => {
                     type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue[getAttribute('meta_keywords')]"
-                    autofocus
+
                 />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('meta_keywords')]"/>
             </div>
@@ -78,7 +78,7 @@ const getAttribute = (name) => {
                     type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue[getAttribute('og_title')]"
-                    autofocus
+
                 />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('og_title')]"/>
             </div>
@@ -89,7 +89,7 @@ const getAttribute = (name) => {
                     type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue.og_type"
-                    autofocus
+
                 />
                 <InputError class="mt-2" :message="modelValue.errors.og_type"/>
             </div>
@@ -100,7 +100,7 @@ const getAttribute = (name) => {
                     type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue[getAttribute('og_description')]"
-                    autofocus
+
                 />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('og_description')]"/>
             </div>
@@ -111,7 +111,7 @@ const getAttribute = (name) => {
                     type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue[getAttribute('title')]"
-                    autofocus
+
                 />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('title')]"/>
             </div>
@@ -142,7 +142,7 @@ const getAttribute = (name) => {
                     type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue[getAttribute('h1')]"
-                    autofocus
+
                 />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('h1')]"/>
             </div>
@@ -163,7 +163,7 @@ const getAttribute = (name) => {
                     type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue[getAttribute('conditions_header')]"
-                    autofocus
+
                 />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('conditions_header')]"/>
             </div>
@@ -184,7 +184,7 @@ const getAttribute = (name) => {
                     type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue[getAttribute('book_button_text')]"
-                    autofocus
+
                 />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('book_button_text')]"/>
             </div>
@@ -195,7 +195,7 @@ const getAttribute = (name) => {
                     type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue[getAttribute('book_button_link')]"
-                    autofocus
+
                 />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('book_button_link')]"/>
             </div>
@@ -226,7 +226,7 @@ const getAttribute = (name) => {
                     type="text"
                     class="mt-1 block w-full"
                     v-model="modelValue[getAttribute('quests_title')]"
-                    autofocus
+
                 />
                 <InputError class="mt-2" :message="modelValue.errors[getAttribute('quests_title')]"/>
             </div>

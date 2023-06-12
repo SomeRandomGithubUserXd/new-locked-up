@@ -89,6 +89,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('quests.quest_performance_experiments', QuestPerformanceExperimentController::class);
     Route::resource('quests.quest_performance_lounges', QuestPerformanceLoungeController::class);
 
+    // Orders additional
+    Route::get('/orders-stats', [OrderController::class, 'stats'])->name('orders-stats');
+
     // Certificate instances additional
     Route::group(['prefix' => 'certificate-instances', 'as' => 'certificate-instances.'], function () {
         Route::post('/upload', [CertificateInstanceController::class, 'upload'])->name('upload');

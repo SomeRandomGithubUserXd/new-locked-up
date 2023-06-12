@@ -3,6 +3,7 @@
 namespace App\Models\Sales;
 
 use App\Enums\Certificates\CertificateInstanceTypeEnum;
+use App\Models\Orders\Order;
 use App\Models\Quests\Quest;
 use App\Models\SaleQuests;
 use Illuminate\Database\Eloquent\Model;
@@ -42,5 +43,10 @@ class Sale extends Model
             'sales_id',
             'quests_id'
         )->using(SaleQuest::class);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'promo', 'promocode');
     }
 }

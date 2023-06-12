@@ -14,3 +14,7 @@ export const getCurrentUrlParam = (param, all = false, type) => {
     }
     return data || null
 }
+
+export const numberFormat = (number) => {
+    return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB'}).format(number)
+}

@@ -8,6 +8,7 @@ use App\Models\Lounges\Lounge;
 use App\Models\Lounges\LoungeSchedule;
 use App\Models\Lounges\LoungeScheduleItem;
 use App\Models\Quests\Quest;
+use App\Models\Sales\Sale;
 use App\Models\Schedules\Schedule;
 use App\Models\Schedules\ScheduleItem;
 use App\Traits\HasTimestamps;
@@ -97,7 +98,7 @@ class Order extends Model
         return $this->hasManyThrough(ScheduleItem::class, Schedule::class);
     }
 
-    public function sources(): BelongsTo
+    public function source(): BelongsTo
     {
         return $this->belongsTo(OrderSource::class, 'source', 'id');
     }
@@ -125,5 +126,10 @@ class Order extends Model
     public function orderPayments(): HasMany
     {
         return $this->hasMany(OrderPayment::class, 'order_id');
+    }
+
+    public function sale(): BelongsTo
+    {
+        return $this->belongsTo(Sale::class, 'promo', 'promocode');
     }
 }
