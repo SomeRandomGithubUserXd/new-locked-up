@@ -99,6 +99,7 @@ const unbookAllItems = (quest) => {
                                 <InputLabel for="date" value="Дата"/>
                                 <TextInput
                                     id="date"
+                                    :min="new Date().toISOString().split('T')[0]"
                                     type="date"
                                     class="mt-1 block w-full"
                                     v-model="filter.date"

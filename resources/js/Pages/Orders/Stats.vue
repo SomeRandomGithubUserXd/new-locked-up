@@ -166,7 +166,7 @@ const sumOptions = (options) => {
                                                 Игры, всего
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
-                                                {{ props.orders.main }}
+                                                {{numberFormat(Number(props.orders.main))}}
                                             </td>
                                         </tr>
                                         <tr>
@@ -174,7 +174,7 @@ const sumOptions = (options) => {
                                                 Игры "для друзей"
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
-                                                {{ props.orders.for_friends }}
+                                                {{numberFormat(Number(props.orders.for_friends))}}
                                             </td>
                                         </tr>
                                         <tr>
@@ -182,7 +182,7 @@ const sumOptions = (options) => {
                                                 Игры от агр (без доп усл)
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
-                                                {{ props.orders.aggregator }}
+                                                {{numberFormat(Number(props.orders.aggregator))}}
                                             </td>
                                         </tr>
                                         <tr class="bg-indigo-500 text-white">
@@ -191,7 +191,17 @@ const sumOptions = (options) => {
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap ">
                                                 {{
-                                                    mainNumber
+                                                    numberFormat(Number(mainNumber))
+                                                }}
+                                            </td>
+                                        </tr>
+                                        <tr class="bg-red-500 text-white">
+                                            <td class="px-6 py-4 whitespace-nowrap  font-bold">
+                                                Остаток к оплате
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap ">
+                                                {{
+                                                    numberFormat(Number(props.orders.left_to_pay))
                                                 }}
                                             </td>
                                         </tr>
@@ -433,7 +443,6 @@ const sumOptions = (options) => {
                             </div>
                         </div>
                     </div>
-
                     <pagination class="p-5 mx-10"
                                 :current-page="props.options.current_page"
                                 :max-page="100"/>

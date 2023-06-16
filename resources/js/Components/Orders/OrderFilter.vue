@@ -33,10 +33,25 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    filtersPrepared: {
+        required: false,
+        type: Array,
+        default: [],
+    },
     ...orderProps
 })
 
 const emit = defineEmits(['submit', 'toExcel', 'reset'])
+
+const handleSelectingQuest = (stuff) => {
+    if(stuff?.is_filter) {
+        for (const id of stuff.quest_ids) {
+            props.modelValue.quest_ids.push(id)
+        }
+    } else {
+        props.modelValue.quest_ids.push(stuff.id)
+    }
+}
 </script>
 
 <template>
@@ -84,12 +99,6 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                         <option value="time_desc">
                             По времени игры &#8595;
                         </option>
-                        <option value="date_asc">
-                            По дате игры &#8593;
-                        </option>
-                        <option value="date_desc">
-                            По дате игры &#8595;
-                        </option>
                     </select>
                 </div>
             </div>
@@ -133,11 +142,13 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                 <label for="quest_ids" class="block text-sm font-medium text-gray-700">
                     Квесты </label>
                 <div class="mt-1">
-                    <v-select :disabled="props.disabled" class="scrollable-select" v-model="modelValue.quest_ids"
+                    <v-select :disabled="props.disabled" class="scrollable-select"
+                              @option:selecting="handleSelectingQuest"
+                              :value="modelValue.quest_ids"
                               multiple=""
                               label="name_ru"
                               :reduce="option => option.id"
-                              :options="props.questList"/>
+                              :options="[...props.questList, ...props.filtersPrepared]"/>
                 </div>
             </div>
             <div v-if="!isLimited" class="col-span-6 sm:col-span-2">

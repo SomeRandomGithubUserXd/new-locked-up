@@ -2,9 +2,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head, router, Link, useForm} from '@inertiajs/vue3';
 import DataTable from "@/Components/Common/DataTable.vue";
-import {onMounted, reactive, ref, watch} from "vue";
+import {computed, onMounted, reactive, ref, watch} from "vue";
 import {getAlreadyPayed, getOrderPriceToPay, orderProps} from "@/Traits/OrderTrait";
-import {getCurrentUrlParam} from "@/Traits/Tools";
+import {getCurrentUrlParam, numberFormat} from "@/Traits/Tools";
 import exportFromJSON from "export-from-json";
 import OrderFilter from "@/Components/Orders/OrderFilter.vue";
 import vSelect from "vue-select";
@@ -22,6 +22,7 @@ const usingFilter = ref(null);
 const props = defineProps({
     orders: Object,
     filters: Array,
+    options: Object,
     ordersMeta: Object,
     ...orderProps
 })
@@ -50,14 +51,13 @@ const tableProps = ref({
                 return 'white-space: normal !important;' + `background-color:${getOrderStatus(item.status).color};color: black`
             },
             getValue: (order) => {
-                return `№${order.id} <br/> ${getOrderStatus(order.status).name} <br/> ${order.created_at}`
+                return `№${order.id} <br/> ${order.created_at} <br/> ${getOrderStatus(order.status).name}`
             },
         },
         {
             name: 'Заказчик',
             getValue: (order) => {
-                if (!order.customer_name || !order.customer_email || !order.customer_phone) return ''
-                return `${order.customer_name} <br/> ${order.customer_email} <br/> ${order.customer_phone}`
+                return `${order?.customer_name} <br/> ${order?.customer_email} <br/> ${order?.customer_phone}`
             },
             getRowStyle: (item) => {
                 return 'max-width: 150px;text-overflow: ellipsis;overflow: hidden'
@@ -102,7 +102,7 @@ const tableProps = ref({
         },
         {
             name: 'Источник',
-            getValue: (order) => order.source?.name
+            getValue: (order) => order.source
         },
         {
             name: 'Комментарий',
@@ -147,6 +147,22 @@ const defaultFilter = {
 }
 
 const filter = useForm(defaultFilter)
+
+watch(usingFilter, value => {
+    console.log(collect(props.filters).where('id', '==', value).first())
+})
+
+const sumOptions = (options) => {
+    const sums = {
+        price: 0,
+        orders_count: 0,
+    }
+    for (const option of options) {
+        sums.price += Number(option.price)
+        sums.orders_count += Number(option.orders_count)
+    }
+    return sums
+}
 
 onMounted(() => {
     for (const key in defaultFilter) {
@@ -200,6 +216,22 @@ const toExcel = () => {
 }
 
 const showSums = ref(true)
+
+const filtersPrepared = computed({
+    get() {
+        if (!props.filters.length) return []
+        return props.filters.map(filter => {
+            return {
+                ...filter,
+                name_ru: filter.name,
+                is_filter: true,
+            }
+        })
+    },
+    set() {
+
+    }
+})
 </script>
 
 <template>
@@ -215,25 +247,25 @@ const showSums = ref(true)
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <h2 class="font-semibold text-2xl">Фильтр</h2>
-                        <div class="grid grid-cols-6 gap-6 my-5">
-                            <div class="col-span-6 sm:col-span-2">
-                                <label for="quest_ids" class="block text-sm font-medium text-gray-700">
-                                    Фильтр
-                                </label>
-                                <div class="mt-1">
-                                    <select
-                                        id="quest"
-                                        v-model="usingFilter"
-                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option :value="filter.id" v-for="filter in props.filters">
-                                            {{ filter.name }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="mb-5"/>
-                        <div class="col-span-6 sm:col-span-1">
+                        <!--                        <div class="grid grid-cols-6 gap-6 my-5">-->
+                        <!--                            <div class="col-span-6 sm:col-span-2">-->
+                        <!--                                <label for="quest_ids" class="block text-sm font-medium text-gray-700">-->
+                        <!--                                    Фильтр-->
+                        <!--                                </label>-->
+                        <!--                                <div class="mt-1">-->
+                        <!--                                    <select-->
+                        <!--                                        id="quest"-->
+                        <!--                                        v-model="usingFilter"-->
+                        <!--                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
+                        <!--                                        <option :value="filter.id" v-for="filter in props.filters">-->
+                        <!--                                            {{ filter.name }}-->
+                        <!--                                        </option>-->
+                        <!--                                    </select>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--                        <hr class="mb-5"/>-->
+                        <div class="col-span-6 sm:col-span-1 mt-5">
                             <input-label for="search_string" value="Поиск"/>
                             <text-input
                                 id="search_string"
@@ -254,6 +286,7 @@ const showSums = ref(true)
                             :certificate-list="props.certificateList"
                             :order-statuses="props.orderStatuses"
                             :quest-options="props.questOptions"
+                            :filters-prepared="filtersPrepared"
                             v-model="filter" @submit="search" @to-excel="toExcel" @reset="reset"/>
                         <data-table :create-link="route('orders.create')"
                                     :delete-many-route="route('orders.destroy-many')"
@@ -311,6 +344,48 @@ const showSums = ref(true)
                                 </table>
                             </template>
                         </expandable-block>
+                        <div class="mt-5">
+                            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                    <div class="shadow-xl overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-gray-100">
+                                            <tr>
+                                                <th class="py-3">Название</th>
+                                                <th>Количество применений</th>
+                                                <th>Сумма</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr v-for="option in props.options.data">
+                                                <td class="px-6 py-4 whitespace-nowrap  font-bold"
+                                                    style="max-width: 100px;overflow: hidden;">
+                                                    {{ option.name_ru }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
+                                                    {{ option.orders_count }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
+                                                    {{ numberFormat(Number(option.price)) }}
+                                                </td>
+                                            </tr>
+                                            <tr class="bg-green-400 text-white">
+                                                <td class="px-6 py-4 whitespace-nowrap font-bold">
+                                                    Итого
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    {{ sumOptions(props.options.data).orders_count }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    {{ numberFormat(sumOptions(props.options.data).price) }}
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

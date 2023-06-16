@@ -189,6 +189,7 @@ watch(promo_code_query, value => {
                     <TextInput
                         id="date"
                         type="date"
+                        :min="new Date().toISOString().split('T')[0]"
                         class="mt-1 block w-full"
                         v-model="modelValue.date"
                         max='2024-12-30'
@@ -196,7 +197,6 @@ watch(promo_code_query, value => {
                     />
                     <InputError class="mt-2" :message="modelValue.errors.date"/>
                 </div>
-
                 <div class="col-span-6 sm:col-span-3">
                     <label for="time" class="block text-sm font-medium text-gray-700"> Время </label>
                     <select

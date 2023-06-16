@@ -37,10 +37,17 @@ class OrderController extends AbstractControllerWithMultipleDeletion
         if ($justTheQuery) {
             return $query;
         } else {
+            $queryClone = clone $query;
             return inertia('Orders/Index', [
                 'orders' => OrderResource::collection($query->paginate(15)),
                 'filters' => OrderFilter::get()->makeHidden(['created_at', 'updated_at']),
-                'ordersMeta' => OrderMetaResource::getAsArray(),
+                'ordersMeta' => OrderMetaResource::getAsArray($queryClone),
+                'options' => OrderOption::query()
+                    ->whereHas('orders', function ($query) use ($request) {
+                        return $this->applyQueryFilter($query, $request);
+                    })
+                    ->withCount('orders')
+                    ->paginate(15),
                 ...$this->getOrderMisc()
             ]);
         }
@@ -48,40 +55,39 @@ class OrderController extends AbstractControllerWithMultipleDeletion
 
     protected function applyQueryFilter($query, FilterRequest $request)
     {
-        return $query->when($request->search_string, function (Builder $query) use ($request) {
-            return $this
-                ->getWhereLikeManyQuery(
-                    $query,
-                    ['id', 'customer_name', 'customer_phone', 'customer_email'],
-                    $request->get('search_string')
-                );
-        })->when($request->date_from, static function (Builder $query) use ($request) {
-            $query->where('date', '>=', strtotime($request->get('date_from')));
-        })->when($request->date_to, static function (Builder $query) use ($request) {
-            $query->where('date', '<=', strtotime($request->get('date_to')));
-        })->when($request->order_id, static function (Builder $query) use ($request) {
-            $query->where(['id' => $request->get('order_id')]);
-        })->when($request->quest_ids, static function (Builder $query) use ($request) {
-            $query->whereIn('quest_id', $request->get('quest_ids'));
-        })->when($request->source_ids, static function (Builder $query) use ($request) {
-            $query->whereIn('source', $request->get('source_ids'));
-        })->when($request->promo_code_ids, static function (Builder $query) use ($request) {
-            $promoCodes = Sale::query()
-                ->whereIn('id', $request->get('promo_code_ids'))
-                ->where(['is_deleted' => 0])
-                ?->pluck('promocode');
-            $query->whereIn('promo', $promoCodes);
-        })->when($request->statuses, static function (Builder $query) use ($request) {
-            $query->whereIn('status', $request->get('statuses'));
-        })->when($request->order_by, static function (Builder $query) use ($request) {
-            $params = explode('_', $request->get('order_by'));
-            if ($params[0] === 'time') $params[0] = 'date';
-            $query->orderBy($params[0], $params[1]);
-        }, static function (Builder $query) use ($request) {
-            $query->orderBy('date', 'desc');
-        })->when($request->with_options_only, static function (Builder $query) {
-            $query->whereHas('orderOptions');
-        });
+        return $query->orderBy('created_at', 'desc')
+            ->when($request->search_string, function (Builder $query) use ($request) {
+                return $this
+                    ->getWhereLikeManyQuery(
+                        $query,
+                        ['id', 'customer_name', 'customer_phone', 'customer_email'],
+                        $request->get('search_string')
+                    );
+            })->when($request->date_from, static function (Builder $query) use ($request) {
+                $query->where('date', '>=', strtotime($request->get('date_from')));
+            })->when($request->date_to, static function (Builder $query) use ($request) {
+                $query->where('date', '<=', strtotime((new Carbon($request->get('date_to')))->addDay()->format('Y-m-d')));
+            })->when($request->order_id, static function (Builder $query) use ($request) {
+                $query->where(['id' => $request->get('order_id')]);
+            })->when($request->quest_ids, static function (Builder $query) use ($request) {
+                $query->whereIn('quest_id', $request->get('quest_ids'));
+            })->when($request->source_ids, static function (Builder $query) use ($request) {
+                $query->whereIn('source', $request->get('source_ids'));
+            })->when($request->promo_code_ids, static function (Builder $query) use ($request) {
+                $promoCodes = Sale::query()
+                    ->whereIn('id', $request->get('promo_code_ids'))
+                    ->where(['is_deleted' => 0])
+                    ?->pluck('promocode');
+                $query->whereIn('promo', $promoCodes);
+            })->when($request->statuses, static function (Builder $query) use ($request) {
+                $query->whereIn('status', $request->get('statuses'));
+            })->when($request->order_by, static function (Builder $query) use ($request) {
+//                $params = explode('_', $request->get('order_by'));
+//                if ($params[0] === 'time') $params[0] = 'date';
+//                $query->orderBy($params[0], $params[1]);
+            })->when($request->with_options_only, static function (Builder $query) {
+                $query->whereHas('orderOptions');
+            });
     }
 
     public function create()
@@ -162,6 +168,11 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                     $this->index($request, true)
                         ->whereIn('source', $aggregatorSourceIds)
                         ->sum('price'),
+                'left_to_pay' =>
+                    $this->index($request, true)
+                        ->selectRaw('SUM(fact_payment - prepayed - payed_online - payed_aggregator) as "sum"')
+                        ->first()
+                        ->toArray()['sum'],
             ],
             'payed' => [
                 'aggregator' => $this->index($request, true)->sum('payed_aggregator'),
