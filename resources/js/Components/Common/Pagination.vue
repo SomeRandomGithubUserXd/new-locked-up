@@ -17,7 +17,7 @@ const onPageChange = (page) => {
 </script>
 
 <template>
-    <nav class="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0">
+    <nav v-if="currentPage <= maxPage" class="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0">
         <div class="-mt-px w-0 flex-1 flex">
             <a href="#" @click="onPageChange(currentPage - 1)"
                v-if="currentPage != 1"

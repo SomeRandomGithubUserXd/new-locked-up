@@ -11,10 +11,13 @@ enum UserRoleEnum: int implements ISerializableEnum
 
     case user = 0;
 
+    case viewer = 1;
+
     public function getName(): string
     {
         return match ($this) {
             self::user => 'Пользователь',
+            self::viewer => 'Зритель',
         };
     }
 

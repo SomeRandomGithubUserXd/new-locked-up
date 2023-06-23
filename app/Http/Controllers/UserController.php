@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\UserRoleEnum;
 use App\Http\Requests\Orders\ActionWithManyRequest;
+use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UserRequest;
 use App\Http\Resources\Users\UserResource;
 use App\Models\Locations\Location;
@@ -44,7 +45,7 @@ class UserController extends AbstractControllerWithMultipleDeletion
         ]);
     }
 
-    public function store(UserRequest $request)
+    public function store(StoreUserRequest $request)
     {
         $data = $request->validated();
         $locationIds = $data['location_ids'];
