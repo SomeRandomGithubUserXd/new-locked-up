@@ -148,17 +148,13 @@ const defaultFilter = {
 
 const filter = useForm(defaultFilter)
 
-watch(usingFilter, value => {
-    console.log(collect(props.filters).where('id', '==', value).first())
-})
-
 const sumOptions = (options) => {
     const sums = {
         price: 0,
         orders_count: 0,
     }
     for (const option of options) {
-        sums.price += Number(option.price)
+        sums.price += Number(option.price) * Number(option.orders_count)
         sums.orders_count += Number(option.orders_count)
     }
     return sums
@@ -169,6 +165,7 @@ onMounted(() => {
         switch (key) {
             case 'quest_ids':
                 filter[key] = getCurrentUrlParam('quest_ids[]', true, Number)
+                console.log(getCurrentUrlParam('quest_ids[]', true, Number))
                 break;
             case 'source_ids':
                 filter[key] = getCurrentUrlParam('source_ids[]', true, Number)
@@ -222,7 +219,7 @@ const filtersPrepared = computed({
         if (!props.filters.length) return []
         return props.filters.map(filter => {
             return {
-                ...filter,
+                quest_ids: filter.quest_ids,
                 name_ru: filter.name,
                 is_filter: true,
             }
@@ -366,7 +363,7 @@ const filtersPrepared = computed({
                                                     {{ option.orders_count }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
-                                                    {{ numberFormat(Number(option.price)) }}
+                                                    {{ numberFormat(Number(option.price) * Number(option.orders_count)) }}
                                                 </td>
                                             </tr>
                                             <tr class="bg-green-400 text-white">

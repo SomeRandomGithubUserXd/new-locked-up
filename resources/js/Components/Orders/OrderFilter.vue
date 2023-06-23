@@ -7,6 +7,7 @@ import "vue-select/dist/vue-select.css";
 import {orderProps} from "@/Traits/OrderTrait";
 import Checkbox from "@/Components/Checkbox.vue";
 import {useForm} from "@inertiajs/vue3";
+import {watch} from "vue";
 
 const props = defineProps({
     modelValue: {
@@ -41,17 +42,18 @@ const props = defineProps({
     ...orderProps
 })
 
-const emit = defineEmits(['submit', 'toExcel', 'reset'])
-
-const handleSelectingQuest = (stuff) => {
-    if(stuff?.is_filter) {
-        for (const id of stuff.quest_ids) {
-            props.modelValue.quest_ids.push(id)
+watch(() => props.modelValue.quest_ids, value => {
+    for (const item of props.modelValue.quest_ids) {
+        if(typeof item === 'object') {
+            for (const id of item) {
+                props.modelValue.quest_ids.push(id)
+            }
+            props.modelValue.quest_ids.splice(props.modelValue.quest_ids.indexOf(item), 1)
         }
-    } else {
-        props.modelValue.quest_ids.push(stuff.id)
     }
-}
+})
+
+const emit = defineEmits(['submit', 'toExcel', 'reset'])
 </script>
 
 <template>
@@ -69,18 +71,18 @@ const handleSelectingQuest = (stuff) => {
                 />
                 <InputError class="mt-2" :message="modelValue.errors.name"/>
             </div>
-<!--            <div v-if="!isLimited" class="col-span-6 sm:col-span-1">-->
-<!--                <InputLabel for="order_id" value="Номер заказа"/>-->
-<!--                <TextInput-->
-<!--                    :disabled="props.disabled"-->
-<!--                    id="order_id"-->
-<!--                    type="text"-->
-<!--                    class="mt-1 block w-full"-->
-<!--                    v-model="modelValue.order_id"-->
+            <!--            <div v-if="!isLimited" class="col-span-6 sm:col-span-1">-->
+            <!--                <InputLabel for="order_id" value="Номер заказа"/>-->
+            <!--                <TextInput-->
+            <!--                    :disabled="props.disabled"-->
+            <!--                    id="order_id"-->
+            <!--                    type="text"-->
+            <!--                    class="mt-1 block w-full"-->
+            <!--                    v-model="modelValue.order_id"-->
 
-<!--                />-->
-<!--                <InputError class="mt-2" :message="modelValue.errors.order_id"/>-->
-<!--            </div>-->
+            <!--                />-->
+            <!--                <InputError class="mt-2" :message="modelValue.errors.order_id"/>-->
+            <!--            </div>-->
             <div v-if="!isLimited" class="col-span-6 sm:col-span-1">
                 <label for="quest" class="block text-sm font-medium text-gray-700">
                     Сортировка </label>
@@ -142,13 +144,13 @@ const handleSelectingQuest = (stuff) => {
                 <label for="quest_ids" class="block text-sm font-medium text-gray-700">
                     Квесты </label>
                 <div class="mt-1">
-                    <v-select :disabled="props.disabled" class="scrollable-select"
-                              @option:selecting="handleSelectingQuest"
-                              :value="modelValue.quest_ids"
+                    <v-select :disabled="props.disabled"
+                              class="scrollable-select"
+                              v-model="modelValue.quest_ids"
                               multiple=""
                               label="name_ru"
-                              :reduce="option => option.id"
-                              :options="[...props.questList, ...props.filtersPrepared]"/>
+                              :reduce="option => option?.id || option.quest_ids"
+                              :options="[...props.questList, ...filtersPrepared]"/>
                 </div>
             </div>
             <div v-if="!isLimited" class="col-span-6 sm:col-span-2">

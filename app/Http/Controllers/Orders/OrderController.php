@@ -6,6 +6,7 @@ use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\Orders\FilterRequest;
 use App\Http\Requests\Orders\OrderRequest;
+use App\Http\Requests\Orders\StoreQuestRequest;
 use App\Http\Resources\Orders\LogsResource;
 use App\Http\Resources\Orders\OrderMetaResource;
 use App\Http\Resources\Orders\OrderResource;
@@ -46,7 +47,9 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                     ->whereHas('orders', function ($query) use ($request) {
                         return $this->applyQueryFilter($query, $request);
                     })
-                    ->withCount('orders')
+                    ->withCount(['orders' => function ($query) use ($request) {
+                        return $this->applyQueryFilter($query, $request);
+                    }])
                     ->paginate(15),
                 ...$this->getOrderMisc()
             ]);
@@ -103,7 +106,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
         ]);
     }
 
-    public function store(OrderRequest $request)
+    public function store(StoreQuestRequest $request)
     {
         $order = Order::create($request->getUnRefactoredValidatedData());
         try {

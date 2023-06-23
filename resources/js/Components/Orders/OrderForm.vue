@@ -189,10 +189,8 @@ watch(promo_code_query, value => {
                     <TextInput
                         id="date"
                         type="date"
-                        :min="new Date().toISOString().split('T')[0]"
                         class="mt-1 block w-full"
                         v-model="modelValue.date"
-                        max='2024-12-30'
                         required
                     />
                     <InputError class="mt-2" :message="modelValue.errors.date"/>
@@ -512,6 +510,10 @@ watch(promo_code_query, value => {
                                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 К оплате
                                             </th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Оплачено
+                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
@@ -539,6 +541,9 @@ watch(promo_code_query, value => {
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                 {{ orderPriceToPay }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {{ Number(orderTotal) - Number(orderPriceToPay) }}
                                             </td>
                                         </tr>
                                         </tbody>
