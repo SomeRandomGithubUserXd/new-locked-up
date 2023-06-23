@@ -408,7 +408,7 @@ const sumOptions = (options) => {
                                         <table class="min-w-full divide-y divide-gray-200">
                                             <thead class="bg-gray-100">
                                             <tr>
-                                                <th class="py-3">Название</th>
+                                                <th class="py-3">Доп услуга</th>
                                                 <th>Количество применений</th>
                                                 <th>Сумма</th>
                                             </tr>
