@@ -89,7 +89,20 @@ const playersSum = computed({
 
 const orderTotal = computed({
     get() {
-        return getOrderTotal(questMeta.value.price, props.modelValue, optionSum.value, playersSum.value)
+        return getOrderTotal(questMeta.value.price, props.modelValue, optionSum.value, playersSum.value) + loungeSum.value
+    },
+    set() {
+
+    }
+})
+
+const loungeSum = computed({
+    get() {
+        let item = collect(selectedLoungeScheduleItems.value).where('id', '==', props.modelValue?.lounge_schedule_item_id || 0).first()
+        if (item) {
+            return item.price
+        }
+        return 0
     },
     set() {
 
@@ -123,7 +136,7 @@ watch(promo_code_query, value => {
 </script>
 
 <template>
-    <form class="space-y-6" @submit.prevent="emit('submit', orderTotal)">
+    <form class="space-y-6" @submit="emit('submit', orderTotal)" v-on:keydown.enter.prevent>
         <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6" :class="questMeta.min_players ? 'sm:col-span-2' : 'sm:col-span-12'">
                 <label for="quest" class="block text-sm font-medium text-gray-700"> Квест </label>
@@ -528,7 +541,7 @@ watch(promo_code_query, value => {
                                                 {{ playersSum }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                -
+                                                {{ loungeSum }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                 {{ -modelValue.certificate?.price || 0 }}

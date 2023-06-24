@@ -116,6 +116,9 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
             <div class="col-span-6 sm:col-span-3">
 
                 <InputLabel for="date_from" value="Дата (от)"/>
+
+                <a class="text-indigo-600 text-sm" href="#"
+                   @click.prevent="modelValue.date_from = null">Очистить</a>
                 <TextInput
                     :disabled="props.disabled"
                     id="date_from"
@@ -128,6 +131,8 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
             </div>
             <div class="col-span-6 sm:col-span-3">
                 <InputLabel for="date" value="Дата (до)"/>
+                <a class="text-indigo-600 text-sm" href="#"
+                   @click.prevent="modelValue.date_to = null">Очистить</a>
                 <TextInput
                     :disabled="props.disabled"
                     id="date_to"

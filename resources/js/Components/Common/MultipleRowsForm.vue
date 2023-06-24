@@ -2,6 +2,7 @@
 import TextInput from "@/Components/TextInput.vue";
 import {collect} from "collect.js";
 import {Link} from "@inertiajs/vue3";
+import {vMaska} from "maska"
 
 const props = defineProps({
     modelValue: {
@@ -19,6 +20,7 @@ const handleUpdate = (val, item, row) => {
     updated.find(element => element.id === item.id)[row.attribute] = val
     emit('update:modelValue', updated)
 }
+
 </script>
 
 <template>
@@ -42,7 +44,16 @@ const handleUpdate = (val, item, row) => {
                 <td v-for="row in props.tableProps?.data"
                     class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <TextInput
-                        id="name"
+                        v-if="row.attribute === 'time'"
+                        v-maska data-maska="##:##"
+                        required
+                        :disabled="row?.disabled || false"
+                        :type="row.type"
+                        class="mt-1 block w-full" :model-value="item[row.attribute]"
+                        @update:model-value="handleUpdate($event, item, row)"/>
+                    <TextInput
+                        v-else
+                        required
                         :disabled="row?.disabled || false"
                         :type="row.type"
                         class="mt-1 block w-full" :model-value="item[row.attribute]"
