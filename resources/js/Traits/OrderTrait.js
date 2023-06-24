@@ -19,7 +19,7 @@ export const getPlayersSum = (playersCount, minPlayers, maxPlayers, pricePerPart
 }
 
 export const getOrderTotal = (questPrice, order, optionsSum, playersSum) => {
-    return Number(questPrice) -
+    return Number(questPrice) +
         (Number(optionsSum) || 0) +
         (Number(playersSum) || 0)
 }
