@@ -279,6 +279,16 @@ if (role === 0 || role === 1) {
                     href: route('sales.index'),
                     isCurrent: !!route().current('sales.*')
                 },
+                {
+                    name: 'Расписания',
+                    href: route('schedules.index'),
+                    isCurrent: !!route().current('schedules.*')
+                },
+                {
+                    name: 'Расписания лаунжей',
+                    href: route('lounge-schedules.index'),
+                    isCurrent: !!route().current('lounge-schedules.*')
+                }
             ]
         },
     ]

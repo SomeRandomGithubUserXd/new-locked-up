@@ -37,9 +37,13 @@ class OrderController extends AbstractControllerWithMultipleDeletion
     public function index(FilterRequest $request, $justTheQuery = false)
     {
         $query = Order::query()->with('orderOptions');
+        $orderOptionQuery = OrderOption::query();
         if (auth()->user()->role === UserRoleEnum::admin || auth()->user()->role === UserRoleEnum::callCenter) {
             $quests = Quest::whereIn('location_id', auth()->user()->locations()->pluck('id'));
             $query->whereIn('quest_id', $quests->pluck('id'));
+            $orderOptionQuery->whereHas('orders', function ($query) use ($quests) {
+                $query->whereIn('quest_id', $quests->pluck('id'));
+            });
         }
         $query = $this->applyQueryFilter($query, $request);
         if ($justTheQuery) {
@@ -50,7 +54,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                 'orders' => OrderResource::collection($query->paginate(15)),
                 'filters' => OrderFilter::get()->makeHidden(['created_at', 'updated_at']),
                 'ordersMeta' => OrderMetaResource::getAsArray($queryClone),
-                'options' => OrderOption::query()
+                'options' => $orderOptionQuery
                     ->whereHas('orders', function ($query) use ($request) {
                         return $this->applyQueryFilter($query, $request);
                     })
