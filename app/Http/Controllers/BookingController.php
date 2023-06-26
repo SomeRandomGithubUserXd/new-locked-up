@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRoleEnum;
 use App\Http\Requests\Bookings\BookingRequest;
 use App\Http\Requests\Bookings\FilterRequest;
 use App\Http\Resources\BookingQuestResource;
@@ -26,8 +27,12 @@ class BookingController extends Controller
         $quests = Quest::query()
             ->where('name_ru', '!=', '')
             ->when($request->get('location_id'), function (Builder $query) use ($request) {
-                return $query->where(['location_id' => $request->get('location_id')]);
-            })
+            return $query->where(['location_id' => $request->get('location_id')]);
+        });
+        if (auth()->user()->role === UserRoleEnum::admin || auth()->user()->role === UserRoleEnum::callCenter) {
+            $quests->whereIn('location_id', auth()->user()->locations()->pluck('id'));
+        }
+        $quests = $quests
             ->orderBy('name_ru')
             ->whereHas('schedule.scheduleItems', $typeCondition)
             ->with('schedule.scheduleItems', $typeCondition)

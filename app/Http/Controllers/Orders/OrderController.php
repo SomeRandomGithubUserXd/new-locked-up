@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Orders;
 
+use App\Enums\UserRoleEnum;
 use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Requests\Orders\FilterRequest;
@@ -11,11 +12,13 @@ use App\Http\Resources\Orders\LogsResource;
 use App\Http\Resources\Orders\OrderMetaResource;
 use App\Http\Resources\Orders\OrderResource;
 use App\Models\Certificate;
+use App\Models\Locations\Location;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderChangeLogItem;
 use App\Models\Orders\OrderFilter;
 use App\Models\Orders\OrderOption;
 use App\Models\Orders\OrderSource;
+use App\Models\Quests\Quest;
 use App\Models\Sales\Sale;
 use App\Models\Schedules\ScheduleItem;
 use App\Traits\InteractsWithOrders;
@@ -34,6 +37,10 @@ class OrderController extends AbstractControllerWithMultipleDeletion
     public function index(FilterRequest $request, $justTheQuery = false)
     {
         $query = Order::query()->with('orderOptions');
+        if (auth()->user()->role === UserRoleEnum::admin || auth()->user()->role === UserRoleEnum::callCenter) {
+            $quests = Quest::whereIn('location_id', auth()->user()->locations()->pluck('id'));
+            $query->whereIn('quest_id', $quests->pluck('id'));
+        }
         $query = $this->applyQueryFilter($query, $request);
         if ($justTheQuery) {
             return $query;
@@ -123,6 +130,10 @@ class OrderController extends AbstractControllerWithMultipleDeletion
 
     public function update(Order $order, OrderRequest $request)
     {
+        if (auth()->user()->role === UserRoleEnum::admin || auth()->user()->role === UserRoleEnum::callCenter) {
+            $date = clone $order->date;
+            abort_if((new Carbon())->greaterThanOrEqualTo($date->addDay()), 403);
+        }
         $order->update($request->getUnRefactoredValidatedData());
         \DB::table('booked_date_schedule_item')->where([
             'date' => $order->date->format('Y-m-d'),

@@ -17,174 +17,355 @@ const isBlockCurrent = (routes) => {
     }
     return false;
 }
-7
-const routes = [
-    {
-        name: 'Заказы',
-        href: route('orders.index'),
-        isCurrent: isBlockCurrent([
-            'orders',
-            'appeals',
-            'certificates',
-            'bookings',
-            'order-filters',
-            'order-stats',
-        ]),
-        subRoutes: [
-            {
-                name: 'Таблица заказов',
-                href: route('orders.index'),
-                isCurrent: !!route().current('orders.*')
-            },
-            {
-                name: 'Заявки',
-                href: route('appeals.index'),
-                isCurrent: !!route().current('appeals.*')
-            },
-            {
-                name: 'Сертификаты',
-                href: route('certificates.index'),
-                isCurrent: !!route().current('certificates.*')
-            },
-            {
-                name: 'Бронирование',
-                href: route('bookings.index'),
-                isCurrent: !!route().current('bookings.*')
-            },
-            {
-                name: 'Фильтры',
-                href: route('order-filters.index'),
-                isCurrent: !!route().current('order-filters.*')
-            },
-            {
-                name: 'Статистика',
-                href: route('orders-stats'),
-                isCurrent: !!route().current('orders-stats')
-            },
-        ]
-    },
-    {
-        name: 'Каталог квестов',
-        href: route('quests.index'),
-        isCurrent: isBlockCurrent([
-            'quests',
-            'performance-quests',
-            'locations',
-            'services',
-            'schedules',
-            'quest-topics',
-            'child-quest-topics',
-            'certificate-instances',
-            'sales',
-            'reviews',
-            'order-sources',
-            'lounges',
-            'lounge-schedules',
-        ]),
-        subRoutes: [
-            {
-                name: 'Таблица квестов',
-                href: route('quests.index'),
-                isCurrent: !!route().current('quests.*')
-            },
-            {
-                name: 'Квесты-спектакли',
-                href: route('performance-quests.index'),
-                isCurrent: !!route().current('performance-quests.*')
-            },
-            {
-                name: 'Локации',
-                href: route('locations.index'),
-                isCurrent: !!route().current('locations.*')
-            },
-            {
-                name: 'Дополнительные услуги',
-                href: route('services.index'),
-                isCurrent: !!route().current('services.*')
-            },
-            {
-                name: 'Расписания',
-                href: route('schedules.index'),
-                isCurrent: !!route().current('schedules.*')
-            },
-            {
-                name: 'Рубрики',
-                href: route('quest-topics.index'),
-                isCurrent: !!route().current('quest-topics.*')
-            },
-            {
-                name: 'Детские рубрики',
-                href: route('child-quest-topics.index'),
-                isCurrent: !!route().current('child-quest-topics.*')
-            },
-            {
-                name: 'Оригинальные сертификаты',
-                href: route('certificate-instances.index'),
-                isCurrent: !!route().current('certificate-instances.*')
-            },
-            {
-                name: 'Акции',
-                href: route('sales.index'),
-                isCurrent: !!route().current('sales.*')
-            },
-            {
-                name: 'Источники',
-                href: route('order-sources.index'),
-                isCurrent: !!route().current('order-sources.*')
-            },
-            {
-                name: 'Отзывы',
-                href: route('reviews.index'),
-                isCurrent: !!route().current('reviews.*')
-            },
-            {
-                name: 'Лаунжи',
-                href: route('lounges.index'),
-                isCurrent: !!route().current('lounges.*')
-            },
-            {
-                name: 'Расписания лаунжей',
-                href: route('lounge-schedules.index'),
-                isCurrent: !!route().current('lounge-schedules.*')
-            }
-        ]
-    },
-    {
-        name: 'Пользователи',
-        href: route('users.index'),
-        isCurrent: isBlockCurrent([
-            'users',
-        ]),
-    },
-    {
-        name: 'Новости',
-        href: route('news.index'),
-        isCurrent: isBlockCurrent([
-            'news',
-        ]),
-    },
-    {
-        name: 'Модальные окна',
-        href: '#',
-        subRoutes: [
-            {
-                name: 'На главной',
-                href: route('modals.main'),
-                isCurrent: !!route().current('modals.*')
-            },
-        ],
-        isCurrent: isBlockCurrent([
-            'modals',
-        ]),
-    },
-    {
-        name: 'Настройки',
-        href: route('settings.index'),
-        isCurrent: isBlockCurrent([
-            'settings',
-        ]),
-    },
-]
+
+let routes = []
+const role = usePage().props.auth.user.role
+if (role === 0 || role === 1) {
+    routes = [
+        {
+            name: 'Заказы',
+            href: route('orders.index'),
+            isCurrent: isBlockCurrent([
+                'orders',
+                'appeals',
+                'certificates',
+                'bookings',
+                'order-filters',
+                'order-stats',
+            ]),
+            subRoutes: [
+                {
+                    name: 'Таблица заказов',
+                    href: route('orders.index'),
+                    isCurrent: !!route().current('orders.*')
+                },
+                {
+                    name: 'Заявки',
+                    href: route('appeals.index'),
+                    isCurrent: !!route().current('appeals.*')
+                },
+                {
+                    name: 'Сертификаты',
+                    href: route('certificates.index'),
+                    isCurrent: !!route().current('certificates.*')
+                },
+                {
+                    name: 'Бронирование',
+                    href: route('bookings.index'),
+                    isCurrent: !!route().current('bookings.*')
+                },
+                {
+                    name: 'Фильтры',
+                    href: route('order-filters.index'),
+                    isCurrent: !!route().current('order-filters.*')
+                },
+                {
+                    name: 'Статистика',
+                    href: route('orders-stats'),
+                    isCurrent: !!route().current('orders-stats')
+                },
+            ]
+        },
+        {
+            name: 'Каталог квестов',
+            href: route('quests.index'),
+            isCurrent: isBlockCurrent([
+                'quests',
+                'performance-quests',
+                'locations',
+                'services',
+                'schedules',
+                'quest-topics',
+                'child-quest-topics',
+                'certificate-instances',
+                'sales',
+                'reviews',
+                'order-sources',
+                'lounges',
+                'lounge-schedules',
+            ]),
+            subRoutes: [
+                {
+                    name: 'Таблица квестов',
+                    href: route('quests.index'),
+                    isCurrent: !!route().current('quests.*')
+                },
+                {
+                    name: 'Квесты-спектакли',
+                    href: route('performance-quests.index'),
+                    isCurrent: !!route().current('performance-quests.*')
+                },
+                {
+                    name: 'Локации',
+                    href: route('locations.index'),
+                    isCurrent: !!route().current('locations.*')
+                },
+                {
+                    name: 'Дополнительные услуги',
+                    href: route('services.index'),
+                    isCurrent: !!route().current('services.*')
+                },
+                {
+                    name: 'Расписания',
+                    href: route('schedules.index'),
+                    isCurrent: !!route().current('schedules.*')
+                },
+                {
+                    name: 'Рубрики',
+                    href: route('quest-topics.index'),
+                    isCurrent: !!route().current('quest-topics.*')
+                },
+                {
+                    name: 'Детские рубрики',
+                    href: route('child-quest-topics.index'),
+                    isCurrent: !!route().current('child-quest-topics.*')
+                },
+                {
+                    name: 'Оригинальные сертификаты',
+                    href: route('certificate-instances.index'),
+                    isCurrent: !!route().current('certificate-instances.*')
+                },
+                {
+                    name: 'Акции',
+                    href: route('sales.index'),
+                    isCurrent: !!route().current('sales.*')
+                },
+                {
+                    name: 'Источники',
+                    href: route('order-sources.index'),
+                    isCurrent: !!route().current('order-sources.*')
+                },
+                {
+                    name: 'Отзывы',
+                    href: route('reviews.index'),
+                    isCurrent: !!route().current('reviews.*')
+                },
+                {
+                    name: 'Лаунжи',
+                    href: route('lounges.index'),
+                    isCurrent: !!route().current('lounges.*')
+                },
+                {
+                    name: 'Расписания лаунжей',
+                    href: route('lounge-schedules.index'),
+                    isCurrent: !!route().current('lounge-schedules.*')
+                }
+            ]
+        },
+        {
+            name: 'Пользователи',
+            href: route('users.index'),
+            isCurrent: isBlockCurrent([
+                'users',
+            ]),
+        },
+        {
+            name: 'Новости',
+            href: route('news.index'),
+            isCurrent: isBlockCurrent([
+                'news',
+            ]),
+        },
+        {
+            name: 'Модальные окна',
+            href: '#',
+            subRoutes: [
+                {
+                    name: 'На главной',
+                    href: route('modals.main'),
+                    isCurrent: !!route().current('modals.*')
+                },
+            ],
+            isCurrent: isBlockCurrent([
+                'modals',
+            ]),
+        },
+        {
+            name: 'Настройки',
+            href: route('settings.index'),
+            isCurrent: isBlockCurrent([
+                'settings',
+            ]),
+        },
+    ]
+} else if (role === 2) {
+    routes = [
+        {
+            name: 'Заказы',
+            href: route('orders.index'),
+            isCurrent: isBlockCurrent([
+                'orders',
+                'appeals',
+                'certificates',
+                'bookings',
+                'order-filters',
+                'order-stats',
+            ]),
+            subRoutes: [
+                {
+                    name: 'Таблица заказов',
+                    href: route('orders.index'),
+                    isCurrent: !!route().current('orders.*')
+                },
+                {
+                    name: 'Бронирование',
+                    href: route('bookings.index'),
+                    isCurrent: !!route().current('bookings.*')
+                },
+            ]
+        },
+    ]
+} else if (role === 3) {
+    routes = [
+        {
+            name: 'Заказы',
+            href: route('orders.index'),
+            isCurrent: isBlockCurrent([
+                'orders',
+                'appeals',
+                'certificates',
+                'bookings',
+                'order-filters',
+                'order-stats',
+            ]),
+            subRoutes: [
+                {
+                    name: 'Таблица заказов',
+                    href: route('orders.index'),
+                    isCurrent: !!route().current('orders.*')
+                },
+                {
+                    name: 'Заявки',
+                    href: route('appeals.index'),
+                    isCurrent: !!route().current('appeals.*')
+                },
+                {
+                    name: 'Сертификаты',
+                    href: route('certificates.index'),
+                    isCurrent: !!route().current('certificates.*')
+                },
+                {
+                    name: 'Бронирование',
+                    href: route('bookings.index'),
+                    isCurrent: !!route().current('bookings.*')
+                },
+            ]
+        },
+        {
+            name: 'Каталог квестов',
+            href: route('quests.index'),
+            isCurrent: isBlockCurrent([
+                'quests',
+                'performance-quests',
+                'locations',
+                'services',
+                'schedules',
+                'quest-topics',
+                'child-quest-topics',
+                'certificate-instances',
+                'sales',
+                'reviews',
+                'order-sources',
+                'lounges',
+                'lounge-schedules',
+            ]),
+            subRoutes: [
+                {
+                    name: 'Дополнительные услуги',
+                    href: route('services.index'),
+                    isCurrent: !!route().current('services.*')
+                },
+                {
+                    name: 'Акции',
+                    href: route('sales.index'),
+                    isCurrent: !!route().current('sales.*')
+                },
+            ]
+        },
+    ]
+} else if (role === 4) {
+    routes = [
+        {
+            name: 'Каталог квестов',
+            href: route('quests.index'),
+            isCurrent: isBlockCurrent([
+                'quests',
+                'performance-quests',
+                'locations',
+                'services',
+                'schedules',
+                'quest-topics',
+                'child-quest-topics',
+                'certificate-instances',
+                'sales',
+                'reviews',
+                'order-sources',
+                'lounges',
+                'lounge-schedules',
+            ]),
+            subRoutes: [
+                {
+                    name: 'Таблица квестов',
+                    href: route('quests.index'),
+                    isCurrent: !!route().current('quests.*')
+                },
+                {
+                    name: 'Квесты-спектакли',
+                    href: route('performance-quests.index'),
+                    isCurrent: !!route().current('performance-quests.*')
+                },
+                {
+                    name: 'Рубрики',
+                    href: route('quest-topics.index'),
+                    isCurrent: !!route().current('quest-topics.*')
+                },
+                {
+                    name: 'Детские рубрики',
+                    href: route('child-quest-topics.index'),
+                    isCurrent: !!route().current('child-quest-topics.*')
+                },
+                {
+                    name: 'Отзывы',
+                    href: route('reviews.index'),
+                    isCurrent: !!route().current('reviews.*')
+                },
+                {
+                    name: 'Лаунжи',
+                    href: route('lounges.index'),
+                    isCurrent: !!route().current('lounges.*')
+                },
+            ]
+        },
+        {
+            name: 'Новости',
+            href: route('news.index'),
+            isCurrent: isBlockCurrent([
+                'news',
+            ]),
+        },
+        {
+            name: 'Модальные окна',
+            href: '#',
+            subRoutes: [
+                {
+                    name: 'На главной',
+                    href: route('modals.main'),
+                    isCurrent: !!route().current('modals.*')
+                },
+            ],
+            isCurrent: isBlockCurrent([
+                'modals',
+            ]),
+        },
+        {
+            name: 'Настройки',
+            href: route('settings.index'),
+            isCurrent: isBlockCurrent([
+                'settings',
+            ]),
+        },
+    ]
+}
 </script>
 
 <template>

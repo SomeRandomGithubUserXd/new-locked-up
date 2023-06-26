@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->date('birth_date')->nullable();
             $table->string('passport')->nullable();
             $table->string('phone')->nullable();
-            $table->integer('role')->default(UserRoleEnum::user->value);
+            $table->integer('role')->default(UserRoleEnum::webmaster->value);
         });
     }
 

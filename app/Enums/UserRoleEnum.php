@@ -9,15 +9,24 @@ enum UserRoleEnum: int implements ISerializableEnum
 {
     use IsSerializableEnum;
 
-    case user = 0;
+    case webmaster = 0;
 
     case viewer = 1;
+
+    case admin = 2;
+
+    case callCenter = 3;
+
+    case contentManager = 4;
 
     public function getName(): string
     {
         return match ($this) {
-            self::user => 'Пользователь',
+            self::webmaster => 'Webmaster',
             self::viewer => 'Зритель',
+            self::admin => 'Администратор',
+            self::callCenter => 'Колл-центр',
+            self::contentManager => 'Контент-менеджер',
         };
     }
 
