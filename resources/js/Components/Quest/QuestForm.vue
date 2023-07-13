@@ -310,15 +310,15 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.ord"
                             />
                         </div>
-                        <div class="col-span-6 sm:col-span-1">
-                            <label for="color" class="block text-sm font-medium text-gray-700">Цвет</label>
-                            <TextInput
-                                id="color"
-                                type="color"
-                                class="mt-1 block w-full"
-                                v-model="modelValue.color"
-                            />
-                        </div>
+<!--                        <div class="col-span-6 sm:col-span-1">-->
+<!--                            <label for="color" class="block text-sm font-medium text-gray-700">Цвет</label>-->
+<!--                            <TextInput-->
+<!--                                id="color"-->
+<!--                                type="color"-->
+<!--                                class="mt-1 block w-full"-->
+<!--                                v-model="modelValue.color"-->
+<!--                            />-->
+<!--                        </div>-->
                         <div class="col-span-6 sm:col-span-1">
                             <label for="theme" class="block text-sm font-medium text-gray-700">Тема</label>
                             <div class="mt-1">
@@ -497,8 +497,8 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                               v-model:checked="modelValue.show_at_corporate_parties"/>
                                     <span class="ml-2 text-sm text-gray-600">Выводить на странице Корпоративы</span>
                                 </label>
-                                <label for="enabled" class="flex items-center mt-2">
-                                    <Checkbox id="enabled" v-model:checked="modelValue.enabled"/>
+                                <label for="is_enabled" class="flex items-center mt-2">
+                                    <Checkbox id="is_enabled" v-model:checked="modelValue.is_enabled"/>
                                     <span class="ml-2 text-sm text-gray-600">Доступен для вывода на сайте</span>
                                 </label>
                             </div>

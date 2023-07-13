@@ -8,9 +8,8 @@ use App\Http\Requests\Certificates\CertificateInstanceRequest;
 use App\Http\Requests\Certificates\CertificateUploadRequest;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Resources\Certificates\CertificateInstanceResource;
-use App\Models\Certificate;
+use App\Models\Certificates\Certificate;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class CertificateInstanceController extends AbstractControllerWithMultipleDeletion

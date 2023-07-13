@@ -7,15 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::table('user', function (Blueprint $table) {
-            $table->smallInteger('status')->nullable()->default(2)->change();
+        Schema::create('quest_blocks', function (Blueprint $table) {
+            $table->id();
+            $table->string('name_ru');
+            $table->string('name_en')->nullable();
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('quest_blocks');
     }
 };

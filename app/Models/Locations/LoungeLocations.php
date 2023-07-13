@@ -5,13 +5,9 @@ namespace App\Models\Locations;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class LocationLounge extends Model
+class LoungeLocations extends Model
 {
-    protected $table = 'location_lounge';
-
-    protected $fillable = ['name_ru', 'name_en', 'description_ru', 'description_en'];
-
-    public $timestamps = false;
+    protected $fillable = ['location_id', 'name_ru', 'name_en', 'description_ru', 'description_en'];
 
     public function location(): BelongsTo
     {

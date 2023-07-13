@@ -9,15 +9,13 @@ use App\Http\Requests\Certificates\PersonCertificateRequest;
 use App\Http\Requests\Orders\ActionWithManyRequest;
 use App\Http\Resources\Certificates\CertificateResource;
 use App\Http\Resources\Certificates\PersonCertificateResource;
-use App\Models\Certificate;
+use App\Models\Certificates\Certificate;
 use App\Models\Certificates\PersonCertificate;
 use App\Traits\HasTimestamps;
 use App\Traits\QueryTools;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use PhpOffice\PhpSpreadsheet\IOFactory;
 use ReflectionException;
 
 class CertificateController extends AbstractControllerWithMultipleDeletion

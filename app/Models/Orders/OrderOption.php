@@ -11,10 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class OrderOption extends Model
 {
-    protected $table = 'order_option';
-
-    public $timestamps = false;
-
     protected $fillable = [
         'price',
         'active',
@@ -33,6 +29,6 @@ class OrderOption extends Model
 
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class, 'orders_order_option')->using(OrderQuestOption::class);
+        return $this->belongsToMany(Order::class, 'order_order_options')->using(OrderQuestOption::class);
     }
 }

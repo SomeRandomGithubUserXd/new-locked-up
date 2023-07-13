@@ -9,7 +9,7 @@ class OrderSourceRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'aggregator' => define_as_bool($this->aggregator),
+            'is_aggregator' => define_as_bool($this->is_aggregator),
         ]);
     }
 
@@ -18,7 +18,7 @@ class OrderSourceRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'aggregator' => ['required', 'bool'],
+            'is_aggregator' => ['required', 'bool'],
             'color' => ['required'],
         ];
     }

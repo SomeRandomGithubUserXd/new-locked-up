@@ -8,7 +8,7 @@ import OrderSourceForm from "@/Components/Orders/OrderSourceForm.vue";
 
 const source = useForm({
     name: '',
-    aggregator: false,
+    is_aggregator: false,
     color: '#fafafa'
 })
 

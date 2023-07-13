@@ -10,7 +10,7 @@ return new class extends Migration {
     {
         Schema::create('lounge_schedule_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(LoungeSchedule::class);
+            $table->foreignIdFor(LoungeSchedule::class)->constrained()->cascadeOnDelete();
             $table->time('time');
             $table->smallInteger('price');
             $table->string('type');

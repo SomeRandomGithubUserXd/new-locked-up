@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChildQuestTopic extends Model
 {
-    protected $table = 'child_quest_topic';
-
     protected $fillable = [
         'name_ru',
         'name_en',

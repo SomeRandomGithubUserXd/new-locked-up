@@ -19,9 +19,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, InteractsWithTimestamps, HasTimestamps;
 
-    // Since table in the old DB is called that ridiculous way
-    protected $table = 'user';
-
     protected $fillable = [
         'username',
         'email',

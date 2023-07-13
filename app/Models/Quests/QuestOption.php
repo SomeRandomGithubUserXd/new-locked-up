@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class QuestOption extends Model
 {
-    protected $table = 'quest_option';
-
-    public $timestamps = false;
-
-    protected $fillable = ['name_ru'];
+    protected $fillable = [
+        'quest_id',
+        'name_ru',
+        'name_en',
+        'description_ru',
+        'description_en',
+    ];
 
     public function quest(): BelongsTo
     {

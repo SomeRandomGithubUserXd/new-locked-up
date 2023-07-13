@@ -9,16 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Schedule extends Model
 {
-    // Damn...
-    protected $table = 'shedule';
-
-    public $timestamps = false;
-
-    protected $fillable = ['name', 'quest_id', 'date', 'og_title', 'og_description', 'og_img_path', 'og_img_base_url', 'og_type', 'og_url'];
+    protected $fillable = ['name', 'date', 'og_title', 'og_description', 'og_type', 'og_url'];
 
     public function scheduleItems(): HasMany
     {
-        return $this->hasMany(ScheduleItem::class, 'shedule_id')->orderBy('time');
+        return $this->hasMany(ScheduleItem::class)->orderBy('time');
     }
 
     public function quest(): BelongsTo

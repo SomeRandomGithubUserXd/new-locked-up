@@ -7,9 +7,9 @@ use App\Http\Resources\Quests\NewsListResource;
 use App\Models\Checkout;
 use App\Models\Locations\Location;
 use App\Models\News\News;
+use App\Models\Quests\ChildQuestTopic;
 use App\Models\Quests\Quest;
 use App\Models\Quests\QuestBlock;
-use App\Models\Quests\QuestChildTopic;
 use App\Models\Quests\QuestLoad;
 use App\Models\Quests\QuestTopic;
 use App\Models\Schedules\Schedule;
@@ -28,7 +28,7 @@ trait InteractsWithQuests
             'locations' => Location::orderBy('name_ru')->get(),
             'difficultyLevels' => QuestDifficultyLevelEnum::getArray(),
             'questTopics' => QuestTopic::orderBy('name_ru')->get(),
-            'questChildTopics' => QuestChildTopic::all(),
+            'questChildTopics' => ChildQuestTopic::all(),
             'loadList' => QuestLoad::all(),
             'stickerList' => Sticker::all(),
         ];

@@ -3,9 +3,7 @@
 namespace App\Models\Orders;
 
 use App\Enums\OrderStatusEnum;
-use App\Models\Certificate;
-use App\Models\Lounges\Lounge;
-use App\Models\Lounges\LoungeSchedule;
+use App\Models\Certificates\Certificate;
 use App\Models\Lounges\LoungeScheduleItem;
 use App\Models\Quests\Quest;
 use App\Models\Sales\Sale;
@@ -18,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Order extends Model
 {
@@ -26,41 +23,32 @@ class Order extends Model
 
     public static array $packageOptions = ['Комфорт', 'Стандарт', 'Эконом'];
 
-    // TODO: Must be refactored in the future
     protected $fillable = [
         'quest_id',
         'customer_name',
         'customer_email',
         'customer_phone',
         'date',
+        'time',
         'price',
-        'price_players',
-        'price_options',
+        'additional_players_cost',
+        'additional_options_cost',
         'certificate_id',
-        'payed_cash',
-        'payed_card',
-        'payed_online',
-        'source',
+        'sale_id',
+        'discount',
+        'pre_payed',
+        'pre_payed_type',
+        'postpaid',
+        'postpaid_type',
+        'paid_in_cash',
+        'paid_via_card',
+        'paid_through_acquiring',
+        'paid_through_aggregator',
+        'checkout_id',
+        'price_total',
+        'order_source_id',
         'status',
         'comment',
-        'promo',
-        'discount_value',
-        'blocking',
-        'fact_payment',
-        'prepayed',
-        'tech_prod_id',
-        'prepayed_type',
-        'fact_payment_type',
-        'price_total',
-        'checkout_type_id',
-        'payed_aggregator',
-        'package',
-        'countPlayers',
-        'lounge_id',
-        'lounge_schedule_id',
-        'certificate_data_id',
-        'additional_players',
-        'lounge_schedule_item_id'
     ];
 
     protected $casts = [
@@ -81,11 +69,6 @@ class Order extends Model
                 return 500;
             },
         );
-    }
-
-    public function date(): Attribute
-    {
-        return $this->getTimeMutator();
     }
 
     public function quest(): BelongsTo
@@ -110,7 +93,7 @@ class Order extends Model
 
     public function orderOptions(): BelongsToMany
     {
-        return $this->belongsToMany(OrderOption::class, 'orders_order_option')->using(OrderQuestOption::class);
+        return $this->belongsToMany(OrderOption::class, 'order_order_options')->using(OrderQuestOption::class);
     }
 
     public function loungeScheduleItem(): BelongsTo
@@ -130,6 +113,6 @@ class Order extends Model
 
     public function sale(): BelongsTo
     {
-        return $this->belongsTo(Sale::class, 'promo', 'promocode');
+        return $this->belongsTo(Sale::class, 'sale_id');
     }
 }

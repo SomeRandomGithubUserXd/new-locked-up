@@ -15,7 +15,7 @@ class ScheduleItemController extends Controller
         $scheduleItems = ScheduleItemResource::collection(ScheduleItem::query()
             ->orderBy('time')
             ->where(['active' => 1])
-            ->where(['shedule_id' => $schedule->id])
+            ->where(['schedule_id' => $schedule->id])
             ->where('time', '!=', '')
             ->get()
             ->unique('time'));

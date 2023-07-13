@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Locations;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Locations\LocationLoungeRequest;
 use App\Models\Locations\Location;
-use App\Models\Locations\LocationLounge;
+use App\Models\Locations\LoungeLocations;
 
 class LocationLoungeController extends Controller
 {
@@ -16,7 +16,7 @@ class LocationLoungeController extends Controller
         ]);
     }
 
-    public function show(Location $location, LocationLounge $locationLounge)
+    public function show(Location $location, LoungeLocations $locationLounge)
     {
         return inertia('Locations/Lounges/Show', [
             'locationId' => $location->id,
@@ -30,13 +30,13 @@ class LocationLoungeController extends Controller
         return redirect()->route('locations.show', $location->id);
     }
 
-    public function update(Location $location, LocationLounge $locationLounge, LocationLoungeRequest $request)
+    public function update(Location $location, LoungeLocations $locationLounge, LocationLoungeRequest $request)
     {
         $locationLounge->update($request->validated());
         return redirect()->route('locations.show', $location->id);
     }
 
-    public function destroy(Location $location, LocationLounge $locationLounge)
+    public function destroy(Location $location, LoungeLocations $locationLounge)
     {
         $locationLounge->delete();
         return redirect()->route('locations.show', $location->id);

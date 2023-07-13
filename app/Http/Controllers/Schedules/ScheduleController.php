@@ -26,6 +26,12 @@ class ScheduleController extends AbstractControllerWithMultipleDeletion
         return inertia('Schedules/Create');
     }
 
+    public function store(ScheduleRequest $request)
+    {
+        Schedule::create(['name' => $request->name]);
+        return redirect()->route('schedules.index');
+    }
+
     public function update(ScheduleRequest $request, Schedule $schedule)
     {
         $schedule->update(['name' => $request->get('name')]);

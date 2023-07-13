@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class AdvertModal extends Model
 {
+
+    // TODO: later?
     public $timestamps = false;
 
     protected $fillable =  [

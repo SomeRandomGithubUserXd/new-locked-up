@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class QuestBlock extends Model
 {
-    protected $table = 'quest_block';
+    public $fillable = ['name_ru', 'name_en'];
 }

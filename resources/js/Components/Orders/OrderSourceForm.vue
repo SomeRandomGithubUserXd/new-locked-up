@@ -40,9 +40,9 @@ const emit = defineEmits(['submit'])
                 <InputError class="mt-2" :message="modelValue.errors.color"/>
             </div>
             <div class="col-span-6 sm:col-span-2 flex items-center">
-                <label for="aggregator">
-                    <checkbox id="aggregator"
-                              v-model:checked="modelValue.aggregator"/>
+                <label for="is_aggregator">
+                    <checkbox id="is_aggregator"
+                              v-model:checked="modelValue.is_aggregator"/>
                     <span class="ml-2 text-sm text-gray-600">Агрегатор</span>
                 </label>
             </div>

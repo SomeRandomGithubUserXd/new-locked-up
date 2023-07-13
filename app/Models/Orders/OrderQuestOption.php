@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class OrderQuestOption extends Pivot
 {
-    protected $table = 'orders_order_option';
+    protected $table = 'order_order_options';
 
     public $timestamps = false;
 

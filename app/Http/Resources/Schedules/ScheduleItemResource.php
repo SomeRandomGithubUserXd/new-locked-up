@@ -17,7 +17,7 @@ class ScheduleItemResource extends JsonResource
             'active' => $this->active,
             'type' => $this->type,
 
-            'shedule_id' => $this->shedule_id,
+            'schedule_id' => $this->schedule_id,
         ];
     }
 }

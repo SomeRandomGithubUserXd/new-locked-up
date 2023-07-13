@@ -9,12 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ScheduleItem extends Model
 {
-    // Yeah...
-    protected $table = 'shedule_item';
-
-    protected $fillable = ['time', 'price', 'shedule_id', 'active', 'type'];
-
-    public $timestamps = false;
+    protected $fillable = ['time', 'price', 'schedule_id', 'active', 'type'];
 
     protected $casts = [
         'type' => ScheduleTypeEnum::class
@@ -22,7 +17,7 @@ class ScheduleItem extends Model
 
     public function schedule(): BelongsTo
     {
-        return $this->belongsTo(Schedule::class, 'shedule_id');
+        return $this->belongsTo(Schedule::class, 'schedule_id');
     }
 
     public function active(): Attribute

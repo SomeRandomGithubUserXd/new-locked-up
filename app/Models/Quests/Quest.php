@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Quest extends Model
 {
-    protected $guarded = ['id'];
-
     protected $fillable = [
         'price_single',
         'price_command',
@@ -20,7 +18,6 @@ class Quest extends Model
         'sale',
         'time',
         'ord',
-        'age_limit',
         'min_players',
         'max_players',
         'video',
@@ -113,8 +110,6 @@ class Quest extends Model
         'corporate',
         'close_slot_period',
         'additional_email',
-        'min_players_free',
-        'max_players_free',
         'is_popular',
         'rating',
         'theme_id',
@@ -155,8 +150,8 @@ class Quest extends Model
     {
         return $this->belongsToMany(
             News::class,
-            'quests_news',
-            'quests_id',
+            'quest_news',
+            'quest_id',
             'news_id',
         );
     }
@@ -165,18 +160,18 @@ class Quest extends Model
     {
         return $this->belongsToMany(
             QuestTopic::class,
-            'quest_has_rubrics',
+            'quest_quest_topics',
             'quest_id',
-            'rubrics_id',
+            'quest_topic_id',
         );
     }
 
-    public function questChildTopics(): BelongsToMany
+    public function childQuestTopics(): BelongsToMany
     {
         return $this->belongsToMany(
-            QuestChildTopic::class,
-            'quests_child_quest_topic',
-            'quests_id',
+            ChildQuestTopic::class,
+            'quest_child_quest_topics',
+            'quest_id',
             'child_quest_topic_id',
         );
     }
@@ -185,9 +180,9 @@ class Quest extends Model
     {
         return $this->belongsToMany(
             QuestLoad::class,
-            'quests_activities_package',
-            'quests_id',
-            'activities_package_id',
+            'quest_quest_loads',
+            'quest_id',
+            'quest_load_id',
         );
     }
 

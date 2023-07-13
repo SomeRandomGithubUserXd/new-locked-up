@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->string('name_ru');
             $table->string('name_en')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->foreignIdFor(LoungeSchedule::class)->nullable();
+            $table->foreignIdFor(LoungeSchedule::class)->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

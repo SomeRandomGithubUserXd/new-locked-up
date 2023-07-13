@@ -11,7 +11,7 @@ class Appeal extends Model
 
     use HasTimestamps;
 
-    // TODO: Refactor to DB relation
+    // TODO: Shame
     public static array $sources = [
         "Главная",
         "Акции",
@@ -28,7 +28,7 @@ class Appeal extends Model
         "Нет",
     ];
 
-    // TODO: Refactor to DB relation
+    // TODO: Shame
     public static array $forms = [
         "Заявка на мероприятие",
         "Форма обратной связи",
@@ -79,10 +79,8 @@ class Appeal extends Model
         "email",
         "text",
         "status",
-        "created_at",
-        "updated_at",
         "location_id",
-        "sourceUrl",
+        "source_url",
         "captcha_score",
         "source_id",
         "form_id",

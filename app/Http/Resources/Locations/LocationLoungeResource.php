@@ -5,7 +5,7 @@ namespace App\Http\Resources\Locations;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Locations\LocationLounge */
+/** @mixin \App\Models\Locations\LoungeLocations */
 class LocationLoungeResource extends JsonResource
 {
     public function toArray(Request $request): array

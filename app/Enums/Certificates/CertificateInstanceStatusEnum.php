@@ -12,6 +12,7 @@ enum CertificateInstanceStatusEnum: int implements ISerializableEnum
     case booked = 0;
 
     case active = 1;
+
     case redeemed = 2;
 
     public function getName(): string

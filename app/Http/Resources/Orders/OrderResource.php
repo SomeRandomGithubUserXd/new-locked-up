@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Orders;
 
-use App\Models\Certificate;
+use App\Models\Certificates\Certificate;
 use App\Models\Orders\Order;
 use App\Models\Sales\Sale;
 use Illuminate\Http\Request;

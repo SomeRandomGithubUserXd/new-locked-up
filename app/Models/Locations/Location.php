@@ -7,17 +7,27 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Location extends Model
 {
-    public $timestamps = false;
-
-    protected $fillable = ['phone', 'email', 'maps', 'latitude', 'longitude', 'additional_email', 'isDeleted', 'name_ru', 'name_en', 'address_ru', 'address_en', 'show_on_child', 'show_on_corporate'];
-
-    protected $casts = [
-      'show_on_child' => 'bool',
-      'show_on_corporate' => 'bool'
+    protected $fillable = [
+        'name_ru',
+        'name_en',
+        'address_ru',
+        'address_en',
+        'phone',
+        'email',
+        'latitude',
+        'longitude',
+        'additional_email',
+        'show_at_kids_page',
+        'show_at_corporate_parties_page'
     ];
 
-    public function locationLounges(): HasMany
+    protected $casts = [
+        'show_at_kids_page' => 'bool',
+        'show_at_corporate_parties_page' => 'bool'
+    ];
+
+    public function loungeLocations(): HasMany
     {
-        return $this->hasMany(LocationLounge::class, 'location_id');
+        return $this->hasMany(LoungeLocations::class, 'location_id');
     }
 }

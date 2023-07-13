@@ -8,6 +8,7 @@ use App\Http\Requests\Quests\GetQuestScheduleRequest;
 use App\Http\Requests\Quests\QuestRequest;
 use App\Http\Resources\Quests\QuestResource;
 use App\Models\Quests\Quest;
+use App\Models\Quests\QuestMeta;
 use App\Models\Schedules\ScheduleItem;
 use App\Traits\InteractsWithOrders;
 use App\Traits\InteractsWithQuests;
@@ -41,7 +42,7 @@ class QuestController extends AbstractControllerWithMultipleDeletion
 
     public function store(QuestRequest $request)
     {
-        $rawData = $this->getRelationsFreeData($request->getUnRefactoredValidatedData());
+        $rawData = $this->getRelationsFreeData($request->validated());
         $quest = Quest::create($rawData);
         $this->refreshRelations($quest, $request);
         return redirect()->route('quests.index');
@@ -49,7 +50,7 @@ class QuestController extends AbstractControllerWithMultipleDeletion
 
     public function update(QuestRequest $request, Quest $quest)
     {
-        $rawData = $this->getRelationsFreeData($request->getUnRefactoredValidatedData());
+        $rawData = $this->getRelationsFreeData($request->validated());
         $quest->update($rawData);
         $this->refreshRelations($quest, $request);
         return redirect()->route('quests.index');
@@ -57,15 +58,19 @@ class QuestController extends AbstractControllerWithMultipleDeletion
 
     protected function getRelationsFreeData(array $rawData)
     {
-        unset(
-            $rawData['related_quest_ids'],
-            $rawData['advantages'],
-            $rawData['options'],
-            $rawData['applied_sales'],
-            $rawData['you_may_like_it_section_quest_ids'],
-            $rawData['quest_topic_ids'],
-            $rawData['loads'],
-        );
+        $toUnset = [
+            'related_quest_ids',
+            'advantages',
+            'options',
+            'applied_sales',
+            'you_may_like_it_section_quest_ids',
+            'quest_topic_ids',
+            'loads',
+            ...QuestMeta::getModel()->getFillable()
+        ];
+        foreach ($toUnset as $item) {
+            unset($rawData[$item]);
+        }
         return $rawData;
     }
 
@@ -93,14 +98,14 @@ class QuestController extends AbstractControllerWithMultipleDeletion
         $quest->news()->sync($request->get('applied_sales'));
         $quest->questLoad()->sync($request->get('loads'));
         $quest->questTopics()->sync($request->get('quest_topic_ids'));
-        $quest->questChildTopics()->sync($request->get('quest_child_topic_ids'));
+        $quest->childQuestTopics()->sync($request->get('quest_child_topic_ids'));
     }
 
     public function getQuestMeta(Quest $quest, GetQuestScheduleRequest $request): JsonResponse
     {
         $type = $this->getScheduleType(Carbon::parse($request->get('date')))->value;
         if ($request->get('date')) {
-            $schedule = ScheduleItem::where(['shedule_id' => $quest->schedule_id])
+            $schedule = ScheduleItem::where(['schedule_id' => $quest->schedule_id])
                 ->where(['type' => $type])
                 ->orderBy('time')
                 ->get();

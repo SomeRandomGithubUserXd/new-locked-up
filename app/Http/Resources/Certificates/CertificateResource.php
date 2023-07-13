@@ -6,7 +6,7 @@ use App\Models\Certificates\PersonCertificate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Certificate */
+/** @mixin \App\Models\Certificates\Certificate */
 class CertificateResource extends JsonResource
 {
     public function toArray(Request $request): array

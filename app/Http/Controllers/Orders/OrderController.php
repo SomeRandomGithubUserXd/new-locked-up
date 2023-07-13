@@ -11,24 +11,19 @@ use App\Http\Requests\Orders\StoreQuestRequest;
 use App\Http\Resources\Orders\LogsResource;
 use App\Http\Resources\Orders\OrderMetaResource;
 use App\Http\Resources\Orders\OrderResource;
-use App\Models\Certificate;
-use App\Models\Locations\Location;
+use App\Models\Certificates\Certificate;
 use App\Models\Orders\Order;
-use App\Models\Orders\OrderChangeLogItem;
 use App\Models\Orders\OrderFilter;
 use App\Models\Orders\OrderOption;
 use App\Models\Orders\OrderSource;
 use App\Models\Quests\Quest;
 use App\Models\Sales\Sale;
-use App\Models\Schedules\ScheduleItem;
 use App\Traits\InteractsWithOrders;
 use App\Traits\QueryTools;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
-use SebastianBergmann\CodeCoverage\Report\Xml\Source;
-use ZipStream\Exception;
 
 class OrderController extends AbstractControllerWithMultipleDeletion
 {
@@ -69,7 +64,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
 
     protected function applyQueryFilter($query, FilterRequest $request)
     {
-        return $query->orderBy('created_at', 'desc')
+        return $query->orderBy('orders.created_at', 'desc')
             ->when($request->search_string, function (Builder $query) use ($request) {
                 return $this
                     ->getWhereLikeManyQuery(
