@@ -30,12 +30,12 @@ class SaleController extends AbstractControllerWithMultipleDeletion
                 return $this
                     ->getWhereLikeManyQuery(
                         $query,
-                        ['promocode', 'value', 'start_date', 'best_before'],
+                        ['promo_code', 'value', 'start_date', 'best_before'],
                         $request->get('search_string')
                     );
             })
             ->when($request->get('promo_code'), function (Builder $query) use ($request) {
-                $query->where('promocode', 'like', '%' . $request->get('promo_code') . '%');
+                $query->where('promo_code', 'like', '%' . $request->get('promo_code') . '%');
             })
             ->when($request->get('value'), function (Builder $query) use ($request) {
                 $query->where(['value' => $request->get('value')]);
@@ -76,7 +76,7 @@ class SaleController extends AbstractControllerWithMultipleDeletion
 
     public function store(SaleRequest $request)
     {
-        $data = $request->getUnRefactoredValidatedData();
+        $data = $request->validated();
         $questIds = $data['quest_ids'];
         unset($data['quest_ids']);
         $sale = Sale::create($data);
@@ -97,7 +97,7 @@ class SaleController extends AbstractControllerWithMultipleDeletion
 
     public function update(SaleRequest $request, Sale $sale)
     {
-        $data = $request->getUnRefactoredValidatedData();
+        $data = $request->validated();
         $questIds = $data['quest_ids'];
         unset($data['quest_ids']);
         $sale->update($data);

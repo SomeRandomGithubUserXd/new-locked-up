@@ -19,8 +19,6 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Order extends Model
 {
-    use HasTimestamps;
-
     public static array $packageOptions = ['Комфорт', 'Стандарт', 'Эконом'];
 
     protected $fillable = [
@@ -31,13 +29,14 @@ class Order extends Model
         'date',
         'time',
         'price',
+        'additional_players_count',
         'additional_players_cost',
         'additional_options_cost',
         'certificate_id',
-        'sale_id',
+        'promo_code',
         'discount',
-        'pre_payed',
-        'pre_payed_type',
+        'pre_paid',
+        'pre_paid_type',
         'postpaid',
         'postpaid_type',
         'paid_in_cash',
@@ -46,28 +45,25 @@ class Order extends Model
         'paid_through_aggregator',
         'checkout_id',
         'price_total',
+        'option',
         'order_source_id',
         'status',
         'comment',
+        'schedule_item_id',
+        'lounge_id',
+        'lounge_schedule_item_id',
+        'price_to_pay'
     ];
 
     protected $casts = [
-        'status' => OrderStatusEnum::class
+        'status' => OrderStatusEnum::class,
+        'date' => 'date'
     ];
 
     public function status(): Attribute
     {
         return Attribute::make(
             set: static fn(int $value) => $value ?? 0,
-        );
-    }
-
-    public function priceToPay(): Attribute
-    {
-        return Attribute::make(
-            set: static function (int $val) {
-                return 500;
-            },
         );
     }
 
@@ -83,17 +79,17 @@ class Order extends Model
 
     public function source(): BelongsTo
     {
-        return $this->belongsTo(OrderSource::class, 'source', 'id');
+        return $this->belongsTo(OrderSource::class, 'order_source_id', 'id');
     }
 
     public function certificate(): BelongsTo
     {
-        return $this->belongsTo(Certificate::class, 'certificate_data_id', 'id');
+        return $this->belongsTo(Certificate::class, 'certificate_id', 'id');
     }
 
     public function orderOptions(): BelongsToMany
     {
-        return $this->belongsToMany(OrderOption::class, 'order_order_options')->using(OrderQuestOption::class);
+        return $this->belongsToMany(OrderOption::class, 'orders_order_options')->using(OrderQuestOption::class);
     }
 
     public function loungeScheduleItem(): BelongsTo
@@ -113,6 +109,6 @@ class Order extends Model
 
     public function sale(): BelongsTo
     {
-        return $this->belongsTo(Sale::class, 'sale_id');
+        return $this->belongsTo(Sale::class, 'promo_code', 'promo_code');
     }
 }

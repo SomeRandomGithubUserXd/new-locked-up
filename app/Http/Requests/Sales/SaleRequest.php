@@ -31,16 +31,6 @@ class SaleRequest extends FormRequest
         ];
     }
 
-    public function getUnRefactoredValidatedData()
-    {
-        // TODO: Refactor when DB will be restructured
-        $data = $this->validated();
-        $data['promocode'] = $data['promo_code'];
-        $data['weekday_only'] = $data['weekdays_only'];
-        unset($data['promo_code']);
-        return $data;
-    }
-
     public function authorize(): bool
     {
         return true;

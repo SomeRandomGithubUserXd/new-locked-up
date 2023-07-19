@@ -24,7 +24,7 @@ class ServiceController extends AbstractControllerWithMultipleDeletion
 
     public function store(ServiceRequest $request)
     {
-        OrderOption::create($request->getUnRefactoredValidatedData());
+        OrderOption::create($request->validated());
         return redirect()->route('services.index');
     }
 
@@ -37,7 +37,7 @@ class ServiceController extends AbstractControllerWithMultipleDeletion
 
     public function update($optionId, ServiceRequest $request)
     {
-        OrderOption::find($optionId)->update($request->getUnRefactoredValidatedData());
+        OrderOption::find($optionId)->update($request->validated());
         return redirect()->route('services.index');
     }
 

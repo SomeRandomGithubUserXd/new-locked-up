@@ -17,7 +17,7 @@ class ReviewResource extends JsonResource
             'rate' => $this->rate,
             'review' => $this->review,
             'quest' => $this->quest->name_ru,
-            'approved' => $this->approved ? 'Да' : 'Нет',
+            'is_approved' => $this->is_approved ? 'Да' : 'Нет',
         ];
     }
 
@@ -30,7 +30,7 @@ class ReviewResource extends JsonResource
             'rate' => $review->rate,
             'review' => $review->review,
             'quest_id' => $review->quest->id,
-            'approved' => $review->approved,
+            'is_approved' => $review->is_approved,
             'language' => $review->language
         ];
     }

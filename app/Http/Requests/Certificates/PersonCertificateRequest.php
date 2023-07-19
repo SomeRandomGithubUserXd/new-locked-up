@@ -12,7 +12,7 @@ class PersonCertificateRequest extends FormRequest
             'customer_name' => ['required', 'string'],
             'customer_phone' => ['required', 'string'],
             'customer_email' => ['required', 'email'],
-            'certificate_instance_id' => ['required', 'int', 'exists:certificates_data,id'],
+            'certificate_instance_id' => ['required', 'int', 'exists:certificates,id'],
             'address' => ['required', 'string'],
             'price' => ['required', 'int'],
             'delivery_price' => ['required', 'int'],

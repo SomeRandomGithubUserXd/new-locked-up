@@ -9,7 +9,7 @@ class ScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['nullable', 'string'],
+            'name' => ['required', 'string'],
             'schedule_items' => ['nullable'],
         ];
     }

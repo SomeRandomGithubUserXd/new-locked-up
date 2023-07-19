@@ -9,7 +9,7 @@ class ReviewRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'approved' => define_as_bool($this->approved),
+            'is_approved' => define_as_bool($this->is_approved),
         ]);
     }
 
@@ -20,10 +20,10 @@ class ReviewRequest extends FormRequest
             'review_date' => ['nullable', 'date'],
             'rate' => ['required', 'integer'],
             'review' => ['required'],
-            'quest_id' => ['nullable'],
+            'quest_id' => ['required'],
             'phone' => ['nullable'],
             'email' => ['nullable', 'email', 'max:254'],
-            'approved' => ['nullable', 'bool'],
+            'is_approved' => ['nullable', 'bool'],
             'language' => ['nullable', 'string'],
         ];
     }

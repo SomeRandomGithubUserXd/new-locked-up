@@ -23,9 +23,9 @@ const emit = defineEmits(['submit'])
 <template>
     <form class="space-y-6" @submit.prevent="emit('submit')">
         <div>
-            <label for="approved">
-                <checkbox id="approved"
-                          v-model:checked="modelValue.approved"/>
+            <label for="is_approved">
+                <checkbox id="is_approved"
+                          v-model:checked="modelValue.is_approved"/>
                 <span class="ml-2 text-sm text-gray-600">Одобрен</span>
             </label>
         </div>

@@ -11,7 +11,7 @@ return new class extends Migration {
         Schema::create('quest_meta', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Quest::class);
-            $table->tinyInteger('rating')->default(5);
+            $table->decimal('rating')->default(5);
             $table->string('short_description_ru')->nullable();
             $table->string('short_description_en')->nullable();
             $table->text('full_description_ru')->nullable();

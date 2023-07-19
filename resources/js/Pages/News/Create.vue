@@ -48,7 +48,8 @@ const news = useForm({
     'quests_title_ru' : null,
     'quests_title_en' : null,
     'quest_ids' : [],
-    'alias' : null,
+    'alias_ru' : null,
+    'alias_en' : null,
     'is_published' : true,
     'quests_attached' : [],
 })

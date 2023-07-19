@@ -53,7 +53,7 @@ const getAttribute = (name) => {
                     <div>
                         <label for="is_inner">
                             <Checkbox id="is_inner"
-                                      v-model:checked="modelValue.is_inner"/>
+                                      v-model:checked="modelValue.is_internal"/>
                             <span class="ml-2 text-sm text-gray-600">Внутренняя</span>
                         </label>
                     </div>

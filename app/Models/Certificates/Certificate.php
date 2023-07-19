@@ -21,6 +21,6 @@ class Certificate extends Model
 
     public function order(): HasOne
     {
-        return $this->hasOne(Order::class, 'certificate_data_id');
+        return $this->hasOne(Order::class, 'certificate_id');
     }
 }

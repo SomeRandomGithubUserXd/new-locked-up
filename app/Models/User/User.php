@@ -17,7 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, InteractsWithTimestamps, HasTimestamps;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'username',
@@ -32,6 +32,7 @@ class User extends Authenticatable
         'passport',
         'birth_date',
         'role',
+        'get_time_mutator',
     ];
 
     protected $hidden = [
@@ -41,19 +42,15 @@ class User extends Authenticatable
     protected $casts = [
         'status' => UserStatusEnum::class,
         'role' => UserRoleEnum::class,
+        'logged_at' => 'datetime',
     ];
-
-    public function loggedAt(): Attribute
-    {
-        return $this->getTimeMutator();
-    }
 
     public function locations(): BelongsToMany
     {
         return $this->belongsToMany(
-            Location::class, 'user_locations',
+            Location::class, 'users_locations',
             'user_id',
-            'locations_id'
+            'location_id'
         )->using(UserLocations::class);
     }
 }

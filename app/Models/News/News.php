@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class News extends Model
 {
-    use HasTimestamps;
-
     protected $fillable = [
         'alias_ru',
         'alias_en',
@@ -54,7 +52,7 @@ class News extends Model
     {
         return $this->belongsToMany(
             Quest::class,
-            'news_quests',
+            'quests_news',
             'news_id',
             'quests_id',
         );

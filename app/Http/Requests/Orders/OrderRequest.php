@@ -26,39 +26,22 @@ class OrderRequest extends FormRequest
             'source' => ['required', 'exists:order_sources,id'],
             'option' => ['nullable', 'string'],
             'promo_code_id' => ['nullable', 'int', 'exists:sales,id'],
-            'certificate_id' => ['nullable', 'int', 'exists:certificates_data,id'],
+            'certificate_id' => ['nullable', 'int', 'exists:certificates,id'],
             'comment' => ['nullable', 'string'],
-            'players_count' => ['nullable', 'int'],
+            'additional_players_count' => ['nullable', 'int'],
             'options' => ['nullable', 'array'],
-            'fact_payment' => ['nullable', 'int'],
-            'pre_payed' => ['nullable', 'int'],
-            'online_payment' => ['nullable', 'int'],
-            'payed_aggregator' => ['nullable', 'int'],
+            'pre_paid' => ['nullable', 'int'],
+            'postpaid' => ['nullable', 'int'],
+            'paid_through_acquiring' => ['nullable', 'int'],
+            'paid_through_aggregator' => ['nullable', 'int'],
             'price_total' => ['required', 'int'],
-            'fact_payment_type' => ['nullable', 'int'],
-            'pre_payed_type' => ['nullable', 'int'],
+            'postpaid_type' => ['nullable', 'int'],
+            'pre_paid_type' => ['nullable', 'int'],
             'status' => ['required', 'int'],
-            'additional_players' => ['nullable', 'int'],
-            'schedule_item_id' => ['nullable', 'int', 'exists:shedule_item,id'],
+            'schedule_item_id' => ['nullable', 'int', 'exists:schedule_items,id'],
             'lounge_id' => ['nullable', 'int', 'exists:lounges,id'],
             'lounge_schedule_item_id' => ['nullable', 'int', 'exists:lounge_schedule_items,id'],
         ];
-    }
-
-    public function getUnRefactoredValidatedData()
-    {
-        // TODO: Refactor when DB will be restructured
-        $data = $this->validated();
-        $data['date'] .= ' ' . $data['time'];
-        $data['promo'] = $this->promo_code['promocode'] ?? null;
-        $data['certificate_data_id'] = $data['certificate_id'] ?? null;
-        $data['prepayed'] = $data['pre_payed'] ?? null;
-        $data['package'] = $data['option'] ?? null;
-        $data['payed_online'] = $data['online_payment'] ?? null;
-        $data['countPlayers'] = $data['players_count'] ?? null;
-        $data['prepayed_type'] = $data['pre_payed_type'];
-        unset($data['promo_code_id'], $data['players_count'], $data['pre_payed'], $data['certificate_id'], $data['pre_payed_type']);
-        return $data;
     }
 
     public function authorize(): bool

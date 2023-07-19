@@ -12,7 +12,7 @@ class PerformanceQuestController extends QuestController
     {
         return inertia('Quests/Index', [
             'quests' => QuestResource::collection(
-                Quest::where(['performance' => 1])->paginate(15)
+                Quest::where(['is_performance_show' => true])->paginate(15)
             ),
         ]);
     }

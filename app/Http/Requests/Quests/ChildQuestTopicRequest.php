@@ -9,8 +9,9 @@ class ChildQuestTopicRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'active' => define_as_bool($this->active),
+            'is_active' => define_as_bool($this->is_active),
         ]);
+
     }
 
     public function rules(): array
@@ -19,7 +20,7 @@ class ChildQuestTopicRequest extends FormRequest
             'name_ru' => ['nullable', 'string'],
             'name_en' => ['nullable', 'string'],
             'slug' => ['nullable', 'string'],
-            'active' => ['required', 'bool'],
+            'is_active' => ['required', 'bool'],
         ];
     }
 

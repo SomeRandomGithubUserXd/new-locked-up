@@ -127,6 +127,10 @@ export const localePointers = {
         ru: 'advantages_ru',
         en: 'advantages_en',
     },
+    alias: {
+        ru: 'alias_ru',
+        en: 'alias_en',
+    },
 }
 
 export const getAttribute = (name, locale) => {

@@ -10,7 +10,7 @@ class FilterRequest extends FormRequest
     {
         return [
             'search_string' => ['nullable', 'string'],
-            'certificate_id' => ['nullable', 'int', 'exists:certificates_data,id'],
+            'certificate_id' => ['nullable', 'int', 'exists:certificates,id'],
         ];
     }
 

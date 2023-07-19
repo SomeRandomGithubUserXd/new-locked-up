@@ -81,19 +81,15 @@ class OrderController extends AbstractControllerWithMultipleDeletion
             })->when($request->quest_ids, static function (Builder $query) use ($request) {
                 $query->whereIn('quest_id', $request->get('quest_ids'));
             })->when($request->source_ids, static function (Builder $query) use ($request) {
-                $query->whereIn('source', $request->get('source_ids'));
+                $query->whereIn('order_source_id', $request->get('source_ids'));
             })->when($request->promo_code_ids, static function (Builder $query) use ($request) {
                 $promoCodes = Sale::query()
                     ->whereIn('id', $request->get('promo_code_ids'))
                     ->where(['is_deleted' => 0])
-                    ?->pluck('promocode');
-                $query->whereIn('promo', $promoCodes);
+                    ?->pluck('promo_code');
+                $query->whereIn('promo_code', $promoCodes);
             })->when($request->statuses, static function (Builder $query) use ($request) {
                 $query->whereIn('status', $request->get('statuses'));
-            })->when($request->order_by, static function (Builder $query) use ($request) {
-//                $params = explode('_', $request->get('order_by'));
-//                if ($params[0] === 'time') $params[0] = 'date';
-//                $query->orderBy($params[0], $params[1]);
             })->when($request->with_options_only, static function (Builder $query) {
                 $query->whereHas('orderOptions');
             });
@@ -114,7 +110,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
 
     public function store(StoreQuestRequest $request)
     {
-        $order = Order::create($request->getUnRefactoredValidatedData());
+        $order = Order::create($request->validated());
         try {
             \DB::table('booked_date_schedule_item')->insert([
                 'date' => $request->get('date') ?: Carbon::now()->format('Y-m-d'),
@@ -133,7 +129,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
             $date = clone $order->date;
             abort_if((new Carbon())->greaterThanOrEqualTo($date->addDay()), 403);
         }
-        $order->update($request->getUnRefactoredValidatedData());
+        $order->update($request->validated());
         \DB::table('booked_date_schedule_item')->where([
             'date' => $order->date->format('Y-m-d'),
             'order_id' => $order->id,
@@ -164,7 +160,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
             ->where('name', '==', 'Игры для друзей')
             ->pluck('id');
         $aggregatorSourceIds = OrderSource::query()
-            ->where(['aggregator' => 1])
+            ->where(['is_aggregator' => 1])
             ->pluck('id');
         $applyFiltersClosure = function ($query) use ($request) {
             return $this->applyQueryFilter($query, $request);
@@ -172,25 +168,25 @@ class OrderController extends AbstractControllerWithMultipleDeletion
         return inertia('Orders/Stats', [
             'orders' => [
                 'main' => $this->index($request, true)
-                    ->whereNotIn('source', $friendSourceIds->toArray() + $aggregatorSourceIds->toArray())
+                    ->whereNotIn('order_source_id', $friendSourceIds->toArray() + $aggregatorSourceIds->toArray())
                     ->sum('price_total'),
                 'for_friends' => $this->index($request, true)
-                    ->whereIn('source', $friendSourceIds)
+                    ->whereIn('order_source_id', $friendSourceIds)
                     ->sum('price'),
                 'aggregator' =>
                     $this->index($request, true)
-                        ->whereIn('source', $aggregatorSourceIds)
+                        ->whereIn('order_source_id', $aggregatorSourceIds)
                         ->sum('price'),
                 'left_to_pay' =>
                     $this->index($request, true)
-                        ->selectRaw('SUM(fact_payment - prepayed - payed_online - payed_aggregator) as "sum"')
+                        ->selectRaw('SUM(postpaid - pre_paid - paid_through_acquiring - paid_through_aggregator) as "sum"')
                         ->first()
                         ->toArray()['sum'],
             ],
             'payed' => [
-                'aggregator' => $this->index($request, true)->sum('payed_aggregator'),
-                'online' => $this->index($request, true)->sum('payed_online'),
-                'cert' => $this->index($request, true)->sum('payed_online'),
+                'aggregator' => $this->index($request, true)->sum('paid_through_aggregator'),
+                'online' => $this->index($request, true)->sum('paid_through_acquiring'),
+                'cert' => $this->index($request, true)->sum('paid_through_acquiring'),
             ],
             'sources' => OrderSource::query()
                 ->whereIn('id', $aggregatorSourceIds)
@@ -201,7 +197,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                 )
                 ->withSum(
                     ['orders' => $applyFiltersClosure],
-                    'payed_aggregator'
+                    'paid_through_aggregator'
                 )
                 ->paginate(15),
             'certificates' => Certificate::query()

@@ -10,7 +10,7 @@ class ChildQuestTopic extends Model
         'name_ru',
         'name_en',
         'slug',
-        'active',
+        'is_active',
     ];
 
     public $timestamps = false;

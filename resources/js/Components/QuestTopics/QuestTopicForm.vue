@@ -31,11 +31,22 @@ const getAttribute = (name) => {
         <div>
             <label for="active">
                 <Checkbox id="active"
-                          v-model:checked="modelValue.active"/>
+                          v-model:checked="modelValue.is_active"/>
                 <span class="ml-2 text-sm text-gray-600">Активна</span>
             </label>
         </div>
         <div class="grid grid-cols-6 gap-6">
+            <div class="col-span-6">
+                <InputLabel for="alias" :value="`URL`"/>
+                <TextInput
+                    id="alias"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="modelValue.alias"
+                    autofocus
+                />
+                <InputError class="mt-2" :message="modelValue.errors.alias"/>
+            </div>
             <div class="col-span-6 sm:col-span-3">
                 <InputLabel for="name" :value="`Название (${locale})`"/>
                 <TextInput

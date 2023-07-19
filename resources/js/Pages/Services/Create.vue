@@ -9,6 +9,9 @@ import ServiceForm from "@/Components/Services/ServiceForm.vue";
 const service = useForm({
     name_ru: '',
     name_en: '',
+    price: 0,
+    is_internal: false,
+    is_active: false,
 })
 
 const storeService = () => {

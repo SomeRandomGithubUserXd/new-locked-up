@@ -11,9 +11,9 @@ class ServiceRequest extends FormRequest
         return [
             'name_ru' => ['required', 'string'],
             'name_en' => ['nullable', 'string'],
-            'price' => ['nullable', 'numeric'],
+            'price' => ['required', 'numeric'],
             'is_active' => ['nullable', 'bool'],
-            'is_inner' => ['nullable', 'bool'],
+            'is_internal' => ['nullable', 'bool'],
         ];
     }
 
@@ -21,17 +21,8 @@ class ServiceRequest extends FormRequest
     {
         $this->merge([
             'is_active' => define_as_bool($this->is_active),
-            'is_inner' => define_as_bool($this->is_inner)
+            'is_internal' => define_as_bool($this->is_internal)
         ]);
-    }
-
-    public function getUnRefactoredValidatedData()
-    {
-        $data = $this->validated();
-        $data['active'] = $data['is_active'];
-        $data['inner'] = $data['is_inner'];
-        unset($data['is_inner'], $data['is_active']);
-        return $data;
     }
 
     public function authorize(): bool

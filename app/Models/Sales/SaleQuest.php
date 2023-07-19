@@ -14,7 +14,7 @@ class SaleQuest extends Pivot
 
     public function sale(): BelongsTo
     {
-        return $this->belongsTo(Sale::class, 'sales_id', 'id');
+        return $this->belongsTo(Sale::class, 'sale_id', 'id');
     }
 
     public function quest(): BelongsTo

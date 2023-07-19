@@ -12,23 +12,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class OrderOption extends Model
 {
     protected $fillable = [
-        'price',
-        'active',
-        'isDeleted',
         'name_ru',
         'name_en',
-        'inner'
+        'price',
+        'is_internal',
+        'is_active',
     ];
-
-    public function price(): Attribute
-    {
-        return Attribute::make(
-            get: static fn ($value) => $value ?? 0
-        );
-    }
 
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class, 'order_order_options')->using(OrderQuestOption::class);
+        return $this->belongsToMany(Order::class, 'orders_order_options')->using(OrderQuestOption::class);
     }
 }

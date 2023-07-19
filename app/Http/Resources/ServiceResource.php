@@ -14,9 +14,9 @@ class ServiceResource extends JsonResource
         return [
             'id' => $this->id,
             'price' => $this->price,
-            'is_active' => $this->active ? 'Да' : 'Нет',
+            'is_active' => $this->is_active ? 'Да' : 'Нет',
             'name_ru' => $this->name_ru,
-            'is_inner' => $this->inner ? 'Да' : 'Нет',
+            'is_internal' => $this->is_internal ? 'Да' : 'Нет',
         ];
     }
 
@@ -25,10 +25,10 @@ class ServiceResource extends JsonResource
         return [
             'id' => $option->id,
             'price' => $option->price,
-            'is_active' => (bool) $option->active,
+            'is_active' => (bool) $option->is_active,
             'name_ru' => $option->name_ru,
             'name_en' => $option->name_en,
-            'is_inner' => (bool) $option->inner,
+            'is_internal' => (bool) $option->is_internal,
         ];
     }
 }

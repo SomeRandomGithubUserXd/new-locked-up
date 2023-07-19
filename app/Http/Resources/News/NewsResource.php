@@ -14,7 +14,7 @@ class NewsResource extends JsonResource
         return [
             'id' => $this->id,
             'header' => $this->h1_ru,
-            'alias' => $this->alias,
+            'alias' => $this->alias_ru,
             'is_published' => $this->published ? 'Да' : 'Нет',
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
@@ -43,6 +43,8 @@ class NewsResource extends JsonResource
             'badge_en' => $news->badge_en,
             'h1_ru' => $news->h1_ru,
             'h1_en' => $news->h1_en,
+            'alias_ru' => $news->alias_ru,
+            'alias_en' => $news->alias_en,
             'text_ru' => $news->text_ru,
             'text_en' => $news->text_en,
             'conditions_header_ru' => $news->conditions_header_ru,

@@ -136,7 +136,7 @@ watch(promo_code_query, value => {
 </script>
 
 <template>
-    <form class="space-y-6" @submit="emit('submit', orderTotal)" v-on:keydown.enter.prevent>
+    <form class="space-y-6" @submit.prevent="emit('submit', orderTotal)" v-on:keydown.enter.prevent>
         <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6" :class="questMeta.min_players ? 'sm:col-span-2' : 'sm:col-span-12'">
                 <label for="quest" class="block text-sm font-medium text-gray-700"> Квест </label>

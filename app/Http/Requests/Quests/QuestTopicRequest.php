@@ -10,15 +10,15 @@ class QuestTopicRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'active' => define_as_bool($this->active),
+            'is_active' => define_as_bool($this->is_active),
         ]);
     }
 
     public function rules(): array
     {
         return [
-            'active' => ['required', 'bool'],
-            'alias' => ['nullable', 'string'],
+            'is_active' => ['required', 'bool'],
+            'alias' => ['required', 'string'],
             'og_type' => ['nullable', 'string'],
             'og_url' => ['nullable', 'string'],
             'name_ru' => ['nullable', 'string'],

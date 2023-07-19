@@ -29,7 +29,7 @@ class NewsController extends AbstractControllerWithMultipleDeletion
 
     public function store(NewsRequest $request)
     {
-        $news = News::create($request->getUnRefactoredValidatedData());
+        $news = News::create($request->validated());
         $news->quests()->sync($request->quests_attached);
         return redirect()->route('news.index');
     }
@@ -37,7 +37,7 @@ class NewsController extends AbstractControllerWithMultipleDeletion
 
     public function update(NewsRequest $request, News $news)
     {
-        $news->update($request->getUnRefactoredValidatedData());
+        $news->update($request->validated());
         $news->quests()->sync($request->quests_attached);
         return redirect()->route('news.index');
     }

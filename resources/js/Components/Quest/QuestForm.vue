@@ -288,6 +288,12 @@ const loadScheduleItems = (val) => {
 watch(() => props.modelValue.schedule_id, async (val) => {
     loadScheduleItems(val)
 })
+
+watch(() => props.modelValue.errors, async (val) => {
+    alert(val[Object.keys(val)[0]])
+})
+
+
 </script>
 
 <template>
@@ -660,7 +666,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                             <InputError class="mt-2" :message="modelValue.errors.genre"/>
                         </div>
                         <div class="col-span-6 sm:col-span-1">
-                            <InputLabel for="rating" value="Рейтинг"/>
+                            <InputLabel step="0.01" for="rating" value="Рейтинг"/>
                             <TextInput
                                 id="rating"
                                 type="number"

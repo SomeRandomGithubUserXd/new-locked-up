@@ -18,7 +18,7 @@ class CertificateInstanceRequest extends FormRequest
 
     public function getRuleUnique()
     {
-        $rule = Rule::unique('certificates_data');
+        $rule = Rule::unique('certificates');
         if ($id = $this->route()->parameter('certificate_instance')?->id) {
             $rule->whereNot('id', $id);
         }

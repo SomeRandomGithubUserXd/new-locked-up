@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PersonCertificate extends Model
 {
-    use HasTimestamps, InteractsWithTimestamps;
+    use InteractsWithTimestamps;
 
     protected $fillable = [
         'customer_name',

@@ -28,9 +28,9 @@ const emit = defineEmits(['submit'])
     <form class="space-y-6" @submit.prevent="emit('submit')">
         <switch-lang-group class="mr-3" v-model="locale" @click.stop/>
         <div>
-            <label for="active">
-                <checkbox id="active"
-                          v-model:checked="modelValue.active"/>
+            <label for="is_active">
+                <checkbox id="is_active"
+                          v-model:checked="modelValue.is_active"/>
                 <span class="ml-2 text-sm text-gray-600">Активна</span>
             </label>
         </div>

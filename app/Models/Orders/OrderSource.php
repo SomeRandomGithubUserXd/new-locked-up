@@ -9,10 +9,12 @@ class OrderSource extends Model
 {
     public $timestamps = false;
 
-    protected $fillable = ['name', 'aggregator', 'color', 'is_service', 'fee'];
+    protected $fillable = [
+        'name', 'is_aggregator', 'is_service', 'color', 'fee',
+    ];
 
     public function orders(): HasMany
     {
-        return $this->hasMany(Order::class, 'source');
+        return $this->hasMany(Order::class, 'order_source_id');
     }
 }

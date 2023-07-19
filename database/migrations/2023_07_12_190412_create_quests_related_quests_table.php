@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('quest_related_quest', function (Blueprint $table) {
+        Schema::create('quests_related_quests', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Quest::class)
                 ->constrained()
@@ -23,6 +23,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('quest_related_quest');
+        Schema::dropIfExists('quests_related_quests');
     }
 };

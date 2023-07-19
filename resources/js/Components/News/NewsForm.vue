@@ -38,6 +38,17 @@ const getAttribute = (name) => {
             </label>
         </div>
         <div class="grid grid-cols-6 gap-6">
+            <div class="col-span-6">
+                <input-label for="alias" :value="`URL (${locale})`"/>
+                <TextInput
+                    id="alias"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="modelValue[getAttribute('alias')]"
+
+                />
+                <InputError class="mt-2" :message="modelValue.errors[getAttribute('alias')]"/>
+            </div>
             <div class="col-span-6 sm:col-span-2">
                 <input-label for="meta_title" :value="`Title страницы (${locale})`"/>
                 <TextInput

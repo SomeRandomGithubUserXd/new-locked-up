@@ -13,7 +13,7 @@ class SaleResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'promo_code' => $this->promocode,
+            'promo_code' => $this->promo_code,
             'value' => $this->value,
             'type' => $this->type->getName(),
             'best_before' => $this->best_before?->format('Y-m-d H:i:s'),
@@ -27,7 +27,7 @@ class SaleResource extends JsonResource
     {
         return [
             'id' => $sale->id,
-            'promo_code' => $sale->promocode,
+            'promo_code' => $sale->promo_code,
             'value' => $sale->value,
             'type' => $sale->type,
             'start_date' => $sale->start_date?->format('Y-m-d'),

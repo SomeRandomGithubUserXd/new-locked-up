@@ -18,10 +18,6 @@ Recommended setup for <a href="#">Laravel v10.1.3</a>
 
 When making changes to project, please, keep in mind stuff below:
 
-- If you want your model to have timestamps, use trait `App\Traits\HasTimestamps` in your model (view example in `User`
-  model). Project's old
-  structure require timestamps to be stored as Epoch. Btw these funcs will convert dates output for you as a `Carbon`
-  instance. And yeah, new models should use standard mysql timestamps, do not use this trait in fresh created models
 - If you wish your route to display at header menu, add it to `routes` const at `AuthenticatedLayout.vue` following
   the example
 - For a table for an entity you should use `@/Components/Common/DataTable.vue`. Find example at any entity's index

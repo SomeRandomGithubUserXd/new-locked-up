@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('order_order_options', function (Blueprint $table) {
+        Schema::create('orders_order_options', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Order::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(OrderOption::class)->constrained()->cascadeOnDelete();
@@ -19,6 +19,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('order_order_options');
+        Schema::dropIfExists('orders_order_options');
     }
 };

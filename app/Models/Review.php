@@ -14,13 +14,13 @@ class Review extends Model
         'rate',
         'review',
         'quest_id',
-        'approved',
+        'is_approved',
         'language',
     ];
 
     protected $casts = [
         'review_date' => 'date',
-        'approved' => 'bool'
+        'is_approved' => 'bool'
     ];
 
     public function quest(): BelongsTo

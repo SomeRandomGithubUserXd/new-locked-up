@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class UserLocations extends Pivot
 {
-    protected $table = 'user_locations';
+    protected $table = 'users_locations';
 
     public $timestamps = false;
 
@@ -19,6 +19,6 @@ class UserLocations extends Pivot
 
     public function location(): BelongsTo
     {
-        return $this->belongsTo(Location::class, 'locations_id');
+        return $this->belongsTo(Location::class, 'location_id');
     }
 }

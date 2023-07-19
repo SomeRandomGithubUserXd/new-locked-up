@@ -16,7 +16,7 @@ const review = useForm({
     'rate': '',
     'review': '',
     'quest_id': '',
-    'approved': '',
+    'is_approved': false,
     'language': ''
 })
 

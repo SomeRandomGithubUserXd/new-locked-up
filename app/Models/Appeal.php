@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class Appeal extends Model
 {
 
-    use HasTimestamps;
-
     // TODO: Shame
     public static array $sources = [
         "Главная",

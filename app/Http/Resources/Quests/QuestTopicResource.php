@@ -23,7 +23,7 @@ class QuestTopicResource extends JsonResource
     {
         return [
             'id' => $topic->id,
-            'active' => (bool)$topic->active,
+            'is_active' => (bool)$topic->is_active,
             'name_ru' => $topic->name_ru,
             'name_en' => $topic->name_en,
             'title_ru' => $topic->title_ru,
@@ -51,7 +51,7 @@ class QuestTopicResource extends JsonResource
     {
         return [
             'id' => $topic->id,
-            'active' => (bool)$topic->active,
+            'is_active' => (bool)$topic->is_active,
             'name_ru' => $topic->name_ru,
             'name_en' => $topic->name_en,
         ];

@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->string('promo_code');
+            $table->integer('value');
             $table->tinyInteger('type')->default(0);
             $table->date('activation_date')->nullable();
             $table->dateTime('best_before')->nullable();

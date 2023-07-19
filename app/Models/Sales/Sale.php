@@ -12,21 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Sale extends Model
 {
-    protected $table = 'sales';
-
-    protected $fillable = [
-        'promocode',
-        'value',
-        'type',
-        'create_date',
-        'best_before',
-        'tech_prod_id',
-        'start_date',
-        'is_deleted',
-        'for_certificate',
-        'weekday_only',
-        'for_aggregators',
-    ];
+    protected $fillable = ['promo_code', 'value', 'type', 'activation_date', 'best_before', 'for_certificates', 'for_aggregators', 'weekdays_only'];
 
     public $timestamps = false;
 
@@ -40,13 +26,13 @@ class Sale extends Model
     {
         return $this->belongsToMany(
             Quest::class, 'sales_quests',
-            'sales_id',
-            'quests_id'
+            'sale_id',
+            'quest_id'
         )->using(SaleQuest::class);
     }
 
     public function orders(): HasMany
     {
-        return $this->hasMany(Order::class, 'promo', 'promocode');
+        return $this->hasMany(Order::class, 'sale_id', 'promo_code');
     }
 }

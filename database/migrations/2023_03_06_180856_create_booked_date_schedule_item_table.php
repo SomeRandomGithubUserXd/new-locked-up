@@ -7,16 +7,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('quest_quest_loads', function (Blueprint $table) {
+        Schema::create('booked_date_schedule_item', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Quests\Quest::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(\App\Models\Quests\QuestLoad::class)->constrained()->cascadeOnDelete();
+            $table->date('date');
+            $table->bigInteger('schedule_item_id');
+            $table->bigInteger('order_id');
+            $table->unique(['date', 'schedule_item_id']);
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('quest_quest_loads');
+        Schema::dropIfExists('booked_date_schedule_item');
     }
 };
