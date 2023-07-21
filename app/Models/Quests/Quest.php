@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Quest extends Model
 {
@@ -126,5 +127,10 @@ class Quest extends Model
     public function questPerformanceLounges(): HasMany
     {
         return $this->hasMany(QuestPerformanceLounge::class, 'quest_id');
+    }
+
+    public function questMeta(): HasOne
+    {
+        return $this->hasOne(QuestMeta::class, 'quest_id');
     }
 }

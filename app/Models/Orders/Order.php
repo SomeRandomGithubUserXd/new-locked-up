@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Order extends Model
 {
-    public static array $packageOptions = ['Комфорт', 'Стандарт', 'Эконом'];
+    public static array $packageOptions = [', \n', 'Стандарт', 'Эконом'];
 
     protected $fillable = [
         'quest_id',

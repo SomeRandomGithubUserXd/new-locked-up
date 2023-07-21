@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('quest_meta', function (Blueprint $table) {
+        Schema::create('quest_metas', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Quest::class);
+            $table->string('video_src')->nullable();
             $table->decimal('rating')->default(5);
             $table->string('short_description_ru')->nullable();
             $table->string('short_description_en')->nullable();
@@ -40,10 +41,13 @@ return new class extends Migration {
             $table->string('you_may_like_it_section_subheading')->nullable();
             $table->string('schedule_blocks_section_header')->nullable();
             $table->string('schedule_section_blocks_bottom_text')->nullable();
+            $table->string('sales_block_header')->nullable();
+            $table->string('sales_block_subheading')->nullable();
             $table->string('og_title')->nullable();
             $table->text('og_description')->nullable();
             $table->string('og_type')->nullable();
             $table->string('og_url')->nullable();
+            $table->timestamps();
         });
     }
 

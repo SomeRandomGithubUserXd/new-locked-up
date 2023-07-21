@@ -44,6 +44,7 @@ class QuestController extends AbstractControllerWithMultipleDeletion
     {
         $rawData = $this->getRelationsFreeData($request->validated());
         $quest = Quest::create($rawData);
+        $quest->questMeta()->firstOrCreate($request->only(...QuestMeta::getModel()->getFillable()));
         $this->refreshRelations($quest, $request);
         return redirect()->route('quests.index');
     }
@@ -52,6 +53,7 @@ class QuestController extends AbstractControllerWithMultipleDeletion
     {
         $rawData = $this->getRelationsFreeData($request->validated());
         $quest->update($rawData);
+        $quest->questMeta()->firstOrCreate($request->only(...QuestMeta::getModel()->getFillable()) )->update($request->only(...QuestMeta::getModel()->getFillable()));
         $this->refreshRelations($quest, $request);
         return redirect()->route('quests.index');
     }

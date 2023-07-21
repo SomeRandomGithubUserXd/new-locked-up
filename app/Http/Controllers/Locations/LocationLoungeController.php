@@ -26,7 +26,7 @@ class LocationLoungeController extends Controller
 
     public function store(Location $location, LocationLoungeRequest $request)
     {
-        $location->locationLounges()->create($request->validated());
+        $location->loungeLocations()->create($request->validated());
         return redirect()->route('locations.show', $location->id);
     }
 
