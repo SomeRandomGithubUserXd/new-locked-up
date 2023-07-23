@@ -23,18 +23,19 @@ class QuestResource extends JsonResource
     public static function singleItem(Quest $quest): array
     {
         $performanceArtAttributes = [];
-        if($quest->is_performance_show) {
-            $performanceArtAttributes = [
-                'quest_performance_shows' => $quest->questPerformanceShows,
-                'quest_performance_loads' => $quest->questPerformanceLoads,
-                'packages_description_ru' => $quest->packages_description_ru,
-                'packages_description_en' => $quest->page_description_en,
-                'packages_example_ru' => $quest->packages_example_ru,
-                'packages_example_en' => $quest->packages_example_en,
-                'quest_performance_experiments' => $quest->questPerformanceExperiments,
-                'quest_performance_lounges' => $quest->questPerformanceLounges,
-            ];
-        }
+//        if($quest->is_performance_show) {
+//            $performanceArtAttributes = [
+//                'quest_performance_shows' => $quest->questPerformanceShows,
+//                'quest_performance_loads' => $quest->questPerformanceLoads,
+//                'packages_description_ru' => $quest->packages_description_ru,
+//                'packages_description_en' => $quest->page_description_en,
+//                'packages_example_ru' => $quest->packages_example_ru,
+//                'packages_example_en' => $quest->packages_example_en,
+//                'quest_performance_experiments' => $quest->questPerformanceExperiments,
+//                'quest_performance_lounges' => $quest->questPerformanceLounges,
+//            ];
+//        }
+//        dd($quest->questMeta->toArray());
         return [
             'id' => $quest->id,
             'ord' => $quest->ord ?? 0,
@@ -56,7 +57,7 @@ class QuestResource extends JsonResource
             'is_for_children' => (bool) $quest->is_for_children,
             'show_at_kids_celebration' => (bool) $quest->show_at_kids_celebration,
             'show_at_corporate_parties' => (bool) $quest->show_at_corporate_parties,
-            'enabled' => (bool) $quest->is_enabled,
+            'is_enabled' => (bool) $quest->is_enabled,
             'is_performance_show' => (bool) $quest->is_performance_show,
             'price_per_additional_player' => $quest->price_per_additional_player,
             'team_price' => $quest->team_price,
@@ -66,8 +67,8 @@ class QuestResource extends JsonResource
             'age_restriction' => $quest->age_restriction,
             'min_players' => $quest->min_players,
             'max_players' => $quest->max_players,
-            'located_near_subway_station' => $quest->questMeta?->subway_station_ru,
-            'genre' => $quest->questMeta?->genre_ru,
+            'subway_station_ru' => $quest->questMeta?->subway_station_ru,
+            'genre_ru' => $quest->questMeta?->genre_ru,
             'rating' => $quest->questMeta?->rating,
             'video_src' => $quest->questMeta?->video_src,
             'advantages' => QuestAdvantageResource::collection($quest->questAdvantages)->toArray(\request()),
@@ -81,17 +82,17 @@ class QuestResource extends JsonResource
             'you_may_like_it_section_subheading' => $quest->questMeta?->you_may_like_it_section_subheading,
             'you_may_like_it_section_quest_ids' => [],
             'schedule_blocks_section_header' => $quest->questMeta?->schedule_blocks_section_header,
-            'schedule_text_en' => $quest->questMeta?->schedule_text_en,
+            'schedule_blocks_section_text' => $quest->questMeta?->schedule_blocks_section_text,
             'schedule_section_blocks_bottom_text' => $quest->questMeta?->schedule_section_blocks_bottom_text,
             'schedule_id' => $quest->schedule_id,
             'location_id' => $quest->location_id,
             'difficulty' => $quest->difficulty,
             'quest_topic_ids' => $quest->questTopics->pluck('id'),
             'quest_child_topic_ids' => [],
-            'meta_title' => $quest->questMeta?->page_title_ru,
-            'meta_description' => $quest->questMeta?->page_description_ru,
-            'meta_keywords' => $quest->questMeta?->page_keywords_ru,
-            'meta_url' => $quest->alias,
+            'page_title_ru' => $quest->questMeta?->page_title_ru,
+            'page_description_ru' => $quest->questMeta?->page_description_ru,
+            'page_keywords_ru' => $quest->questMeta?->page_keywords_ru,
+            'alias' => $quest->alias,
             'og_title' => $quest->questMeta?->og_title,
             'og_description' => $quest->questMeta?->og_description,
             'og_type' => $quest->questMeta?->og_type,

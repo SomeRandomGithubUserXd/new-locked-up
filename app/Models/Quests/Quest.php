@@ -21,12 +21,14 @@ class Quest extends Model
         'duration',
         'price',
         'team_price',
+        'price_per_additional_player',
+        'discount_percent',
         'age_restriction',
         'min_players',
         'max_players',
         'max_additional_players',
-        'video_src',
-        'is_activated',
+        'mins_until_slot_is_closed',
+        'checkout_id',
         'schedule_id',
         'quest_topic_id',
         'location_id',
@@ -34,15 +36,14 @@ class Quest extends Model
         'sticker_id',
         'show_at_home',
         'is_for_children',
-        'clicks_count',
+        'show_at_kids_celebration',
+        'show_at_corporate_parties',
         'is_enabled',
         'is_performance_show',
         'is_popular',
+        'clicks_count',
         'ord',
-
     ];
-
-    public $timestamps = false;
 
     public function schedule(): BelongsTo
     {

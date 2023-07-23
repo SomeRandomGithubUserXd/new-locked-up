@@ -510,7 +510,7 @@ watch(() => props.modelValue.errors, async (val) => {
                             </div>
                             <div class="col-span-6 sm:col-span-2">
                                 <label for="is_performance_art" class="flex items-center mt-2">
-                                    <Checkbox id="is_performance_art" v-model:checked="modelValue.is_performance_art"/>
+                                    <Checkbox id="is_performance_art" v-model:checked="modelValue.is_performance_show"/>
                                     <span class="ml-2 text-sm text-gray-600">Перформанс</span>
                                 </label>
                             </div>
@@ -580,17 +580,17 @@ watch(() => props.modelValue.errors, async (val) => {
                             <InputError class="mt-2" :message="modelValue.errors.duration"/>
                         </div>
                         <div class="col-span-6 sm:col-span-2">
-                            <InputLabel for="age_limit" value="Ограничение по возрасту"/>
+                            <InputLabel for="age_restriction" value="Ограничение по возрасту"/>
                             <TextInput
-                                id="age_limit"
+                                id="age_restriction"
                                 type="number"
                                 class="mt-1 block w-full"
-                                v-model="modelValue.age_limit"
+                                v-model="modelValue.age_restriction"
 
                             />
-                            <InputError class="mt-2" :message="modelValue.errors.age_limit"/>
+                            <InputError class="mt-2" :message="modelValue.errors.age_restriction"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-1">
+                        <div class="col-span-6 sm:col-span-3">
                             <InputLabel for="min_players" value="Количество игроков (мин.)"/>
                             <TextInput
                                 id="min_players"
@@ -601,7 +601,7 @@ watch(() => props.modelValue.errors, async (val) => {
                             />
                             <InputError class="mt-2" :message="modelValue.errors.min_players"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-1">
+                        <div class="col-span-6 sm:col-span-3">
                             <InputLabel for="max_players" value="Количество игроков (макс.)"/>
                             <TextInput
                                 id="max_players"
@@ -612,28 +612,28 @@ watch(() => props.modelValue.errors, async (val) => {
                             />
                             <InputError class="mt-2" :message="modelValue.errors.max_players"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-2">
-                            <InputLabel for="min_players_free" value="Количество игроков в форме бронирования (мин.)"/>
-                            <TextInput
-                                id="min_players_free"
-                                type="number"
-                                class="mt-1 block w-full"
-                                v-model="modelValue.min_players_free"
+<!--                        <div class="col-span-6 sm:col-span-2">-->
+<!--                            <InputLabel for="min_players_free" value="Количество игроков в форме бронирования (мин.)"/>-->
+<!--                            <TextInput-->
+<!--                                id="min_players_free"-->
+<!--                                type="number"-->
+<!--                                class="mt-1 block w-full"-->
+<!--                                v-model="modelValue.min_players_free"-->
 
-                            />
-                            <InputError class="mt-2" :message="modelValue.errors.max_players"/>
-                        </div>
-                        <div class="col-span-6 sm:col-span-2">
-                            <InputLabel for="max_players_free" value="Количество игроков в форме бронирования (макс.)"/>
-                            <TextInput
-                                id="max_players_free"
-                                type="number"
-                                class="mt-1 block w-full"
-                                v-model="modelValue.max_players_free"
+<!--                            />-->
+<!--                            <InputError class="mt-2" :message="modelValue.errors.max_players"/>-->
+<!--                        </div>-->
+<!--                        <div class="col-span-6 sm:col-span-2">-->
+<!--                            <InputLabel for="max_players_free" value="Количество игроков в форме бронирования (макс.)"/>-->
+<!--                            <TextInput-->
+<!--                                id="max_players_free"-->
+<!--                                type="number"-->
+<!--                                class="mt-1 block w-full"-->
+<!--                                v-model="modelValue.max_players_free"-->
 
-                            />
-                            <InputError class="mt-2" :message="modelValue.errors.max_players_free"/>
-                        </div>
+<!--                            />-->
+<!--                            <InputError class="mt-2" :message="modelValue.errors.max_players_free"/>-->
+<!--                        </div>-->
                     </div>
                 </template>
             </expandable-block>
@@ -649,10 +649,10 @@ watch(() => props.modelValue.errors, async (val) => {
                                 id="located_near_subway_station"
                                 type="text"
                                 class="mt-1 block w-full"
-                                v-model="modelValue.located_near_subway_station"
+                                v-model="modelValue.subway_station_ru"
 
                             />
-                            <InputError class="mt-2" :message="modelValue.errors.located_near_subway_station"/>
+                            <InputError class="mt-2" :message="modelValue.errors.subway_station_ru"/>
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <InputLabel for="genre" value="Жанр"/>
@@ -660,10 +660,10 @@ watch(() => props.modelValue.errors, async (val) => {
                                 id="genre"
                                 type="text"
                                 class="mt-1 block w-full"
-                                v-model="modelValue.genre"
+                                v-model="modelValue.genre_ru"
 
                             />
-                            <InputError class="mt-2" :message="modelValue.errors.genre"/>
+                            <InputError class="mt-2" :message="modelValue.errors.genre_ru"/>
                         </div>
                         <div class="col-span-6 sm:col-span-1">
                             <InputLabel step="0.01" for="rating" value="Рейтинг"/>
@@ -1092,7 +1092,7 @@ watch(() => props.modelValue.errors, async (val) => {
                         id="meta_title"
                         type="text"
                         class="mt-1 block w-full"
-                        v-model="modelValue.meta_title"
+                        v-model="modelValue.page_title_ru"
                     />
                 </div>
                 <div class="col-span-6 sm:col-span-3">
@@ -1101,7 +1101,7 @@ watch(() => props.modelValue.errors, async (val) => {
                         id="meta_description"
                         type="text"
                         class="mt-1 block w-full"
-                        v-model="modelValue.meta_description"
+                        v-model="modelValue.page_description_ru"
                     />
                 </div>
                 <div class="col-span-6 sm:col-span-6">
@@ -1110,7 +1110,7 @@ watch(() => props.modelValue.errors, async (val) => {
                         id="meta_keywords"
                         type="text"
                         class="mt-1 block w-full"
-                        v-model="modelValue.meta_keywords"
+                        v-model="modelValue.page_keywords_ru"
                     />
                 </div>
                 <div class="col-span-6 sm:col-span-6">
@@ -1119,7 +1119,7 @@ watch(() => props.modelValue.errors, async (val) => {
                         id="meta_url"
                         type="text"
                         class="mt-1 block w-full"
-                        v-model="modelValue.meta_url"
+                        v-model="modelValue.alias"
                     />
                 </div>
                 <div class="col-span-6 sm:col-span-2">

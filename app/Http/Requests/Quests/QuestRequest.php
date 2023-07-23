@@ -14,6 +14,7 @@ class QuestRequest extends FormRequest
             'is_for_children' => define_as_bool($this->is_for_children),
             'show_at_kids_celebration' => define_as_bool($this->show_at_kids_celebration),
             'show_at_corporate_parties' => define_as_bool($this->show_at_corporate_parties),
+            'is_performance_show' => define_as_bool($this->is_performance_show),
             'is_enabled' => define_as_bool($this->is_enabled),
         ]);
     }
@@ -21,6 +22,7 @@ class QuestRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'alias' => ['nullable', 'string'],
             'ord' => ['required', 'numeric'],
             'checkout_id' => ['nullable', 'integer'],
             'theme' => ['nullable', 'integer'],
@@ -37,6 +39,7 @@ class QuestRequest extends FormRequest
             'is_for_children' => ['nullable', 'bool'],
             'show_at_kids_celebration' => ['nullable', 'bool'],
             'show_at_corporate_parties' => ['nullable', 'bool'],
+            'is_performance_show' => ['nullable', 'bool'],
             'is_enabled' => ['nullable', 'bool'],
             'price_per_additional_player' => ['nullable', 'integer'],
             'team_price' => ['nullable', 'integer'],
@@ -46,8 +49,8 @@ class QuestRequest extends FormRequest
             'age_restriction' => ['nullable', 'integer'],
             'min_players' => ['nullable', 'integer'],
             'max_players' => ['nullable', 'integer'],
-            'located_near_subway_station' => ['nullable', 'string'],
-            'genre' => ['nullable', 'string'],
+            'subway_station_ru' => ['nullable', 'string'],
+            'genre_ru' => ['nullable', 'string'],
             'rating' => ['nullable'],
             'advantages' => ['nullable', 'array'],
             'options' => ['nullable', 'array'],

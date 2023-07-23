@@ -8,6 +8,7 @@ class QuestMeta extends Model
 {
     protected $fillable = [
         'quest_id',
+        'video_src',
         'rating',
         'short_description_ru',
         'short_description_en',
@@ -36,7 +37,10 @@ class QuestMeta extends Model
         'you_may_like_it_section_header',
         'you_may_like_it_section_subheading',
         'schedule_blocks_section_header',
+        'schedule_blocks_section_text',
         'schedule_section_blocks_bottom_text',
+        'sales_block_header',
+        'sales_block_subheading',
         'og_title',
         'og_description',
         'og_type',

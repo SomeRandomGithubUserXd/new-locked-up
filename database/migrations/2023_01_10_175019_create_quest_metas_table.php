@@ -40,6 +40,7 @@ return new class extends Migration {
             $table->string('you_may_like_it_section_header')->nullable();
             $table->string('you_may_like_it_section_subheading')->nullable();
             $table->string('schedule_blocks_section_header')->nullable();
+            $table->string('schedule_blocks_section_text')->nullable();
             $table->string('schedule_section_blocks_bottom_text')->nullable();
             $table->string('sales_block_header')->nullable();
             $table->string('sales_block_subheading')->nullable();
