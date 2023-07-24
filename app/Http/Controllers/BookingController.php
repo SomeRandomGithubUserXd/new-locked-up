@@ -30,7 +30,7 @@ class BookingController extends Controller
             return $query->where(['location_id' => $request->get('location_id')]);
         });
         if (auth()->user()->role === UserRoleEnum::admin || auth()->user()->role === UserRoleEnum::callCenter) {
-            $quests->whereIn('location_id', auth()->user()->locations()->pluck('id'));
+            $quests->whereIn('location_id', auth()->user()->locations()->pluck('locations.id'));
         }
         $quests = $quests
             ->orderBy('name_ru')

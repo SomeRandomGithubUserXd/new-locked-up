@@ -22,7 +22,7 @@ class QuestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'alias' => ['nullable', 'string'],
+            'alias' => ['required', 'string'],
             'ord' => ['required', 'numeric'],
             'checkout_id' => ['nullable', 'integer'],
             'theme' => ['nullable', 'integer'],

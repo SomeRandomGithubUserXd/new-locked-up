@@ -34,7 +34,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
         $query = Order::query()->with('orderOptions');
         $orderOptionQuery = OrderOption::query();
         if (auth()->user()->role === UserRoleEnum::admin || auth()->user()->role === UserRoleEnum::callCenter) {
-            $quests = Quest::whereIn('location_id', auth()->user()->locations()->pluck('id'));
+            $quests = Quest::whereIn('location_id', auth()->user()->locations()->pluck('locations.id'));
             $query->whereIn('quest_id', $quests->pluck('id'));
             $orderOptionQuery->whereHas('orders', function ($query) use ($quests) {
                 $query->whereIn('quest_id', $quests->pluck('id'));
