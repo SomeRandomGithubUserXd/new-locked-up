@@ -34,9 +34,7 @@ class CertificateController extends AbstractControllerWithMultipleDeletion
                         $query,
                         ['customer_name', 'customer_phone', 'customer_email'],
                         $request->get('search_string')
-                    )->orWhereHas('certificate', function (Builder $query) use ($request) {
-                        return $query->where('number', 'like', '%' . $request->get('search_string') . '%');
-                    });
+                    );
             })
             ->when($request->get('certificate_id'), function (Builder $query) use ($certificateInstanceCondition) {
                 return $query
@@ -63,7 +61,7 @@ class CertificateController extends AbstractControllerWithMultipleDeletion
 
     public function store(PersonCertificateRequest $request)
     {
-        PersonCertificate::create($request->getUnRefactoredValidatedData());
+        PersonCertificate::create($request->validated());
         return redirect()->route('certificates.index');
     }
 
@@ -78,7 +76,7 @@ class CertificateController extends AbstractControllerWithMultipleDeletion
 
     public function update(PersonCertificateRequest $request, PersonCertificate $certificate)
     {
-        $certificate->update($request->getUnRefactoredValidatedData());
+        $certificate->update($request->validated());
         return redirect()->route('certificates.index');
     }
 

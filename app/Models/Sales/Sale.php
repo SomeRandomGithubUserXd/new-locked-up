@@ -33,6 +33,6 @@ class Sale extends Model
 
     public function orders(): HasMany
     {
-        return $this->hasMany(Order::class, 'sale_id', 'promo_code');
+        return $this->hasMany(Order::class, 'promo_code', 'promo_code');
     }
 }

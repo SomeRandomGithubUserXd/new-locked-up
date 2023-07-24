@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Certificates\CertificateStatusEnum;
+use App\Models\Certificates\Certificate;
 use App\Models\Checkout;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,13 +18,14 @@ return new class extends Migration {
             $table->string('customer_address');
             $table->integer('price');
             $table->integer('delivery_cost')->default(0);
-            $table->integer('payed_cash')->default(0);
-            $table->integer('payed_card')->default(0);
-            $table->integer('payed_online')->default(0);
+            $table->integer('paid_cash')->default(0);
+            $table->integer('paid_card')->default(0);
+            $table->integer('paid_online')->default(0);
             $table->dateTime('expires_at');
             $table->tinyInteger('status')->default(0);
             $table->text('comment')->nullable();
-            $table->foreignIdFor(Checkout::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Checkout::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Certificate::class)->constrained()->cascadeOnDelete();
             $table->integer('discount')->default(0);
             $table->boolean('is_all_cost')->default(false);
             $table->timestamps();

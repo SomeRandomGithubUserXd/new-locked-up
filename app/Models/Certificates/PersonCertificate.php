@@ -20,17 +20,16 @@ class PersonCertificate extends Model
         'customer_address',
         'price',
         'delivery_cost',
-        'payed_cash',
-        'payed_card',
-        'payed_online',
+        'paid_cash',
+        'paid_card',
+        'paid_online',
         'expires_at',
         'status',
         'comment',
         'checkout_id',
+        'certificate_id',
         'discount',
         'is_all_cost',
-        'expired',
-        'get_time_mutator'
     ];
 
     protected $casts = [

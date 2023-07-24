@@ -58,7 +58,7 @@ const emit = defineEmits(['submit'])
         <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-2 flex flex-col">
                 <InputLabel for="number" value="Номер"/>
-                <select v-model="modelValue.certificate_instance_id"
+                <select v-model="modelValue.certificate_id"
                         id="number"
                         class="appearance-none mt-auto block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">>
                     <option :value="certificate.id" v-for="certificate in props.certificateInstances">
@@ -66,23 +66,23 @@ const emit = defineEmits(['submit'])
                     </option>
                 </select>
 
-                <InputError class="mt-2" :message="modelValue.errors.certificate_instance_id"/>
+                <InputError class="mt-2" :message="modelValue.errors.certificate_id"/>
             </div>
             <div class="col-span-6 sm:col-span-2">
-                <InputLabel for="address" value="Адрес"/>
+                <InputLabel for="customer_address" value="Адрес"/>
                 <TextInput
-                    id="address"
+                    id="customer_address"
                     type="text"
                     class="mt-1 block w-full"
-                    v-model="modelValue.address"
+                    v-model="modelValue.customer_address"
                     required
                 />
-                <InputError class="mt-2" :message="modelValue.errors.address"/>
+                <InputError class="mt-2" :message="modelValue.errors.customer_address"/>
             </div>
             <div class="col-span-6 sm:col-span-1">
                 <InputLabel for="price" value="Стоимость"/>
                 <TextInput
-                    id="address"
+                    id="customer_address"
                     type="number"
                     class="mt-1 block w-full"
                     v-model="modelValue.price"
@@ -91,50 +91,50 @@ const emit = defineEmits(['submit'])
                 <InputError class="mt-2" :message="modelValue.errors.price"/>
             </div>
             <div class="col-span-6 sm:col-span-1">
-                <InputLabel for="delivery_price" value="Стоимость доставки"/>
+                <InputLabel for="delivery_cost" value="Стоимость доставки"/>
                 <TextInput
-                    id="delivery_price"
+                    id="delivery_cost"
                     type="number"
                     class="mt-1 block w-full"
-                    v-model="modelValue.delivery_price"
+                    v-model="modelValue.delivery_cost"
                     required
                 />
-                <InputError class="mt-2" :message="modelValue.errors.delivery_price"/>
+                <InputError class="mt-2" :message="modelValue.errors.delivery_cost"/>
             </div>
         </div>
         <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-2">
-                <InputLabel for="payed_cash" value="Оплачено (нал.)"/>
+                <InputLabel for="paid_cash" value="Оплачено (нал.)"/>
                 <TextInput
-                    id="payed_cash"
+                    id="paid_cash"
                     type="number"
                     class="mt-1 block w-full"
-                    v-model="modelValue.payed_cash"
+                    v-model="modelValue.paid_cash"
                     required
                 />
-                <InputError class="mt-2" :message="modelValue.errors.payed_cash"/>
+                <InputError class="mt-2" :message="modelValue.errors.paid_cash"/>
             </div>
             <div class="col-span-6 sm:col-span-2">
-                <InputLabel for="payed_card" value="Оплачено (безнал.)"/>
+                <InputLabel for="paid_card" value="Оплачено (безнал.)"/>
                 <TextInput
-                    id="payed_card"
+                    id="paid_card"
                     type="number"
                     class="mt-1 block w-full"
-                    v-model="modelValue.payed_card"
+                    v-model="modelValue.paid_card"
                     required
                 />
-                <InputError class="mt-2" :message="modelValue.errors.payed_card"/>
+                <InputError class="mt-2" :message="modelValue.errors.paid_card"/>
             </div>
             <div class="col-span-6 sm:col-span-2">
-                <InputLabel for="payed_online" value="Оплачено (онлайн)"/>
+                <InputLabel for="paid_online" value="Оплачено (онлайн)"/>
                 <TextInput
-                    id="payed_online"
+                    id="paid_online"
                     type="number"
                     class="mt-1 block w-full"
-                    v-model="modelValue.payed_online"
+                    v-model="modelValue.paid_online"
                     required
                 />
-                <InputError class="mt-2" :message="modelValue.errors.payed_online"/>
+                <InputError class="mt-2" :message="modelValue.errors.paid_online"/>
             </div>
         </div>
         <div class="grid grid-cols-6 gap-6">

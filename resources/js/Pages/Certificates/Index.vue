@@ -28,7 +28,7 @@ const tableProps = ref({
         },
         {
             name: 'Адрес',
-            getValue: (appeal) => appeal.address || 'Нет'
+            getValue: (appeal) => appeal.customer_address || 'Нет'
         },
         {
             name: 'Стоимость',
@@ -36,15 +36,15 @@ const tableProps = ref({
         },
         {
             name: 'Стоимость доставки',
-            getValue: (appeal) => `${appeal.delivery_price || 0} руб.`
+            getValue: (appeal) => `${appeal.delivery_cost || 0} руб.`
         },
         {
             name: 'Итого',
-            getValue: (appeal) => `${appeal.delivery_price + appeal.price} руб.`
+            getValue: (appeal) => `${appeal.delivery_cost + appeal.price} руб.`
         },
         {
             name: 'Истекает',
-            getValue: (appeal) => appeal.expired || 'Не указано'
+            getValue: (appeal) => appeal.expires_at || 'Не указано'
         },
     ],
     actions: [
