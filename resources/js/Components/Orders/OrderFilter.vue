@@ -175,7 +175,7 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                 <div class="mt-1">
                     <v-select :disabled="props.disabled" class="scrollable-select" v-model="modelValue.promo_code_ids"
                               multiple=""
-                              label="promocode"
+                              label="promo_code"
                               :reduce="option => option.id"
                               :options="props.promoCodeList"/>
                 </div>

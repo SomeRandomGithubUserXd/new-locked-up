@@ -17,7 +17,7 @@ class ChildQuestTopicRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_ru' => ['nullable', 'string'],
+            'name_ru' => ['required', 'string'],
             'name_en' => ['nullable', 'string'],
             'slug' => ['nullable', 'string'],
             'is_active' => ['required', 'bool'],

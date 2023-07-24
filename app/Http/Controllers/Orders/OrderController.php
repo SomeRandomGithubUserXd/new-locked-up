@@ -69,7 +69,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                 return $this
                     ->getWhereLikeManyQuery(
                         $query,
-                        ['id', 'customer_name', 'customer_phone', 'customer_email'],
+                        ['orders.id', 'customer_name', 'customer_phone', 'customer_email'],
                         $request->get('search_string')
                     );
             })->when($request->date_from, static function (Builder $query) use ($request) {
@@ -85,7 +85,6 @@ class OrderController extends AbstractControllerWithMultipleDeletion
             })->when($request->promo_code_ids, static function (Builder $query) use ($request) {
                 $promoCodes = Sale::query()
                     ->whereIn('id', $request->get('promo_code_ids'))
-                    ->where(['is_deleted' => 0])
                     ?->pluck('promo_code');
                 $query->whereIn('promo_code', $promoCodes);
             })->when($request->statuses, static function (Builder $query) use ($request) {

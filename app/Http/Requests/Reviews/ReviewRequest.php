@@ -16,7 +16,7 @@ class ReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['nullable'],
+            'name' => ['required'],
             'review_date' => ['nullable', 'date'],
             'rate' => ['required', 'integer'],
             'review' => ['required'],

@@ -12,7 +12,7 @@ class UserRequest extends FormRequest
     {
         return [
             'username' => ['nullable'],
-            'email' => ['required', 'email', 'max:254'],
+            'email' => ['required', 'email', 'max:254', 'unique:users'],
             'password' => ['nullable', 'confirmed', Password::defaults()],
             'name' => ['nullable'],
             'surname' => ['nullable'],

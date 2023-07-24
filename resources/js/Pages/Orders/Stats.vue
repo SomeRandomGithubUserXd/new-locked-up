@@ -375,7 +375,7 @@ const sumOptions = (options) => {
                                             <tbody>
                                             <tr v-for="sale in props.sales.data">
                                                 <td class="px-6 py-4 whitespace-nowrap  font-bold">
-                                                    {{ sale.promocode }}
+                                                    {{ sale.promo_code }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
                                                     {{ sale.orders_count }}

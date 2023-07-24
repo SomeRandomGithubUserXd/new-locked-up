@@ -30,7 +30,7 @@ class SaleController extends AbstractControllerWithMultipleDeletion
                 return $this
                     ->getWhereLikeManyQuery(
                         $query,
-                        ['promo_code', 'value', 'start_date', 'best_before'],
+                        ['promo_code', 'value', 'activation_date', 'best_before'],
                         $request->get('search_string')
                     );
             })
@@ -47,10 +47,10 @@ class SaleController extends AbstractControllerWithMultipleDeletion
                 $query->whereDate('best_before', '>=', $request->get('best_before'));
             })
             ->when($request->get('start_date'), function (Builder $query) use ($request) {
-                $query->whereDate('start_date', '>=', $request->get('start_date'));
+                $query->whereDate('activation_date', '>=', $request->get('start_date'));
             })
             ->when($request->get('weekdays_only'), function (Builder $query) use ($request) {
-                $query->where(['weekday_only' => $request->get('weekdays_only')]);
+                $query->where(['weekdays_only' => $request->get('weekdays_only')]);
             })
             ->when($request->get('quest_ids'), function (Builder $query) use ($request) {
                 $questsCondition = function ($query) use ($request) {

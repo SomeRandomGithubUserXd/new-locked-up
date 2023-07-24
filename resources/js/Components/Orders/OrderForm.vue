@@ -128,7 +128,7 @@ const selectedLoungeScheduleItems = computed({
     }
 })
 
-const promo_code_query = ref(props.modelValue.promo_code?.promocode || '')
+const promo_code_query = ref(props.modelValue.promo_code?.promo_code || '')
 
 watch(promo_code_query, value => {
     props.modelValue.promo_code = collect(props.promoCodeList).where('promocode', '==', value).first()

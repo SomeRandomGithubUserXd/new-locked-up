@@ -16,11 +16,11 @@ const sale = useForm({
     weekdays_only: false,
     promo_code: '',
     type: 0,
-    value: '',
-    start_date: '',
+    value: 0,
+    activation_date: '',
     best_before: '',
     quest_ids: [],
-    for_certificate: false,
+    for_certificates: false,
     for_aggregators: false,
 })
 
