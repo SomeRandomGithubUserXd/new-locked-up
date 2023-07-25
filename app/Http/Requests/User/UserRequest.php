@@ -11,7 +11,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => ['nullable'],
+            'username' => ['nullable', 'unique:users'],
             'email' => ['required', 'email', 'max:254', 'unique:users'],
             'password' => ['nullable', 'confirmed', Password::defaults()],
             'name' => ['nullable'],

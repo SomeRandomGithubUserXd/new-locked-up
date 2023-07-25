@@ -45,7 +45,7 @@ class QuestTopicController extends AbstractControllerWithMultipleDeletion
 
     public function destroyMany(ActionWithManyRequest $request): RedirectResponse
     {
-//        QuestTopic::whereIn('id', $request->get('ids'))->delete();
+        QuestTopic::whereIn('id', $request->get('ids'))->delete();
         return redirect()->back();
     }
 }

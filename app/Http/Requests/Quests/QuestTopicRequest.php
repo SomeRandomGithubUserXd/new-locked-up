@@ -21,7 +21,7 @@ class QuestTopicRequest extends FormRequest
             'alias' => ['required', 'string'],
             'og_type' => ['nullable', 'string'],
             'og_url' => ['nullable', 'string'],
-            'name_ru' => ['nullable', 'string'],
+            'name_ru' => ['required', 'string'],
             'name_en' => ['nullable', 'string'],
             'og_title_ru' => ['nullable', 'string'],
             'og_title_en' => ['nullable', 'string'],

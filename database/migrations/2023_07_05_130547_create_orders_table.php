@@ -40,7 +40,7 @@ return new class extends Migration {
             $table->integer('paid_through_aggregator')->default(0);
             $table->foreignIdFor(Checkout::class)->nullable()->constrained()->cascadeOnDelete();
             $table->integer('price_total');
-            $table->string('option');
+            $table->string('option')->nullable();
             $table->foreignIdFor(OrderSource::class)->nullable()->constrained()->cascadeOnDelete();
             $table->tinyInteger('status')->default(0);
             $table->text('comment')->nullable();
