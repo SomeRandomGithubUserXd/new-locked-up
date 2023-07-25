@@ -22,7 +22,7 @@ class PersonCertificateRequest extends FormRequest
             'paid_online' => ['required', 'int'],
             'expires_at' => ['nullable', 'date'],
             'payment_link' => ['nullable', 'string'],
-            'status' => ['nullable', 'int'],
+            'status' => ['required', 'int'],
             'comment' => ['nullable', 'string'],
         ];
     }
