@@ -89,13 +89,14 @@ const playersSum = computed({
 
 const orderTotal = computed({
     get() {
-        return getOrderTotal(questMeta.value.price, props.modelValue, optionSum.value, playersSum.value) + loungeSum.value
+        return getOrderTotal(questMeta.value.price, props.modelValue, optionSum.value, playersSum.value)
+            + Number(loungeSum.value)
+            + Number(props.modelValue.time.price)
     },
     set() {
 
     }
 })
-
 const loungeSum = computed({
     get() {
         let item = collect(selectedLoungeScheduleItems.value).where('id', '==', props.modelValue?.lounge_schedule_item_id || 0).first()

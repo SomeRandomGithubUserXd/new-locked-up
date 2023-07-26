@@ -127,6 +127,7 @@ class QuestController extends AbstractControllerWithMultipleDeletion
 
     public function destroyMany(ActionWithManyRequest $request): RedirectResponse
     {
+        Quest::whereIn('id', $request->get('ids'))->delete();
         return redirect()->back();
     }
 }

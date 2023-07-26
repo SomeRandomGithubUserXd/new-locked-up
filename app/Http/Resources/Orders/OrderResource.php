@@ -24,11 +24,9 @@ class OrderResource extends JsonResource
             'source' => $this->source()?->first()?->name,
             'status' => $this->status,
             'comment' => $this->comment,
-            'fact_payment' => $this->postpaid,
-            'pre_payed' => $this->pre_paid,
-            'online_payment' => $this->paid_through_acquiring,
-            'payed_aggregator' => $this->paid_through_aggregator,
             'price_total' => $this->price_total,
+            'paid_total' => $this->paid_total,
+            'price_to_pay' => $this->price_to_pay,
             'certificate_data_id' => $this->certificate_id,
         ];
     }
@@ -55,6 +53,8 @@ class OrderResource extends JsonResource
             'paid_through_aggregator' => $order->paid_through_aggregator ?? 0,
             'status' => $order->status ?? 0,
             'price_total' => $order->price_total,
+            'paid_total' => $order->paid_total,
+            'price_to_pay' => $order->price_to_pay,
             'option' => $order->package ?? Order::$packageOptions[0],
             'postpaid_type' => $order->postpaid_type ?? '',
             'pre_paid_type' => $order->pre_paid_type ?? '',

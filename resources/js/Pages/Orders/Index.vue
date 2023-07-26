@@ -91,13 +91,13 @@ const tableProps = ref({
         {
             name: 'Оплачено',
             getValue: (order) => {
-                return `${getAlreadyPayed(order)} руб.`
+                return `${order.paid_total} руб.`
             }
         },
         {
             name: 'К оплате',
             getValue: (order) => {
-                return `${getOrderPriceToPay(order.price_total, order)} руб.`
+                return `${order.price_to_pay} руб.`
             }
         },
         {
