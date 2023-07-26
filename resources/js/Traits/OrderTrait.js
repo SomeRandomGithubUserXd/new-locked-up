@@ -28,17 +28,17 @@ export const getOrderPriceToPay = (orderTotal, order) => {
     return Number(orderTotal) -
         (Number(order.promo_code?.value) || 0) -
         (Number(order.certificate?.price) || 0) -
-        Number(order?.fact_payment || 0) -
-        Number(order?.pre_payed || 0) -
-        Number(order?.online_payment || 0) -
-        Number(order?.payed_aggregator || 0)
+        Number(order?.postpaid || 0) -
+        Number(order?.pre_paid || 0) -
+        Number(order?.paid_through_acquiring || 0) -
+        Number(order?.paid_through_aggregator || 0)
 }
 
 export const getAlreadyPayed = (order) => {
-    return Number(order?.fact_payment || 0) +
-        Number(order?.pre_payed || 0) +
-        Number(order?.online_payment || 0) +
-        Number(order?.payed_aggregator || 0)
+    return Number(order?.postpaid || 0) +
+        Number(order?.pre_paid || 0) +
+        Number(order?.paid_through_acquiring || 0) +
+        Number(order?.paid_through_aggregator || 0)
 }
 
 export const orderProps = {

@@ -62,7 +62,7 @@ const emit = defineEmits(['submit'])
                         id="number"
                         class="appearance-none mt-auto block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">>
                     <option :value="certificate.id" v-for="certificate in props.certificateInstances">
-                        {{ certificate.number}}
+                        {{ certificate.number }}
                     </option>
                 </select>
 
@@ -82,7 +82,7 @@ const emit = defineEmits(['submit'])
             <div class="col-span-6 sm:col-span-1">
                 <InputLabel for="price" value="Стоимость"/>
                 <TextInput
-                    id="customer_address"
+                    id="price"
                     type="number"
                     class="mt-1 block w-full"
                     v-model="modelValue.price"

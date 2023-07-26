@@ -15,7 +15,7 @@ class NewsResource extends JsonResource
             'id' => $this->id,
             'header' => $this->h1_ru,
             'alias' => $this->alias_ru,
-            'is_published' => $this->published ? 'Да' : 'Нет',
+            'is_published' => $this->is_published ? 'Да' : 'Нет',
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
@@ -62,8 +62,7 @@ class NewsResource extends JsonResource
             'quests_title_ru' => $news->quests_title_ru,
             'quests_title_en' => $news->quests_title_en,
             'quest_ids' => [],
-            'alias' => $news->alias,
-            'is_published' => (bool) $news->published,
+            'is_published' => (bool) $news->is_published,
             'quests_attached' => $news->quests->pluck('id'),
         ];
     }

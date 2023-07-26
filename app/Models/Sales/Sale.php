@@ -18,7 +18,7 @@ class Sale extends Model
 
     protected $casts = [
         'type' => CertificateInstanceTypeEnum::class,
-        'start_date' => 'datetime',
+        'activation_date' => 'datetime',
         'best_before' => 'datetime',
     ];
 

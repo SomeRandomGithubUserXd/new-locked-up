@@ -32,7 +32,7 @@ const tableProps = ref({
         },
         {
             name: 'Начало',
-            getValue: (sale) => sale.start_date
+            getValue: (sale) => sale.activation_date
         },
         {
             name: 'Окончание',
@@ -60,7 +60,7 @@ const defaultFilter = {
     search_string: null,
     promo_code: null,
     value: null,
-    start_date: null,
+    activation_date: null,
     best_before: null,
     type: null,
     quest_ids: null,

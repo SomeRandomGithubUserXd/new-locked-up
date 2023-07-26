@@ -74,14 +74,14 @@ const emit = defineEmits(['submit', 'reset'])
                 <InputError class="mt-2" :message="modelValue.errors.value"/>
             </div>
             <div class="col-span-6 sm:col-span-3">
-                <InputLabel for="start_date" value="Действует с:"/>
+                <InputLabel for="activation_date" value="Действует с:"/>
                 <TextInput
-                    id="start_date"
+                    id="activation_date"
                     type="date"
                     class="mt-1 block w-full"
-                    v-model="modelValue.start_date"
+                    v-model="modelValue.activation_date"
                 />
-                <InputError class="mt-2" :message="modelValue.errors.start_date"/>
+                <InputError class="mt-2" :message="modelValue.errors.activation_date"/>
             </div>
             <div class="col-span-6 sm:col-span-3">
                 <InputLabel for="best_before" value="Действует до:"/>

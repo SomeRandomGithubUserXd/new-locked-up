@@ -17,14 +17,14 @@ class ReviewRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'review_date' => ['nullable', 'date'],
+            'review_date' => ['required', 'date'],
             'rate' => ['required', 'integer'],
             'review' => ['required'],
             'quest_id' => ['required'],
             'phone' => ['nullable'],
             'email' => ['nullable', 'email', 'max:254'],
             'is_approved' => ['nullable', 'bool'],
-            'language' => ['nullable', 'string'],
+            'language' => ['required', 'string'],
         ];
     }
 

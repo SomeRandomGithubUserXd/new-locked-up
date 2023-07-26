@@ -128,10 +128,14 @@ const selectedLoungeScheduleItems = computed({
     }
 })
 
-const promo_code_query = ref(props.modelValue.promo_code?.promo_code || '')
+const applyingPromoCode = computed({
+    get() {
+        if(!props.modelValue.promo_code) return
+        return collect(props.promoCodeList).where('promo_code', '==', props.modelValue.promo_code).first()
+    },
+    set() {
 
-watch(promo_code_query, value => {
-    props.modelValue.promo_code = collect(props.promoCodeList).where('promocode', '==', value).first()
+    }
 })
 </script>
 
@@ -179,7 +183,7 @@ watch(promo_code_query, value => {
                     игроки </label>
                 <div class="mt-1">
                     <select
-                        v-model="modelValue.additional_players"
+                        v-model="modelValue.additional_players_count"
                         id="players_count"
                         class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option :value="0">
@@ -281,7 +285,7 @@ watch(promo_code_query, value => {
                     <label for="source" class="block text-sm font-medium text-gray-700"> Источник </label>
                     <div class="mt-1">
                         <select
-                            v-model="modelValue.source"
+                            v-model="modelValue.order_source_id"
                             required
                             id="source"
                             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -299,7 +303,7 @@ watch(promo_code_query, value => {
                         id="promo_code"
                         type="text"
                         class="mt-1 block w-full"
-                        v-model="promo_code_query"
+                        v-model="modelValue.promo_code"
                     />
                     <InputError class="mt-2" :message="modelValue.errors.promo_code"/>
                 </div>
@@ -374,15 +378,15 @@ watch(promo_code_query, value => {
                             id="fact_payment"
                             type="number"
                             class="mt-1 block w-full"
-                            v-model="modelValue.fact_payment"
+                            v-model="modelValue.postpaid"
                             required
                         />
-                        <InputError class="mt-2" :message="modelValue.errors.fact_payment"/>
+                        <InputError class="mt-2" :message="modelValue.errors.postpaid"/>
                     </div>
                     <div class="mt-1">
                         <select
-                            :required="!!Number(modelValue.fact_payment)"
-                            v-model="modelValue.fact_payment_type"
+                            :required="!!Number(modelValue.postpaid)"
+                            v-model="modelValue.postpaid_type"
                             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="" selected disabled>
                                 Тип оплаты
@@ -403,16 +407,16 @@ watch(promo_code_query, value => {
                             id="prepayment"
                             type="number"
                             class="mt-1 block w-full"
-                            v-model="modelValue.pre_payed"
+                            v-model="modelValue.pre_paid"
                             required
                         />
-                        <InputError class="mt-2" :message="modelValue.errors.pre_payed"/>
+                        <InputError class="mt-2" :message="modelValue.errors.pre_paid"/>
                     </div>
 
                     <div class="mt-1">
                         <select
-                            :required="!!Number(modelValue.pre_payed)"
-                            v-model="modelValue.pre_payed_type"
+                            :required="!!Number(modelValue.pre_paid)"
+                            v-model="modelValue.pre_paid_type"
                             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="" selected disabled>
                                 Тип оплаты
@@ -433,10 +437,10 @@ watch(promo_code_query, value => {
                             id="online_payment"
                             type="number"
                             class="mt-1 block w-full"
-                            v-model="modelValue.online_payment"
+                            v-model="modelValue.paid_through_acquiring"
                             required
                         />
-                        <InputError class="mt-2" :message="modelValue.errors.online_payment"/>
+                        <InputError class="mt-2" :message="modelValue.errors.paid_through_acquiring"/>
                     </div>
                 </div>
                 <div class="col-span-6 sm:col-span-1">
@@ -446,10 +450,10 @@ watch(promo_code_query, value => {
                             id="payed_aggregator"
                             type="number"
                             class="mt-1 block w-full"
-                            v-model="modelValue.payed_aggregator"
+                            v-model="modelValue.paid_through_aggregator"
                             required
                         />
-                        <InputError class="mt-2" :message="modelValue.errors.payed_aggregator"/>
+                        <InputError class="mt-2" :message="modelValue.errors.paid_through_aggregator"/>
                     </div>
                 </div>
                 <div class="col-span-6 sm:col-span-6">
@@ -533,8 +537,8 @@ watch(promo_code_query, value => {
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
                                                 {{ questMeta.price }} <span class="text-green-600"
-                                                                            v-if="modelValue.promo_code">(скидка {{
-                                                    modelValue.promo_code.value
+                                                                            v-if="applyingPromoCode">(скидка {{
+                                                    applyingPromoCode.value
                                                 }})</span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

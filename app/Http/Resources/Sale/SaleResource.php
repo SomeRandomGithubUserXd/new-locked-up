@@ -17,8 +17,8 @@ class SaleResource extends JsonResource
             'value' => $this->value,
             'type' => $this->type->getName(),
             'best_before' => $this->best_before?->format('Y-m-d H:i:s'),
-            'start_date' => $this->start_date?->format('Y-m-d H:i:s'),
-            'weekdays_only' => $this->weekday_only ? 'Да' : 'Нет',
+            'activation_date' => $this->activation_date?->format('Y-m-d H:i:s'),
+            'weekdays_only' => $this->weekdays_only ? 'Да' : 'Нет',
             'quest_list' => $this->quests->implode('name_ru', ', <br/>')
         ];
     }
@@ -30,11 +30,11 @@ class SaleResource extends JsonResource
             'promo_code' => $sale->promo_code,
             'value' => $sale->value,
             'type' => $sale->type,
-            'start_date' => $sale->start_date?->format('Y-m-d'),
+            'activation_date' => $sale->activation_date?->format('Y-m-d'),
             'best_before' => $sale->best_before?->format('Y-m-d'),
-            'weekdays_only' => (bool)$sale->weekday_only,
+            'weekdays_only' => (bool)$sale->weekdays_only,
             'for_aggregators' => (bool)$sale->for_aggregators,
-            'for_certificate' => (bool)$sale->for_certificate,
+            'for_certificates' => (bool)$sale->for_certificates,
             'quest_ids' => $sale->quests->pluck('id')
         ];
     }

@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Order extends Model
 {
-    public static array $packageOptions = [', \n', 'Стандарт', 'Эконом'];
+    public static array $packageOptions = ['Комфорт', 'Стандарт', 'Эконом'];
 
     protected $fillable = [
         'quest_id',
@@ -57,7 +57,7 @@ class Order extends Model
 
     protected $casts = [
         'status' => OrderStatusEnum::class,
-        'date' => 'date'
+        'date' => 'date',
     ];
 
     public function status(): Attribute

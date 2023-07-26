@@ -17,45 +17,17 @@ class PersonCertificateResource extends JsonResource
             'customer_email' => $this->customer_email,
             'customer_phone' => $this->customer_phone,
             'number' => $this->certificate?->number,
-            'address' => $this->address,
+            'customer_address' => $this->customer_address,
             'price' => $this->price,
-            'delivery_price' => $this->delivery_price,
-            'payed_cash' => $this->payed_cash,
-            'payed_card' => $this->payed_card,
-            'payed_online' => $this->payed_online,
-            'expired' => $this->expired?->format('Y-m-d'),
-            'payment_link' => $this->payment_link,
+            'delivery_cost' => $this->delivery_cost,
+            'paid_cash' => $this->paid_cash,
+            'paid_card' => $this->paid_card,
+            'paid_online' => $this->paid_online,
+            'expires_at' => $this->expires_at?->format('Y-m-d'),
             'status' => $this->status,
             'comment' => $this->comment,
-            'breadcrums_point_name' => $this->breadcrums_point_name,
-            'checkout_type_id' => $this->checkout_type_id,
+            'checkout_id' => $this->checkout_id,
             'discount' => $this->discount,
-            'discount_value' => $this->discount_value,
-        ];
-    }
-
-    public function singleItem(PersonCertificate $certificate): array
-    {
-        return [
-            'id' => $certificate->id,
-            'customer_name' => $certificate->customer_name,
-            'customer_email' => $certificate->customer_email,
-            'customer_phone' => $certificate->customer_phone,
-            'number' => $certificate->certificate?->number,
-            'address' => $certificate->address,
-            'price' => $certificate->price,
-            'delivery_price' => $certificate->delivery_price,
-            'payed_cash' => $certificate->payed_cash,
-            'payed_card' => $certificate->payed_card,
-            'payed_online' => $certificate->payed_online,
-            'expired' => $certificate->expired?->format('Y-m-d'),
-            'payment_link' => $certificate->payment_link,
-            'status' => $certificate->status,
-            'comment' => $certificate->comment,
-            'breadcrums_point_name' => $certificate->breadcrums_point_name,
-            'checkout_type_id' => $certificate->checkout_type_id,
-            'discount' => $certificate->discount,
-            'discount_value' => $certificate->discount_value,
         ];
     }
 }

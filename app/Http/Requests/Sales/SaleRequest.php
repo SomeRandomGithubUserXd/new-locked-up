@@ -11,7 +11,7 @@ class SaleRequest extends FormRequest
         $this->merge([
             'weekdays_only' => define_as_bool($this->weekdays_only),
             'for_aggregators' => define_as_bool($this->for_aggregators),
-            'for_certificates' => define_as_bool($this->for_certificate),
+            'for_certificates' => define_as_bool($this->for_certificates),
         ]);
     }
 

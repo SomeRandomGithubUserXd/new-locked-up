@@ -54,7 +54,7 @@ class News extends Model
             Quest::class,
             'quests_news',
             'news_id',
-            'quests_id',
+            'quest_id',
         );
     }
 }

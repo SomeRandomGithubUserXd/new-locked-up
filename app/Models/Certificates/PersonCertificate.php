@@ -33,14 +33,15 @@ class PersonCertificate extends Model
     ];
 
     protected $casts = [
-        'status' => CertificateStatusEnum::class
+        'expires_at' => 'datetime',
+        'status' => CertificateStatusEnum::class,
     ];
 
     public function certificate(): BelongsTo
     {
         return $this->belongsTo(
             Certificate::class,
-            'number',
+            'certificate_id',
             'id'
         );
     }
