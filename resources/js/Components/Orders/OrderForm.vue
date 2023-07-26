@@ -91,7 +91,7 @@ const orderTotal = computed({
     get() {
         return getOrderTotal(questMeta.value.price, props.modelValue, optionSum.value, playersSum.value)
             + Number(loungeSum.value)
-            + Number(props.modelValue.time.price)
+            + Number(props.modelValue.time?.price)
     },
     set() {
 
