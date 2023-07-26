@@ -11,7 +11,6 @@ class StoreUserRequest extends UserRequest
     {
         return [
             ...parent::rules(),
-            'username' => ['required', 'string'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ];
     }

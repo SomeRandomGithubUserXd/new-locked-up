@@ -13,15 +13,17 @@ class SberBankAcquiringEntity extends AbstractAcquiringEntity
 {
     protected function getBaseUrl(): string
     {
-        return "http://3dsec.sberbank.ru/payment/rest";
+        return "https://3dsec.sberbank.ru/payment/rest";
     }
 
     protected function formRequest(string $url): PromiseInterface|Response
     {
-        return \Http::asForm()->post($url, [
-            'userName' => $this->credentialsEntity->getUsername(),
-            'password' => $this->credentialsEntity->getPassword(),
-        ]);
+        return \Http::asForm()
+            ->withOptions(["verify" => false])
+            ->post($url, [
+                'userName' => $this->credentialsEntity->getUsername(),
+                'password' => $this->credentialsEntity->getPassword(),
+            ]);
     }
 
     public function storePayment(int $amount, AcquiringCurrencyEnum $currencyEnum): OrderPayment

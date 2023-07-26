@@ -11,8 +11,8 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => ['nullable', 'unique:users'],
-            'email' => ['required', 'email', 'max:254', 'unique:users'],
+            'username' => ['required', 'unique:users,username,'.$this->route()->parameter('user')?->id],
+            'email' => ['required', 'email', 'max:254', 'unique:users,email,'.$this->route()->parameter('user')?->id],
             'password' => ['nullable', 'confirmed', Password::defaults()],
             'name' => ['nullable'],
             'surname' => ['nullable'],

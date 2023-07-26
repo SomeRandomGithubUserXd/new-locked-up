@@ -36,7 +36,7 @@ class AppealController extends AbstractControllerWithMultipleDeletion
 
     public function update(AppealRequest $request, Appeal $appeal)
     {
-        $appeal->update($request->getUnRefactoredValidatedData());
+        $appeal->update($request->validated());
         return redirect()->route('appeals.index');
     }
 
