@@ -73,9 +73,9 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                         $request->get('search_string')
                     );
             })->when($request->date_from, static function (Builder $query) use ($request) {
-                $query->where('date', '>=', strtotime($request->get('date_from')));
+                $query->where('date', '>=', $request->get('date_from'));
             })->when($request->date_to, static function (Builder $query) use ($request) {
-                $query->where('date', '<=', strtotime((new Carbon($request->get('date_to')))->addDay()->format('Y-m-d')));
+                $query->where('date', '<=', (new Carbon($request->get('date_to')))->addDay()->format('Y-m-d'));
             })->when($request->order_id, static function (Builder $query) use ($request) {
                 $query->where(['id' => $request->get('order_id')]);
             })->when($request->quest_ids, static function (Builder $query) use ($request) {
