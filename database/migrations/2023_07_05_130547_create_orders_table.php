@@ -23,10 +23,7 @@ return new class extends Migration {
             $table->string('customer_phone')->nullable();
             $table->date('date');
             $table->time('time');
-            $table->integer('price');
             $table->integer('additional_players_count')->default(0);
-            $table->integer('additional_players_cost')->default(0);
-            $table->integer('additional_options_cost')->default(0);
             $table->foreignIdFor(Certificate::class)->nullable()->constrained()->cascadeOnDelete();
             $table->string('promo_code')->nullable();
             $table->integer('discount')->default(0);
@@ -39,7 +36,12 @@ return new class extends Migration {
             $table->integer('paid_through_acquiring')->default(0);
             $table->integer('paid_through_aggregator')->default(0);
             $table->foreignIdFor(Checkout::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->integer('price');
+            $table->integer('additional_players_cost')->default(0);
+            $table->integer('additional_options_cost')->default(0);
             $table->integer('price_total');
+            $table->integer('price_to_pay');
+            $table->integer('paid_total');
             $table->string('option')->nullable();
             $table->foreignIdFor(OrderSource::class)->nullable()->constrained()->cascadeOnDelete();
             $table->tinyInteger('status')->default(0);

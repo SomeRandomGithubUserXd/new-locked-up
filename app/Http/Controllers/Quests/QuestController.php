@@ -120,8 +120,8 @@ class QuestController extends AbstractControllerWithMultipleDeletion
             'schedule' => $schedule ?? null,
             'min_players' => $quest->min_players,
             'max_players' => $quest->max_players,
-            'price' => $quest->price_command,
-            'price_per_participant' => $quest->price_single,
+            'price' => $quest->team_price,
+            'price_per_participant' => $quest->price_per_additional_player,
         ]);
     }
 

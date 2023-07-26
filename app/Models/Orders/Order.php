@@ -28,10 +28,7 @@ class Order extends Model
         'customer_phone',
         'date',
         'time',
-        'price',
         'additional_players_count',
-        'additional_players_cost',
-        'additional_options_cost',
         'certificate_id',
         'promo_code',
         'discount',
@@ -44,7 +41,12 @@ class Order extends Model
         'paid_through_acquiring',
         'paid_through_aggregator',
         'checkout_id',
+        'price',
+        'additional_players_cost',
+        'additional_options_cost',
         'price_total',
+        'price_to_pay',
+        'paid_total',
         'option',
         'order_source_id',
         'status',
@@ -52,7 +54,6 @@ class Order extends Model
         'schedule_item_id',
         'lounge_id',
         'lounge_schedule_item_id',
-        'price_to_pay'
     ];
 
     protected $casts = [

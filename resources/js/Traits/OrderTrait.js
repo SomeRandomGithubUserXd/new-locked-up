@@ -24,10 +24,10 @@ export const getOrderTotal = (questPrice, order, optionsSum, playersSum) => {
         (Number(playersSum) || 0)
 }
 
-export const getOrderPriceToPay = (orderTotal, order) => {
+export const getOrderPriceToPay = (orderTotal, order, promoCodeDiscount, certificateDiscount) => {
     return Number(orderTotal) -
-        (Number(order.promo_code?.value) || 0) -
-        (Number(order.certificate?.price) || 0) -
+        (Number(promoCodeDiscount) || 0) -
+        (Number(certificateDiscount) || 0) -
         Number(order?.postpaid || 0) -
         Number(order?.pre_paid || 0) -
         Number(order?.paid_through_acquiring || 0) -

@@ -15,7 +15,7 @@ const order = useForm({
     order_source_id: null,
     option: null,
     promo_code: null,
-    certificate: null,
+    certificate_id: null,
     comment: null,
     players_count: 0,
     options: [],
@@ -33,12 +33,17 @@ const order = useForm({
 
 const props = defineProps(orderProps)
 
-const createOrder = (price_total) => {
+const createOrder = (price, additional_players_cost, additional_options_cost, price_total, price_to_pay, paid_total) => {
     order.transform((data) => ({
         ...data,
         promo_code_id: data.promo_code?.id,
         certificate_id: data.certificate?.id,
-        price_total
+        price,
+        additional_players_cost,
+        additional_options_cost,
+        price_total,
+        price_to_pay,
+        paid_total,
     })).post(route('orders.store'), {
         onError: (err) => console.log(err)
     })

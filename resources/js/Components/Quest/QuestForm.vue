@@ -1121,6 +1121,7 @@ watch(() => props.modelValue.errors, async (val) => {
                         class="mt-1 block w-full"
                         v-model="modelValue.alias"
                     />
+                    <InputError class="mt-2" :message="modelValue.errors.alias"/>
                 </div>
                 <div class="col-span-6 sm:col-span-2">
                     <label for="og_title" class="block text-sm font-medium text-gray-700">OG Title</label>

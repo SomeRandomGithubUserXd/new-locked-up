@@ -47,7 +47,7 @@ class OrderResource extends JsonResource
             'time' => $order->time,
             'order_source_id' => $order->order_source_id,
             'promo_code' => $order->promo_code,
-            'certificate' => Certificate::find($order->certificate_id),
+            'certificate_id' => $order->certificate_id,
             'comment' => $order->comment,
             'postpaid' => $order->postpaid ?? 0,
             'pre_paid' => $order->pre_paid ?? 0,

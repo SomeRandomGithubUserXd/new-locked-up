@@ -12,12 +12,17 @@ const props = defineProps({
 
 const orderToUpdate = useForm(props.order)
 
-const updateOrder = (price_total) => {
+const updateOrder = (price, additional_players_cost, additional_options_cost, price_total, price_to_pay, paid_total) => {
     orderToUpdate.transform((data) => ({
         ...data,
         promo_code_id: data.promo_code?.id,
         certificate_id: data.certificate?.id,
-        price_total
+        price,
+        additional_players_cost,
+        additional_options_cost,
+        price_total,
+        price_to_pay,
+        paid_total,
     })).patch(route('orders.update', props.order.id), {
         onError: (err) => console.log(err)
     })

@@ -76,7 +76,7 @@ const optionSum = computed({
 const playersSum = computed({
     get() {
         return getPlayersSum(
-            Number(questMeta.value.max_players) + Number(props.modelValue.additional_players),
+            Number(questMeta.value.max_players) + Number(props.modelValue.additional_players_count),
             questMeta.value.min_players,
             questMeta.value.max_players,
             questMeta.value.price_per_participant
@@ -111,7 +111,7 @@ const loungeSum = computed({
 
 const orderPriceToPay = computed({
     get() {
-        return getOrderPriceToPay(orderTotal.value, props.modelValue)
+        return getOrderPriceToPay(orderTotal.value, props.modelValue, appliedPromoCode.value?.value, appliedCertificate.value?.price)
     },
     set() {
 
@@ -128,7 +128,7 @@ const selectedLoungeScheduleItems = computed({
     }
 })
 
-const applyingPromoCode = computed({
+const appliedPromoCode = computed({
     get() {
         if(!props.modelValue.promo_code) return
         return collect(props.promoCodeList).where('promo_code', '==', props.modelValue.promo_code).first()
@@ -137,10 +137,23 @@ const applyingPromoCode = computed({
 
     }
 })
+
+const appliedCertificate = computed({
+    get() {
+        if(!props.modelValue.certificate_id) return
+        return collect(props.certificateList).where('id', '==', props.modelValue.certificate_id).first()
+    },
+    set() {
+
+    }
+})
 </script>
 
 <template>
-    <form class="space-y-6" @submit.prevent="emit('submit', orderTotal)" v-on:keydown.enter.prevent>
+    <form
+        class="space-y-6"
+        @submit.prevent="emit('submit', questMeta.price, playersSum, optionSum, orderTotal, orderPriceToPay, Number(orderTotal) - Number(orderPriceToPay))"
+        v-on:keydown.enter.prevent>
         <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6" :class="questMeta.min_players ? 'sm:col-span-2' : 'sm:col-span-12'">
                 <label for="quest" class="block text-sm font-medium text-gray-700"> Квест </label>
@@ -313,12 +326,12 @@ const applyingPromoCode = computed({
                     <div class="mt-1">
                         <select
                             id="certificate"
-                            v-model="modelValue.certificate"
+                            v-model="modelValue.certificate_id"
                             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option :value="null">
                                 Нет
                             </option>
-                            <option v-for="certificate in props.certificateList" :value="certificate">
+                            <option v-for="certificate in props.certificateList" :value="certificate.id">
                                 {{ certificate.number }}
                             </option>
                         </select>
@@ -537,8 +550,8 @@ const applyingPromoCode = computed({
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
                                                 {{ questMeta.price }} <span class="text-green-600"
-                                                                            v-if="applyingPromoCode">(скидка {{
-                                                    applyingPromoCode.value
+                                                                            v-if="appliedPromoCode">(скидка {{
+                                                    appliedPromoCode.value
                                                 }})</span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -548,7 +561,7 @@ const applyingPromoCode = computed({
                                                 {{ loungeSum }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                {{ -modelValue.certificate?.price || 0 }}
+                                                {{ -appliedCertificate?.price || 0 }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                 {{ optionSum }}
