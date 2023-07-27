@@ -47,7 +47,7 @@ class SaleController extends AbstractControllerWithMultipleDeletion
                 $query->whereDate('best_before', '>=', $request->get('best_before'));
             })
             ->when($request->get('activation_date'), function (Builder $query) use ($request) {
-                $query->whereDate('activation_date', '>=', $request->get('start_date'));
+                $query->whereDate('activation_date', '>=', $request->get('activation_date'));
             })
             ->when($request->get('weekdays_only'), function (Builder $query) use ($request) {
                 $query->where(['weekdays_only' => define_as_bool($request->get('weekdays_only'))]);
