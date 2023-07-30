@@ -39,7 +39,7 @@ class QuestTopicResource extends JsonResource
             'og_type' => $topic->og_type,
             'og_url' => $topic->og_url,
             'alias' => $topic->alias,
-            'position' => $topic->position,
+            'ord' => $topic->ord,
             'seo_ru' => $topic->seo_ru,
             'seo_en' => $topic->seo_en,
             'h1_ru' => $topic->h1_ru,

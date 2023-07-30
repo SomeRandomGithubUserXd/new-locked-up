@@ -31,15 +31,6 @@ class LocationRequest extends FormRequest
         ]);
     }
 
-    public function getUnRefactoredValidatedData(): array
-    {
-        $data = $this->validated();
-        $data['show_on_child'] = $data['show_at_kids_page'];
-        $data['show_on_corporate'] = $data['show_at_corporate_parties_page'];
-        unset($data['show_at_kids_page'], $data['show_at_corporate_parties_page']);
-        return $data;
-    }
-
     public function authorize(): bool
     {
         return true;

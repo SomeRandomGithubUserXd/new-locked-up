@@ -37,7 +37,7 @@ class QuestTopicRequest extends FormRequest
             'description_en' => ['nullable', 'string'],
             'keywords_ru' => ['nullable', 'string'],
             'keywords_en' => ['nullable', 'string'],
-            'position' => ['nullable', 'integer'],
+            'ord' => ['nullable', 'integer'],
         ];
     }
 

@@ -142,9 +142,9 @@ const getAttribute = (name) => {
                     id="position"
                     type="number"
                     class="mt-1 block w-full"
-                    v-model="modelValue.position"
+                    v-model="modelValue.ord"
                 />
-                <InputError class="mt-2" :message="modelValue.errors.position"/>
+                <InputError class="mt-2" :message="modelValue.errors.ord"/>
             </div>
             <div class="col-span-6 sm:col-span-6">
                 <InputLabel for="full_description" :value="`SEO (${locale})`"/>

@@ -55,7 +55,7 @@ class OrderResource extends JsonResource
             'price_total' => $order->price_total,
             'paid_total' => $order->paid_total,
             'price_to_pay' => $order->price_to_pay,
-            'option' => $order->package ?? Order::$packageOptions[0],
+            'option' => $order->option ?? Order::$packageOptions[0],
             'postpaid_type' => $order->postpaid_type ?? '',
             'pre_paid_type' => $order->pre_paid_type ?? '',
             'options' => $order->orderOptions->makeHidden('pivot'),

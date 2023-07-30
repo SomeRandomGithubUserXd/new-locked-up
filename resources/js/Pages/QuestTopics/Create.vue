@@ -27,7 +27,7 @@ const questTopic = useForm({
     'description_en': '',
     'keywords_ru': '',
     'keywords_en': '',
-    'position': 0,
+    'ord': 0,
 })
 
 const store = () => {

@@ -10,8 +10,6 @@ const props = defineProps({
     service: Object
 })
 
-console.log(props.service)
-
 const serviceToUpdate = useForm(props.service)
 
 const updateService = () => {

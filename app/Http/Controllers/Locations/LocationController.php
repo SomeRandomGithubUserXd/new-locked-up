@@ -26,7 +26,7 @@ class LocationController extends AbstractControllerWithMultipleDeletion
 
     public function store(LocationRequest $request)
     {
-        Location::create($request->getUnRefactoredValidatedData());
+        Location::create($request->validated());
         return redirect()->route('locations.index');
     }
 
@@ -39,7 +39,7 @@ class LocationController extends AbstractControllerWithMultipleDeletion
 
     public function update(Location $location, LocationRequest $request)
     {
-        $location->update($request->getUnRefactoredValidatedData());
+        $location->update($request->validated());
         return redirect()->route('locations.index');
     }
 

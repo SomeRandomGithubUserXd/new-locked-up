@@ -22,7 +22,7 @@ class OrderSourceResource extends JsonResource
         return [
             'id' => $orderSource->id,
             'name' => $orderSource->name,
-            'aggregator' => (bool) $orderSource->aggregator,
+            'is_aggregator' => (bool) $orderSource->is_aggregator,
             'color' => $orderSource->color,
         ];
     }

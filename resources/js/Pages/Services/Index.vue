@@ -26,7 +26,7 @@ const tableProps = ref({
         },
         {
             name: 'Является внутренней',
-            getValue: (service) => service.is_inner
+            getValue: (service) => service.is_internal
         },
     ],
     actions: [
