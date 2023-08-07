@@ -117,7 +117,7 @@ const hasAnyItems = computed({
                             </td>
                             <td v-for="record in props.tableProps?.records"
                                 :style="record?.getRowStyle ? record?.getRowStyle(item) : ''"
-                                class="px-3 whitespace-nowrap text-sm text-black">
+                                class="px-3 whitespace-nowrap text-sm text-black py-5">
                                 <template
                                     v-if="typeof record.getValue(item) === 'object' && record.getValue(item)?.component">
                                     <component :meta="record.getValue(item).meta"
@@ -127,13 +127,18 @@ const hasAnyItems = computed({
                             </td>
                             <td
                                 v-if="props.tableProps.actions?.length"
-                                class="px-3  whitespace-nowrap text-sm text-black flex d-flex flex-col">
+                                class="px-3  whitespace-nowrap text-sm text-black h-full">
+                                <div class="flex d-flex items-center gap-x-3 h-full">
+
                                 <template v-for="action in props.tableProps?.actions">
-                                <span v-if="typeof action?.condition === 'function' ? action?.condition(item) : true" @click="action.trigger(item)" class="text-indigo-600 cursor-pointer mb-3">
-                                    <component class="w-5 h-5 mr-3" v-if="action.icon" :is="action.icon"/>
+                                <span v-if="typeof action?.condition === 'function' ? action?.condition(item) : true"
+                                      @click="action.trigger(item)" class="text-indigo-600 cursor-pointer">
+                                    <component class="w-5 h-5" v-if="action.icon" :is="action.icon"/>
                                     <span v-else>{{ action.name }}</span>
                                 </span>
                                 </template>
+                                </div>
+
                             </td>
                         </tr>
                         </tbody>
