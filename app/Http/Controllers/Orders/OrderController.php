@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Orders;
 
+use App\Enums\OrderStatusEnum;
 use App\Enums\UserRoleEnum;
 use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Orders\ActionWithManyRequest;

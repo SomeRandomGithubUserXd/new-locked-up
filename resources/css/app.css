@@ -6,7 +6,12 @@
 }
 
 .scrollable-select .vs__dropdown-toggle {
-    height: 50px !important;
+    height: 40px !important;
+    border-radius: 10px;
+}
+
+input:not([type='checkbox']):not([type='file']), select, button {
+    border-radius: 10px !important;
 }
 
 .scrollable-select .vs__selected-options {

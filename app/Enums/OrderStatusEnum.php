@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Enums;
+
 use App\Traits\IsSerializableEnum;
 
 enum OrderStatusEnum: int implements ISerializableEnum
@@ -38,14 +39,25 @@ enum OrderStatusEnum: int implements ISerializableEnum
         };
     }
 
+    public function getBackgroundColor(): string
+    {
+        return match ($this) {
+            self::not_viewed => 'rgba(234, 51, 35, 1)',
+            self::to_call_1 => 'rgba(255, 222, 136, 1)',
+            self::rescheduled => 'rgba(0, 135, 156, 1)',
+            self::to_call_2 => 'rgba(220, 220, 114, 1)',
+            self::done => 'rgba(76, 161, 84, 1)',
+            self::canceled => 'rgba(255, 136, 125, 1)',
+            self::deleted => 'rgba(148, 148, 148, 1)',
+            self::in_progress => 'rgba(252, 184, 10, 1)',
+        };
+    }
+
     public function getColor(): string
     {
         return match ($this) {
-            self::not_viewed => 'red',
-            self::to_call_1, self::rescheduled => 'rgb(220,220,95)',
-            self::to_call_2, self::done => 'green',
-            self::canceled, self::deleted => 'orange',
-            self::in_progress => 'lightblue',
+            self::not_viewed, self::deleted, self::done, self::rescheduled => 'white',
+            self::to_call_1, self::to_call_2, self::canceled, self::in_progress => 'black',
         };
     }
 
@@ -64,7 +76,8 @@ enum OrderStatusEnum: int implements ISerializableEnum
         return [
             'key' => $this->value,
             'name' => $this->getName(),
-            'color' => $this->getColor()
+            'color' => $this->getColor(),
+            'backgroundColor' => $this->getBackgroundColor(),
         ];
     }
 }

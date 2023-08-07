@@ -11,11 +11,13 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import {collect} from "collect.js";
 import ExpandableBlock from "@/Components/Common/ExpandableBlock.vue";
-import {TrashIcon, PencilIcon, ClockIcon} from "@heroicons/vue/24/solid";
+import {TrashIcon, PencilIcon, ClockIcon, PlusIcon} from "@heroicons/vue/24/solid";
 import CertificateSelect from "@/Components/Orders/CertificateSelect.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
+import OrdersTableHead from "@/Components/DataTableMisc/OrdersTableHead.vue";
+import OrdersTableOptionList from "@/Components/DataTableMisc/OrdersTableOptionList.vue";
 
 const usingFilter = ref(null);
 
@@ -48,10 +50,45 @@ const tableProps = ref({
         {
             name: 'Заказ',
             getRowStyle: (item) => {
-                return 'white-space: normal !important;' + `background-color:${getOrderStatus(item.status).color};color: black`
+                return 'white-space: normal !important;' + `background-color:${getOrderStatus(item.status).backgroundColor};color: ${getOrderStatus(item.status).color}`
             },
+            getValue: (item) => ({
+                component: OrdersTableHead,
+                meta: {
+                    item,
+                    orderStatuses: props.orderStatuses
+                }
+            }),
+        },
+
+        {
+            name: 'Дата заказа',
             getValue: (order) => {
-                return `№${order.id} <br/> ${order.created_at} <br/> ${getOrderStatus(order.status).name}`
+                return order.created_at
+            },
+            getRowStyle: (item) => {
+                return 'max-width: 150px;text-overflow: ellipsis;overflow: hidden'
+            },
+        },
+
+        {
+            name: 'Квест',
+            getValue: (order) => order.quest,
+            getRowStyle: (item) => {
+                return 'max-width: 100px;white-space: normal !important;'
+            },
+        },
+
+        {
+            name: 'Доп. услуги',
+            getValue: (item) => ({
+                component: OrdersTableOptionList,
+                meta: {
+                    item,
+                }
+            }),
+            getRowStyle: (item) => {
+                return 'max-width: 100px;white-space: normal !important;'
             },
         },
         {
@@ -63,23 +100,16 @@ const tableProps = ref({
                 return 'max-width: 150px;text-overflow: ellipsis;overflow: hidden'
             },
         },
-        {
-            name: 'Промокод <br/> сертификат',
-            getValue: (item) => ({
-                component: CertificateSelect,
-                meta: {
-                    certificateList: props.certificateList,
-                    item
-                }
-            }),
-        },
-        {
-            name: 'Квест',
-            getValue: (order) => order.quest,
-            getRowStyle: (item) => {
-                return 'max-width: 100px;white-space: normal !important;'
-            },
-        },
+        // {
+        //     name: 'Промокод <br/> сертификат',
+        //     getValue: (item) => ({
+        //         component: CertificateSelect,
+        //         meta: {
+        //             certificateList: props.certificateList,
+        //             item
+        //         }
+        //     }),
+        // },
         {
             name: 'Время игры',
             getValue: (order) => order.date
@@ -100,10 +130,10 @@ const tableProps = ref({
                 return `${order.price_to_pay} руб.`
             }
         },
-        {
-            name: 'Источник',
-            getValue: (order) => order.source
-        },
+        // {
+        //     name: 'Источник',
+        //     getValue: (order) => order.source
+        // },
         {
             name: 'Комментарий',
             getRowStyle: (item) => {
@@ -236,12 +266,28 @@ const filtersPrepared = computed({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Таблица заказов</h2>
+            <div class="flex w-full">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Таблица заказов</h2>
+                <div class="ml-auto gap-x-10 flex">
+                    <button
+                        type="button"
+                        class="relative inline-flex items-center px-5 py-2 border border-indigo-600 text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                        <PlusIcon class="h-5 w-5 mr-2 text-indigo-600 font-bold" aria-hidden="true"/>
+                        <span class="text-indigo-600 font-bold">Создать заказ</span>
+                    </button>
+                    <button
+                        type="button"
+                        @click.prevent="toExcel"
+                        class="relative inline-flex items-center px-5 py-2 border border-green-600 text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                        <span class="text-green-600 font-bold">Выгрузка в Excel</span>
+                    </button>
+                </div>
+            </div>
         </template>
 
         <div class="py-12">
             <div class="mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white shadow-sm sm:rounded-lg">
+                <div class="bg-white shadow-sm rounded-3xl">
                     <div class="p-6">
                         <h2 class="font-semibold text-2xl">Фильтр</h2>
                         <!--                        <div class="grid grid-cols-6 gap-6 my-5">-->
@@ -262,19 +308,8 @@ const filtersPrepared = computed({
                         <!--                            </div>-->
                         <!--                        </div>-->
                         <!--                        <hr class="mb-5"/>-->
-                        <div class="col-span-6 sm:col-span-1 mt-5">
-                            <input-label for="search_string" value="Поиск"/>
-                            <text-input
-                                id="search_string"
-                                type="text"
-                                class="mt-1 block w-full"
-                                v-model="filter.search_string"
-
-                            />
-                            <input-error class="mt-2" :message="filter.errors.search_string"/>
-                        </div>
-                        <hr class="my-5"/>
                         <order-filter
+                            class="mt-5"
                             :disabled="!!usingFilter"
                             :quest-list="props.questList"
                             :option-list="props.optionList"
@@ -284,10 +319,11 @@ const filtersPrepared = computed({
                             :order-statuses="props.orderStatuses"
                             :quest-options="props.questOptions"
                             :filters-prepared="filtersPrepared"
-                            v-model="filter" @submit="search" @to-excel="toExcel" @reset="reset"/>
-                        <data-table :create-link="route('orders.create')"
-                                    :delete-many-route="route('orders.destroy-many')"
-                                    :table-props="tableProps" :items-resource="orders"/>
+                            v-model="filter" @submit="search" @reset="reset"/>
+                        <data-table
+                            class="mt-10"
+                            :delete-many-route="route('orders.destroy-many')"
+                            :table-props="tableProps" :items-resource="orders"/>
                         <expandable-block v-model="showSums" class="mt-5">
                             <template #header>
                                 <h2 class="text-lg font-semibold">Итоги</h2>
@@ -363,7 +399,9 @@ const filtersPrepared = computed({
                                                     {{ option.orders_count }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
-                                                    {{ numberFormat(Number(option.price) * Number(option.orders_count)) }}
+                                                    {{
+                                                        numberFormat(Number(option.price) * Number(option.orders_count))
+                                                    }}
                                                 </td>
                                             </tr>
                                             <tr class="bg-green-400 text-white">

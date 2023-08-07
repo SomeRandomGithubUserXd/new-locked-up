@@ -7,7 +7,7 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import {Link, usePage} from '@inertiajs/vue3';
 import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
-import {ChevronDownIcon} from '@heroicons/vue/24/solid'
+import {ChevronDownIcon, ArrowLeftOnRectangleIcon} from '@heroicons/vue/24/solid'
 const showingNavigationDropdown = ref(false);
 
 const isBlockCurrent = (routes) => {
@@ -381,21 +381,15 @@ if (role === 0 || role === 1) {
     <div>
         <div class="min-h-screen bg-gray-100">
             <nav class="bg-white border-b border-gray-100">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-ful mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex">
-                            <div class="flex flex-col shrink-0 flex items-center">
+                            <div class="flex flex-col shrink-0 flex justify-center">
                                 <Link :href="route('orders.index')">
                                     <ApplicationLogo
                                         class="block w-auto fill-current text-gray-800"
                                     />
                                 </Link>
-                                <Link
-                                    :href="route('logout')"
-                                    method="post"
-                                    as="button"
-                                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                >Выйти</Link>
                             </div>
 
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -432,6 +426,15 @@ if (role === 0 || role === 1) {
                                     </Menu>
                                     <span v-else>{{ route.name }}</span>
                                 </NavLink>
+                            </div>
+                        </div>
+
+                        <div class="ml-auto flex h-full items-center">
+                            <div class="flex cursor-pointer">
+                                <ArrowLeftOnRectangleIcon class="w-5 h-5 text-indigo-600 font-bold"/>
+                                <span class="text-indigo-600 font-bold ml-1">
+                                    Выйти
+                                </span>
                             </div>
                         </div>
                         <div class="-mr-2 flex items-center sm:hidden">
@@ -497,7 +500,7 @@ if (role === 0 || role === 1) {
 
             <!-- Page Heading -->
             <header class="bg-white shadow" v-if="$slots.header">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header"/>
                 </div>
             </header>

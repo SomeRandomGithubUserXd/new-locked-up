@@ -32,7 +32,7 @@ const props = defineProps({
     needsExcel: {
         required: false,
         type: Boolean,
-        default: true,
+        default: false,
     },
     filtersPrepared: {
         required: false,
@@ -44,7 +44,7 @@ const props = defineProps({
 
 watch(() => props.modelValue.quest_ids, value => {
     for (const item of props.modelValue.quest_ids) {
-        if(typeof item === 'object') {
+        if (typeof item === 'object') {
             for (const id of item) {
                 props.modelValue.quest_ids.push(id)
             }
@@ -58,7 +58,7 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
 
 <template>
     <form class="space-y-6 mb-5" @submit.prevent="emit('submit')">
-        <div class="grid grid-cols-6 gap-6">
+        <div class="grid grid-cols-8 gap-y-6 gap-x-10">
             <div v-if="!isProduction" class="col-span-6 sm:col-span-1">
                 <InputLabel for="name" value="Название"/>
                 <TextInput
@@ -83,6 +83,42 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
             <!--                />-->
             <!--                <InputError class="mt-2" :message="modelValue.errors.order_id"/>-->
             <!--            </div>-->
+
+            <div class="col-span-6 sm:col-span-2">
+                <label for="quest_ids" class="block text-sm font-medium text-gray-700">
+                    Квесты </label>
+                <div class="mt-1">
+                    <v-select :disabled="props.disabled"
+                              class="scrollable-select"
+                              v-model="modelValue.quest_ids"
+                              multiple=""
+                              label="name_ru"
+                              :reduce="option => option?.id || option.quest_ids"
+                              :options="[...props.questList, ...filtersPrepared]"/>
+                </div>
+            </div>
+            <div class="col-span-6 sm:col-span-2">
+                <input-label for="search_string" value="Поиск"/>
+                <text-input
+                    id="search_string"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="modelValue.search_string"
+
+                />
+                <input-error class="mt-2" :message="modelValue.errors.search_string"/>
+            </div>
+            <div v-if="!isLimited" class="col-span-6 sm:col-span-1">
+                <label for="status" class="block text-sm font-medium text-gray-700">
+                    Статусы </label>
+                <div class="mt-1">
+                    <v-select :disabled="props.disabled" class="scrollable-select" v-model="modelValue.statuses"
+                              multiple=""
+                              label="name"
+                              :reduce="option => option.key"
+                              :options="props.orderStatuses"/>
+                </div>
+            </div>
             <div v-if="!isLimited" class="col-span-6 sm:col-span-1">
                 <label for="quest" class="block text-sm font-medium text-gray-700">
                     Сортировка </label>
@@ -112,8 +148,9 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                 </label>
             </div>
         </div>
+        <hr class="my-5"/>
         <div v-if="!isLimited" class="grid grid-cols-6 gap-6">
-            <div class="col-span-6 sm:col-span-3">
+            <div class="col-span-6 sm:col-span-1">
 
                 <InputLabel for="date_from" value="Дата (от)"/>
 
@@ -129,7 +166,7 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                 />
                 <InputError class="mt-2" :message="modelValue.errors.date_from"/>
             </div>
-            <div class="col-span-6 sm:col-span-3">
+            <div class="col-span-6 sm:col-span-1">
                 <InputLabel for="date" value="Дата (до)"/>
                 <a class="text-indigo-600 text-sm" href="#"
                    @click.prevent="modelValue.date_to = null">Очистить</a>
@@ -143,22 +180,7 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                 />
                 <InputError class="mt-2" :message="modelValue.errors.date_to"/>
             </div>
-        </div>
-        <div class="grid grid-cols-6 gap-6">
-            <div class="col-span-6 sm:col-span-2">
-                <label for="quest_ids" class="block text-sm font-medium text-gray-700">
-                    Квесты </label>
-                <div class="mt-1">
-                    <v-select :disabled="props.disabled"
-                              class="scrollable-select"
-                              v-model="modelValue.quest_ids"
-                              multiple=""
-                              label="name_ru"
-                              :reduce="option => option?.id || option.quest_ids"
-                              :options="[...props.questList, ...filtersPrepared]"/>
-                </div>
-            </div>
-            <div v-if="!isLimited" class="col-span-6 sm:col-span-2">
+            <div v-if="!isLimited" class="col-span-6 sm:col-span-1 flex flex-col justify-end">
                 <label for="source_ids" class="block text-sm font-medium text-gray-700">
                     Источники </label>
                 <div class="mt-1">
@@ -169,7 +191,7 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                               :options="props.sourceList"/>
                 </div>
             </div>
-            <div v-if="!isLimited" class="col-span-6 sm:col-span-1">
+            <div v-if="!isLimited" class="col-span-6 sm:col-span-1 flex flex-col justify-end">
                 <label for="quest" class="block text-sm font-medium text-gray-700">
                     Акции </label>
                 <div class="mt-1">
@@ -180,37 +202,28 @@ const emit = defineEmits(['submit', 'toExcel', 'reset'])
                               :options="props.promoCodeList"/>
                 </div>
             </div>
-            <div v-if="!isLimited" class="col-span-6 sm:col-span-1">
-                <label for="status" class="block text-sm font-medium text-gray-700">
-                    Статусы </label>
-                <div class="mt-1">
-                    <v-select :disabled="props.disabled" class="scrollable-select" v-model="modelValue.statuses"
-                              multiple=""
-                              label="name"
-                              :reduce="option => option.key"
-                              :options="props.orderStatuses"/>
-                </div>
-            </div>
-        </div>
-        <div v-if="isProduction" class="grid grid-cols-6 mt-5 gap-6">
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-1 flex flex-col justify-end">
                 <button type="submit"
                         class="flex w-full justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Искать
+                    <span class="font-bold">
+                        Искать
+                    </span>
                 </button>
             </div>
-            <div v-if="props.needsExcel" class="col-span-6 sm:col-span-1">
-                <button type="button"
-                        @click="emit('toExcel')"
-                        class="flex w-full justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Выгрузить в Excel
-                </button>
-            </div>
-            <div class="col-span-6" :class="props.needsExcel ? 'sm:col-span-1' : 'sm:col-span-2'">
+            <!--            <div v-if="props.needsExcel" class="col-span-6 sm:col-span-1">-->
+            <!--                <button type="button"-->
+            <!--                        @click="emit('toExcel')"-->
+            <!--                        class="flex w-full justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">-->
+            <!--                    Выгрузить в Excel-->
+            <!--                </button>-->
+            <!--            </div>-->
+            <div class="col-span-6 sm:col-span-1 flex flex-col justify-end">
                 <button type="button"
                         @click="emit('reset')"
                         class="flex w-full justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Сбросить
+                    <span class="font-bold">
+                        Сбросить
+                    </span>
                 </button>
             </div>
         </div>

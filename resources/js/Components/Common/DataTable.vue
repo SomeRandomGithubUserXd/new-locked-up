@@ -68,9 +68,9 @@ const hasAnyItems = computed({
         <div class="flex justify-between pb-3">
             <button @click="deleteMany" type="button" v-if="hasAnyItems && deleteManyRoute"
                     :disabled="!selectedItems.length"
-                    class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-                <TrashIcon class="h-5 w-5 text-gray-400 mr-2" aria-hidden="true"/>
-                <span>Удалить</span>
+                    class="relative inline-flex items-center px-4 py-2 border border-red-500 text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                <span class="text-red-500 font-bold mr-2">Удалить</span>
+                <TrashIcon class="h-5 w-5 text-red-500" aria-hidden="true"/>
             </button>
             <Link v-if="props.createLink" :href="createLink"
                   class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
@@ -88,7 +88,7 @@ const hasAnyItems = computed({
                         <tr>
                             <th scope="col"
                                 v-if="needsSelection"
-                                class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="px-2 text-left text-xs font-medium text-black uppercase tracking-wider">
                                 <span class="sr-only">Выбрать</span>
                                 <input ref="triggerAllItemsSelectionCheckbox" @change="triggerAllItemsSelection"
                                        type="checkbox"
@@ -96,12 +96,12 @@ const hasAnyItems = computed({
                             </th>
                             <th scope="col"
                                 v-for="record in props.tableProps?.records"
-                                class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="px-3 py-4 text-left text-xs font-medium text-black uppercase tracking-wider">
                                 <span v-html="record.name"/>
                             </th>
                             <th scope="col"
                                 v-if="props.tableProps?.actions?.length"
-                                class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="px-3 py-4 text-left text-xs font-medium text-black uppercase tracking-wider">
                             </th>
                         </tr>
                         </thead>
@@ -109,7 +109,7 @@ const hasAnyItems = computed({
                         <tr v-for="item in props.itemsResource?.data || props.rawData">
                             <td
                                 v-if="needsSelection"
-                                class="px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                class="px-2 whitespace-nowrap text-sm font-medium text-gray-900">
                                 <div class="flex items-center h-5">
                                     <input :value="item.id" v-model="selectedItems" type="checkbox"
                                            class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"/>
@@ -117,7 +117,7 @@ const hasAnyItems = computed({
                             </td>
                             <td v-for="record in props.tableProps?.records"
                                 :style="record?.getRowStyle ? record?.getRowStyle(item) : ''"
-                                class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                                class="px-3 whitespace-nowrap text-sm text-black">
                                 <template
                                     v-if="typeof record.getValue(item) === 'object' && record.getValue(item)?.component">
                                     <component :meta="record.getValue(item).meta"
@@ -127,7 +127,7 @@ const hasAnyItems = computed({
                             </td>
                             <td
                                 v-if="props.tableProps.actions?.length"
-                                class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 flex d-flex flex-col">
+                                class="px-3  whitespace-nowrap text-sm text-black flex d-flex flex-col">
                                 <template v-for="action in props.tableProps?.actions">
                                 <span v-if="typeof action?.condition === 'function' ? action?.condition(item) : true" @click="action.trigger(item)" class="text-indigo-600 cursor-pointer mb-3">
                                     <component class="w-5 h-5 mr-3" v-if="action.icon" :is="action.icon"/>
