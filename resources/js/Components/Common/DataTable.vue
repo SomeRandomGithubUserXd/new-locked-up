@@ -61,6 +61,12 @@ const hasAnyItems = computed({
     set: () => {
     }
 })
+
+const hintBlocks = ref([]);
+
+const getHalfOfAColor = (color) => {
+    return color.replace(', 1)', ', 0.7)')
+}
 </script>
 
 <template>
@@ -84,11 +90,11 @@ const hasAnyItems = computed({
                 <div
                     class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg overflow-scroll">
                     <table class="min-w-full divide-y divide-gray-200 font-size-all">
-                        <thead class="bg-gray-50">
+                        <thead style="background: rgba(249, 250, 251, 1);color: rgba(113, 113, 113, 1);">
                         <tr>
                             <th scope="col"
                                 v-if="needsSelection"
-                                class="px-2 text-left text-xs font-medium text-black uppercase tracking-wider">
+                                class="px-2 text-left text-xs font-medium  uppercase tracking-wider">
                                 <span class="sr-only">Выбрать</span>
                                 <input ref="triggerAllItemsSelectionCheckbox" @change="triggerAllItemsSelection"
                                        type="checkbox"
@@ -96,51 +102,72 @@ const hasAnyItems = computed({
                             </th>
                             <th scope="col"
                                 v-for="record in props.tableProps?.records"
-                                class="px-3 py-4 text-left text-xs font-medium text-black uppercase tracking-wider">
+                                class="px-3 py-4 text-left text-xs font-bold uppercase tracking-wider">
                                 <span v-html="record.name"/>
                             </th>
                             <th scope="col"
                                 v-if="props.tableProps?.actions?.length"
-                                class="px-3 py-4 text-left text-xs font-medium text-black uppercase tracking-wider">
+                                class="px-3 py-4 text-left text-xs font-medium  uppercase tracking-wider">
                             </th>
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="item in props.itemsResource?.data || props.rawData">
-                            <td
-                                v-if="needsSelection"
-                                class="px-2 whitespace-nowrap text-sm font-medium text-gray-900">
-                                <div class="flex items-center h-5">
-                                    <input :value="item.id" v-model="selectedItems" type="checkbox"
-                                           class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"/>
-                                </div>
-                            </td>
-                            <td v-for="record in props.tableProps?.records"
-                                :style="record?.getRowStyle ? record?.getRowStyle(item) : ''"
-                                class="px-3 whitespace-nowrap text-sm text-black py-5">
-                                <template
-                                    v-if="typeof record.getValue(item) === 'object' && record.getValue(item)?.component">
-                                    <component :meta="record.getValue(item).meta"
-                                               :is="record.getValue(item).component"/>
-                                </template>
-                                <span v-else v-html="record.getValue(item)"/>
-                            </td>
-                            <td
-                                v-if="props.tableProps.actions?.length"
-                                class="px-3  whitespace-nowrap text-sm text-black h-full">
-                                <div class="flex d-flex items-center gap-x-3 h-full">
+                        <template v-for="item in props.itemsResource?.data || props.rawData">
+                            <tr @click.prevent="hintBlocks[item.id] = !hintBlocks[item.id]">
+                                <td
+                                    @click.stop
+                                    v-if="needsSelection"
+                                    class="px-2 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    <div class="flex items-center h-5">
+                                        <input :value="item.id" v-model="selectedItems" type="checkbox"
+                                               class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"/>
+                                    </div>
+                                </td>
+                                <td v-for="record in props.tableProps?.records"
+                                    :style="record?.getRowStyle ? record?.getRowStyle(item) : ''"
+                                    class="px-3 whitespace-nowrap text-sm  py-5">
+                                    <template
+                                        @click.stop
+                                        v-if="typeof record.getValue(item) === 'object' && record.getValue(item)?.component">
+                                        <component @click.stop :meta="record.getValue(item).meta"
+                                                   :is="record.getValue(item).component"/>
+                                    </template>
+                                    <span @click.stop v-else v-html="record.getValue(item)"/>
+                                </td>
+                                <td
+                                    class="px-3  whitespace-nowrap text-sm  h-full">
+                                    <div class="flex d-flex items-center gap-x-3 h-full" @click.stop>
 
-                                <template v-for="action in props.tableProps?.actions">
+                                        <template v-for="action in props.tableProps?.actions">
                                 <span v-if="typeof action?.condition === 'function' ? action?.condition(item) : true"
-                                      @click="action.trigger(item)" class="text-indigo-600 cursor-pointer">
+                                      @click="action.trigger(item)"
+                                      class="text-gray-500 hover:text-indigo-600 transition-all cursor-pointer">
                                     <component class="w-5 h-5" v-if="action.icon" :is="action.icon"/>
                                     <span v-else>{{ action.name }}</span>
                                 </span>
-                                </template>
-                                </div>
-
-                            </td>
-                        </tr>
+                                        </template>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr :hidden="!hintBlocks[item.id]" v-if="item.hints" class="w-full h-full">
+                                <td></td>
+                                <td
+                                    :style="`background: ${getHalfOfAColor(item.hints.backgroundColor)};color: ${item.hints.color}`"
+                                    colspan="999"
+                                    class="px-2 whitespace-nowrap text-sm font-medium w-full h-full">
+                                    <div class="py-4 px-1 grid grid-rows-2 grid-flow-col">
+                                        <div v-for="hint in item.hints.items">
+                                            <span class="font-medium" :style="`color: ${getHalfOfAColor(item.hints.color)}`">
+                                                {{hint.name}}: &nbsp;
+                                            </span>
+                                            <span :style="`color: ${item.hints.color}`">
+                                                {{hint.value}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
                         </tbody>
                     </table>
                 </div>

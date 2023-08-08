@@ -1,11 +1,21 @@
 <script setup>
-import {ref} from "vue";
+import {ref, watch} from "vue";
+import {router} from "@inertiajs/vue3";
 
 const props = defineProps({
     meta: Object
 })
 
-const statusSelected = props.meta.item.status
+const statusSelected = ref(props.meta.item.status)
+
+watch(statusSelected, value => {
+    console.log(value)
+    router.post(route('orders.change-status', props.meta.item.id), {
+        status: value
+    }, {
+        preserveScroll: true
+    })
+})
 </script>
 
 <template>

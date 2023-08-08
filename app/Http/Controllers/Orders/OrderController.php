@@ -6,6 +6,7 @@ use App\Enums\OrderStatusEnum;
 use App\Enums\UserRoleEnum;
 use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Orders\ActionWithManyRequest;
+use App\Http\Requests\Orders\ChangeStatusRequest;
 use App\Http\Requests\Orders\FilterRequest;
 use App\Http\Requests\Orders\OrderRequest;
 use App\Http\Requests\Orders\StoreQuestRequest;
@@ -183,7 +184,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                         ->first()
                         ->toArray()['sum'],
             ],
-            'payed' => [
+            'paid' => [
                 'aggregator' => $this->index($request, true)->sum('paid_through_aggregator'),
                 'online' => $this->index($request, true)->sum('paid_through_acquiring'),
                 'cert' => $this->index($request, true)->sum('paid_through_acquiring'),
@@ -218,5 +219,11 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                 ->paginate(15),
             ...$this->getOrderMisc()
         ]);
+    }
+
+    public function changeStatus(ChangeStatusRequest $request, Order $order)
+    {
+        $order->update(['status' => $request->get('status')]);
+        return redirect()->back();
     }
 }

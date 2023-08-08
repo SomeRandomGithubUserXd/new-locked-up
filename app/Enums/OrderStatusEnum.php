@@ -56,8 +56,8 @@ enum OrderStatusEnum: int implements ISerializableEnum
     public function getColor(): string
     {
         return match ($this) {
-            self::not_viewed, self::deleted, self::done, self::rescheduled => 'white',
-            self::to_call_1, self::to_call_2, self::canceled, self::in_progress => 'black',
+            self::not_viewed, self::deleted, self::done, self::rescheduled => 'rgba(255, 255, 255, 1)',
+            self::to_call_1, self::to_call_2, self::canceled, self::in_progress => 'rgba(0, 0, 0, 1)',
         };
     }
 

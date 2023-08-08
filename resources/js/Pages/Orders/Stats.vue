@@ -12,7 +12,7 @@ import Pagination from "@/Components/Common/Pagination.vue";
 
 const props = defineProps({
     orders: Object,
-    payed: Object,
+    paid: Object,
     sources: Object,
     certificates: Object,
     sales: Object,
@@ -80,12 +80,12 @@ const sumSources = (sources) => {
     const sums = {
         orders_sum_price: 0,
         fee: 0,
-        orders_sum_payed_aggregator: 0,
+        orders_sum_paid_aggregator: 0,
     }
     for (const source of sources) {
         sums.orders_sum_price += Number(source.orders_sum_price)
         sums.fee += Number(source.orders_sum_price / 100 * 35)
-        sums.orders_sum_payed_aggregator += Number(source.orders_sum_payed_aggregator)
+        sums.orders_sum_paid_aggregator += Number(source.orders_sum_paid_aggregator)
     }
     return sums
 }
@@ -252,14 +252,14 @@ const sumOptions = (options) => {
                                             </td>
 
                                             <td class="bg-green-400 py-5 text-center">
-                                                {{ numberFormat(props.payed.aggregator) }}
+                                                {{ numberFormat(props.paid.aggregator) }}
                                             </td>
                                             <td class="bg-green-400 py-5 text-center">{{ numberFormat(0) }}</td>
                                             <td class="bg-green-400 py-5 text-center">{{ numberFormat(0) }}</td>
 
                                             <td class="bg-indigo-400 py-5 text-center">{{
                                                     numberFormat(
-                                                        Number(mainNumber / 100 * 35) + Number(mainNumber / 100 * 15) + Number(mainNumber / 100 * 7) - Number(props.payed.aggregator)
+                                                        Number(mainNumber / 100 * 35) + Number(mainNumber / 100 * 15) + Number(mainNumber / 100 * 7) - Number(props.paid.aggregator)
                                                     )
                                                 }}
                                             </td>
@@ -295,7 +295,7 @@ const sumOptions = (options) => {
                                                 {{ numberFormat(Number(source.orders_sum_price) / 100 * 35) }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
-                                                {{ numberFormat(Number(source.orders_sum_payed_aggregator)) }}
+                                                {{ numberFormat(Number(source.orders_sum_paid_aggregator)) }}
                                             </td>
                                         </tr>
                                         <tr class="bg-green-400 text-white">
@@ -310,7 +310,7 @@ const sumOptions = (options) => {
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 {{
-                                                    numberFormat(sumSources(props.sources.data).orders_sum_payed_aggregator)
+                                                    numberFormat(sumSources(props.sources.data).orders_sum_paid_aggregator)
                                                 }}
                                             </td>
                                         </tr>

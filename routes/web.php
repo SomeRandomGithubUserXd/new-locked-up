@@ -121,7 +121,8 @@ Route::middleware('auth')->group(function () {
     // Quest additional routes
     Route::group(['prefix' => 'orders', 'as' => 'orders.'], static function () {
         Route::group(['prefix' => '{order}'], static function () {
-            Route:: get('/view_logs', [OrderController::class, 'viewLogs'])->name('view-logs');
+            Route::get('/view_logs', [OrderController::class, 'viewLogs'])->name('view-logs');
+            Route::post('/change-order-status', [OrderController::class, 'changeStatus'])->name('change-status');
             Route::group(['prefix' => 'payments', 'as' => 'payments.'], static function () {
                 Route::get('/', [OrderPaymentController::class, 'index'])->name('index');
                 Route::get('/create', [OrderPaymentController::class, 'create'])->name('create');
@@ -130,7 +131,7 @@ Route::middleware('auth')->group(function () {
             });
         });
     });
-    Route::get('/order_payed', [OrderPaymentController::class, 'orderPayed'])->name('order-payed');
+    Route::get('/order_paid', [OrderPaymentController::class, 'orderpaid'])->name('order-paid');
 
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {
         Route::group(['prefix' => '{quest}'], static function () {

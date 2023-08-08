@@ -28,7 +28,43 @@ class OrderResource extends JsonResource
             'price_total' => $this->price_total,
             'paid_total' => $this->paid_total,
             'price_to_pay' => $this->price_to_pay,
+            'pre_paid' => $this->pre_paid,
+            'pre_paid_type' => $this->pre_paid_type,
+            'postpaid' => $this->postpaid,
+            'postpaid_type' => $this->postpaid_type,
+            'paid_through_acquiring' => $this->paid_through_acquiring,
+            'paid_through_aggregator' => $this->paid_through_aggregator,
             'certificate_data_id' => $this->certificate_id,
+            'hints' => [
+                'backgroundColor' => $this->status->getBackgroundColor(),
+                'color' => $this->status->getColor(),
+                'items' => [
+                    [
+                        'name' => 'Пакет',
+                        'value' => $this->option
+                    ],
+                    [
+                        'name' => 'Дополнительные игроки',
+                        'value' => $this->additional_players_count
+                    ],
+                    [
+                        'name' => 'Источник',
+                        'value' => $this->source->name
+                    ],
+                    [
+                        'name' => 'Промокод',
+                        'value' => $this->promo_code ?: "-"
+                    ],
+                    [
+                        'name' => 'Лаунж',
+                        'value' => $this->lounge?->name_ru ?: "-"
+                    ],
+                    [
+                        'name' => 'Время лаунжа',
+                        'value' => $this->loungeScheduleItem?->time ?: "-"
+                    ],
+                ]
+            ]
         ];
     }
 

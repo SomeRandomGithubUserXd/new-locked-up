@@ -34,7 +34,7 @@ class SberBankAcquiringEntity extends AbstractAcquiringEntity
             'currency' => AcquiringProviderEnum::sberBank->getCurrency($currencyEnum),
             'language' => 'ru',
             'orderNumber' => $orderNumber,
-            'returnUrl' => route('order-payed', ['order_payment' => $orderNumber]),
+            'returnUrl' => route('order-paid', ['order_payment' => $orderNumber]),
         ]);
         $response = $this->formRequest($url)->json();
         return $this->order->orderPayments()->create([

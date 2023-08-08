@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head, router, Link, useForm} from '@inertiajs/vue3';
 import DataTable from "@/Components/Common/DataTable.vue";
 import {computed, onMounted, reactive, ref, watch} from "vue";
-import {getAlreadyPayed, getOrderPriceToPay, orderProps} from "@/Traits/OrderTrait";
+import {getAlreadypaid, getOrderPriceToPay, orderProps} from "@/Traits/OrderTrait";
 import {getCurrentUrlParam, numberFormat} from "@/Traits/Tools";
 import exportFromJSON from "export-from-json";
 import OrderFilter from "@/Components/Orders/OrderFilter.vue";
@@ -18,6 +18,7 @@ import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import OrdersTableHead from "@/Components/DataTableMisc/OrdersTableHead.vue";
 import OrdersTableOptionList from "@/Components/DataTableMisc/OrdersTableOptionList.vue";
+import OrdersTablePaymentDetails from "@/Components/DataTableMisc/OrdersTablePaymentDetails.vue";
 
 const usingFilter = ref(null);
 
@@ -120,9 +121,12 @@ const tableProps = ref({
         },
         {
             name: 'Оплачено',
-            getValue: (order) => {
-                return `${order.paid_total} руб.`
-            }
+            getValue: (item) => ({
+                component: OrdersTablePaymentDetails,
+                meta: {
+                    item,
+                }
+            }),
         },
         {
             name: 'К оплате',
@@ -143,10 +147,10 @@ const tableProps = ref({
         },
     ],
     actions: [
-        {
-            name: 'Оплата',
-            trigger: payments
-        },
+    //     {
+    //         name: 'Оплата',
+    //         trigger: payments
+    //     },
         {
             name: 'Редактировать',
             icon: PencilIcon,
@@ -348,19 +352,19 @@ const filtersPrepared = computed({
                                     </tr>
                                     <tr>
                                         <td>Факт:</td>
-                                        <td>{{ props.ordersMeta.payed_instantly }}</td>
+                                        <td>{{ props.ordersMeta.paid_instantly }}</td>
                                     </tr>
                                     <tr>
                                         <td>Предоплата:</td>
-                                        <td>{{ props.ordersMeta.pre_payed }}</td>
+                                        <td>{{ props.ordersMeta.pre_paid }}</td>
                                     </tr>
                                     <tr>
                                         <td>Онлайн:</td>
-                                        <td>{{ props.ordersMeta.payed_online }}</td>
+                                        <td>{{ props.ordersMeta.paid_online }}</td>
                                     </tr>
                                     <tr>
                                         <td>Агрегаторы:</td>
-                                        <td>{{ props.ordersMeta.payed_via_aggregator }}</td>
+                                        <td>{{ props.ordersMeta.paid_via_aggregator }}</td>
                                     </tr>
                                     <tr>
                                         <td>Сертификаты:</td>

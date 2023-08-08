@@ -1,16 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+label {
+    font-weight: 400 !important;
+    color: rgba(112, 112, 112, 1) !important;
+    font-size: 16px !important;
+}
+
 .tox-notifications-container, .tox-statusbar__branding {
     display: none !important;
 }
 
 .scrollable-select .vs__dropdown-toggle {
     height: 40px !important;
-    border-radius: 10px;
+    border-radius: 10px !important;
 }
 
-input:not([type='checkbox']):not([type='file']), select, button {
+input:not([type='checkbox']):not([type='file']), select, button, textarea {
     border-radius: 10px !important;
 }
 
@@ -21,5 +28,22 @@ input:not([type='checkbox']):not([type='file']), select, button {
 
 .scrollable-select .vs__selected-options .vs__selected {
     white-space: nowrap;
+}
+
+.paid-tag {
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    padding: 5px;
+    border-radius: 18px;
+}
+
+.paid-tag.paid-cash {
+    background: rgba(203, 128, 239, 1);
+
+}
+.paid-tag.paid-card {
+    background: rgba(163, 27, 95, 1);
+
 }
 

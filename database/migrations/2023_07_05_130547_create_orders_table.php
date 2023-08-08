@@ -31,8 +31,6 @@ return new class extends Migration {
             $table->tinyInteger('pre_paid_type')->nullable();
             $table->integer('postpaid')->default(0);
             $table->tinyInteger('postpaid_type')->nullable();
-            $table->integer('paid_in_cash')->default(0);
-            $table->integer('paid_via_card')->default(0);
             $table->integer('paid_through_acquiring')->default(0);
             $table->integer('paid_through_aggregator')->default(0);
             $table->foreignIdFor(Checkout::class)->nullable()->constrained()->cascadeOnDelete();

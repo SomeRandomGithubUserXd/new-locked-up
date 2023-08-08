@@ -459,9 +459,9 @@ const appliedCertificate = computed({
                 </div>
                 <div class="col-span-6 sm:col-span-1">
                     <div class="mt-1">
-                        <InputLabel for="payed_aggregator" value="Онлайн у агрегаторов"/>
+                        <InputLabel for="paid_aggregator" value="Онлайн у агрегаторов"/>
                         <TextInput
-                            id="payed_aggregator"
+                            id="paid_aggregator"
                             type="number"
                             class="mt-1 block w-full"
                             v-model="modelValue.paid_through_aggregator"

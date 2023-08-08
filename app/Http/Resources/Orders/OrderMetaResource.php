@@ -22,10 +22,10 @@ class OrderMetaResource extends JsonResource
             'sum' => self::priceFormat($queryClone()->sum('price_total')),
             'games_sum' => self::priceFormat($queryClone()->sum('price')),
             'services_sum' => self::priceFormat($queryClone()->sum('additional_options_cost')),
-            'payed_instantly' => self::priceFormat($queryClone()->sum('postpaid')),
-            'pre_payed' => self::priceFormat($queryClone()->sum('pre_paid')),
-            'payed_online' => self::priceFormat($queryClone()->sum('paid_through_acquiring')),
-            'payed_via_aggregator' => self::priceFormat($queryClone()->sum('paid_through_aggregator')),
+            'paid_instantly' => self::priceFormat($queryClone()->sum('postpaid')),
+            'pre_paid' => self::priceFormat($queryClone()->sum('pre_paid')),
+            'paid_online' => self::priceFormat($queryClone()->sum('paid_through_acquiring')),
+            'paid_via_aggregator' => self::priceFormat($queryClone()->sum('paid_through_aggregator')),
             'certificates_sum' => self::priceFormat($certificatesSum),
             'left_to_pay' => self::priceFormat(
                 (int)

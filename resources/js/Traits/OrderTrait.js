@@ -34,7 +34,7 @@ export const getOrderPriceToPay = (orderTotal, order, promoCodeDiscount, certifi
         Number(order?.paid_through_aggregator || 0)
 }
 
-export const getAlreadyPayed = (order) => {
+export const getAlreadypaid = (order) => {
     return Number(order?.postpaid || 0) +
         Number(order?.pre_paid || 0) +
         Number(order?.paid_through_acquiring || 0) +

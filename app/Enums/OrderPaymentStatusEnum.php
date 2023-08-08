@@ -6,7 +6,7 @@ enum OrderPaymentStatusEnum: int
 {
     case created = 0;
 
-    case payed = 1;
+    case paid = 1;
 
     case refunded = 2;
 
@@ -14,7 +14,7 @@ enum OrderPaymentStatusEnum: int
     {
         return match ($this) {
             self::created => 'Создан',
-            self::payed => 'Оплачен',
+            self::paid => 'Оплачен',
             self::refunded => 'Возвращен',
         };
     }

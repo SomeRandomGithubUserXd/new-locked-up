@@ -1,7 +1,7 @@
 \<script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {onMounted, ref} from "vue";
-import {getAlreadyPayed, getOrderPriceToPay} from "@/Traits/OrderTrait";
+import {getAlreadypaid, getOrderPriceToPay} from "@/Traits/OrderTrait";
 import DataTable from "@/Components/Common/DataTable.vue";
 import {Head, router, Link, useForm} from '@inertiajs/vue3';
 import InputLabel from "@/Components/InputLabel.vue";
