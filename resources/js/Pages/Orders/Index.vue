@@ -147,10 +147,10 @@ const tableProps = ref({
         },
     ],
     actions: [
-    //     {
-    //         name: 'Оплата',
-    //         trigger: payments
-    //     },
+        //     {
+        //         name: 'Оплата',
+        //         trigger: payments
+        //     },
         {
             name: 'Редактировать',
             icon: PencilIcon,
@@ -328,100 +328,177 @@ const filtersPrepared = computed({
                             class="mt-10"
                             :delete-many-route="route('orders.destroy-many')"
                             :table-props="tableProps" :items-resource="orders"/>
-                        <expandable-block v-model="showSums" class="mt-5">
-                            <template #header>
-                                <h2 class="text-lg font-semibold">Итоги</h2>
-                            </template>
-                            <template #content>
-                                <table class="th-order-management-container__results-table">
-                                    <tbody>
-                                    <tr>
-                                        <th colspan="2">Всего игр: <span>{{ props.ordersMeta.count }}</span>, на сумму
-                                            <span>{{ props.ordersMeta.sum }}</span></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Игры:</td>
-                                        <td>{{ props.ordersMeta.games_sum }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Допуслуги:</td>
-                                        <td>{{ props.ordersMeta.services_sum }}</td>
-                                    </tr>
-                                    <tr class="th-divider-top">
-                                        <th colspan="2">Из них:</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Факт:</td>
-                                        <td>{{ props.ordersMeta.paid_instantly }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Предоплата:</td>
-                                        <td>{{ props.ordersMeta.pre_paid }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Онлайн:</td>
-                                        <td>{{ props.ordersMeta.paid_online }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Агрегаторы:</td>
-                                        <td>{{ props.ordersMeta.paid_via_aggregator }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Сертификаты:</td>
-                                        <td>{{ props.ordersMeta.certificates_sum }}</td>
-                                    </tr>
-                                    <tr class="th-divider-top">
-                                        <th colspan="2">К оплате:</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Остаток к оплате:</td>
-                                        <td>{{ props.ordersMeta.left_to_pay }}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </template>
-                        </expandable-block>
-                        <div class="mt-5">
-                            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                    <div class="shadow-xl overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                        <table class="min-w-full divide-y divide-gray-200">
-                                            <thead class="bg-gray-100">
-                                            <tr>
-                                                <th class="py-3">Доп услуга</th>
-                                                <th>Количество применений</th>
-                                                <th>Сумма</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr v-for="option in props.options.data">
-                                                <td class="px-6 py-4 whitespace-nowrap  font-bold"
-                                                    style="max-width: 100px;overflow: hidden;">
-                                                    {{ option.name_ru }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
-                                                    {{ option.orders_count }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
-                                                    {{
-                                                        numberFormat(Number(option.price) * Number(option.orders_count))
-                                                    }}
-                                                </td>
-                                            </tr>
-                                            <tr class="bg-green-400 text-white">
-                                                <td class="px-6 py-4 whitespace-nowrap font-bold">
-                                                    Итого
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    {{ sumOptions(props.options.data).orders_count }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    {{ numberFormat(sumOptions(props.options.data).price) }}
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pb-12 flex">
+            <div class="mx-auto w-3/4 sm:px-6 lg:px-8">
+                <div class="bg-white shadow-sm rounded-3xl">
+                    <div class="p-6">
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-5">Дополнительные услуги
+                            (сводка)</h2>
+                        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                <div class="overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                    <table class="min-w-full">
+                                        <thead class="bg-gray-50 text-gray-500 text-left" style="border-radius: 16px">
+                                        <tr>
+                                            <th class="py-3 px-6">Название</th>
+                                            <th class="py-3 px-6">Стоимость</th>
+                                            <th class="py-3 px-6">Кол-во применений</th>
+                                            <th class="py-3 px-6">Сумма</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="option in props.options.data">
+                                            <td class="px-6 py-4 whitespace-nowrap font-bold"
+                                                style="max-width: 100px;overflow: hidden;">
+                                                {{ option.name_ru }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap"
+                                                style="max-width: 100px;overflow: hidden;">
+                                                {{ option.price }} руб.
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {{ option.orders_count }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {{
+                                                    numberFormat(Number(option.price) * Number(option.orders_count))
+                                                }}
+                                            </td>
+                                        </tr>
+                                        <tr class="bg-indigo-600 text-white">
+                                            <td></td>
+                                            <td class="px-6 py-4 whitespace-nowrap font-bold uppercase">
+                                                Итого
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap font-bold uppercase">
+
+                                                {{ sumOptions(props.options.data).orders_count }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap font-bold uppercase">
+
+                                                {{ numberFormat(sumOptions(props.options.data).price) }}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mx-auto w-1/4 sm:px-6 lg:px-8">
+                <div class="bg-white shadow-sm rounded-3xl">
+                    <div class="p-6">
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-5">Итоги</h2>
+                        <!--                        <table class="th-order-management-container__results-table">-->
+                        <!--                            <tbody>-->
+                        <!--                            <tr>-->
+                        <!--                                <th colspan="2">Всего игр: <span>{{ props.ordersMeta.count }}</span>, на сумму-->
+                        <!--                                    <span>{{ props.ordersMeta.sum }}</span></th>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr>-->
+                        <!--                                <td>Игры:</td>-->
+                        <!--                                <td>{{ props.ordersMeta.games_sum }}</td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr>-->
+                        <!--                                <td>Допуслуги:</td>-->
+                        <!--                                <td>{{ props.ordersMeta.services_sum }}</td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr class="th-divider-top">-->
+                        <!--                                <th colspan="2">Из них:</th>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr>-->
+                        <!--                                <td>Факт:</td>-->
+                        <!--                                <td>{{ props.ordersMeta.paid_instantly }}</td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr>-->
+                        <!--                                <td>Предоплата:</td>-->
+                        <!--                                <td>{{ props.ordersMeta.pre_paid }}</td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr>-->
+                        <!--                                <td>Онлайн:</td>-->
+                        <!--                                <td>{{ props.ordersMeta.paid_online }}</td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr>-->
+                        <!--                                <td>Агрегаторы:</td>-->
+                        <!--                                <td>{{ props.ordersMeta.paid_via_aggregator }}</td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr>-->
+                        <!--                                <td>Сертификаты:</td>-->
+                        <!--                                <td>{{ props.ordersMeta.certificates_sum }}</td>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr class="th-divider-top">-->
+                        <!--                                <th colspan="2">К оплате:</th>-->
+                        <!--                            </tr>-->
+                        <!--                            <tr>-->
+                        <!--                                <td>Остаток к оплате:</td>-->
+                        <!--                                <td>{{ props.ordersMeta.left_to_pay }}</td>-->
+                        <!--                            </tr>-->
+                        <!--                            </tbody>-->
+                        <!--                        </table>-->
+                        <div class="flex flex-col w-full">
+                            <div class="bg-indigo-600 text-white p-5 flex justify-center"
+                                 style="border-radius: 16px 16px 0 0">
+                                <span class="font-bold text-lg">Всего игр проведено</span>
+                            </div>
+                            <div class="bg-white text-black px-5 py-4 flex justify-between">
+                                <span>Кол-во игр:</span>
+                                <span>{{ props.ordersMeta.count }}</span>
+                            </div>
+                            <div class="bg-indigo-600 text-white p-5 flex justify-center">
+                                <span class="font-bold text-lg">Общая сумма</span>
+                            </div>
+                            <div class="bg-white text-black">
+                                <div class="flex justify-between border-b px-5 py-4">
+                                    <span>Общая сумма:</span>
+                                    <span>{{ props.ordersMeta.sum }}</span>
+                                </div>
+                                <div class="flex justify-between border-b px-5 py-4">
+                                    <span>Сумма по играм:</span>
+                                    <span>{{ props.ordersMeta.games_sum }}</span>
+                                </div>
+                                <div class="flex justify-between border-b px-5 py-4">
+                                    <span>Сумма по доп.услугам:</span>
+                                    <span>{{ props.ordersMeta.services_sum }}</span>
+                                </div>
+                            </div>
+                            <div class="bg-indigo-600 text-white p-5 flex justify-center">
+                                <span class="font-bold text-lg">Сумма общая по платежам</span>
+                            </div>
+                            <div class="bg-white text-black">
+                                <div class="flex justify-between border-b px-5 py-4">
+                                    <span>Факт:</span>
+                                    <span>{{ props.ordersMeta.paid_instantly }}</span>
+                                </div>
+                                <div class="flex justify-between border-b px-5 py-4">
+                                    <span>Предоплаты:</span>
+                                    <span>{{ props.ordersMeta.pre_paid }}</span>
+                                </div>
+                                <div class="flex justify-between border-b px-5 py-4">
+                                    <span>Онлайн:</span>
+                                    <span>{{ props.ordersMeta.paid_online }}</span>
+                                </div>
+                                <div class="flex justify-between border-b px-5 py-4">
+                                    <span>Агрегаторы:</span>
+                                    <span>{{ props.ordersMeta.paid_via_aggregator }}</span>
+                                </div>
+                                <div class="flex justify-between border-b px-5 py-4">
+                                    <span>Сертификаты:</span>
+                                    <span>{{ props.ordersMeta.certificates_sum }}</span>
+                                </div>
+                            </div>
+                            <div class="bg-indigo-600 text-white p-5 flex justify-center">
+                                <span class="font-bold text-lg">Остаток к оплате</span>
+                            </div>
+
+                            <div class="bg-white text-black">
+                                <div class="flex justify-center px-5 py-4">
+                                    <span class="font-bold">{{ props.ordersMeta.left_to_pay }}</span>
                                 </div>
                             </div>
                         </div>

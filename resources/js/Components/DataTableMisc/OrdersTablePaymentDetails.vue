@@ -37,7 +37,7 @@ const data = computed({
             <span class="font-bold">{{data.paid_cash}}</span>&nbsp;Н
         </div>
         <div v-if="data.paid_card" class="paid-tag paid-card">
-            <span class="font-bold">{{data.paid_card}}</span>&nbsp;Н
+            <span class="font-bold">{{data.paid_card}}</span>&nbsp;БН
         </div>
     </div>
 </template>
