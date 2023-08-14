@@ -133,6 +133,16 @@ const selectedLoungeScheduleItems = computed({
     }
 })
 
+const selectedAdditionalLoungeScheduleItems = computed({
+    get() {
+        if (!additionalLounge.value) return []
+        return collect(props.loungeList).where('id', '==', additionalLounge.value).first()['lounge_schedule']['lounge_schedule_items']
+    },
+    set() {
+
+    }
+})
+
 const appliedPromoCode = computed({
     get() {
         if (!props.modelValue.promo_code) return
@@ -169,6 +179,19 @@ const removeOption = (option) => {
     const index = props.modelValue.options.indexOf(option)
     props.modelValue.options.splice(index, 1)
 }
+
+const additionalLounge = ref(null)
+
+const additionalLoungeScheduleItem = ref(null)
+
+const storeAdditionalLounge = () => {
+
+}
+
+const removeLoungeScheduleItem = (option) => {
+    const index = props.modelValue.lounge_schedule_items.indexOf(option)
+    props.modelValue.lounge_schedule_items.splice(index, 1)
+}
 </script>
 
 <template>
@@ -181,7 +204,7 @@ const removeOption = (option) => {
                 <div class="col-span-7">
                     <h2 class="text-xl font-bold">Данные заказа</h2>
                 </div>
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-3">
                     <label for="quest" class="block text-sm font-medium text-gray-700"> Квест </label>
                     <div class="mt-1">
                         <select
@@ -198,6 +221,32 @@ const removeOption = (option) => {
                             </option>
                         </select>
                     </div>
+                </div>
+                <div class="col-span-6 sm:col-span-2">
+                    <InputLabel for="date" value="Дата"/>
+                    <TextInput
+                        id="date"
+                        type="date"
+                        class="mt-1 block w-full"
+                        v-model="modelValue.date"
+                        required
+                    />
+                    <InputError class="mt-2" :message="modelValue.errors.date"/>
+                </div>
+                <div class="col-span-6 sm:col-span-1">
+                    <label for="time" class="block text-sm font-medium text-gray-700"> Время </label>
+                    <select
+                        id="time"
+                        required
+                        :disabled="!props.modelValue.date"
+                        v-model="modelValue.time"
+                        class="appearance-none mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option v-for="option in questMeta.schedule"
+                                :value="option">
+                            {{ option.time }}
+                        </option>
+                    </select>
+                    <InputError class="mt-2" :message="modelValue.errors.time"/>
                 </div>
                 <div class="col-span-6 sm:col-span-1">
                     <label for="players_count" class="block text-sm font-medium text-gray-700"> Доп. игроки </label>
@@ -218,17 +267,6 @@ const removeOption = (option) => {
                         </select>
                     </div>
                 </div>
-                <div class="col-span-6 sm:col-span-2">
-                    <InputLabel for="date" value="Дата"/>
-                    <TextInput
-                        id="date"
-                        type="date"
-                        class="mt-1 block w-full"
-                        v-model="modelValue.date"
-                        required
-                    />
-                    <InputError class="mt-2" :message="modelValue.errors.date"/>
-                </div>
                 <div class="col-span-6 sm:col-span-3">
                     <label for="option" class="block text-sm font-medium text-gray-700"> Пакет </label>
                     <div class="mt-1">
@@ -242,21 +280,6 @@ const removeOption = (option) => {
                         </select>
                     </div>
                 </div>
-                <div class="col-span-6 sm:col-span-1" v-if="props.modelValue.option !== 'Нет'">
-                    <label for="time" class="block text-sm font-medium text-gray-700"> Время </label>
-                    <select
-                        id="time"
-                        required
-                        :disabled="!props.modelValue.date"
-                        v-model="modelValue.time"
-                        class="appearance-none mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option v-for="option in questMeta.schedule"
-                                :value="option">
-                            {{ option.time }}
-                        </option>
-                    </select>
-                    <InputError class="mt-2" :message="modelValue.errors.time"/>
-                </div>
                 <div class="col-span-6 sm:col-span-3" v-if="props.modelValue.option !== 'Нет'">
                     <label for="lounge" class="block text-sm font-medium text-gray-700"> Лаунж </label>
                     <div class="mt-1">
@@ -269,6 +292,23 @@ const removeOption = (option) => {
                             </option>
                             <option v-for="lounge in props.loungeList" :value="lounge.id">
                                 {{ lounge.name_ru }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-1" v-if="props.modelValue.option !== 'Нет'">
+                    <label for="lounge" class="block text-sm font-medium text-gray-700"> Время </label>
+                    <div class="mt-1">
+                        <select
+                            id="lounge"
+                            :disabled="!props.modelValue.lounge_id"
+                            v-model="props.modelValue.lounge_schedule_item_id"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option :value="null">
+                                Нет
+                            </option>
+                            <option v-for="item in selectedLoungeScheduleItems" :value="item.id">
+                                {{ item.time }}
                             </option>
                         </select>
                     </div>
@@ -442,40 +482,48 @@ const removeOption = (option) => {
                 </div>
 
                 <div class="col-span-10 sm:col-span-10 grid grid-cols-10 gap-x-6 gap-y-3">
-                    <div class="grid grid-cols-4 gap-x-6 gap-y-3 col-span-10 sm:col-span-3">
-                        <div class="col-span-10 sm:col-span-1">
-                            <label for="lounge_option_time"
-                                   class="block text-sm font-medium text-gray-700">Время</label>
-                            <div class="mt-1">
-                                <select
-                                    id="lounge_option_time"
-                                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <!--                                    <option selected :value="instance.time">-->
-                                    <!--                                        {{instance.time}}-->
-                                    <!--                                    </option>-->
-                                </select>
-                            </div>
-                        </div>
+                    <div class="grid grid-cols-5 gap-x-6 gap-y-3 col-span-10 sm:col-span-4">
                         <div class="col-span-10 sm:col-span-3">
                             <label for="lounge_option" class="block text-sm font-medium text-gray-700">Лаунж</label>
                             <div class="mt-1 flex items-center">
                                 <select
                                     id="lounge_option"
+                                    v-model="additionalLounge"
                                     class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <!--                                    <option selected :value="props.instance.pivot.lounge">-->
-                                    <!--                                        {{props.instance.pivot.lounge.name_ru}}-->
-                                    <!--                                    </option>-->
+                                    <option :value="null">
+                                        Нет
+                                    </option>
+                                    <option v-for="lounge in props.loungeList" :value="lounge.id">
+                                        {{ lounge.name_ru }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-span-10 sm:col-span-2">
+                            <label for="lounge_option_time"
+                                   class="block text-sm font-medium text-gray-700">Время</label>
+                            <div class="mt-1 flex items-center">
+                                <select
+                                    id="lounge_option_time"
+                                    v-model="additionalLoungeScheduleItem"
+                                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option v-for="instance in selectedAdditionalLoungeScheduleItems">
+                                        {{ instance.time }}
+                                    </option>
                                 </select>
                                 <button type="button"
+                                        @click.prevent="storeAdditionalLounge"
                                         style="height: 38px"
-                                        class="flex justify-center items-center ml-1 w-12 h-full flex justify-center border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        class="flex justify-center items-center ml-1 w-16 h-full flex justify-center border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     <plus-icon class="w-3/4"/>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <lounge-block class="col-span-10 sm:col-span-3"
-                                  v-for="lounge in props.modelValue.lounge_schedule_items" :instance="lounge"/>
+                    <lounge-block
+                        :lounge-list="props.loungeList"
+                        class="col-span-10 sm:col-span-3"
+                        v-for="lounge in props.modelValue.lounge_schedule_items" :instance="lounge"/>
                 </div>
             </div>
         </div>

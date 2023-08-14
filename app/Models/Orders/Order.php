@@ -4,6 +4,7 @@ namespace App\Models\Orders;
 
 use App\Enums\OrderStatusEnum;
 use App\Models\Certificates\Certificate;
+use App\Models\Lounges\Lounge;
 use App\Models\Lounges\LoungeScheduleItem;
 use App\Models\Quests\Quest;
 use App\Models\Sales\Sale;
@@ -110,8 +111,17 @@ class Order extends Model
     {
         return $this
             ->belongsToMany(LoungeScheduleItem::class, 'orders_lounge_schedule_items')
-            ->withPivot('lounge_id')
-            ->using(OrdersLoungeScheduleItems::class);
+            ->withPivot('lounge_id');
+    }
+
+    public function lounge(): BelongsTo
+    {
+        return $this->belongsTo(Lounge::class, 'lounge_id');
+    }
+
+    public function loungeScheduleItem(): BelongsTo
+    {
+        return $this->belongsTo(LoungeScheduleItem::class, 'lounge_schedule_item_id');
     }
 
     public function sale(): BelongsTo

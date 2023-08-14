@@ -82,6 +82,9 @@ class OrderResource extends JsonResource
             'order_option_1' => $order->order_option_1,
             'order_option_2' => $order->order_option_2,
             'order_option_3' => $order->order_option_3,
+            'lounge_schedule_item_id' => $order->lounge_schedule_item_id,
+            'lounge_schedule_id' => $order->loungeScheduleItem?->loungeSchedule?->id,
+            'lounge_id' => $order->lounge_id
         ];
     }
 }
