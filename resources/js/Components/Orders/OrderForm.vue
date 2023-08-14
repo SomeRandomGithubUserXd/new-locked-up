@@ -468,7 +468,7 @@ const removeOption = (option) => {
                                 </select>
                                 <button type="button"
                                         style="height: 38px"
-                                        class="w-full flex justify-center items-center ml-1 w-12 h-full flex justify-center border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        class="flex justify-center items-center ml-1 w-12 h-full flex justify-center border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     <plus-icon class="w-3/4"/>
                                 </button>
                             </div>
