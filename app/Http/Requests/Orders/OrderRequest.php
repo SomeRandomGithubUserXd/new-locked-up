@@ -46,6 +46,9 @@ class OrderRequest extends FormRequest
             'schedule_item_id' => ['nullable', 'int', 'exists:schedule_items,id'],
             'lounge_id' => ['nullable', 'int', 'exists:lounges,id'],
             'lounge_schedule_item_id' => ['nullable', 'int', 'exists:lounge_schedule_items,id'],
+            'order_option_1' => ['nullable', 'int', 'exists:order_options,id'],
+            'order_option_2' => ['nullable', 'int', 'exists:order_options,id'],
+            'order_option_3' => ['nullable', 'int', 'exists:order_options,id'],
         ];
     }
 

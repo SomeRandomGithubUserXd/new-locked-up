@@ -14,11 +14,11 @@ label {
 
 .scrollable-select .vs__dropdown-toggle {
     height: 40px !important;
-    border-radius: 10px !important;
+    border-radius: 8px !important;
 }
 
 input:not([type='checkbox']):not([type='file']), select, button, textarea {
-    border-radius: 10px !important;
+    border-radius: 8px !important;
 }
 
 .scrollable-select .vs__selected-options {
@@ -42,8 +42,19 @@ input:not([type='checkbox']):not([type='file']), select, button, textarea {
     background: rgba(203, 128, 239, 1);
 
 }
+
 .paid-tag.paid-card {
     background: rgba(163, 27, 95, 1);
 
+}
+
+.additional-option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(149, 158, 255, 1);
+    border-radius: 18px;
+    color: white;
+    padding: 5px 17px;
 }
 

@@ -4,6 +4,7 @@ use App\Models\Certificates\Certificate;
 use App\Models\Checkout;
 use App\Models\Lounges\Lounge;
 use App\Models\Lounges\LoungeScheduleItem;
+use App\Models\Orders\OrderOption;
 use App\Models\Orders\OrderSource;
 use App\Models\Quests\Quest;
 use App\Models\Sales\Sale;
@@ -47,6 +48,9 @@ return new class extends Migration {
             $table->foreignIdFor(ScheduleItem::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Lounge::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(LoungeScheduleItem::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('order_option_1')->nullable()->references('id')->on('order_options')->cascadeOnDelete();
+            $table->foreignId('order_option_2')->nullable()->references('id')->on('order_options')->cascadeOnDelete();
+            $table->foreignId('order_option_3')->nullable()->references('id')->on('order_options')->cascadeOnDelete();
             $table->timestamps();
         });
     }

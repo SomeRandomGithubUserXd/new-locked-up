@@ -14,27 +14,7 @@ class OrderResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'quest' => $this->quest->name_ru,
-            'customer_name' => $this->customer_name,
-            'customer_email' => $this->customer_email,
-            'customer_phone' => $this->customer_phone,
-            'options' => $this->orderOptions,
-            'created_at' => str_replace(' ', "<br/>", $this->created_at?->format('d/m/Y H:i')),
-            'date' => str_replace(' ', "<br/>", $this->date?->format('d/m/Y H:i')),
-            'source' => $this->source()?->first()?->name,
-            'status' => $this->status,
-            'comment' => $this->comment,
-            'price_total' => $this->price_total,
-            'paid_total' => $this->paid_total,
-            'price_to_pay' => $this->price_to_pay,
-            'pre_paid' => $this->pre_paid,
-            'pre_paid_type' => $this->pre_paid_type,
-            'postpaid' => $this->postpaid,
-            'postpaid_type' => $this->postpaid_type,
-            'paid_through_acquiring' => $this->paid_through_acquiring,
-            'paid_through_aggregator' => $this->paid_through_aggregator,
-            'certificate_data_id' => $this->certificate_id,
+            ...self::singleItem($this),
             'hints' => [
                 'backgroundColor' => $this->status->getBackgroundColor(),
                 'color' => $this->status->getColor(),
@@ -68,16 +48,19 @@ class OrderResource extends JsonResource
         ];
     }
 
-    public static function singleItem(Order $order): array
+    public static function singleItem(Order|OrderResource $order): array
     {
+//        dd($order->loungeScheduleItems->toArray());
         return [
             'id' => $order->id,
             'quest_id' => $order->quest_id,
+            'quest' => $order->quest->name_ru,
             'additional_players_count' => $order->additional_players_count ?? $order->quest->min_players,
             'customer_name' => $order->customer_name,
             'customer_email' => $order->customer_email,
             'customer_phone' => $order->customer_phone,
             'created_at' => $order->created_at->format('d/m/Y'),
+            'option' => $order->option,
             'date' => $order->date->format('Y-m-d'),
             'time' => $order->time,
             'order_source_id' => $order->order_source_id,
@@ -92,14 +75,13 @@ class OrderResource extends JsonResource
             'price_total' => $order->price_total,
             'paid_total' => $order->paid_total,
             'price_to_pay' => $order->price_to_pay,
-            'option' => $order->option ?? Order::$packageOptions[0],
-            'postpaid_type' => $order->postpaid_type ?? '',
-            'pre_paid_type' => $order->pre_paid_type ?? '',
+            'pre_paid_type' => $order->pre_paid_type,
+            'postpaid_type' => $order->postpaid_type,
             'options' => $order->orderOptions->makeHidden('pivot'),
-            'additional_players' => 0,
-            'lounge_schedule_item_id' => $order->lounge_schedule_item_id,
-            'lounge_schedule_id' => $order->loungeScheduleItem?->loungeSchedule?->id,
-            'lounge_id' => $order->lounge_id
+            'lounge_schedule_items' => $order->loungeScheduleItems,
+            'order_option_1' => $order->order_option_1,
+            'order_option_2' => $order->order_option_2,
+            'order_option_3' => $order->order_option_3,
         ];
     }
 }

@@ -4,7 +4,6 @@ namespace App\Models\Orders;
 
 use App\Enums\OrderStatusEnum;
 use App\Models\Certificates\Certificate;
-use App\Models\Lounges\Lounge;
 use App\Models\Lounges\LoungeScheduleItem;
 use App\Models\Quests\Quest;
 use App\Models\Sales\Sale;
@@ -20,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Order extends Model
 {
-    public static array $packageOptions = ['Комфорт', 'Стандарт', 'Эконом'];
+    public static array $packageOptions = ['Нет', 'Минимальный', 'Максимальный'];
 
     protected $fillable = [
         'quest_id',
@@ -55,6 +54,9 @@ class Order extends Model
         'schedule_item_id',
         'lounge_id',
         'lounge_schedule_item_id',
+        'order_option_1',
+        'order_option_2',
+        'order_option_3',
     ];
 
     protected $casts = [
@@ -94,16 +96,6 @@ class Order extends Model
         return $this->belongsToMany(OrderOption::class, 'orders_order_options')->using(OrderQuestOption::class);
     }
 
-    public function lounge(): BelongsTo
-    {
-        return $this->belongsTo(Lounge::class, 'lounge_id');
-    }
-
-    public function loungeScheduleItem(): BelongsTo
-    {
-        return $this->belongsTo(LoungeScheduleItem::class, 'lounge_schedule_item_id');
-    }
-
     public function orderChangeLogItems(): HasMany
     {
         return $this->hasMany(OrderChangeLogItem::class, 'order_id');
@@ -112,6 +104,14 @@ class Order extends Model
     public function orderPayments(): HasMany
     {
         return $this->hasMany(OrderPayment::class, 'order_id');
+    }
+
+    public function loungeScheduleItems(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(LoungeScheduleItem::class, 'orders_lounge_schedule_items')
+            ->withPivot('lounge_id')
+            ->using(OrdersLoungeScheduleItems::class);
     }
 
     public function sale(): BelongsTo

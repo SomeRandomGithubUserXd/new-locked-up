@@ -19,6 +19,7 @@ import InputError from "@/Components/InputError.vue";
 import OrdersTableHead from "@/Components/DataTableMisc/OrdersTableHead.vue";
 import OrdersTableOptionList from "@/Components/DataTableMisc/OrdersTableOptionList.vue";
 import OrdersTablePaymentDetails from "@/Components/DataTableMisc/OrdersTablePaymentDetails.vue";
+import OrderModal from "@/Components/Modals/OrderModal.vue";
 
 const usingFilter = ref(null);
 
@@ -35,7 +36,7 @@ const getOrderStatus = (status) => {
 }
 
 const edit = (order) => {
-    router.get(route('orders.show', order))
+    showOrderModal(order)
 }
 
 const viewLog = (order) => {
@@ -246,8 +247,6 @@ const toExcel = () => {
     exportFromJSON({data, fileName, exportType})
 }
 
-const showSums = ref(true)
-
 const filtersPrepared = computed({
     get() {
         if (!props.filters.length) return []
@@ -263,18 +262,72 @@ const filtersPrepared = computed({
 
     }
 })
+
+const orderModal = ref({
+    show: false,
+    order: {},
+    mode: 0,
+})
+
+const showOrderModal = (order = {
+    quest_id: null,
+    date: null,
+    time: null,
+    customer_name: null,
+    customer_email: null,
+    customer_phone: null,
+    order_source_id: null,
+    option: 'Нет',
+    promo_code: null,
+    certificate_id: null,
+    comment: null,
+    players_count: 0,
+    options: [],
+    postpaid: 0,
+    pre_paid: 0,
+    paid_through_acquiring: 0,
+    paid_through_aggregator: 0,
+    postpaid_type: '',
+    pre_paid_type: '',
+    status: 0,
+    additional_players_count: 0,
+    lounge_id: null,
+    lounge_schedule_item_id: null,
+    order_option_1: null,
+    order_option_2: null,
+    order_option_3: null,
+}) => {
+    orderModal.value.show = true
+    orderModal.value.order = useForm(order)
+    orderModal.value.mode = order?.id ? 1 : 0
+}
+
+watch(orderModal, value => {
+    // console.log(value)
+}, {deep: true})
 </script>
 
 <template>
+    <order-modal
+        :quest-list="props.questList"
+        :option-list="props.optionList"
+        :source-list="props.sourceList"
+        :promo-code-list="props.promoCodeList"
+        :certificate-list="props.certificateList"
+        :order-statuses="props.orderStatuses"
+        :quest-options="props.questOptions"
+        :lounge-list="props.loungeList"
+        v-model="orderModal"
+        @submit="handleOrderFormSubmit"/>
     <Head title="Таблица заказов"/>
-
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex w-full">
+            <div class="flex w-full items-center">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">Таблица заказов</h2>
                 <div class="ml-auto gap-x-10 flex">
                     <button
                         type="button"
+                        @click="showOrderModal()"
                         class="relative inline-flex items-center px-5 py-2 border border-indigo-600 text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
                         <PlusIcon class="h-5 w-5 mr-2 text-indigo-600 font-bold" aria-hidden="true"/>
                         <span class="text-indigo-600 font-bold">Создать заказ</span>
