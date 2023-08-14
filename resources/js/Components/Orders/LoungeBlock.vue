@@ -20,7 +20,7 @@ const loungeName = computed({
 </script>
 
 <template>
-    <div class="grid grid-cols-5 gap-x-6 gap-y-3 col-span-10 sm:col-span-4">
+    <div class="grid grid-cols-5 gap-x-6 gap-y-3 col-span-10">
         <div class="col-span-10 sm:col-span-3">
             <label for="lounge_option" class="block text-sm font-medium text-gray-700">Лаунж</label>
             <div class="mt-1">
@@ -45,7 +45,7 @@ const loungeName = computed({
                         {{ instance.time }}
                     </option>
                 </select>
-                <x-mark-icon class="w-7 h-7 ml-2 text-red-500 cursor-pointer" @click.prevent="emit('remove')"/>
+                <x-mark-icon class="w-7 h-7 ml-2 text-red-500 cursor-pointer" @click.prevent="emit('remove', props.instance)"/>
             </div>
         </div>
     </div>
