@@ -54,7 +54,6 @@ enum OrderStatusEnum: int implements ISerializableEnum
         };
     }
 
-    //TODO: reassign colors
     public function getColor(): string
     {
         return match ($this) {
