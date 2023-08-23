@@ -13,7 +13,7 @@ class OrderPayment extends Model
 {
     protected $fillable = ['order_id', 'id_from_provider', 'status', 'order_number', 'type', 'payment_option', 'date', 'status', 'link', 'sum', 'returned'];
 
-    protected $appends = ['can_be_returned'];
+    protected $appends = ['can_be_returned', 'can_be_registered'];
 
     public function sum(): Attribute
     {
@@ -25,7 +25,14 @@ class OrderPayment extends Model
     public function canBeReturned(): Attribute
     {
         return Attribute::make(
-            get: fn() => (int) $this->returned === 0 && $this->status === OrderPaymentStatusEnum::paid,
+            get: fn(): bool => (int)$this->returned === 0 && $this->status === OrderPaymentStatusEnum::paid,
+        );
+    }
+
+    public function canBeRegistered(): Attribute
+    {
+        return Attribute::make(
+            get: fn(): bool => $this->type === OrderPaymentTypeEnum::paid_through_acquiring,
         );
     }
 
