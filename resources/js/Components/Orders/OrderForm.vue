@@ -228,7 +228,7 @@ const storePayment = () => {
 }
 
 const countRemaining = (total, item) => {
-    let sum = Number(orderTotal.value)
+    let sum = Number(orderPriceToPay.value)
     for (const payment of total) {
         sum += Number(payment.returned)
         sum -= Number(payment.sum)
