@@ -30,7 +30,7 @@ const props = defineProps({
     },
     ...orderProps
 })
-console.log(props.orderPaymentStatuses)
+
 const questMeta = ref({
     schedule: [],
     min_players: null,
@@ -645,7 +645,7 @@ const requestRefund = (item) => {
                                 <td class="px-3 whitespace-nowrap text-md ">
                                     <select
                                         required
-                                        :disabled="payment.status !== 0 || payment.link"
+                                        :disabled="(payment.status !== 0 && payment.type === 2) || payment.link"
                                         v-model="payment.type"
                                         :style="{backgroundColor: orderPaymentTypes[payment.type].backgroundColor, color: orderPaymentTypes[payment.type].color}"
                                         class="appearance-none w-full block px-3 py-2 rounded-md sm:text-md focus:border-transparent focus:ring-0 border-transparent">
