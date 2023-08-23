@@ -4,7 +4,7 @@ namespace App\Services\Acquiring;
 
 use App\Enums\Acquiring\AcquiringCurrencyEnum;
 use App\Enums\Acquiring\AcquiringProviderEnum;
-use App\Enums\OrderPaymentStatusEnum;
+use App\Enums\Orders\OrderPaymentStatusEnum;
 use App\Models\Orders\OrderPayment;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Http\Client\Response;
@@ -28,12 +28,11 @@ class SberBankAcquiringEntity extends AbstractAcquiringEntity
 
     public function storePayment(int $amount, AcquiringCurrencyEnum $currencyEnum): OrderPayment
     {
-        $orderNumber = $this->order->id . '-' . OrderPayment::where(['order_id' => $this->order->id])->count();
         $url = $this->buildQuery('register.do', [
             'amount' => $amount,
             'currency' => AcquiringProviderEnum::sberBank->getCurrency($currencyEnum),
             'language' => 'ru',
-            'orderNumber' => $orderNumber,
+            'orderNumber' => $orderNumber = $this->constructOrderNumber(),
             'returnUrl' => route('order-paid', ['order_payment' => $orderNumber]),
         ]);
         $response = $this->formRequest($url)->json();
@@ -45,7 +44,25 @@ class SberBankAcquiringEntity extends AbstractAcquiringEntity
         ]);
     }
 
-    public function refund(OrderPayment $orderPayment)
+
+
+    public function registerPayment(OrderPayment $orderPayment): string
+    {
+        $orderPayment->update(['link' => $url = \Str::random()]);
+        return $url;
+        $url = $this->buildQuery('register.do', [
+            'amount' => $orderPayment->sum,
+            'currency' => AcquiringProviderEnum::sberBank->getCurrency($orderPayment->currency),
+            'language' => 'ru',
+            'orderNumber' => $orderNumber = $this->constructOrderNumber(),
+            'returnUrl' => route('order-paid', ['order_payment' => $orderNumber]),
+        ]);
+        $response = $this->formRequest($url)->json();
+        $orderPayment->update(['link' => $url = $response['formUrl']]);
+        return $url;
+    }
+
+    public function refund(OrderPayment $orderPayment): bool
     {
         $url = $this->buildQuery('refund.do', [
             'orderId' => $orderPayment->id_from_provider,

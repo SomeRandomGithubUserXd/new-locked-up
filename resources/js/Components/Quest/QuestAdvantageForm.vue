@@ -22,7 +22,6 @@ watch(() => props.modelValue, value => {
 }, {deep: true})
 
 const emit = defineEmits(['remove'])
-console.log(props)
 </script>
 
 <template>

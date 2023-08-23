@@ -43,6 +43,8 @@ export const getAlreadypaid = (order) => {
 
 export const orderProps = {
     orderStatuses: Array,
+    orderPaymentTypes: Array,
+    orderPaymentStatuses: Array,
     questList: Array,
     optionList: Array,
     sourceList: Array,

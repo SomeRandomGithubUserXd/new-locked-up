@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Orders;
 
 use App\Enums\Acquiring\AcquiringCurrencyEnum;
 use App\Enums\Acquiring\AcquiringProviderEnum;
-use App\Enums\OrderPaymentStatusEnum;
+use App\Enums\Orders\OrderPaymentStatusEnum;
+use App\Enums\Orders\OrderPaymentTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Orders\OrderPaymentRequest;
 use App\Http\Resources\Orders\OrderPaymentResource;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderPayment;
 use App\Services\Acquiring\AcquiringService;
-use App\Services\Acquiring\SberBankAcquiringEntity;
 use Illuminate\Http\Request;
 
 class OrderPaymentController extends Controller
@@ -39,17 +39,14 @@ class OrderPaymentController extends Controller
         return redirect()->route('orders.payments.index', $order->id);
     }
 
-    public function refund(Order $order, OrderPayment $orderPayment)
+    public function register(OrderPayment $orderPayment)
     {
-        if ($orderPayment->status !== OrderPaymentStatusEnum::paid) {
-            return redirect()->back();
-        }
-        $service = new AcquiringService($order, AcquiringProviderEnum::sberBank);
-        $service->getAcquiringEntity()->refund($orderPayment);
-        return redirect()->route('orders.payments.index', $order->id);
+        $service = new AcquiringService($orderPayment->order, AcquiringProviderEnum::sberBank);
+        $url = $service->getAcquiringEntity()->registerPayment($orderPayment);
+        return redirect()->back()->with('lastOrderPaymentLink', $url);
     }
 
-    public function orderpaid(Request $request)
+    public function orderPaid(Request $request)
     {
         OrderPayment::firstWhere(['id_from_provider' => $request->orderId])->update(['status' => OrderPaymentStatusEnum::paid]);
         return "Оплачено";

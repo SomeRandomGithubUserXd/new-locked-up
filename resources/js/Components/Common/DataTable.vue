@@ -94,7 +94,7 @@ const getHalfOfAColor = (color) => {
                         <tr>
                             <th scope="col"
                                 v-if="needsSelection"
-                                class="px-2 text-left text-xs font-medium  uppercase tracking-wider">
+                                class="px-2 text-left font-medium   tracking-wider">
                                 <span class="sr-only">Выбрать</span>
                                 <input ref="triggerAllItemsSelectionCheckbox" @change="triggerAllItemsSelection"
                                        type="checkbox"
@@ -102,12 +102,12 @@ const getHalfOfAColor = (color) => {
                             </th>
                             <th scope="col"
                                 v-for="record in props.tableProps?.records"
-                                class="px-3 py-4 text-left text-xs font-bold uppercase tracking-wider">
-                                <span v-html="record.name"/>
+                                class="px-3 py-4 text-left font-bold  tracking-wider">
+                                <span class="text-2xl" v-html="record.name"/>
                             </th>
                             <th scope="col"
                                 v-if="props.tableProps?.actions?.length"
-                                class="px-3 py-4 text-left text-xs font-medium  uppercase tracking-wider">
+                                class="px-3 py-4 text-left font-medium   tracking-wider">
                             </th>
                         </tr>
                         </thead>
@@ -186,6 +186,6 @@ const getHalfOfAColor = (color) => {
 
 <style scoped>
 .font-size-all * {
-    font-size: 15px;
+    font-size: 17px;
 }
 </style>

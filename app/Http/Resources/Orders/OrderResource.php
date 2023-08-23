@@ -4,6 +4,7 @@ namespace App\Http\Resources\Orders;
 
 use App\Models\Certificates\Certificate;
 use App\Models\Orders\Order;
+use App\Models\Orders\OrderPayment;
 use App\Models\Sales\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -50,7 +51,6 @@ class OrderResource extends JsonResource
 
     public static function singleItem(Order|OrderResource $order): array
     {
-//        dd($order->loungeScheduleItems->toArray());
         return [
             'id' => $order->id,
             'quest_id' => $order->quest_id,
@@ -67,10 +67,14 @@ class OrderResource extends JsonResource
             'promo_code' => $order->promo_code,
             'certificate_id' => $order->certificate_id,
             'comment' => $order->comment,
+
             'postpaid' => $order->postpaid ?? 0,
             'pre_paid' => $order->pre_paid ?? 0,
             'paid_through_acquiring' => $order->paid_through_acquiring ?? 0,
             'paid_through_aggregator' => $order->paid_through_aggregator ?? 0,
+
+            'order_payments' => $order->orderPayments,
+
             'status' => $order->status ?? 0,
             'price_total' => $order->price_total,
             'paid_total' => $order->paid_total,
@@ -84,7 +88,7 @@ class OrderResource extends JsonResource
             'order_option_3' => $order->order_option_3,
             'lounge_schedule_item_id' => $order->lounge_schedule_item_id,
             'lounge_schedule_id' => $order->loungeScheduleItem?->loungeSchedule?->id,
-            'lounge_id' => $order->lounge_id
+            'lounge_id' => $order->lounge_id,
         ];
     }
 }

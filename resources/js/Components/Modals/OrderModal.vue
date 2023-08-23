@@ -2,6 +2,8 @@
 import {DialogOverlay, DialogTitle, TransitionChild, TransitionRoot, Dialog} from "@headlessui/vue";
 import OrderForm from "@/Components/Orders/OrderForm.vue";
 import {orderProps} from "@/Traits/OrderTrait";
+import {watch} from "vue";
+import {useForm} from "@inertiajs/vue3";
 
 const props = defineProps({
     modelValue: Object,
@@ -9,15 +11,16 @@ const props = defineProps({
 
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'refreshOrder'])
 
 const closeSelf = () => {
     emit('update:modelValue', {...props.modelValue, show: false})
 }
 
 const handleSubmit = (price, additional_players_cost, additional_options_cost, price_total, price_to_pay, paid_total) => {
+    const order = useForm(props.modelValue.order)
     if(props.modelValue.mode === 0) {
-        props.modelValue.order.transform((data) => ({
+        order.transform((data) => ({
             ...data,
             promo_code_id: data.promo_code?.id,
             certificate_id: data.certificate?.id,
@@ -32,7 +35,7 @@ const handleSubmit = (price, additional_players_cost, additional_options_cost, p
             onSuccess: closeSelf
         })
     } else {
-        props.modelValue.order.transform((data) => ({
+        order.transform((data) => ({
             ...data,
             promo_code_id: data.promo_code?.id,
             certificate_id: data.certificate?.id,
@@ -42,13 +45,18 @@ const handleSubmit = (price, additional_players_cost, additional_options_cost, p
             price_total,
             price_to_pay,
             paid_total,
-        })).patch(route('orders.update', props.modelValue.order.id), {
+        })).patch(route('orders.update', order.id), {
             onError: (err) => console.log(err),
             onSuccess: closeSelf
-
         })
     }
 }
+
+watch(() => props.modelValue, value => {
+    // console.log(value)
+}, {
+    deep: true
+})
 </script>
 
 <template>
@@ -81,12 +89,15 @@ const handleSubmit = (price, additional_players_cost, additional_options_cost, p
                                 </DialogTitle>
                                 <order-form
                                     class="mt-7 w-full"
+                                    @refresh-order="emit('refreshOrder', $event)"
+                                    :order-payment-statuses="props.orderPaymentStatuses"
                                     :quest-list="props.questList"
                                     :option-list="props.optionList"
                                     :source-list="props.sourceList"
                                     :promo-code-list="props.promoCodeList"
                                     :certificate-list="props.certificateList"
                                     :order-statuses="props.orderStatuses"
+                                    :order-payment-types="props.orderPaymentTypes"
                                     :quest-options="props.questOptions"
                                     :lounge-list="props.loungeList"
                                     :model-value="props.modelValue.order"

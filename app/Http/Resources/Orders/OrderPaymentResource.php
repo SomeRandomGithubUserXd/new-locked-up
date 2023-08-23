@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Orders;
 
+use App\Enums\Orders\OrderPaymentTypeEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

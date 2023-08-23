@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Orders;
 
+use App\Enums\ISerializableEnum;
 use App\Traits\IsSerializableEnum;
 
 enum OrderStatusEnum: int implements ISerializableEnum
@@ -53,22 +54,13 @@ enum OrderStatusEnum: int implements ISerializableEnum
         };
     }
 
+    //TODO: reassign colors
     public function getColor(): string
     {
         return match ($this) {
             self::not_viewed, self::deleted, self::done, self::rescheduled => 'rgba(255, 255, 255, 1)',
             self::to_call_1, self::to_call_2, self::canceled, self::in_progress => 'rgba(0, 0, 0, 1)',
         };
-    }
-
-    public static function getArray(): array
-    {
-        $enums = [];
-        foreach (self::array() as $enum) {
-            $self = (new \ReflectionEnum(self::class))->getCase($enum);
-            $enums[] = $self->getValue()->toArray();
-        }
-        return $enums;
     }
 
     public function toArray(): array

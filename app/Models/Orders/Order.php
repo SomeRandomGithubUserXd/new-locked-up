@@ -2,7 +2,7 @@
 
 namespace App\Models\Orders;
 
-use App\Enums\OrderStatusEnum;
+use App\Enums\Orders\OrderStatusEnum;
 use App\Models\Certificates\Certificate;
 use App\Models\Lounges\Lounge;
 use App\Models\Lounges\LoungeScheduleItem;
@@ -10,7 +10,6 @@ use App\Models\Quests\Quest;
 use App\Models\Sales\Sale;
 use App\Models\Schedules\Schedule;
 use App\Models\Schedules\ScheduleItem;
-use App\Traits\HasTimestamps;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

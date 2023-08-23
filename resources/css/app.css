@@ -58,3 +58,7 @@ input:not([type='checkbox']):not([type='file']), select, button, textarea {
     padding: 5px 17px;
 }
 
+select:disabled {
+    opacity: 1 !important;
+}
+

@@ -36,6 +36,7 @@ const updateFilter = () => {
                             :promo-code-list="props.promoCodeList"
                             :certificate-list="props.certificateList"
                             :order-statuses="props.orderStatuses"
+                            :order-payment-types="props.orderPaymentTypes"
                             :quest-options="props.questOptions"
                             :is-limited="true"
                             :is-production="false"

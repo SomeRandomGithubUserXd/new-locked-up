@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Orders;
 
-use App\Enums\OrderStatusEnum;
+use App\Enums\Acquiring\AcquiringCurrencyEnum;
+use App\Enums\Acquiring\AcquiringProviderEnum;
+use App\Enums\Orders\OrderPaymentStatusEnum;
+use App\Enums\Orders\OrderPaymentTypeEnum;
 use App\Enums\UserRoleEnum;
 use App\Http\Controllers\AbstractControllerWithMultipleDeletion;
 use App\Http\Requests\Orders\ActionWithManyRequest;
@@ -17,15 +20,18 @@ use App\Models\Certificates\Certificate;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderFilter;
 use App\Models\Orders\OrderOption;
+use App\Models\Orders\OrderPayment;
 use App\Models\Orders\OrderSource;
 use App\Models\Quests\Quest;
 use App\Models\Sales\Sale;
+use App\Services\Acquiring\AcquiringService;
 use App\Traits\InteractsWithOrders;
 use App\Traits\QueryTools;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 
 class OrderController extends AbstractControllerWithMultipleDeletion
 {
@@ -120,7 +126,9 @@ class OrderController extends AbstractControllerWithMultipleDeletion
             ]);
         } catch (QueryException) {
         }
+        $this->syncOrderPayments($order, $request->get('order_payments'));
         $order->orderOptions()->sync(collect($request->get('options'))->pluck('id'));
+        $order->loungeScheduleItems()->sync($this->getLoungeScheduleItemsToSync($request->get('lounge_schedule_items')));
         return redirect()->route('orders.index');
     }
 
@@ -138,6 +146,8 @@ class OrderController extends AbstractControllerWithMultipleDeletion
             'schedule_item_id' => $request->schedule_item_id,
             'date' => $request->get('date') ?: Carbon::now()->format('Y-m-d')
         ]);
+        $this->syncOrderPayments($order, $request->get('order_payments'));
+        $order->loungeScheduleItems()->sync($this->getLoungeScheduleItemsToSync($request->get('lounge_schedule_items')));
         $order->orderOptions()->sync(collect($request->get('options'))->pluck('id'));
         return redirect()->route('orders.index');
     }
@@ -225,5 +235,47 @@ class OrderController extends AbstractControllerWithMultipleDeletion
     {
         $order->update(['status' => $request->get('status')]);
         return redirect()->back();
+    }
+
+    protected function syncOrderPayments(Order $order, array $payments)
+    {
+        foreach ($payments as $orderPayment) {
+            $orderPayment['sum'] = (float)$orderPayment['sum'] * 100;
+            if ($existingPayment = OrderPayment::find($orderPayment['id'])) {
+                $applyReturn = isset($orderPayment['apply_refund']) && $orderPayment['apply_refund'] === true;
+                if (!$applyReturn) {
+                    $orderPayment['returned'] = $existingPayment->returned;
+                    OrderPayment::find($orderPayment['id'])->update($orderPayment);
+                } else {
+                    \DB::transaction(function () use ($orderPayment, $existingPayment) {
+                        $orderPayment['status'] = OrderPaymentStatusEnum::refunded;
+
+                        // TODO: recheck
+                        if ($orderPayment['type'] === OrderPaymentTypeEnum::paid_through_acquiring->value) {
+                            // $orderPayment['returned']
+                            //            $service = new AcquiringService($order = $orderPayment->order, AcquiringProviderEnum::sberBank);
+                            //            $service->getAcquiringEntity()->refund($orderPayment);
+                        }
+
+                        OrderPayment::find($orderPayment['id'])->update($orderPayment);
+                    });
+                }
+            } else {
+                if ($orderPayment['type'] != OrderPaymentTypeEnum::paid_through_acquiring->value) {
+                    $orderPayment['status'] = OrderPaymentStatusEnum::paid;
+                }
+                OrderPayment::create($orderPayment);
+            }
+        }
+    }
+
+    protected function getLoungeScheduleItemsToSync(Collection|array|null $items = [])
+    {
+        if ($items === null) return [];
+        $toSync = [];
+        foreach ($items as $item) {
+            $toSync[$item['id']] = ['lounge_id' => $item['pivot']['lounge_id']];
+        }
+        return $toSync;
     }
 }

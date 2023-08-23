@@ -18,7 +18,7 @@ const props = defineProps({
 })
 
 watch(() => props.modelValue, value => {
-    console.log(value)
+    // console.log(value)
 }, {deep: true})
 
 const emit = defineEmits(['remove'])

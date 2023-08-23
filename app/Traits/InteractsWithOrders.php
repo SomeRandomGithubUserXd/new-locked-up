@@ -2,7 +2,9 @@
 
 namespace App\Traits;
 
-use App\Enums\OrderStatusEnum;
+use App\Enums\Orders\OrderPaymentStatusEnum;
+use App\Enums\Orders\OrderPaymentTypeEnum;
+use App\Enums\Orders\OrderStatusEnum;
 use App\Enums\ScheduleTypeEnum;
 use App\Models\Certificates\Certificate;
 use App\Models\Lounges\Lounge;
@@ -13,6 +15,7 @@ use App\Models\Quests\Quest;
 use App\Models\Sales\Sale;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
+use ReflectionException;
 
 trait InteractsWithOrders
 {
@@ -28,10 +31,15 @@ trait InteractsWithOrders
         return $type;
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function getOrderMisc(): array
     {
         return [
             'orderStatuses' => OrderStatusEnum::getArray(),
+            'orderPaymentTypes' => OrderPaymentTypeEnum::getArray(),
+            'orderPaymentStatuses' => OrderPaymentStatusEnum::getArray(),
             'questList' => Quest::query()
                 ->where('name_ru', '!=', '')
                 ->select(['id', 'name_ru'])

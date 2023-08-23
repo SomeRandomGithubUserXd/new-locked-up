@@ -35,6 +35,13 @@ abstract class AbstractAcquiringEntity
 
     abstract public function storePayment(int $amount, AcquiringCurrencyEnum $currencyEnum): OrderPayment;
 
+    abstract public function registerPayment(OrderPayment $orderPayment): string;
+
+    public function constructOrderNumber(): string
+    {
+        return $this->order->id . '-' . $this->order->orderPayments->count();
+    }
+
     public function getOrder(): Order
     {
         return $this->order;

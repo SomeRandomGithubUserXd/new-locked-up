@@ -31,6 +31,12 @@ const props = defineProps({
     ...orderProps
 })
 
+watch(() => props.orders, value => {
+
+}, {
+    deep: true
+})
+
 const getOrderStatus = (status) => {
     return props.orderStatuses[status]
 }
@@ -296,10 +302,15 @@ const showOrderModal = (order = {
     order_option_1: null,
     order_option_2: null,
     order_option_3: null,
+    order_payments: [],
 }) => {
     orderModal.value.show = true
-    orderModal.value.order = useForm(order)
+    orderModal.value.order = order
     orderModal.value.mode = order?.id ? 1 : 0
+}
+
+const refreshOrder = (orderId) => {
+    orderModal.value.order = collect(props.orders.data).where('id', '==', orderId).first()
 }
 
 watch(orderModal, value => {
@@ -315,10 +326,12 @@ watch(orderModal, value => {
         :promo-code-list="props.promoCodeList"
         :certificate-list="props.certificateList"
         :order-statuses="props.orderStatuses"
+        :order-payment-types="props.orderPaymentTypes"
+        :order-payment-statuses="props.orderPaymentStatuses"
         :quest-options="props.questOptions"
         :lounge-list="props.loungeList"
-        v-model="orderModal"
-        @submit="handleOrderFormSubmit"/>
+        @refresh-order="refreshOrder"
+        v-model="orderModal"/>
     <Head title="Таблица заказов"/>
     <AuthenticatedLayout>
         <template #header>

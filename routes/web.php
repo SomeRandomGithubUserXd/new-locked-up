@@ -127,11 +127,14 @@ Route::middleware('auth')->group(function () {
                 Route::get('/', [OrderPaymentController::class, 'index'])->name('index');
                 Route::get('/create', [OrderPaymentController::class, 'create'])->name('create');
                 Route::post('/store', [OrderPaymentController::class, 'store'])->name('store');
-                Route::post('/{order_payment}/refund', [OrderPaymentController::class, 'refund'])->name('refund');
             });
         });
+        Route::group(['prefix' => '{order_payment}', 'as' => 'payments.'], static function () {
+            Route::post('/register', [OrderPaymentController::class, 'register'])->name('register');
+            Route::post('/refund', [OrderPaymentController::class, 'refund'])->name('refund');
+        });
     });
-    Route::get('/order_paid', [OrderPaymentController::class, 'orderpaid'])->name('order-paid');
+    Route::get('/order_paid', [OrderPaymentController::class, 'orderPaid'])->name('order-paid');
 
     Route::group(['prefix' => 'quests', 'as' => 'quests.'], static function () {
         Route::group(['prefix' => '{quest}'], static function () {

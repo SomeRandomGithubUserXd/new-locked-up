@@ -4,13 +4,12 @@ namespace App\Http\Requests\Orders;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrderPaymentRequest extends FormRequest
+class OrderRefundRequest extends FormRequest
 {
-
     public function rules(): array
     {
         return [
-            'sum' => ['nullable', 'numeric', 'min:0.1'],
+            'sum' => ['required', 'numeric']
         ];
     }
 
