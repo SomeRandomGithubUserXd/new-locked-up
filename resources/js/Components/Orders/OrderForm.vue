@@ -729,7 +729,7 @@ const requestRefund = (item) => {
                                 <td class="px-3 whitespace-nowrap text-md">
                                     <div class="mt-1 flex items-center">
                                         <text-input
-                                            :disabled="!payment.can_be_returned"
+                                            :disabled="!payment.can_be_returned || payment.apply_refund"
                                             id="returned_amount"
                                             type="number"
                                             class="mt-1 block w-28 h-full"
@@ -737,7 +737,7 @@ const requestRefund = (item) => {
                                         />
                                         <button
                                             @click.prevent="requestRefund(payment)"
-                                            v-if="payment.can_be_returned"
+                                            v-if="payment.can_be_returned  && !payment.apply_refund"
                                             type="button"
                                             class="flex justify-center items-center ml-1 w-16 h-full flex justify-center border border-transparent rounded-md shadow-sm text-md font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                             style="height: 38px;">
