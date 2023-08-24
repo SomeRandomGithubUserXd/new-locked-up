@@ -241,6 +241,9 @@ class OrderController extends AbstractControllerWithMultipleDeletion
     {
         foreach ($payments as $orderPayment) {
             $orderPayment['sum'] = (float)$orderPayment['sum'] * 100;
+            if ($orderPayment['type'] != OrderPaymentTypeEnum::paid_through_acquiring->value) {
+                $orderPayment['status'] = OrderPaymentStatusEnum::paid;
+            }
             if ($existingPayment = OrderPayment::find($orderPayment['id'])) {
                 $applyReturn = isset($orderPayment['apply_refund']) && $orderPayment['apply_refund'] === true;
                 if (!$applyReturn) {
@@ -261,9 +264,6 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                     });
                 }
             } else {
-                if ($orderPayment['type'] != OrderPaymentTypeEnum::paid_through_acquiring->value) {
-                    $orderPayment['status'] = OrderPaymentStatusEnum::paid;
-                }
                 OrderPayment::create($orderPayment);
             }
         }

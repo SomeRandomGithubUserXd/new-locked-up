@@ -310,7 +310,7 @@ const showOrderModal = (order = {
 }
 
 const refreshOrder = (orderId) => {
-    orderModal.value.order = collect(props.orders.data).where('id', '==', orderId).first()
+    orderModal.value.order.order_payments = collect(props.orders.data).where('id', '==', orderId).first()?.order_payments || []
 }
 
 watch(orderModal, value => {

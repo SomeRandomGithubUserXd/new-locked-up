@@ -22,8 +22,8 @@ const handleSubmit = (price, additional_players_cost, additional_options_cost, p
     if(props.modelValue.mode === 0) {
         order.transform((data) => ({
             ...data,
-            promo_code_id: data.promo_code?.id,
-            certificate_id: data.certificate?.id,
+            promo_code_id: data.promo_code,
+            certificate_id: data.certificate_id,
             price,
             additional_players_cost,
             additional_options_cost,
@@ -37,8 +37,8 @@ const handleSubmit = (price, additional_players_cost, additional_options_cost, p
     } else {
         order.transform((data) => ({
             ...data,
-            promo_code_id: data.promo_code?.id,
-            certificate_id: data.certificate?.id,
+            promo_code_id: data.promo_code_id,
+            certificate_id: data.certificate_id,
             price,
             additional_players_cost,
             additional_options_cost,
