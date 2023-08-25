@@ -10,16 +10,10 @@ const data = computed({
     get() {
         let paid_cash = 0
         let paid_card = 0
-        if (props.meta.item.postpaid) {
-            if (Number(props.meta.item.postpaid_type) === 0) paid_cash += Number(props.meta.item.postpaid)
-            else paid_card += Number(props.meta.item.postpaid)
+        for (const payment of props.meta.item.order_payments) {
+            if(payment.payment_option === 0) paid_cash += Number(payment.sum)
+            if(payment.payment_option === 1) paid_card += Number(payment.sum)
         }
-        if (props.meta.item.pre_paid) {
-            if (Number(props.meta.item.pre_paid_type) === 0) paid_cash += Number(props.meta.item.pre_paid)
-            else paid_card += Number(props.meta.item.pre_paid)
-        }
-        paid_card += Number(props.meta.item.paid_through_acquiring) || 0
-        paid_card += Number(props.meta.item.paid_through_aggregator) || 0
         return {
             paid_cash,
             paid_card

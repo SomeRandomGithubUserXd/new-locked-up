@@ -264,7 +264,10 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                     });
                 }
             } else {
-                OrderPayment::create($orderPayment);
+                OrderPayment::create([
+                    ...$orderPayment,
+                    'order_id' => $order->id,
+                ]);
             }
         }
     }
