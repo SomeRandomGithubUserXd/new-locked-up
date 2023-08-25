@@ -28,9 +28,9 @@ export const getOrderPriceToPay = (orderTotal, order, promoCodeDiscount, certifi
     let price = Number(orderTotal) -
         (Number(promoCodeDiscount) || 0) -
         (Number(certificateDiscount) || 0)
-    // for (const payment of order.order_payments) {
-    //     price -= payment.sum
-    // }
+    for (const payment of order.order_payments) {
+        price -= payment.sum
+    }
     return price
 }
 
