@@ -188,7 +188,7 @@ const sumOptions = (options) => {
                                                 {{numberFormat(Number(props.orders.aggregator))}}
                                             </td>
                                         </tr>
-                                        <tr class="bg-indigo-500 text-white">
+                                        <tr class="bg-indigo-600 text-white">
                                             <td class="px-6 py-4 whitespace-nowrap аи">
                                                 База для расчета
                                             </td>
