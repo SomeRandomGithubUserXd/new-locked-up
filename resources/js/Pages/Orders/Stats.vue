@@ -236,7 +236,7 @@ const sumOptions = (options) => {
                         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                                 <h2 class="text-xl font-bold mb-5">Сводка</h2>
-                                <div class="shadow-xl overflow-hidden border-b border-gray-200 sm:rounded-2xl">
+                                <div class=" overflow-hidden border-b border-gray-200 sm:rounded-2xl">
                                     <table class="min-w-full divide-y divide-gray-200">
                                         <thead class="bg-gray-100">
                                         <tr>
@@ -296,7 +296,7 @@ const sumOptions = (options) => {
                         <div class="flex flex-col mb-5 px-5 w-3/4">
                             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8 w-3/4">
-                                    <div class="shadow-xl overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                    <div class=" overflow-hidden border-b border-gray-200 sm:rounded-lg">
                                         <table class="min-w-full divide-y divide-gray-200">
                                             <thead class="bg-gray-100">
                                             <tr>
@@ -346,7 +346,7 @@ const sumOptions = (options) => {
                         <div class="w-1/4">
                             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                    <div class="shadow-xl overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                    <div class=" overflow-hidden border-b border-gray-200 sm:rounded-lg">
                                         <table class="min-w-full divide-y divide-gray-200">
                                             <thead class="bg-gray-100">
                                             <tr>
