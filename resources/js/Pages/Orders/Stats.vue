@@ -292,68 +292,67 @@ const sumOptions = (options) => {
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col mb-5 px-5">
-                        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 w-full">
-                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8 w-3/4">
-                                <h2 class="text-xl font-bold mb-5">Комиссия агрегаторов</h2>
-                                <div class="shadow-xl overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                    <table class="min-w-full divide-y divide-gray-200">
-                                        <thead class="bg-gray-100">
-                                        <tr>
-                                            <th class="py-3">Агрегатор</th>
-                                            <th>Сумма игр</th>
-                                            <th>Комиссия</th>
-                                            <th>Оплачено у агрегатора</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr v-for="source in props.sources.data">
-                                            <td class="px-6 py-4 whitespace-nowrap  font-bold">
-                                                {{ source.name }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
-                                                {{ numberFormat(source.orders_sum_price) }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
-                                                {{ numberFormat(Number(source.orders_sum_price) / 100 * 35) }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
-                                                {{ numberFormat(Number(source.orders_sum_paid_aggregator)) }}
-                                            </td>
-                                        </tr>
-                                        <tr class="bg-green-400 text-white">
-                                            <td class="px-6 py-4 whitespace-nowrap font-bold">
-                                                Итого
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                {{ numberFormat(sumSources(props.sources.data).orders_sum_price) }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                {{ numberFormat(sumSources(props.sources.data).fee) }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                {{
-                                                    numberFormat(sumSources(props.sources.data).orders_sum_paid_aggregator)
-                                                }}
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                    <div class="flex">
+                        <div class="flex flex-col mb-5 px-5 w-3/4">
+                            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8 w-3/4">
+                                    <div class="shadow-xl overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-gray-100">
+                                            <tr>
+                                                <th class="py-3">Агрегатор</th>
+                                                <th>Сумма игр</th>
+                                                <th>Комиссия</th>
+                                                <th>Оплачено у агрегатора</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr v-for="source in props.sources.data">
+                                                <td class="px-6 py-4 whitespace-nowrap  font-bold">
+                                                    {{ source.name }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
+                                                    {{ numberFormat(source.orders_sum_price) }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
+                                                    {{ numberFormat(Number(source.orders_sum_price) / 100 * 35) }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
+                                                    {{ numberFormat(Number(source.orders_sum_paid_aggregator)) }}
+                                                </td>
+                                            </tr>
+                                            <tr class="bg-indigo-600 text-white">
+                                                <td class="px-6 py-4 whitespace-nowrap font-bold">
+                                                    Итого
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    {{ numberFormat(sumSources(props.sources.data).orders_sum_price) }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    {{ numberFormat(sumSources(props.sources.data).fee) }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    {{
+                                                        numberFormat(sumSources(props.sources.data).orders_sum_paid_aggregator)
+                                                    }}
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="grid grid-cols-6 gap-6 w-full">
-                        <div class="col-span-6 sm:col-span-6 px-5">
+                        <div class="w-1/4">
                             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                                     <div class="shadow-xl overflow-hidden border-b border-gray-200 sm:rounded-lg">
                                         <table class="min-w-full divide-y divide-gray-200">
                                             <thead class="bg-gray-100">
                                             <tr>
-                                                <th class="py-3">Номер заказа</th>
-                                                <th>Номер сертификата</th>
-                                                <th>Сумма</th>
+                                                <th class="py-3 pl-6 text-left">Номер <br/> заказа</th>
+                                                <th class="text-left pl-6">Номер <br/> сертификата</th>
+                                                <th class="text-left pl-6">Сумма</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -368,7 +367,7 @@ const sumOptions = (options) => {
                                                     {{ numberFormat(Number(certificate.price)) }}
                                                 </td>
                                             </tr>
-                                            <tr class="bg-green-400 text-white">
+                                            <tr class="bg-indigo-600 text-white">
                                                 <td class="px-6 py-4 whitespace-nowrap font-bold">
                                                     Итого
                                                 </td>
@@ -383,6 +382,8 @@ const sumOptions = (options) => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="grid grid-cols-6 gap-6 w-full">
                         <div class="col-span-6 sm:col-span-3 px-5">
                             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
