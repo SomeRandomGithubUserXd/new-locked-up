@@ -25,13 +25,13 @@ export const getOrderTotal = (questPrice, order, optionsSum, playersSum) => {
 }
 
 export const getOrderPriceToPay = (orderTotal, order, promoCodeDiscount, certificateDiscount) => {
-    return Number(orderTotal) -
+    let price = Number(orderTotal) -
         (Number(promoCodeDiscount) || 0) -
-        (Number(certificateDiscount) || 0) -
-        Number(order?.postpaid || 0) -
-        Number(order?.pre_paid || 0) -
-        Number(order?.paid_through_acquiring || 0) -
-        Number(order?.paid_through_aggregator || 0)
+        (Number(certificateDiscount) || 0)
+    for (const payment of order.order_payments) {
+        price -= payment.sum
+    }
+    return price
 }
 
 export const getAlreadypaid = (order) => {

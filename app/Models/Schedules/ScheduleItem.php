@@ -3,6 +3,7 @@
 namespace App\Models\Schedules;
 
 use App\Enums\ScheduleTypeEnum;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,6 +26,15 @@ class ScheduleItem extends Model
         // Cast to bool
         return Attribute::make(
             get: static fn(bool $value) => $value
+        );
+    }
+
+
+
+    public function time(): Attribute
+    {
+        return Attribute::make(
+            get: static fn(string $value) => (new Carbon($value))->format('H:i')
         );
     }
 }

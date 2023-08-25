@@ -13,6 +13,7 @@ class OrderFilterResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'quest_ids' => $this->quest_ids,
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
         ];

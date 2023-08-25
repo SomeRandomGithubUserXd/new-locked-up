@@ -17,7 +17,8 @@ class OrderFilterController extends AbstractControllerWithMultipleDeletion
     public function index()
     {
         return inertia('OrderFilters/Index', [
-            'filters' => OrderFilterResource::collection(OrderFilter::paginate(15))
+            'filters' => OrderFilterResource::collection(OrderFilter::paginate(15)),
+            ...$this->getOrderMisc()
         ]);
     }
 

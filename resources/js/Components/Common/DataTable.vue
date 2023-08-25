@@ -88,7 +88,7 @@ const getHalfOfAColor = (color) => {
             <div v-if="hasAnyItems"
                  class="py-2 align-middle inline-block min-w-full sm:px-3 lg:px-8 max-w-full">
                 <div
-                    class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg overflow-scroll">
+                    class="shadow overflow-hidden border-b border-gray-200 sm:rounded-2xl overflow-scroll">
                     <table class="min-w-full divide-y divide-gray-200 font-size-all">
                         <thead style="background: rgba(249, 250, 251, 1);color: rgba(113, 113, 113, 1);">
                         <tr>

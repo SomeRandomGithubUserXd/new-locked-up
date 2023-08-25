@@ -62,3 +62,7 @@ select:disabled {
     opacity: 1 !important;
 }
 
+table, tbody {
+    border-style: none;
+    /*border-style: hidden;*/
+}

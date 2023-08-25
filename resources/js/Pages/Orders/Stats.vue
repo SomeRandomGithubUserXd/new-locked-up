@@ -148,21 +148,24 @@ const sumOptions = (options) => {
                             v-model="filter" @submit="search" @reset="reset"/>
                     </div>
                     <div class="flex flex-col mb-5 px-5">
+                        <h2 class="text-xl font-bold mb-5">База для расчета</h2>
                         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                <div class="shadow-xl overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8 flex">
+                                <div class="overflow-hidden border-b border-gray-200 rounded-2xl w-1/2">
                                     <table class="min-w-full divide-y divide-gray-200">
-                                        <thead class="bg-gray-100">
+                                        <thead class="bg-gray-100 w-full">
                                         <tr>
-                                            <th class="flex px-5 py-3">
-                                                База для расчета
+                                            <th class="py-4 text-left pl-6 text-gray-500">
+                                                Название
                                             </th>
-                                            <th/>
+                                            <th class="py-4 text-left pl-6 text-gray-500">
+                                                Стоимость
+                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap  font-bold">
+                                            <td class="px-6 py-4 whitespace-nowrap">
                                                 Игры, всего
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
@@ -170,23 +173,23 @@ const sumOptions = (options) => {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap  font-bold">
+                                            <td class="px-6 py-4 whitespace-nowrap">
                                                 Игры "для друзей"
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
+                                            <td class="px-6 py-4 whitespace-nowrap">
                                                 {{numberFormat(Number(props.orders.for_friends))}}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap  font-bold">
+                                            <td class="px-6 py-4 whitespace-nowrap">
                                                 Игры от агр (без доп усл)
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap  text-gray-500">
+                                            <td class="px-6 py-4 whitespace-nowrap">
                                                 {{numberFormat(Number(props.orders.aggregator))}}
                                             </td>
                                         </tr>
                                         <tr class="bg-indigo-500 text-white">
-                                            <td class="px-6 py-4 whitespace-nowrap  font-bold">
+                                            <td class="px-6 py-4 whitespace-nowrap аи">
                                                 База для расчета
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap ">
@@ -195,14 +198,32 @@ const sumOptions = (options) => {
                                                 }}
                                             </td>
                                         </tr>
-                                        <tr class="bg-red-500 text-white">
-                                            <td class="px-6 py-4 whitespace-nowrap  font-bold">
+<!--                                        <tr class="bg-red-500 text-white">-->
+<!--                                            <td class="px-6 py-4 whitespace-nowrap ">-->
+<!--                                                Остаток к оплате-->
+<!--                                            </td>-->
+<!--                                            <td class="px-6 py-4 whitespace-nowrap ">-->
+<!--                                                {{-->
+<!--                                                    numberFormat(Number(props.orders.left_to_pay))-->
+<!--                                                }}-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="overflow-hidden w-1/4 ml-auto mr-auto rounded-2xl bg-transparent">
+                                    <table class="min-w-full divide-y divide-gray-200 rounded-2xl border border-gray-200 shadow">
+                                        <thead class="bg-gray-100 w-full rounded-2xl">
+                                        <tr>
+                                            <th class="py-4 text-gray-500">
                                                 Остаток к оплате
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap ">
-                                                {{
-                                                    numberFormat(Number(props.orders.left_to_pay))
-                                                }}
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="rounded-2xl">
+                                        <tr class="rounded-2xl">
+                                            <td class="px-6 rounded-2xl py-4 whitespace-nowrap text-center text-green-600 font-bold text-lg">
+                                                {{ numberFormat(Number(props.orders.left_to_pay)) }}
                                             </td>
                                         </tr>
                                         </tbody>
@@ -214,50 +235,51 @@ const sumOptions = (options) => {
                     <div class="flex flex-col mb-5 px-5">
                         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                <div class="shadow-xl overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                <h2 class="text-xl font-bold mb-5">Сводка</h2>
+                                <div class="shadow-xl overflow-hidden border-b border-gray-200 sm:rounded-2xl">
                                     <table class="min-w-full divide-y divide-gray-200">
                                         <thead class="bg-gray-100">
                                         <tr>
-                                            <th colspan="4" class="bg-yellow-400 py-3">НАЧИСЛЕНО</th>
-                                            <th colspan="3" class="bg-green-400">ОПЛАЧЕНО</th>
-                                            <th class="bg-indigo-400">К ПЕРЕЧИСЛЕНИЮ</th>
+                                            <th colspan="4" class="bg-yellow-400 py-3">Начислено</th>
+                                            <th colspan="3" class="bg-green-400">Оплачено</th>
+                                            <th class="bg-indigo-400">К перечислению</th>
                                         </tr>
                                         </thead>
                                         <thead>
                                         <tr>
-                                            <th class="py-5 bg-yellow-400">Комиссия агрегаторов</th>
-                                            <th class="py-5 bg-yellow-400">Маркетинговый взнос</th>
-                                            <th class="py-5 bg-yellow-400">Роялти</th>
-                                            <th class="py-5 bg-yellow-400">ИТОГО</th>
-                                            <th class="py-5 bg-green-400">у агрегаторов</th>
-                                            <th class="py-5 bg-green-400">онлайн</th>
-                                            <th class="py-5 bg-green-400">сертификаты</th>
-                                            <th class="py-5 bg-indigo-400">Остаток к перечислению за месяц</th>
+                                            <th class="py-5 bg-white border-l-2 border-yellow-400">Комиссия агрегаторов</th>
+                                            <th class="py-5 bg-white">Маркетинговый взнос</th>
+                                            <th class="py-5 bg-white">Роялти</th>
+                                            <th class="py-5 bg-white">ИТОГО</th>
+                                            <th class="py-5 border-l-2 border-green-400">у агрегаторов</th>
+                                            <th class="py-5">онлайн</th>
+                                            <th class="py-5">сертификаты</th>
+                                            <th class="py-5 border-l-2 border-indigo-400">Остаток за месяц</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td class="bg-yellow-400 py-5 text-center">
+                                            <td class="bg-yellow-50 border-l-2 border-yellow-400 py-5 text-center">
                                                 {{ numberFormat(Number(mainNumber / 100 * 35)) }}
                                             </td>
-                                            <td class="bg-yellow-400 py-5 text-center">
+                                            <td class="bg-yellow-50 py-5 text-center">
                                                 {{ numberFormat(Number(mainNumber / 100 * 15)) }}
                                             </td>
-                                            <td class="bg-yellow-400 py-5 text-center">
+                                            <td class="bg-yellow-50 py-5 text-center">
                                                 {{ numberFormat(Number(mainNumber / 100 * 7)) }}
                                             </td>
-                                            <td class="bg-yellow-400 py-5 text-center">{{
+                                            <td class="bg-yellow-50 py-5 text-center">{{
                                                     numberFormat(Number(mainNumber / 100 * 35) + Number(mainNumber / 100 * 15) + Number(mainNumber / 100 * 7))
                                                 }}
                                             </td>
 
-                                            <td class="bg-green-400 py-5 text-center">
+                                            <td class="border-l-2 border-green-400 bg-green-50 py-5 text-center">
                                                 {{ numberFormat(props.paid.aggregator) }}
                                             </td>
-                                            <td class="bg-green-400 py-5 text-center">{{ numberFormat(0) }}</td>
-                                            <td class="bg-green-400 py-5 text-center">{{ numberFormat(0) }}</td>
+                                            <td class="bg-green-50 py-5 text-center">{{ numberFormat(0) }}</td>
+                                            <td class="bg-green-50 py-5 text-center">{{ numberFormat(0) }}</td>
 
-                                            <td class="bg-indigo-400 py-5 text-center">{{
+                                            <td class="border-l-2 border-indigo-400 bg-indigo-50 py-5 text-center">{{
                                                     numberFormat(
                                                         Number(mainNumber / 100 * 35) + Number(mainNumber / 100 * 15) + Number(mainNumber / 100 * 7) - Number(props.paid.aggregator)
                                                     )
@@ -271,8 +293,9 @@ const sumOptions = (options) => {
                         </div>
                     </div>
                     <div class="flex flex-col mb-5 px-5">
-                        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 w-full">
+                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8 w-3/4">
+                                <h2 class="text-xl font-bold mb-5">Комиссия агрегаторов</h2>
                                 <div class="shadow-xl overflow-hidden border-b border-gray-200 sm:rounded-lg">
                                     <table class="min-w-full divide-y divide-gray-200">
                                         <thead class="bg-gray-100">
