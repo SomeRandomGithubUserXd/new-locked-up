@@ -20,7 +20,9 @@ class AppealController extends AbstractControllerWithMultipleDeletion
         sort($sources);
         return inertia('Appeals/Index', [
             'appeals' => AppealResource::collection($appealQuery->paginate(15)),
-            'sourceList' => $sources
+            'appealStatuses' => Appeal::$statuses,
+            'sourceList' => $sources,
+            'forms' => collect(Appeal::$forms)->unique()
         ]);
     }
 

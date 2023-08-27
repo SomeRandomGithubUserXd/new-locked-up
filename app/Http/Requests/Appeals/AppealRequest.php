@@ -14,9 +14,11 @@ class AppealRequest extends FormRequest
             'phone' => ['nullable', 'string'],
             'email' => ['nullable', 'string'],
             'status' => ['nullable', 'string'],
+            'location_id' => ['nullable', 'int', 'exists:locations,id'],
             'source' => ['nullable', 'string'],
             'form' => ['nullable', 'string'],
             'comment' => ['nullable', 'string'],
+            'admin_comment' => ['nullable', 'string'],
         ];
     }
 

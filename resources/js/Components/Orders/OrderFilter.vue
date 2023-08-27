@@ -77,7 +77,7 @@ const removeQuest = (quest) => {
 <template>
     <form class="space-y-6 mb-5" @submit.prevent="emit('submit')">
         <div class="grid grid-cols-8 gap-y-6 gap-x-10">
-            <div v-if="!isProduction" class="col-span-6 sm:col-span-4">
+            <div v-if="!isProduction" class="col-span-6 sm:col-span-5">
                 <InputLabel for="name" value="Название"/>
                 <TextInput
                     :disabled="props.disabled"
@@ -102,48 +102,51 @@ const removeQuest = (quest) => {
             <!--                <InputError class="mt-2" :message="modelValue?.errors?.order_id"/>-->
             <!--            </div>-->
 
-<!--            <div class="col-span-6 sm:col-span-6">-->
-<!--                <label for="quest_ids" class="block text-sm font-medium text-gray-700">-->
-<!--                    Квесты </label>-->
-<!--                <div class="mt-1">-->
-<!--                    <v-select :disabled="props.disabled"-->
-<!--                              class="scrollable-select"-->
-<!--                              v-model="modelValue.quest_ids"-->
-<!--                              multiple=""-->
-<!--                              label="name_ru"-->
-<!--                              :reduce="option => option?.id || option.quest_ids"-->
-<!--                              :options="[...props.questList, ...filtersPrepared]"/>-->
-<!--                </div>-->
-<!--            </div>-->
-            <div class="col-span-6 sm:col-span-3">
-                <label for="options" class="block text-md font-medium text-gray-700"> Дополнительные
-                    услуги </label>
+            <!--            <div class="col-span-6 sm:col-span-6">-->
+            <!--                <label for="quest_ids" class="block text-sm font-medium text-gray-700">-->
+            <!--                    Квесты </label>-->
+            <!--                <div class="mt-1">-->
+            <!--                    <v-select :disabled="props.disabled"-->
+            <!--                              class="scrollable-select"-->
+            <!--                              v-model="modelValue.quest_ids"-->
+            <!--                              multiple=""-->
+            <!--                              label="name_ru"-->
+            <!--                              :reduce="option => option?.id || option.quest_ids"-->
+            <!--                              :options="[...props.questList, ...filtersPrepared]"/>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <div class="col-span-6 sm:col-span-4">
+                <label for="options" class="block text-md font-medium text-gray-700">
+                    Квесты
+                </label>
                 <!--                    <a class="text-indigo-600 text-md" href="#"-->
                 <!--                       @click.prevent="modelValue.options = []">Очистить</a>-->
-                <select v-model="questToPick"
-                        class="appearance-none mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-md">
+                <select
+                    v-model="questToPick"
+                    class="appearance-none mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-md">
                     <option v-for="quest in props.questList" :value="quest">
                         {{ quest.name_ru }}
                     </option>
                 </select>
             </div>
-            <div class="col-span-6 sm:col-span-3 items-start flex w-full h-full flex-wrap gap-3 pt-5">
+            <div class="col-span-6 sm:col-span-6 items-start flex w-full h-full flex-wrap gap-3"
+                 v-if="isLimited">
                 <order-option-block
                     @remove="removeQuest"
                     :instance="option"
                     v-for="option in props.modelValue.quest_ids"/>
             </div>
-<!--            <div class="col-span-6 sm:col-span-2">-->
-<!--                <input-label for="search_string" value="Поиск"/>-->
-<!--                <text-input-->
-<!--                    id="search_string"-->
-<!--                    type="text"-->
-<!--                    class="mt-1 block w-full"-->
-<!--                    v-model="modelValue.search_string"-->
+            <!--            <div class="col-span-6 sm:col-span-2">-->
+            <!--                <input-label for="search_string" value="Поиск"/>-->
+            <!--                <text-input-->
+            <!--                    id="search_string"-->
+            <!--                    type="text"-->
+            <!--                    class="mt-1 block w-full"-->
+            <!--                    v-model="modelValue.search_string"-->
 
-<!--                />-->
-<!--                <input-error class="mt-2" :message="modelValue?.errors?.search_string"/>-->
-<!--            </div>-->
+            <!--                />-->
+            <!--                <input-error class="mt-2" :message="modelValue?.errors?.search_string"/>-->
+            <!--            </div>-->
             <div v-if="!isLimited" class="col-span-6 sm:col-span-1">
                 <label for="status" class="block text-sm font-medium text-gray-700">
                     Статусы </label>

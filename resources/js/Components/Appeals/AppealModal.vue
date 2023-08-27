@@ -5,30 +5,35 @@ import {orderProps} from "@/Traits/OrderTrait";
 import {watch} from "vue";
 import {useForm} from "@inertiajs/vue3";
 import OrderFilter from "@/Components/Orders/OrderFilter.vue";
+import AppealForm from "@/Components/Appeals/AppealForm.vue";
 
 const props = defineProps({
     modelValue: Object,
-    ...orderProps
-
+    statuses: Array,
+    sources: Array,
+    forms: Array,
 })
 
-const emit = defineEmits(['update:modelValue', 'refreshOrder'])
+const emit = defineEmits(['update:modelValue'])
 
 const closeSelf = () => {
     emit('update:modelValue', {...props.modelValue, show: false})
 }
 
 const handleSubmit = () => {
-    const filter = useForm(props.modelValue.filter)
-    if (props.modelValue.mode === 0) {
-        filter.post(route('order-filters.store'), {
-            onSuccess: closeSelf()
-        })
-    } else {
-        filter.patch(route('order-filters.update', filter.id), {
-            onSuccess: closeSelf()
-        })
-    }
+    const appeal = useForm(props.modelValue.appeal)
+    appeal.patch(route('appeals.update', appeal.id), {
+        onSuccess: closeSelf
+    })
+    // if (props.modelValue.mode === 0) {
+    //     filter.post(route('order-filters.store'), {
+    //         onSuccess: closeSelf
+    //     })
+    // } else {
+    //     filter.patch(route('order-filters.update', filter.id), {
+    //         onSuccess: closeSelf
+    //     })
+    // }
 }
 
 watch(() => props.modelValue, value => {
@@ -57,26 +62,22 @@ watch(() => props.modelValue, value => {
                                  leave-from="opacity-100 translate-y-0 sm:scale-100"
                                  leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                     <div
-                        class="inline-block align-bottom bg-white rounded-2xl px-4 pt-5 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-screen-lg sm:w-full sm:py-6 sm:px-3">
+                        class="inline-block align-bottom bg-white rounded-2xl px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-screen-lg sm:w-full sm:py-6 sm:px-3">
                         <div class="sm:flex sm:items-start">
-                            <div class="text-center sm:mt-0 px-4 sm:text-left w-full">
+                            <div class="mt-3 text-center sm:mt-0 px-4 sm:text-left w-full">
                                 <DialogTitle as="h2" class="text-2xl font-bold leading-6 text-black">
-                                    {{ props.modelValue.mode ? 'Редактирование' : 'Создание' }} фильтра
+                                    {{ props.modelValue.mode ? 'Редактирование' : 'Создание' }} заявки
                                 </DialogTitle>
-                                <order-filter
-                                    class="mt-7 w-full"
+                                <appeal-form
                                     @abort="closeSelf"
+                                    class="mt-5"
+                                    v-model="props.modelValue.appeal"
                                     @submit="handleSubmit"
-                                    :quest-list="props.questList"
-                                    :option-list="props.optionList"
-                                    :source-list="props.sourceList"
-                                    :promo-code-list="props.promoCodeList"
-                                    :certificate-list="props.certificateList"
-                                    :order-statuses="props.orderStatuses"
-                                    :quest-options="props.questOptions"
-                                    :is-production="false"
-                                    :is-limited="true"
-                                v-model="props.modelValue.filter"/>
+                                    :statuses="props.statuses"
+                                    :sources="props.sources"
+                                    :forms="props.forms"
+                                    :is-editable="true"
+                                />
                             </div>
                         </div>
                     </div>

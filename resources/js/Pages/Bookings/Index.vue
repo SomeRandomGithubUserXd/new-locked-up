@@ -93,8 +93,8 @@ const unbookAllItems = (quest) => {
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <form @submit.prevent="submit" class="grid grid-cols-6 gap-6 flex items-center">
-                            <h2 class="font-semibold text-2xl col-span-6 sm:col-span-6">Фильтр</h2>
+                        <form @submit.prevent="submit" class="grid grid-cols-9 gap-6 flex items-center">
+                            <h2 class="font-semibold text-2xl col-span-6 sm:col-span-9">Фильтр</h2>
                             <div class=" col-span-6 sm:col-span-1">
                                 <InputLabel for="date" value="Дата"/>
                                 <TextInput
@@ -108,7 +108,7 @@ const unbookAllItems = (quest) => {
                                 />
                                 <InputError class="mt-2" :message="filter.errors.date"/>
                             </div>
-                            <div class=" col-span-6 sm:col-span-2">
+                            <div class="col-span-6 sm:col-span-3">
                                 <InputLabel for="location_id" value="Локация"/>
                                 <select
                                     id="location_id"
@@ -122,10 +122,16 @@ const unbookAllItems = (quest) => {
                                     </option>
                                 </select>
                             </div>
-                            <div class="mt-5 col-span-6 sm:col-span-1">
+                            <div class="mt-5 col-span-6 sm:col-span-2">
                                 <button type="submit"
                                         class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     Искать
+                                </button>
+                            </div>
+                            <div class="mt-5 col-span-6 sm:col-span-1">
+                                <button type="submit"
+                                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                    Сбросить
                                 </button>
                             </div>
                         </form>

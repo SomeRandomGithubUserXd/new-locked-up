@@ -8,6 +8,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import {getCurrentUrlParam} from "@/Traits/Tools";
+import {PencilIcon} from "@heroicons/vue/24/solid";
 
 const props = defineProps({
     certificates: Object,
@@ -17,39 +18,52 @@ const props = defineProps({
 const tableProps = ref({
     records: [
         {
-            name: 'Заказчик',
-            getValue: (appeal) => {
-                return `Имя: ${appeal.customer_name || 'Нет'} <br/> Телефон ${appeal.customer_phone || 'Нет'} <br/> E-Mail ${appeal.customer_email || 'Нет'}`
+            name: 'Номер',
+            getValue: (certificate) => certificate.number
+        },
+        {
+            name: 'Данные клиента',
+            getValue: (certificate) => {
+                return `Имя: ${certificate.customer_name || 'Нет'} <br/> Телефон ${certificate.customer_phone || 'Нет'} <br/> E-Mail ${certificate.customer_email || 'Нет'}`
             }
         },
         {
-            name: 'Номер',
-            getValue: (appeal) => appeal.number
+            name: 'Статус',
+            getValue: (certificate) => certificate.customer_address || 'Нет'
         },
         {
             name: 'Адрес',
-            getValue: (appeal) => appeal.customer_address || 'Нет'
+            getValue: (certificate) => certificate.customer_address || 'Нет'
         },
         {
             name: 'Стоимость',
-            getValue: (appeal) => `${appeal.price} руб.`
+            getValue: (certificate) => `${certificate.price} руб.`
         },
         {
-            name: 'Стоимость доставки',
-            getValue: (appeal) => `${appeal.delivery_cost || 0} руб.`
+            name: 'Доставка',
+            getValue: (certificate) => `${certificate.delivery_cost || 0} руб.`
         },
         {
             name: 'Итого',
-            getValue: (appeal) => `${appeal.delivery_cost + appeal.price} руб.`
+            getValue: (certificate) => `${certificate.delivery_cost + certificate.price} руб.`
+        },
+        {
+            name: 'Оплачено',
+            getValue: (certificate) => '???'
         },
         {
             name: 'Истекает',
-            getValue: (appeal) => appeal.expires_at || 'Не указано'
+            getValue: (certificate) => certificate.expires_at || 'Не указано'
+        },
+        {
+            name: 'Комментарий',
+            getValue: (certificate) => certificate.comment || 'Не указано'
         },
     ],
     actions: [
         {
             name: 'Редактировать',
+            icon: PencilIcon,
             trigger: (certificate) => router.get(route('certificates.show', certificate))
         }
     ],
@@ -94,7 +108,7 @@ onMounted(() => {
                         <form class="space-y-6 mb-5" @submit.prevent="search">
                             <h2 class="font-semibold text-2xl">Фильтр</h2>
                             <div class="grid grid-cols-6 gap-6">
-                                <div class="col-span-6 sm:col-span-6">
+                                <div class="col-span-6 sm:col-span-3">
                                     <InputLabel for="search_string" value="Поиск"/>
                                     <TextInput
                                         id="search_string"
@@ -105,7 +119,7 @@ onMounted(() => {
                                     />
                                     <InputError class="mt-2" :message="filter.errors.search_string"/>
                                 </div>
-                                <div class="col-span-6 sm:col-span-6">
+                                <div class="col-span-6 sm:col-span-3">
                                     <InputLabel for="number" value="Номер сертификата"/>
                                     <select
                                         id="number"
@@ -120,13 +134,14 @@ onMounted(() => {
                                     </select>
                                     <InputError class="mt-2" :message="filter.errors.certificate_id"/>
                                 </div>
-                                <div class="col-span-6 sm:col-span-4">
+                                <div class="col-span-6 sm:col-span-4"/>
+                                <div class="col-span-6 sm:col-span-1">
                                     <button type="submit"
                                             class="flex w-full justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                         Искать
                                     </button>
                                 </div>
-                                <div class="col-span-6 sm:col-span-2">
+                                <div class="col-span-6 sm:col-span-1">
                                     <button type="button"
                                             @click="reset()"
                                             class="flex w-full justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

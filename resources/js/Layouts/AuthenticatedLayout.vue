@@ -31,6 +31,7 @@ if (role === 0 || role === 1) {
                 'bookings',
                 'order-filters',
                 'order-stats',
+                'orders-stats',
             ]),
             subRoutes: [
                 {
