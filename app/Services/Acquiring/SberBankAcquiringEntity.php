@@ -11,7 +11,7 @@ use Illuminate\Http\Client\Response;
 
 class SberBankAcquiringEntity extends AbstractAcquiringEntity
 {
-    protected function getBaseUrl(): string
+    protected function getBase(): string
     {
         return "https://3dsec.sberbank.ru/payment/rest";
     }
@@ -46,20 +46,16 @@ class SberBankAcquiringEntity extends AbstractAcquiringEntity
 
 
 
-    public function registerPayment(OrderPayment $orderPayment): string
+    public function registerPayment(OrderPayment $orderPayment, AcquiringCurrencyEnum $currencyEnum): string
     {
-        $orderPayment->update(['link' => $url = \Str::random()]);
-        return $url;
         $url = $this->buildQuery('register.do', [
             'amount' => $orderPayment->sum,
-            'currency' => AcquiringProviderEnum::sberBank->getCurrency($orderPayment->currency),
+            'currency' => AcquiringProviderEnum::sberBank->getCurrency($currencyEnum),
             'language' => 'ru',
             'orderNumber' => $orderNumber = $this->constructOrderNumber(),
             'returnUrl' => route('order-paid', ['order_payment' => $orderNumber]),
         ]);
-        $response = $this->formRequest($url)->json();
-        $orderPayment->update(['link' => $url = $response['formUrl']]);
-        return $url;
+        return $this->formRequest($url)->json()['formUrl'];
     }
 
     public function refund(OrderPayment $orderPayment): bool

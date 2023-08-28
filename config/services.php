@@ -36,4 +36,9 @@ return [
         'password' => env('SBER_BANK_ACQUIRING_PASSWORD'),
     ],
 
+    'yoo_money_acquiring' => [
+        'username' => env('YOO_MONEY_ACQUIRING_USERNAME'),
+        'password' => env('YOO_MONEY_ACQUIRING_PASSWORD'),
+    ],
+
 ];

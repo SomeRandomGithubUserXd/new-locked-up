@@ -18,12 +18,13 @@ abstract class AbstractAcquiringEntity
         $this->credentialsEntity = $credentialsEntity;
     }
 
-    abstract protected function getBaseUrl(): string;
+    abstract protected function getBase(): mixed;
 
     protected function buildQuery(string $method, array $params): string
     {
-        $url = $this->getBaseUrl();
-        if(!str_ends_with($this->getBaseUrl(), '/')) {
+        $url = $this->getBase();
+        if(!is_string($url)) return "";
+        if(!str_ends_with($this->getBase(), '/')) {
             $url .= '/';
         }
         $url .= $method.'?';
@@ -35,10 +36,11 @@ abstract class AbstractAcquiringEntity
 
     abstract public function storePayment(int $amount, AcquiringCurrencyEnum $currencyEnum): OrderPayment;
 
-    abstract public function registerPayment(OrderPayment $orderPayment): string;
+    abstract public function registerPayment(OrderPayment $orderPayment, AcquiringCurrencyEnum $currencyEnum): string;
 
     public function constructOrderNumber(): string
     {
+        // TODO: deprecated
         return $this->order->id . '-' . $this->order->orderPayments->count();
     }
 

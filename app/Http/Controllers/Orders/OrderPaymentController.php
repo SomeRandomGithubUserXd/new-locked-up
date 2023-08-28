@@ -41,14 +41,17 @@ class OrderPaymentController extends Controller
 
     public function register(OrderPayment $orderPayment)
     {
-        $service = new AcquiringService($orderPayment->order, AcquiringProviderEnum::sberBank);
-        $url = $service->getAcquiringEntity()->registerPayment($orderPayment);
+        $service = new AcquiringService($orderPayment->order, AcquiringProviderEnum::yooMoney);
+        $url = $service->getAcquiringEntity()->registerPayment($orderPayment, AcquiringCurrencyEnum::RUB);
+        $orderPayment->update(['link' => $url]);
         return redirect()->back()->with('lastOrderPaymentLink', $url);
     }
 
     public function orderPaid(Request $request)
     {
-        OrderPayment::firstWhere(['id_from_provider' => $request->orderId])->update(['status' => OrderPaymentStatusEnum::paid]);
+        if($id = $request->order_payment) {
+            OrderPayment::firstWhere(['id' => $id])->update(['status' => OrderPaymentStatusEnum::paid]);
+        }
         return "Оплачено";
     }
 }
