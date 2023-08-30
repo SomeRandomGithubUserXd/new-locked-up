@@ -337,7 +337,7 @@ watch(orderModal, value => {
         <template #header>
             <div class="flex w-full items-center">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">Таблица заказов</h2>
-                <div class="ml-auto sm:gap-x-10 gap-x-5 flex">
+                <div class="ml-auto sm:gap-x-10 gap-x-2 flex">
                     <button
                         type="button"
                         @click="showOrderModal()"
@@ -410,8 +410,8 @@ watch(orderModal, value => {
                 </div>
             </div>
         </div>
-        <div class="pb-12 flex">
-            <div class="mx-auto w-3/4 sm:px-6 lg:px-8">
+        <div class="pb-12 flex flex-col sm:flex-row">
+            <div class="mx-auto sm:w-3/4 w-full sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm rounded-3xl">
                     <div class="p-6">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-5">Дополнительные услуги
@@ -469,7 +469,7 @@ watch(orderModal, value => {
                     </div>
                 </div>
             </div>
-            <div class="mx-auto w-1/4 sm:px-6 lg:px-8">
+            <div class="mx-auto sm:w-1/4 w-full mt-5 sm:mt-0 sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm rounded-3xl">
                     <div class="p-6">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-5">Итоги</h2>
