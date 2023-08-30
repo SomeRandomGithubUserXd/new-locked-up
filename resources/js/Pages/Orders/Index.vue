@@ -337,61 +337,73 @@ watch(orderModal, value => {
         <template #header>
             <div class="flex w-full items-center">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">Таблица заказов</h2>
-                <div class="ml-auto gap-x-10 flex">
+                <div class="ml-auto sm:gap-x-10 gap-x-5 flex">
                     <button
                         type="button"
                         @click="showOrderModal()"
-                        class="relative inline-flex items-center px-5 py-2 border border-indigo-600 text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-                        <PlusIcon class="h-5 w-5 mr-2 text-indigo-600 font-bold" aria-hidden="true"/>
-                        <span class="text-indigo-600 font-bold">Создать заказ</span>
+                        class="relative inline-flex items-center sm:px-5 px-2 sm:py-2 py-1 border border-indigo-600 text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                        <PlusIcon class="h-5 w-5 sm:mr-2 text-indigo-600 font-bold" aria-hidden="true"/>
+                        <span class="text-indigo-600 font-bold desktop-only">Создать заказ</span>
                     </button>
                     <button
                         type="button"
                         @click.prevent="toExcel"
-                        class="relative inline-flex items-center px-5 py-2 border border-green-600 text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-                        <span class="text-green-600 font-bold">Выгрузка в Excel</span>
+                        class="relative inline-flex items-center sm:px-5 px-2 sm:py-2 py-1 border border-green-600 text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                        <span class="text-green-600 font-bold desktop-only">Выгрузка в Excel</span>
+                        <svg class="mobile-only" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_151_242)">
+                                <path d="M14.1733 8.54526H11.6288L11.6288 7.27297H14.1733V8.54526ZM14.1733 9.27228H11.6288L11.6288 10.5446H14.1733V9.27228ZM14.1733 3.27433H11.6288L11.6288 4.54663H14.1733V3.27433ZM14.1733 5.27365H11.6288L11.6288 6.54594H14.1733V5.27365ZM14.1733 11.2716H11.6288L11.6288 12.5439H14.1733V11.2716ZM15.9309 13.7798C15.8582 14.1579 15.4038 14.167 15.1003 14.1797H9.44768V15.8155H8.31898L0 14.3615V1.64034L8.36805 0.184479H9.44768V1.63308L14.9058 1.63307C15.213 1.6458 15.5511 1.62399 15.8182 1.80756C16.0054 2.07656 15.9873 2.41826 16 2.72725L15.9927 12.1895C15.9836 12.7184 16.0418 13.2582 15.9309 13.7798ZM6.665 10.9281C6.16335 9.91025 5.65261 8.89968 5.15278 7.88185C5.64716 6.89128 6.13427 5.89707 6.61956 4.90287C6.20697 4.92286 5.79438 4.94831 5.38362 4.97739C5.07645 5.72441 4.71839 6.45143 4.47847 7.22389C4.25491 6.49505 3.95865 5.79347 3.68783 5.08281C3.28797 5.10462 2.88811 5.12824 2.48824 5.15187C2.90992 6.08246 3.35885 7.00033 3.7678 7.93638C3.28615 8.84516 2.8354 9.76666 2.36828 10.6809C2.76633 10.6973 3.16437 10.7136 3.56242 10.7191C3.84596 9.99567 4.19857 9.29955 4.44575 8.56162C4.6675 9.35407 5.04373 10.0866 5.35272 10.8445C5.79075 10.8754 6.22696 10.9026 6.665 10.9281ZM15.1331 2.4963H9.44768L9.44768 3.27433H10.9017V4.54663H9.44768V5.27365H10.9017V6.54594H9.44768V7.27297H10.9017V8.54526H9.44768V9.27228H10.9017V10.5446H9.44768V11.2716H10.9017V12.5439H9.44768V13.3844H15.1331V2.4963Z" fill="#4CA154"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_151_242">
+                                    <rect width="16" height="16" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
                     </button>
                 </div>
             </div>
         </template>
 
         <div class="py-12">
-            <div class="mx-auto sm:px-6 lg:px-8">
+            <div class="mx-auto sm:px-6 lg:px-8 px-2">
                 <div class="bg-white shadow-sm rounded-3xl">
-                    <div class="p-6">
-                        <h2 class="font-semibold text-2xl">Фильтр</h2>
-                        <!--                        <div class="grid grid-cols-6 gap-6 my-5">-->
-                        <!--                            <div class="col-span-6 sm:col-span-2">-->
-                        <!--                                <label for="quest_ids" class="block text-sm font-medium text-gray-700">-->
-                        <!--                                    Фильтр-->
-                        <!--                                </label>-->
-                        <!--                                <div class="mt-1">-->
-                        <!--                                    <select-->
-                        <!--                                        id="quest"-->
-                        <!--                                        v-model="usingFilter"-->
-                        <!--                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
-                        <!--                                        <option :value="filter.id" v-for="filter in props.filters">-->
-                        <!--                                            {{ filter.name }}-->
-                        <!--                                        </option>-->
-                        <!--                                    </select>-->
-                        <!--                                </div>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-                        <!--                        <hr class="mb-5"/>-->
-                        <order-filter
-                            class="mt-5"
-                            :disabled="!!usingFilter"
-                            :quest-list="props.questList"
-                            :option-list="props.optionList"
-                            :source-list="props.sourceList"
-                            :promo-code-list="props.promoCodeList"
-                            :certificate-list="props.certificateList"
-                            :order-statuses="props.orderStatuses"
-                            :quest-options="props.questOptions"
-                            :filters-prepared="filtersPrepared"
-                            v-model="filter" @submit="search" @reset="reset"/>
+                    <div class="sm:p-6 rounded-3xl">
+                        <div class="desktop-only flex flex-col rounded-3xl">
+                            <h2 class="font-semibold text-2xl">Фильтр</h2>
+                            <!--                        <div class="grid grid-cols-6 gap-6 my-5">-->
+                            <!--                            <div class="col-span-6 sm:col-span-2">-->
+                            <!--                                <label for="quest_ids" class="block text-sm font-medium text-gray-700">-->
+                            <!--                                    Фильтр-->
+                            <!--                                </label>-->
+                            <!--                                <div class="mt-1">-->
+                            <!--                                    <select-->
+                            <!--                                        id="quest"-->
+                            <!--                                        v-model="usingFilter"-->
+                            <!--                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
+                            <!--                                        <option :value="filter.id" v-for="filter in props.filters">-->
+                            <!--                                            {{ filter.name }}-->
+                            <!--                                        </option>-->
+                            <!--                                    </select>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                            <!--                        </div>-->
+                            <!--                        <hr class="mb-5"/>-->
+                            <order-filter
+                                class="mt-5"
+                                :disabled="!!usingFilter"
+                                :quest-list="props.questList"
+                                :option-list="props.optionList"
+                                :source-list="props.sourceList"
+                                :promo-code-list="props.promoCodeList"
+                                :certificate-list="props.certificateList"
+                                :order-statuses="props.orderStatuses"
+                                :quest-options="props.questOptions"
+                                :filters-prepared="filtersPrepared"
+                                v-model="filter" @submit="search" @reset="reset"/>
+                        </div>
                         <data-table
-                            class="mt-10"
+                            class="sm:mt-10 rounded-3xl"
                             :delete-many-route="route('orders.destroy-many')"
                             :table-props="tableProps" :items-resource="orders"/>
                     </div>

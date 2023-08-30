@@ -429,15 +429,6 @@ if (role === 0 || role === 1) {
                                 </NavLink>
                             </div>
                         </div>
-
-                        <div class="ml-auto flex h-full items-center">
-                            <div class="flex cursor-pointer">
-                                <ArrowLeftOnRectangleIcon class="w-5 h-5 text-indigo-600 font-bold"/>
-                                <span class="text-indigo-600 font-bold ml-1">
-                                    Выйти
-                                </span>
-                            </div>
-                        </div>
                         <div class="-mr-2 flex items-center sm:hidden">
                             <button
                                 @click="showingNavigationDropdown = !showingNavigationDropdown"

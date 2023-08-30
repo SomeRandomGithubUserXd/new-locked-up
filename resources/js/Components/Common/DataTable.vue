@@ -71,7 +71,7 @@ const getHalfOfAColor = (color) => {
 
 <template>
     <div class="flex flex-col">
-        <div class="flex justify-between pb-3">
+        <div class="flex justify-between pb-3 desktop-only">
             <button @click="deleteMany" type="button" v-if="hasAnyItems && deleteManyRoute"
                     :disabled="!selectedItems.length"
                     class="relative inline-flex items-center px-4 py-2 border border-red-500 text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
@@ -84,7 +84,7 @@ const getHalfOfAColor = (color) => {
                 <span>Создать</span>
             </Link>
         </div>
-        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 rounded-3xl">
             <div v-if="hasAnyItems"
                  class="py-2 align-middle inline-block min-w-full sm:px-3 lg:px-8 max-w-full">
                 <div
