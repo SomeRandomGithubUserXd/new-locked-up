@@ -102,12 +102,12 @@ const getHalfOfAColor = (color) => {
                             </th>
                             <th scope="col"
                                 v-for="record in props.tableProps?.records"
-                                class="px-3 py-4 text-left font-bold  tracking-wider">
+                                class="lg:px-3 lg:py-4 p-1 text-left font-bold  tracking-wider">
                                 <span class="text-2xl" v-html="record.name"/>
                             </th>
                             <th scope="col"
                                 v-if="props.tableProps?.actions?.length"
-                                class="px-3 py-4 text-left font-medium   tracking-wider">
+                                class="lg:px-3 lg:py-4 p-1 text-left font-medium   tracking-wider">
                             </th>
                         </tr>
                         </thead>
