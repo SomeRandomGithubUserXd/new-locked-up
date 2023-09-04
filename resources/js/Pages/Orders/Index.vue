@@ -41,9 +41,10 @@ const getOrderStatus = (status) => {
     return props.orderStatuses[status]
 }
 
-const edit = (order) => {
-    showOrderModal(order)
-}
+// const edit = (order) => {
+//     console.log(order)
+//     showOrderModal(order)
+// }
 
 const viewLog = (order) => {
     router.get(route('orders.view-logs', order))
@@ -161,7 +162,10 @@ const tableProps = ref({
         {
             name: 'Редактировать',
             icon: PencilIcon,
-            trigger: edit
+            trigger: (order) => {
+                console.log(order)
+                showOrderModal(order)
+            }
         },
         {
             name: 'Посмотреть лог',

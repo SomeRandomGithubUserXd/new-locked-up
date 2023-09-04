@@ -60,7 +60,8 @@ const questToPick = ref(null)
 
 watch(questToPick, value => {
     if (!value) return
-    if (props.modelValue.quest_ids && !props.modelValue.quest_ids.find(x => x === x)) {
+    if (props.modelValue.quest_ids) {
+        if(props.modelValue.quest_ids.find(x => x.id === value.id)) return;
         props.modelValue.quest_ids.push(value)
     } else {
         props.modelValue.quest_ids = [value]

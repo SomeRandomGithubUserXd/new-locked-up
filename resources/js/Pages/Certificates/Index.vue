@@ -49,7 +49,7 @@ const tableProps = ref({
         },
         {
             name: 'Оплачено',
-            getValue: (certificate) => '???'
+            getValue: (certificate) => certificate.paid + ' руб.'
         },
         {
             name: 'Истекает',

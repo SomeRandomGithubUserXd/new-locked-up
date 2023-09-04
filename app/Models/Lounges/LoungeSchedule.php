@@ -19,6 +19,6 @@ class LoungeSchedule extends Model
 
     public function loungeScheduleItems(): HasMany
     {
-        return $this->hasMany(LoungeScheduleItem::class, 'lounge_schedule_id');
+        return $this->hasMany(LoungeScheduleItem::class, 'lounge_schedule_id')->where(['type' => 'weekdays']);
     }
 }

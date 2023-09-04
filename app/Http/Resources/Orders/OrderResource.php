@@ -6,6 +6,7 @@ use App\Models\Certificates\Certificate;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderPayment;
 use App\Models\Sales\Sale;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -62,7 +63,7 @@ class OrderResource extends JsonResource
             'created_at' => $order->created_at->format('d/m/Y'),
             'option' => $order->option,
             'date' => $order->date->format('Y-m-d'),
-            'time' => $order->time,
+            'time' => (new Carbon(Carbon::now()->format('Y-m-d').' '.$order->time))->format('H:i'),
             'order_source_id' => $order->order_source_id,
             'promo_code' => $order->promo_code,
             'certificate_id' => $order->certificate_id,

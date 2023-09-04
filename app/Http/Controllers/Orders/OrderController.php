@@ -117,38 +117,47 @@ class OrderController extends AbstractControllerWithMultipleDeletion
 
     public function store(StoreQuestRequest $request)
     {
-        $order = Order::create($request->validated());
         try {
-            \DB::table('booked_date_schedule_item')->insert([
-                'date' => $request->get('date') ?: Carbon::now()->format('Y-m-d'),
-                'schedule_item_id' => $request->schedule_item_id,
-                'order_id' => $order->id,
-            ]);
-        } catch (QueryException) {
+            \DB::transaction(function () use ($request) {
+                $order = Order::create($request->validated());
+                \DB::table('booked_date_schedule_item')->insert([
+                    'date' => $request->get('date') ?: Carbon::now()->format('Y-m-d'),
+                    'schedule_item_id' => $request->schedule_item_id,
+                    'order_id' => $order->id,
+                ]);
+                $this->syncOrderPayments($order, $request->get('order_payments'));
+                $order->orderOptions()->sync(collect($request->get('options'))->pluck('id'));
+                $order->loungeScheduleItems()->sync($this->getLoungeScheduleItemsToSync($request->get('lounge_schedule_items')));
+            });
+        } catch (\Exception) {
+
         }
-        $this->syncOrderPayments($order, $request->get('order_payments'));
-        $order->orderOptions()->sync(collect($request->get('options'))->pluck('id'));
-        $order->loungeScheduleItems()->sync($this->getLoungeScheduleItemsToSync($request->get('lounge_schedule_items')));
         return redirect()->route('orders.index');
     }
 
     public function update(Order $order, OrderRequest $request)
     {
-        if (auth()->user()->role === UserRoleEnum::admin || auth()->user()->role === UserRoleEnum::callCenter) {
-            $date = clone $order->date;
-            abort_if((new Carbon())->greaterThanOrEqualTo($date->addDay()), 403);
+        try {
+            \DB::transaction(function () use ($request, $order) {
+                if (auth()->user()->role === UserRoleEnum::admin || auth()->user()->role === UserRoleEnum::callCenter) {
+                    $date = clone $order->date;
+                    abort_if((new Carbon())->greaterThanOrEqualTo($date->addDay()), 403);
+                }
+                $order->update($request->validated());
+                \DB::table('booked_date_schedule_item')->where([
+                    'date' => $order->date->format('Y-m-d'),
+                    'order_id' => $order->id,
+                ])->update([
+                    'schedule_item_id' => $request->schedule_item_id,
+                    'date' => $request->get('date') ?: Carbon::now()->format('Y-m-d')
+                ]);
+                $this->syncOrderPayments($order, $request->get('order_payments'));
+                $order->loungeScheduleItems()->sync($this->getLoungeScheduleItemsToSync($request->get('lounge_schedule_items')));
+                $order->orderOptions()->sync(collect($request->get('options'))->pluck('id'));
+            });
+        } catch (\Exception) {
+
         }
-        $order->update($request->validated());
-        \DB::table('booked_date_schedule_item')->where([
-            'date' => $order->date->format('Y-m-d'),
-            'order_id' => $order->id,
-        ])->update([
-            'schedule_item_id' => $request->schedule_item_id,
-            'date' => $request->get('date') ?: Carbon::now()->format('Y-m-d')
-        ]);
-        $this->syncOrderPayments($order, $request->get('order_payments'));
-        $order->loungeScheduleItems()->sync($this->getLoungeScheduleItemsToSync($request->get('lounge_schedule_items')));
-        $order->orderOptions()->sync(collect($request->get('options'))->pluck('id'));
         return redirect()->route('orders.index');
     }
 

@@ -28,6 +28,7 @@ class PersonCertificateResource extends JsonResource
             'comment' => $this->comment,
             'checkout_id' => $this->checkout_id,
             'discount' => $this->discount,
+            'paid' => (int) $this->paid_online + (int) $this->paid_card + (int) $this->paid_cash
         ];
     }
 }
