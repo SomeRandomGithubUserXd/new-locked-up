@@ -19,9 +19,14 @@ export const getPlayersSum = (playersCount, minPlayers, maxPlayers, pricePerPart
 }
 
 export const getOrderTotal = (questPrice, order, optionsSum, playersSum) => {
+    // let paid = 0
+    // for (const payment of order.order_payments) {
+    //     paid += payment.sum
+    // }
     return Number(questPrice) +
         (Number(optionsSum) || 0) +
         (Number(playersSum) || 0)
+        // (Number(paid) || 0)
 }
 
 export const getOrderPriceToPay = (orderTotal, order, promoCodeDiscount, certificateDiscount) => {

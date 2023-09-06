@@ -107,6 +107,19 @@ const orderTotal = computed({
 
     }
 })
+
+const getPaidSum = computed({
+    get() {
+        let paid = 0
+        for (const payment of props.modelValue.order_payments) {
+            paid += payment.sum
+        }
+        return paid
+    },
+    set() {
+
+    }
+})
 const loungeSum = computed({
     get() {
         let item = collect(selectedLoungeScheduleItems.value).where('id', '==', props.modelValue?.lounge_schedule_item_id || 0).first()
@@ -910,7 +923,7 @@ const requestRefund = (item) => {
                                             <orders-table-payment-details :meta="{item: props.modelValue}"/>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-md text-black">
-                                            {{ orderPriceToPay }}
+                                            {{ orderPriceToPay - getPaidSum }}
                                         </td>
                                     </tr>
                                     </tbody>
