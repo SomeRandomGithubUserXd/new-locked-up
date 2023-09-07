@@ -36,14 +36,20 @@ const submit = () => {
     })
 }
 
-const setBooking = (id) => {
-    filter.patch(route('bookings.make', id), {
+const setBooking = (quest_id, id) => {
+    filter.transform((data) => ({
+        ...data,
+        quest_id,
+    })).patch(route('bookings.make', id), {
         preserveScroll: true
     })
 }
 
-const unsetBooking = (id) => {
-    filter.patch(route('bookings.undo', id), {
+const unsetBooking = (quest_id, id) => {
+    filter.transform((data) => ({
+        ...data,
+        quest_id,
+    })).patch(route('bookings.undo', id), {
         preserveScroll: true
     })
 }
@@ -150,8 +156,8 @@ const unbookAllItems = (quest) => {
                                 <div class="flex">
                                     <booking-item
                                         class="mr-3"
-                                        @block-manually="setBooking"
-                                        @unblock-manually="unsetBooking"
+                                        @block-manually="setBooking(quest.id, $event)"
+                                        @unblock-manually="unsetBooking(quest.id, $event)"
                                         @write-order-using-item="writeOrder"
                                         :id="item.id"
                                         :quest-id="quest.id"

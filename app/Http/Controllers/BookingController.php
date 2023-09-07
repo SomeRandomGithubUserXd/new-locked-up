@@ -27,8 +27,8 @@ class BookingController extends Controller
         $quests = Quest::query()
             ->where('name_ru', '!=', '')
             ->when($request->get('location_id'), function (Builder $query) use ($request) {
-            return $query->where(['location_id' => $request->get('location_id')]);
-        });
+                return $query->where(['location_id' => $request->get('location_id')]);
+            });
         if (auth()->user()->role === UserRoleEnum::admin || auth()->user()->role === UserRoleEnum::callCenter) {
             $quests->whereIn('location_id', auth()->user()->locations()->pluck('locations.id'));
         }
@@ -49,7 +49,8 @@ class BookingController extends Controller
             \DB::table('booked_date_schedule_item')->insert([
                 'date' => $request->get('date'),
                 'schedule_item_id' => $scheduleId,
-                'order_id' => 0
+                'order_id' => 0,
+                'quest_id' => $request->quest_id,
             ]);
         } catch (QueryException) {
         }
@@ -63,7 +64,8 @@ class BookingController extends Controller
                 \DB::table('booked_date_schedule_item')->insert([
                     'date' => $request->get('date'),
                     'schedule_item_id' => $id,
-                    'order_id' => 0
+                    'order_id' => 0,
+                    'quest_id' => $request->quest_id,
                 ]);
             } catch (QueryException) {
             }
@@ -78,7 +80,8 @@ class BookingController extends Controller
                 \DB::table('booked_date_schedule_item')->where([
                     'date' => $request->get('date'),
                     'schedule_item_id' => $id,
-                    'order_id' => 0
+                    'order_id' => 0,
+                    'quest_id' => $request->quest_id,
                 ])->delete();
             } catch (QueryException) {
             }
@@ -91,7 +94,8 @@ class BookingController extends Controller
         \DB::table('booked_date_schedule_item')->where([
             'date' => $request->get('date'),
             'schedule_item_id' => $scheduleId,
-            'order_id' => 0
+            'order_id' => 0,
+            'quest_id' => $request->quest_id,
         ])->delete();
         return redirect()->back();
     }

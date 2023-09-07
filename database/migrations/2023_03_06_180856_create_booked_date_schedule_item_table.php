@@ -12,7 +12,8 @@ return new class extends Migration {
             $table->date('date');
             $table->bigInteger('schedule_item_id');
             $table->bigInteger('order_id');
-            $table->unique(['date', 'schedule_item_id']);
+            $table->bigInteger('quest_id');
+            $table->unique(['date', 'schedule_item_id', 'quest_id']);
             $table->timestamps();
         });
     }

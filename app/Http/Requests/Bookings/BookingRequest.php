@@ -10,7 +10,8 @@ class BookingRequest extends FormRequest
     {
         return [
             'date' => ['nullable', 'date'],
-            'ids' => ['nullable', 'array']
+            'ids' => ['nullable', 'array'],
+            'quest_id' => ['nullable', 'int']
         ];
     }
 
