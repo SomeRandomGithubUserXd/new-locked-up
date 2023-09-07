@@ -68,6 +68,7 @@ const bookAllItems = (quest) => {
     filter.transform((data) => {
         return {
             ...data,
+            quest_id: quest.id,
             ids: collect(quest.items).pluck('id').all()
         }
     }).post(route('bookings.make_many'), {
@@ -79,6 +80,7 @@ const unbookAllItems = (quest) => {
     filter.transform((data) => {
         return {
             ...data,
+            quest_id: quest.id,
             ids: collect(quest.items).pluck('id').all()
         }
     }).post(route('bookings.undo_many'), {
