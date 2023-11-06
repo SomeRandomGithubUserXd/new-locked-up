@@ -8,7 +8,6 @@ import {useForm} from "@inertiajs/vue3";
 const props = defineProps({
     modelValue: Object,
     ...orderProps
-
 })
 
 const emit = defineEmits(['update:modelValue', 'refreshOrder'])
@@ -18,21 +17,20 @@ const closeSelf = () => {
 }
 
 const handleSubmit = (price, additional_players_cost, additional_options_cost, price_total, price_to_pay, paid_total) => {
-    const order = useForm(props.modelValue.order)
+    const order = props.modelValue.order
     if(props.modelValue.mode === 0) {
-        order.transform((data) => ({
-            ...data,
-            promo_code_id: data.promo_code,
-            certificate_id: data.certificate_id,
+        axios.post(route('orders.store') ,{
+            ...order,
+            promo_code_id: order.promo_code,
+            certificate_id: order.certificate_id,
             price,
             additional_players_cost,
             additional_options_cost,
             price_total,
             price_to_pay,
             paid_total,
-        })).post(route('orders.store'), {
-            onError: (err) => console.log(err),
-            onSuccess: closeSelf
+        }).then((resp) => {
+            console.log(resp)
         })
     } else {
         order.transform((data) => ({

@@ -27,7 +27,9 @@ const props = defineProps({
     },
     createLink: String
 })
-
+setTimeout(() => {
+    console.log(props)
+}, 500)
 const triggerAllItemsSelectionCheckbox = ref(null)
 
 const deleteMany = () => {
@@ -78,11 +80,11 @@ const getHalfOfAColor = (color) => {
                 <span class="text-red-500 font-bold mr-2">Удалить</span>
                 <TrashIcon class="h-5 w-5 text-red-500" aria-hidden="true"/>
             </button>
-            <Link v-if="props.createLink" :href="createLink"
+            <router-link v-if="props.createLink" :to="createLink"
                   class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
                 <PencilIcon class="h-5 w-5 text-gray-400 mr-2" aria-hidden="true"/>
                 <span>Создать</span>
-            </Link>
+            </router-link>
         </div>
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 rounded-3xl">
             <div v-if="hasAnyItems"

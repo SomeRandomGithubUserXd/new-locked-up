@@ -1,12 +1,11 @@
 <script setup>
 import {Head, router} from "@inertiajs/vue3";
 import DataTable from "@/Components/Common/DataTable.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import axios from "axios";
 
-const props = defineProps({
-    schedules: Object
-})
+const dataToPreload = ref({})
 
 const tableProps = ref({
     records: [
@@ -34,11 +33,16 @@ const tableProps = ref({
         isRequired: true,
     }
 })
+
+onMounted(() => {
+    axios.get(route('schedules.index')).then((resp) => {
+        console.log(resp.data.schedules)
+        dataToPreload.value = resp.data
+    })
+})
 </script>
 
 <template>
-    <Head title="Таблица расписаний"/>
-
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Таблица расписаний</h2>
@@ -49,8 +53,8 @@ const tableProps = ref({
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <data-table :delete-many-route="route('schedules.destroy-many')"
-                                    :create-link="route('schedules.create')" :table-props="tableProps"
-                                    :items-resource="schedules"/>
+                                    :create-link="'/schedules/create'" :table-props="tableProps"
+                                    :items-resource="dataToPreload.schedules"/>
                     </div>
                 </div>
             </div>

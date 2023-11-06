@@ -22,22 +22,20 @@ class QuestController extends AbstractControllerWithMultipleDeletion
 
     public function index()
     {
-        return inertia('Quests/Index', [
-            'quests' => QuestResource::collection(Quest::paginate(15)),
-        ]);
+        return QuestResource::collection(Quest::paginate(15));
     }
 
     public function create()
     {
-        return inertia('Quests/Create', $this->getQuestMisc());
+        return $this->getQuestMisc();
     }
 
     public function show(Quest $quest)
     {
-        return inertia('Quests/Show', [
+        return [
             'quest' => QuestResource::singleItem($quest),
             ...$this->getQuestMisc()
-        ]);
+        ];
     }
 
     public function store(QuestRequest $request)
@@ -46,7 +44,7 @@ class QuestController extends AbstractControllerWithMultipleDeletion
         $quest = Quest::create($rawData);
         $quest->questMeta()->firstOrCreate($request->only(...QuestMeta::getModel()->getFillable()));
         $this->refreshRelations($quest, $request);
-        return redirect()->route('quests.index');
+        return response()->json('success');
     }
 
     public function update(QuestRequest $request, Quest $quest)
@@ -59,7 +57,7 @@ class QuestController extends AbstractControllerWithMultipleDeletion
             $quest->questMeta()->create($request->only(...QuestMeta::getModel()->getFillable()));
         }
         $this->refreshRelations($quest, $request);
-        return redirect()->route('quests.index');
+        return response()->json('success');
     }
 
     protected function getRelationsFreeData(array $rawData)

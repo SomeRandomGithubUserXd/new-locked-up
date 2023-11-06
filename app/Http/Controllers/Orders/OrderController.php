@@ -53,7 +53,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
             return $query;
         } else {
             $queryClone = clone $query;
-            return inertia('Orders/Index', [
+            return [
                 'orders' => OrderResource::collection($query->paginate(15)),
                 'filters' => OrderFilter::get()->makeHidden(['created_at', 'updated_at']),
                 'ordersMeta' => OrderMetaResource::getAsArray($queryClone),
@@ -66,7 +66,7 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                     }])
                     ->paginate(15),
                 ...$this->getOrderMisc()
-            ]);
+            ];
         }
     }
 
@@ -130,9 +130,9 @@ class OrderController extends AbstractControllerWithMultipleDeletion
                 $order->loungeScheduleItems()->sync($this->getLoungeScheduleItemsToSync($request->get('lounge_schedule_items')));
             });
         } catch (\Exception) {
-
+            return 500;
         }
-        return redirect()->route('orders.index');
+        return 200;
     }
 
     public function update(Order $order, OrderRequest $request)

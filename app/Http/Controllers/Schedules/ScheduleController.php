@@ -16,9 +16,9 @@ class ScheduleController extends AbstractControllerWithMultipleDeletion
     {
         $schedules = Schedule::query()
             ->paginate(15);
-        return inertia('Schedules/Index', [
+        return [
             'schedules' => ScheduleResource::collection($schedules)
-        ]);
+        ];
     }
 
     public function create()
@@ -29,7 +29,7 @@ class ScheduleController extends AbstractControllerWithMultipleDeletion
     public function store(ScheduleRequest $request)
     {
         Schedule::create(['name' => $request->name]);
-        return redirect()->route('schedules.index');
+        return response()->json('success');
     }
 
     public function update(ScheduleRequest $request, Schedule $schedule)
@@ -38,15 +38,15 @@ class ScheduleController extends AbstractControllerWithMultipleDeletion
         foreach ($request->get('schedule_items') as $item) {
             ScheduleItem::find($item['id'])->update($item);
         }
-        return redirect()->route('schedules.index');
+        return response()->json('success');
     }
 
     public function show(Schedule $schedule)
     {
         $schedule->load('scheduleItems');
-        return inertia('Schedules/Show', [
+        return [
             'schedule' => ScheduleResource::singleItem($schedule)
-        ]);
+        ];
     }
 
     public function destroyMany(ActionWithManyRequest $request): RedirectResponse

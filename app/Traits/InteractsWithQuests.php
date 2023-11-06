@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Enums\ProjectThemeEnum;
 use App\Enums\QuestDifficultyLevelEnum;
 use App\Http\Resources\Quests\NewsListResource;
 use App\Models\Checkout;
@@ -14,6 +15,7 @@ use App\Models\Quests\QuestLoad;
 use App\Models\Quests\QuestTopic;
 use App\Models\Schedules\Schedule;
 use App\Models\Sticker;
+use Psy\Output\Theme;
 
 trait InteractsWithQuests
 {
@@ -31,6 +33,9 @@ trait InteractsWithQuests
             'questChildTopics' => ChildQuestTopic::all(),
             'loadList' => QuestLoad::all(),
             'stickerList' => Sticker::all(),
+            'projectMeta' => [
+                'themes' => ProjectThemeEnum::getArray(),
+            ],
         ];
     }
 }

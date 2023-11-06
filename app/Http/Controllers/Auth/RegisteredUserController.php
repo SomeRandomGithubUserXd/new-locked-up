@@ -20,7 +20,7 @@ class RegisteredUserController extends Controller
         return Inertia::render('Auth/Register');
     }
 
-    public function store(RegisterRequest $request): RedirectResponse
+    public function store(RegisterRequest $request)
     {
         $user = User::create([
             'username' => $request->get('username'),
@@ -30,6 +30,6 @@ class RegisteredUserController extends Controller
         ]);
         event(new Registered($user));
         Auth::login($user);
-        return redirect(RouteServiceProvider::HOME);
+        return 200;
     }
 }
