@@ -12,7 +12,7 @@
 
     <!-- Scripts -->
     @routes
-    @vite(['resources/js/app.js', "resources/js/Pages/Auth/Login.vue"])
+    @vite(['resources/js/app.js'])
 </head>
 <body id="app" class="font-sans antialiased">
 <router-view :user="{{$user}}"></router-view>
