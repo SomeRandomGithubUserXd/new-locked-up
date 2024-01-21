@@ -4,32 +4,30 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import {Head, Link, useForm} from '@inertiajs/vue3';
-import axios from "axios";
-import {useRouter} from "vue-router";
+import { Head, Link, useForm } from '@inertiajs/vue3';
 
-const router = useRouter()
-
-const form = {
+const form = useForm({
     username: '',
     email: '',
     password: '',
     password_confirmation: '',
     terms: false,
-};
+});
 
 const submit = () => {
-    axios.post(route('register'), form).then((resp) => {
-        if (resp.status === 200) router.push({path: 'orders'})
+    form.post(route('register'), {
+        onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
 </script>
 
 <template>
     <GuestLayout>
+        <Head title="Register" />
+
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="username" value="Username"/>
+                <InputLabel for="username" value="Username" />
 
                 <TextInput
                     id="username"
@@ -40,10 +38,12 @@ const submit = () => {
                     autofocus
                     autocomplete="name"
                 />
+
+                <InputError class="mt-2" :message="form.errors.name" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="email" value="Email"/>
+                <InputLabel for="email" value="Email" />
 
                 <TextInput
                     id="email"
@@ -52,10 +52,12 @@ const submit = () => {
                     v-model="form.email"
                     required
                 />
+
+                <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password"/>
+                <InputLabel for="password" value="Password" />
 
                 <TextInput
                     id="password"
@@ -64,10 +66,12 @@ const submit = () => {
                     v-model="form.password"
                     required
                 />
+
+                <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password"/>
+                <InputLabel for="password_confirmation" value="Confirm Password" />
 
                 <TextInput
                     id="password_confirmation"
@@ -76,6 +80,8 @@ const submit = () => {
                     v-model="form.password_confirmation"
                     required
                 />
+
+                <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
 
             <div class="flex items-center justify-end mt-4">
@@ -86,7 +92,7 @@ const submit = () => {
                     Already registered?
                 </Link>
 
-                <PrimaryButton class="ml-4">
+                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Register
                 </PrimaryButton>
             </div>

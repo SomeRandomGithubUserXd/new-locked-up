@@ -34,7 +34,6 @@ use App\Http\Controllers\UserController;
 use App\Models\Quests\QuestPerformanceShow;
 use App\Providers\RouteServiceProvider;
 use App\Services\RouteConstructor;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,13 +45,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('{any?}', function () {
-    return view('vue-router-app', [
-        'user' => auth()->user()
-    ]);
-})->where('any', '^(?!api).*$');
 
-Route::middleware('auth')->prefix('api')->group(function () {
+Route::redirect('/', RouteServiceProvider::HOME);
+Route::middleware('auth')->group(function () {
     // Orders category
     Route::resource('bookings', BookingController::class);
     // Booking additional routes

@@ -1,18 +1,11 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import {Head, router} from "@inertiajs/vue3";
 import DataTable from "@/Components/Common/DataTable.vue";
-import {onMounted, ref} from "vue";
-import {useRouter} from "vue-router";
+import {ref} from "vue";
 
-const router = useRouter()
-
-const dataToPreload = ref(null)
-
-onMounted(() => {
-    axios.get(route('quests.index')).then((resp) => {
-        dataToPreload.value = resp.data
-        console.log(dataToPreload.value)
-    })
+const props = defineProps({
+    quests: Object
 })
 
 const tableProps = ref({
@@ -46,7 +39,7 @@ const tableProps = ref({
         {
             name: 'Редактировать',
             trigger: (quest) => {
-                router.push(`/quests/${quest.id}`)
+                router.get(route('quests.show', quest))
             }
         }
     ],
@@ -57,6 +50,8 @@ const tableProps = ref({
 </script>
 
 <template>
+    <Head title="Таблица квестов"/>
+
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Таблица квестов</h2>
@@ -66,8 +61,7 @@ const tableProps = ref({
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <data-table :delete-many-route="route('quests.destroy-many')" :create-link="'/quests/create'"
-                                    :table-props="tableProps" :items-resource="dataToPreload"/>
+                        <data-table :delete-many-route="route('quests.destroy-many')" :create-link="route('quests.create')" :table-props="tableProps" :items-resource="quests"/>
                     </div>
                 </div>
             </div>

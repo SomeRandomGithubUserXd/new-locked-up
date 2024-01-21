@@ -17,13 +17,4 @@ export default defineConfig({
             },
         }),
     ],
-    resolve: {
-        alias: {
-            'vue': 'vue/dist/vue.esm-bundler',
-        },
-    },
-    server: {
-        host: '164.92.142.236',
-        port: 5173
-    }
 });

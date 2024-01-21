@@ -24,31 +24,21 @@ import OrderModal from "@/Components/Modals/OrderModal.vue";
 const usingFilter = ref(null);
 
 const props = defineProps({
-    user: Object
-})
-
-const dataToPreload = {
-    orders: {},
-    filters: [],
-    options: {},
-    ordersMeta: {},
+    orders: Object,
+    filters: Array,
+    options: Object,
+    ordersMeta: Object,
     ...orderProps
-}
-
-onMounted(() => {
-    axios.get(route('orders.index')).then((resp) => {
-        dataToPreload.value = resp.data
-    })
 })
 
-watch(() => dataToPreload.orders, value => {
+watch(() => props.orders, value => {
 
 }, {
     deep: true
 })
 
 const getOrderStatus = (status) => {
-    return dataToPreload.orderStatuses[status]
+    return props.orderStatuses[status]
 }
 
 // const edit = (order) => {
@@ -75,7 +65,7 @@ const tableProps = ref({
                 component: OrdersTableHead,
                 meta: {
                     item,
-                    orderStatuses: dataToPreload.orderStatuses
+                    orderStatuses: props.orderStatuses
                 }
             }),
         },
@@ -124,7 +114,7 @@ const tableProps = ref({
         //     getValue: (item) => ({
         //         component: CertificateSelect,
         //         meta: {
-        //             certificateList: dataToPreload.certificateList,
+        //             certificateList: props.certificateList,
         //             item
         //         }
         //     }),
@@ -204,7 +194,6 @@ const defaultFilter = {
 const filter = useForm(defaultFilter)
 
 const sumOptions = (options) => {
-    if(!options) return 0
     const sums = {
         price: 0,
         orders_count: 0,
@@ -247,7 +236,7 @@ const search = () => {
     if (usingFilter.value) {
         router.get(route('orders.index', {
             filter_id: usingFilter.value,
-            ...collect(dataToPreload.filters).where('id', '==', usingFilter.value).first()
+            ...collect(props.filters).where('id', '==', usingFilter.value).first()
         }))
     } else {
         filter.get(route('orders.index'))
@@ -259,7 +248,7 @@ const reset = () => {
 }
 
 const toExcel = () => {
-    const data = dataToPreload.orders.data.map(order => ({
+    const data = props.orders.data.map(order => ({
         ...order,
         sources: order?.source?.name
     }))
@@ -270,8 +259,8 @@ const toExcel = () => {
 
 const filtersPrepared = computed({
     get() {
-        if (!dataToPreload.filters.length) return []
-        return dataToPreload.filters.map(filter => {
+        if (!props.filters.length) return []
+        return props.filters.map(filter => {
             return {
                 quest_ids: filter.quest_ids,
                 name_ru: filter.name,
@@ -325,7 +314,7 @@ const showOrderModal = (order = {
 }
 
 const refreshOrder = (orderId) => {
-    orderModal.value.order.order_payments = collect(dataToPreload.orders.data).where('id', '==', orderId).first()?.order_payments || []
+    orderModal.value.order.order_payments = collect(props.orders.data).where('id', '==', orderId).first()?.order_payments || []
 }
 
 watch(orderModal, value => {
@@ -335,19 +324,20 @@ watch(orderModal, value => {
 
 <template>
     <order-modal
-        :quest-list="dataToPreload.questList"
-        :option-list="dataToPreload.optionList"
-        :source-list="dataToPreload.sourceList"
-        :promo-code-list="dataToPreload.promoCodeList"
-        :certificate-list="dataToPreload.certificateList"
-        :order-statuses="dataToPreload.orderStatuses"
-        :order-payment-types="dataToPreload.orderPaymentTypes"
-        :order-payment-statuses="dataToPreload.orderPaymentStatuses"
-        :quest-options="dataToPreload.questOptions"
-        :lounge-list="dataToPreload.loungeList"
+        :quest-list="props.questList"
+        :option-list="props.optionList"
+        :source-list="props.sourceList"
+        :promo-code-list="props.promoCodeList"
+        :certificate-list="props.certificateList"
+        :order-statuses="props.orderStatuses"
+        :order-payment-types="props.orderPaymentTypes"
+        :order-payment-statuses="props.orderPaymentStatuses"
+        :quest-options="props.questOptions"
+        :lounge-list="props.loungeList"
         @refresh-order="refreshOrder"
         v-model="orderModal"/>
-    <AuthenticatedLayout :user="props.user">
+    <Head title="Таблица заказов"/>
+    <AuthenticatedLayout>
         <template #header>
             <div class="flex w-full items-center">
                 <h2 class="font-semibold lg:text-xl text-2xl text-gray-800 leading-tight">Таблица заказов</h2>
@@ -428,7 +418,7 @@ watch(orderModal, value => {
                             <!--                                        id="quest"-->
                             <!--                                        v-model="usingFilter"-->
                             <!--                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 lg:text-sm">-->
-                            <!--                                        <option :value="filter.id" v-for="filter in dataToPreload.filters">-->
+                            <!--                                        <option :value="filter.id" v-for="filter in props.filters">-->
                             <!--                                            {{ filter.name }}-->
                             <!--                                        </option>-->
                             <!--                                    </select>-->
@@ -439,13 +429,13 @@ watch(orderModal, value => {
                             <order-filter
                                 class="mt-5"
                                 :disabled="!!usingFilter"
-                                :quest-list="dataToPreload.questList"
-                                :option-list="dataToPreload.optionList"
-                                :source-list="dataToPreload.sourceList"
-                                :promo-code-list="dataToPreload.promoCodeList"
-                                :certificate-list="dataToPreload.certificateList"
-                                :order-statuses="dataToPreload.orderStatuses"
-                                :quest-options="dataToPreload.questOptions"
+                                :quest-list="props.questList"
+                                :option-list="props.optionList"
+                                :source-list="props.sourceList"
+                                :promo-code-list="props.promoCodeList"
+                                :certificate-list="props.certificateList"
+                                :order-statuses="props.orderStatuses"
+                                :quest-options="props.questOptions"
                                 :filters-prepared="filtersPrepared"
                                 v-model="filter" @submit="search" @reset="reset"/>
                         </div>
@@ -476,7 +466,7 @@ watch(orderModal, value => {
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="option in dataToPreload.options.data">
+                                        <tr v-for="option in props.options.data">
                                             <td class="px-6 py-4 whitespace-nowrap font-bold"
                                                 style="max-width: 100px;overflow: hidden;">
                                                 {{ option.name_ru }}
@@ -501,11 +491,11 @@ watch(orderModal, value => {
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap font-bold uppercase">
 
-                                                {{ sumOptions(dataToPreload.options.data).orders_count }}
+                                                {{ sumOptions(props.options.data).orders_count }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap font-bold uppercase">
 
-                                                {{ numberFormat(sumOptions(dataToPreload.options.data).price) }}
+                                                {{ numberFormat(sumOptions(props.options.data).price) }}
                                             </td>
                                         </tr>
                                         </tbody>
@@ -523,46 +513,46 @@ watch(orderModal, value => {
                         <!--                        <table class="th-order-management-container__results-table">-->
                         <!--                            <tbody>-->
                         <!--                            <tr>-->
-                        <!--                                <th colspan="2">Всего игр: <span>{{ dataToPreload.ordersMeta.count }}</span>, на сумму-->
-                        <!--                                    <span>{{ dataToPreload.ordersMeta.sum }}</span></th>-->
+                        <!--                                <th colspan="2">Всего игр: <span>{{ props.ordersMeta.count }}</span>, на сумму-->
+                        <!--                                    <span>{{ props.ordersMeta.sum }}</span></th>-->
                         <!--                            </tr>-->
                         <!--                            <tr>-->
                         <!--                                <td>Игры:</td>-->
-                        <!--                                <td>{{ dataToPreload.ordersMeta.games_sum }}</td>-->
+                        <!--                                <td>{{ props.ordersMeta.games_sum }}</td>-->
                         <!--                            </tr>-->
                         <!--                            <tr>-->
                         <!--                                <td>Допуслуги:</td>-->
-                        <!--                                <td>{{ dataToPreload.ordersMeta.services_sum }}</td>-->
+                        <!--                                <td>{{ props.ordersMeta.services_sum }}</td>-->
                         <!--                            </tr>-->
                         <!--                            <tr class="th-divider-top">-->
                         <!--                                <th colspan="2">Из них:</th>-->
                         <!--                            </tr>-->
                         <!--                            <tr>-->
                         <!--                                <td>Факт:</td>-->
-                        <!--                                <td>{{ dataToPreload.ordersMeta.paid_instantly }}</td>-->
+                        <!--                                <td>{{ props.ordersMeta.paid_instantly }}</td>-->
                         <!--                            </tr>-->
                         <!--                            <tr>-->
                         <!--                                <td>Предоплата:</td>-->
-                        <!--                                <td>{{ dataToPreload.ordersMeta.pre_paid }}</td>-->
+                        <!--                                <td>{{ props.ordersMeta.pre_paid }}</td>-->
                         <!--                            </tr>-->
                         <!--                            <tr>-->
                         <!--                                <td>Онлайн:</td>-->
-                        <!--                                <td>{{ dataToPreload.ordersMeta.paid_online }}</td>-->
+                        <!--                                <td>{{ props.ordersMeta.paid_online }}</td>-->
                         <!--                            </tr>-->
                         <!--                            <tr>-->
                         <!--                                <td>Агрегаторы:</td>-->
-                        <!--                                <td>{{ dataToPreload.ordersMeta.paid_via_aggregator }}</td>-->
+                        <!--                                <td>{{ props.ordersMeta.paid_via_aggregator }}</td>-->
                         <!--                            </tr>-->
                         <!--                            <tr>-->
                         <!--                                <td>Сертификаты:</td>-->
-                        <!--                                <td>{{ dataToPreload.ordersMeta.certificates_sum }}</td>-->
+                        <!--                                <td>{{ props.ordersMeta.certificates_sum }}</td>-->
                         <!--                            </tr>-->
                         <!--                            <tr class="th-divider-top">-->
                         <!--                                <th colspan="2">К оплате:</th>-->
                         <!--                            </tr>-->
                         <!--                            <tr>-->
                         <!--                                <td>Остаток к оплате:</td>-->
-                        <!--                                <td>{{ dataToPreload.ordersMeta.left_to_pay }}</td>-->
+                        <!--                                <td>{{ props.ordersMeta.left_to_pay }}</td>-->
                         <!--                            </tr>-->
                         <!--                            </tbody>-->
                         <!--                        </table>-->
@@ -573,7 +563,7 @@ watch(orderModal, value => {
                             </div>
                             <div class="bg-white text-black px-5 py-4 flex justify-between">
                                 <span>Кол-во игр:</span>
-                                <span>{{ dataToPreload.ordersMeta.count }}</span>
+                                <span>{{ props.ordersMeta.count }}</span>
                             </div>
                             <div class="bg-indigo-600 text-white p-5 flex justify-center">
                                 <span class="font-bold text-lg">Общая сумма</span>
@@ -581,15 +571,15 @@ watch(orderModal, value => {
                             <div class="bg-white text-black">
                                 <div class="flex justify-between border-b px-5 py-4">
                                     <span>Общая сумма:</span>
-                                    <span>{{ dataToPreload.ordersMeta.sum }}</span>
+                                    <span>{{ props.ordersMeta.sum }}</span>
                                 </div>
                                 <div class="flex justify-between border-b px-5 py-4">
                                     <span>Сумма по играм:</span>
-                                    <span>{{ dataToPreload.ordersMeta.games_sum }}</span>
+                                    <span>{{ props.ordersMeta.games_sum }}</span>
                                 </div>
                                 <div class="flex justify-between border-b px-5 py-4">
                                     <span>Сумма по доп.услугам:</span>
-                                    <span>{{ dataToPreload.ordersMeta.services_sum }}</span>
+                                    <span>{{ props.ordersMeta.services_sum }}</span>
                                 </div>
                             </div>
                             <div class="bg-indigo-600 text-white p-5 flex justify-center">
@@ -598,23 +588,23 @@ watch(orderModal, value => {
                             <div class="bg-white text-black">
                                 <div class="flex justify-between border-b px-5 py-4">
                                     <span>Факт:</span>
-                                    <span>{{ dataToPreload.ordersMeta.paid_instantly }}</span>
+                                    <span>{{ props.ordersMeta.paid_instantly }}</span>
                                 </div>
                                 <div class="flex justify-between border-b px-5 py-4">
                                     <span>Предоплаты:</span>
-                                    <span>{{ dataToPreload.ordersMeta.pre_paid }}</span>
+                                    <span>{{ props.ordersMeta.pre_paid }}</span>
                                 </div>
                                 <div class="flex justify-between border-b px-5 py-4">
                                     <span>Онлайн:</span>
-                                    <span>{{ dataToPreload.ordersMeta.paid_online }}</span>
+                                    <span>{{ props.ordersMeta.paid_online }}</span>
                                 </div>
                                 <div class="flex justify-between border-b px-5 py-4">
                                     <span>Агрегаторы:</span>
-                                    <span>{{ dataToPreload.ordersMeta.paid_via_aggregator }}</span>
+                                    <span>{{ props.ordersMeta.paid_via_aggregator }}</span>
                                 </div>
                                 <div class="flex justify-between border-b px-5 py-4">
                                     <span>Сертификаты:</span>
-                                    <span>{{ dataToPreload.ordersMeta.certificates_sum }}</span>
+                                    <span>{{ props.ordersMeta.certificates_sum }}</span>
                                 </div>
                             </div>
                             <div class="bg-indigo-600 text-white p-5 flex justify-center">
@@ -623,7 +613,7 @@ watch(orderModal, value => {
 
                             <div class="bg-white text-black">
                                 <div class="flex justify-center px-5 py-4">
-                                    <span class="font-bold">{{ dataToPreload.ordersMeta.left_to_pay }}</span>
+                                    <span class="font-bold">{{ props.ordersMeta.left_to_pay }}</span>
                                 </div>
                             </div>
                         </div>

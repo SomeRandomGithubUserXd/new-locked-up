@@ -1,6 +1,7 @@
 <script setup>
 import {computed, onMounted, reactive, ref, watch} from "vue";
 import {getAttribute as getAttributeInstance} from "@/Traits/LocaleTrait";
+import {router, useForm} from "@inertiajs/vue3";
 import ExpandableBlock from "@/Components/Common/ExpandableBlock.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
@@ -15,12 +16,11 @@ import QuestOptionForm from "@/Components/Quest/QuestOptionForm.vue";
 import DataTable from "@/Components/Common/DataTable.vue";
 import Tabs from "@/Components/Common/Tabs.vue";
 import {questProps} from "@/Traits/QuestTrait";
-import {router} from "@inertiajs/vue3";
 
 const props = defineProps({
     modelValue: {
         required: true,
-        default: {}
+        default: useForm({})
     },
     ...questProps
 })
@@ -111,24 +111,24 @@ const performanceShowTableProps = ref({
         },
     ],
     actions: [
-        // {
-        //     name: 'Редактировать',
-        //     trigger: (item) => {
-        //         router.push(route('quests.quest_performance_shows.show', {
-        //             quest_performance_show: item.id,
-        //             quest: props.modelValue.id
-        //         }))
-        //     },
-        // },
-        // {
-        //     name: 'Удалить',
-        //     trigger: (item) => {
-        //         router.delete(route('quests.quest_performance_shows.destroy', {
-        //             quest_performance_show: item.id,
-        //             quest: props.modelValue.id
-        //         }))
-        //     },
-        // }
+        {
+            name: 'Редактировать',
+            trigger: (item) => {
+                router.get(route('quests.quest_performance_shows.show', {
+                    quest_performance_show: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        },
+        {
+            name: 'Удалить',
+            trigger: (item) => {
+                router.delete(route('quests.quest_performance_shows.destroy', {
+                    quest_performance_show: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        }
     ],
     pagination: {
         isRequired: false,
@@ -145,24 +145,24 @@ const performanceLoadsTableProps = ref({
         },
     ],
     actions: [
-        // {
-        //     name: 'Редактировать',
-        //     trigger: (item) => {
-        //         router.get(route('quests.quest_performance_loads.show', {
-        //             quest_performance_load: item.id,
-        //             quest: props.modelValue.id
-        //         }))
-        //     },
-        // },
-        // {
-        //     name: 'Удалить',
-        //     trigger: (item) => {
-        //         router.delete(route('quests.quest_performance_loads.destroy', {
-        //             quest_performance_load: item.id,
-        //             quest: props.modelValue.id
-        //         }))
-        //     },
-        // }
+        {
+            name: 'Редактировать',
+            trigger: (item) => {
+                router.get(route('quests.quest_performance_loads.show', {
+                    quest_performance_load: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        },
+        {
+            name: 'Удалить',
+            trigger: (item) => {
+                router.delete(route('quests.quest_performance_loads.destroy', {
+                    quest_performance_load: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        }
     ],
     pagination: {
         isRequired: false,
@@ -179,24 +179,24 @@ const performanceExperimentsTableProps = ref({
         },
     ],
     actions: [
-        // {
-        //     name: 'Редактировать',
-        //     trigger: (item) => {
-        //         router.get(route('quests.quest_performance_experiments.show', {
-        //             quest_performance_experiment: item.id,
-        //             quest: props.modelValue.id
-        //         }))
-        //     },
-        // },
-        // {
-        //     name: 'Удалить',
-        //     trigger: (item) => {
-        //         router.delete(route('quests.quest_performance_experiments.destroy', {
-        //             quest_performance_experiment: item.id,
-        //             quest: props.modelValue.id
-        //         }))
-        //     },
-        // }
+        {
+            name: 'Редактировать',
+            trigger: (item) => {
+                router.get(route('quests.quest_performance_experiments.show', {
+                    quest_performance_experiment: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        },
+        {
+            name: 'Удалить',
+            trigger: (item) => {
+                router.delete(route('quests.quest_performance_experiments.destroy', {
+                    quest_performance_experiment: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        }
     ],
     pagination: {
         isRequired: false,
@@ -213,24 +213,24 @@ const performanceLoungesTableProps = ref({
         },
     ],
     actions: [
-        // {
-        //     name: 'Редактировать',
-        //     trigger: (item) => {
-        //         router.get(route('quests.quest_performance_lounges.show', {
-        //             quest_performance_lounge: item.id,
-        //             quest: props.modelValue.id
-        //         }))
-        //     },
-        // },
-        // {
-        //     name: 'Удалить',
-        //     trigger: (item) => {
-        //         router.delete(route('quests.quest_performance_lounges.destroy', {
-        //             quest_performance_lounge: item.id,
-        //             quest: props.modelValue.id
-        //         }))
-        //     },
-        // }
+        {
+            name: 'Редактировать',
+            trigger: (item) => {
+                router.get(route('quests.quest_performance_lounges.show', {
+                    quest_performance_lounge: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        },
+        {
+            name: 'Удалить',
+            trigger: (item) => {
+                router.delete(route('quests.quest_performance_lounges.destroy', {
+                    quest_performance_lounge: item.id,
+                    quest: props.modelValue.id
+                }))
+            },
+        }
     ],
     pagination: {
         isRequired: false,
@@ -289,6 +289,11 @@ watch(() => props.modelValue.schedule_id, async (val) => {
     loadScheduleItems(val)
 })
 
+watch(() => props.modelValue.errors, async (val) => {
+    alert(val[Object.keys(val)[0]])
+})
+
+
 </script>
 
 <template>
@@ -311,15 +316,15 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.ord"
                             />
                         </div>
-                        <!--                        <div class="col-span-6 sm:col-span-1">-->
-                        <!--                            <label for="color" class="block text-sm font-medium text-gray-700">Цвет</label>-->
-                        <!--                            <TextInput-->
-                        <!--                                id="color"-->
-                        <!--                                type="color"-->
-                        <!--                                class="mt-1 block w-full"-->
-                        <!--                                v-model="modelValue.color"-->
-                        <!--                            />-->
-                        <!--                        </div>-->
+<!--                        <div class="col-span-6 sm:col-span-1">-->
+<!--                            <label for="color" class="block text-sm font-medium text-gray-700">Цвет</label>-->
+<!--                            <TextInput-->
+<!--                                id="color"-->
+<!--                                type="color"-->
+<!--                                class="mt-1 block w-full"-->
+<!--                                v-model="modelValue.color"-->
+<!--                            />-->
+<!--                        </div>-->
                         <div class="col-span-6 sm:col-span-1">
                             <label for="theme" class="block text-sm font-medium text-gray-700">Тема</label>
                             <div class="mt-1">
@@ -365,7 +370,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue[getAttribute('name')]"
                                 autofocus
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors[getAttribute('name')]"/>
                         </div>
                         <div class="col-span-6 sm:col-span-3">
                             <InputLabel for="h1" :value="`Заголовок H1 (${locale})`"/>
@@ -376,7 +381,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue[getAttribute('h1')]"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors[getAttribute('h1')]"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <InputLabel for="short_description" :value="`Краткое описание (${locale})`"/>
@@ -387,17 +392,21 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </textarea>
                             </div>
+                            <InputError class="mt-2"
+                                        :message="modelValue.errors[getAttribute('short_description')]"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <InputLabel for="full_description" :value="`Полное описание (${locale})`"/>
                             <div class="mt-1">
-<!--                                <Editor-->
-<!--                                    id="full_description"-->
-<!--                                    lang="ru"-->
-<!--                                    v-model="modelValue[getAttribute('full_description')]"-->
-<!--                                    api-key="no-api-key"-->
-<!--                                />-->
+                                <Editor
+                                    id="full_description"
+                                    lang="ru"
+                                    v-model="modelValue[getAttribute('full_description')]"
+                                    api-key="no-api-key"
+                                />
                             </div>
+                            <InputError class="mt-2"
+                                        :message="modelValue.errors[getAttribute('full_description')]"/>
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <input-label for="file" value="Баннер (1920х790px)"/>
@@ -445,7 +454,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 <v-select v-model="modelValue.related_quest_ids" multiple=""
                                           :reduce="option => option.id"
                                           label="name_ru"
-                                          :options="props.questList.length ? props.questList : []">
+                                          :options="props.questList">
                                     <template v-slot:option="option">
                                         {{ option.name_ru }}
                                     </template>
@@ -524,7 +533,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.price_per_additional_player"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.price_per_additional_player"/>
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <InputLabel for="team_price" value="Цена за команду"/>
@@ -535,7 +544,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.team_price"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.team_price"/>
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <InputLabel for="discount_percent" value="Скидка (%)"/>
@@ -546,7 +555,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.discount_percent"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.discount_percent"/>
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <InputLabel for="mins_until_slot_is_closed" value="Время до закрытия слота (мин.)"/>
@@ -557,7 +566,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.mins_until_slot_is_closed"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.mins_until_slot_is_closed"/>
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <InputLabel for="duration" value="Продолжительность (мин.)"/>
@@ -568,7 +577,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.duration"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.duration"/>
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <InputLabel for="age_restriction" value="Ограничение по возрасту"/>
@@ -579,7 +588,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.age_restriction"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.age_restriction"/>
                         </div>
                         <div class="col-span-6 sm:col-span-3">
                             <InputLabel for="min_players" value="Количество игроков (мин.)"/>
@@ -590,7 +599,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.min_players"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.min_players"/>
                         </div>
                         <div class="col-span-6 sm:col-span-3">
                             <InputLabel for="max_players" value="Количество игроков (макс.)"/>
@@ -601,30 +610,30 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.max_players"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.max_players"/>
                         </div>
-                        <!--                        <div class="col-span-6 sm:col-span-2">-->
-                        <!--                            <InputLabel for="min_players_free" value="Количество игроков в форме бронирования (мин.)"/>-->
-                        <!--                            <TextInput-->
-                        <!--                                id="min_players_free"-->
-                        <!--                                type="number"-->
-                        <!--                                class="mt-1 block w-full"-->
-                        <!--                                v-model="modelValue.min_players_free"-->
+<!--                        <div class="col-span-6 sm:col-span-2">-->
+<!--                            <InputLabel for="min_players_free" value="Количество игроков в форме бронирования (мин.)"/>-->
+<!--                            <TextInput-->
+<!--                                id="min_players_free"-->
+<!--                                type="number"-->
+<!--                                class="mt-1 block w-full"-->
+<!--                                v-model="modelValue.min_players_free"-->
 
-                        <!--                            />-->
-                        <!--                            -->
-                        <!--                        </div>-->
-                        <!--                        <div class="col-span-6 sm:col-span-2">-->
-                        <!--                            <InputLabel for="max_players_free" value="Количество игроков в форме бронирования (макс.)"/>-->
-                        <!--                            <TextInput-->
-                        <!--                                id="max_players_free"-->
-                        <!--                                type="number"-->
-                        <!--                                class="mt-1 block w-full"-->
-                        <!--                                v-model="modelValue.max_players_free"-->
+<!--                            />-->
+<!--                            <InputError class="mt-2" :message="modelValue.errors.max_players"/>-->
+<!--                        </div>-->
+<!--                        <div class="col-span-6 sm:col-span-2">-->
+<!--                            <InputLabel for="max_players_free" value="Количество игроков в форме бронирования (макс.)"/>-->
+<!--                            <TextInput-->
+<!--                                id="max_players_free"-->
+<!--                                type="number"-->
+<!--                                class="mt-1 block w-full"-->
+<!--                                v-model="modelValue.max_players_free"-->
 
-                        <!--                            />-->
-                        <!--                            -->
-                        <!--                        </div>-->
+<!--                            />-->
+<!--                            <InputError class="mt-2" :message="modelValue.errors.max_players_free"/>-->
+<!--                        </div>-->
                     </div>
                 </template>
             </expandable-block>
@@ -643,7 +652,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.subway_station_ru"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.subway_station_ru"/>
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <InputLabel for="genre" value="Жанр"/>
@@ -654,7 +663,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.genre_ru"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.genre_ru"/>
                         </div>
                         <div class="col-span-6 sm:col-span-1">
                             <InputLabel step="0.01" for="rating" value="Рейтинг"/>
@@ -665,7 +674,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.rating"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.rating"/>
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <InputLabel for="video_src" value="Ссылка на видео"/>
@@ -676,7 +685,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.video_src"
 
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.video_src"/>
                         </div>
                     </div>
                 </template>
@@ -715,7 +724,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 class="mt-1 block w-full"
                                 v-model="modelValue.options_block_header"
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.options_block_header"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <InputLabel for="options_block_subheading" value="Подзаголовок"/>
@@ -724,7 +733,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.options_block_subheading"
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </textarea>
-
+                            <InputError class="mt-2" :message="modelValue.errors.options_block_subheading"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <div class="flex flex-col w-full">
@@ -758,9 +767,9 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                           multiple=""
                                           label="title_fdp_ru"
                                           :reduce="option => option.id"
-                                          :options="props.loadList.length ? props.loadList : []"/>
+                                          :options="props.loadList"/>
                             </div>
-
+                            <InputError class="mt-2" :message="modelValue.errors.loads"/>
                         </div>
                     </div>
                 </template>
@@ -779,7 +788,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 class="mt-1 block w-full"
                                 v-model="modelValue.sales_block_header"
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.sales_block_header"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <InputLabel for="sales_block_subheading" value="Подзаголовок"/>
@@ -788,7 +797,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.sales_block_subheading"
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </textarea>
-
+                            <InputError class="mt-2" :message="modelValue.errors.sales_block_subheading"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <InputLabel for="sales" value="Список акций"/>
@@ -798,9 +807,9 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                           multiple=""
                                           label="title_ru"
                                           :reduce="option => option.id"
-                                          :options="props.newsList.length ? props.newsList : []"/>
+                                          :options="props.newsList"/>
                             </div>
-
+                            <InputError class="mt-2" :message="modelValue.errors.applied_sales"/>
                         </div>
                     </div>
                 </template>
@@ -819,7 +828,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 class="mt-1 block w-full"
                                 v-model="modelValue.you_may_like_it_section_header"
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.you_may_like_it_section_header"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <InputLabel for="you_may_like_it_section_subheading" value="Подзаголовок"/>
@@ -828,7 +837,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.you_may_like_it_section_subheading"
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </textarea>
-
+                            <InputError class="mt-2" :message="modelValue.errors.you_may_like_it_section_subheading"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <InputLabel for="you_may_like_it_section_quest_ids" value="Отображаемые квесты"/>
@@ -841,9 +850,9 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                           id="you_may_like_it_section_quest_ids"
                                           label="name_ru"
                                           :reduce="option => option.id"
-                                          :options="props.questList.length ? props.questList : []"/>
+                                          :options="props.questList"/>
                             </div>
-
+                            <InputError class="mt-2" :message="modelValue.errors.you_may_like_it_section_quest_ids"/>
                         </div>
                     </div>
                 </template>
@@ -862,7 +871,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 class="mt-1 block w-full"
                                 v-model="modelValue.schedule_blocks_section_header"
                             />
-
+                            <InputError class="mt-2" :message="modelValue.errors.schedule_blocks_section_header"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <InputLabel for="schedule_blocks_section_text" value="Текст блока над расписанием"/>
@@ -871,7 +880,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.schedule_blocks_section_text"
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </textarea>
-
+                            <InputError class="mt-2" :message="modelValue.errors.schedule_blocks_section_text"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <InputLabel for="schedule_section_blocks_bottom_text" value="Текст блока под расписанием"/>
@@ -880,7 +889,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 v-model="modelValue.schedule_section_blocks_bottom_text"
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </textarea>
-
+                            <InputError class="mt-2" :message="modelValue.errors.schedule_section_blocks_bottom_text"/>
                         </div>
                     </div>
                 </template>
@@ -910,6 +919,8 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </textarea>
                             </div>
+                            <InputError class="mt-2"
+                                        :message="modelValue.errors[getAttribute('packages_description')]"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <InputLabel for="packages_example" :value="`Пример расчета (${locale})`"/>
@@ -920,6 +931,8 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </textarea>
                             </div>
+                            <InputError class="mt-2"
+                                        :message="modelValue.errors[getAttribute('packages_example')]"/>
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <InputLabel value="Пакеты"/>
@@ -966,7 +979,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                             {{ schedule.name }}
                         </option>
                     </select>
-
+                    <InputError class="mt-2" :message="modelValue.errors.schedule_id"/>
                 </div>
                 <div class="col-span-6 sm:col-span-6">
                     <data-table
@@ -992,7 +1005,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                             {{ location.name_ru }}
                         </option>
                     </select>
-
+                    <InputError class="mt-2" :message="modelValue.errors.location_id"/>
                 </div>
                 <div class="col-span-6 sm:col-span-2">
                     <InputLabel for="difficulty" value="Сложность"/>
@@ -1007,7 +1020,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                             {{ difficulty.name }}
                         </option>
                     </select>
-
+                    <InputError class="mt-2" :message="modelValue.errors.difficulty"/>
                 </div>
                 <div class="col-span-6 sm:col-span-2">
                     <InputLabel for="age_restriction" value="Ограничение по возрасту"/>
@@ -1017,7 +1030,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                         class="mt-1 block w-full"
                         v-model="modelValue.age_restriction"
                     />
-
+                    <InputError class="mt-2" :message="modelValue.errors.age_restriction"/>
                 </div>
                 <div class="col-span-6 sm:col-span-6">
                     <InputLabel for="quest_topic_ids" value="Рубрики"/>
@@ -1026,8 +1039,8 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                   multiple=""
                                   label="name_ru"
                                   :reduce="option => option.id"
-                                  :options="props.questTopics.length ? props.questTopics : []"/>
-
+                                  :options="props.questTopics"/>
+                        <InputError class="mt-2" :message="modelValue.errors.quest_topic_ids"/>
                     </div>
                 </div>
                 <div class="col-span-6 sm:col-span-6">
@@ -1037,8 +1050,8 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                                   multiple=""
                                   label="name_ru"
                                   :reduce="option => option.id"
-                                  :options="props.questChildTopics.length ? props.questChildTopics : []"/>
-
+                                  :options="props.questChildTopics"/>
+                        <InputError class="mt-2" :message="modelValue.errors.quest_child_topic_ids"/>
                     </div>
                 </div>
                 <div class="col-span-6 sm:col-span-6">
@@ -1049,7 +1062,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                         <option value="">Нет</option>
                         <option v-for="sticker in stickerList" :value="sticker.id">{{ sticker.name }}</option>
                     </select>
-
+                    <InputError class="mt-2" :message="modelValue.errors.sticker_id"/>
                 </div>
             </div>
         </div>
@@ -1108,7 +1121,7 @@ watch(() => props.modelValue.schedule_id, async (val) => {
                         class="mt-1 block w-full"
                         v-model="modelValue.alias"
                     />
-
+                    <InputError class="mt-2" :message="modelValue.errors.alias"/>
                 </div>
                 <div class="col-span-6 sm:col-span-2">
                     <label for="og_title" class="block text-sm font-medium text-gray-700">OG Title</label>
